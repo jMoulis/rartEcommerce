@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged as _onAuthStateChanged, } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged as _onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth";
 import { APIResponse } from "@/src/types/types";
 import { rootAuth } from "./firebase";
 
@@ -30,6 +30,27 @@ export async function signInWithGoogle() {
   }
 }
 
+export async function register({ email, password }: { email: string, password: string }) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(rootAuth, email, password);
+    const idToken = userCredential.user.getIdToken();
+
+    const response = await fetch("/api/auth/sign-in", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idToken }),
+    });
+    const resBody = (await response.json()) as unknown as APIResponse<string>;
+    if (response.ok && resBody.success) {
+      return true;
+    } else return false;
+  } catch (error) {
+    console.error("Error creating in with Google", error);
+    return false;
+  }
+}
 export async function signOut() {
   try {
     await rootAuth.signOut();
