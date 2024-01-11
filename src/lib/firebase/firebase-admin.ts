@@ -1,17 +1,8 @@
 import "server-only";
 
 import { cookies } from "next/headers";
-import fs from 'fs';
-import path from 'path';
-
 import { initializeApp, getApps, cert } from "firebase-admin/app";
 import { SessionCookieOptions, getAuth } from "firebase-admin/auth";
-
-const serviceAccountPath = path.join(
-  process.cwd(),
-  process.env.FIREBASE_ADMIN_SERVICE_ACCOUNT as any
-);
-
 
 const serviceAccount: any = {
   project_id: process.env.NEXT_GOOGLE_PROJECT_ID,
