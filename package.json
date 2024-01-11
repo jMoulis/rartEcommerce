@@ -9,7 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@google-cloud/firestore": "^7.1.0",
+    "@mui/material": "^5.15.4",
+    "@mui/material-nextjs": "^5.15.3",
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
     "next": "14.0.4",

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import './globals.css';
-import { Navbar } from './_components/navbar/Navbar';
+import { Navbar } from './components/navbar/Navbar';
 import { getCurrentUser } from '../lib/firebase/firebase-admin';
 
 export const metadata: Metadata = {
@@ -17,8 +18,10 @@ export default async function RootLayout({ children }: Props) {
   return (
     <html lang='fr'>
       <body>
-        <Navbar user={currentUser} />
-        {children}
+        <AppRouterCacheProvider>
+          <Navbar user={currentUser} />
+          {children}
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

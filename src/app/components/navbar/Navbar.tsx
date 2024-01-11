@@ -1,42 +1,48 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { signInWithGoogle, signOut } from '@/src/lib/firebase/auth';
+import { useRouter } from 'next/navigation';
+import { signOut } from '@/src/lib/firebase/auth';
 import Link from 'next/link';
 import { User } from 'firebase/auth';
 import { useUserSession } from './useUserSession';
+import { useToggle } from '../hooks/useToggle';
+import { Dialog } from '@mui/material';
+import { AuthForm } from '../auth/register/AuthForm';
 
 type Props = {
   user?: User | null;
 };
 export const Navbar = ({ user: initialUser }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
-
+  const { open, onOpen, onClose } = useToggle();
   const user = useUserSession(initialUser);
   const router = useRouter();
-  const prevRoute = useSearchParams().get('from');
+  const [authFormVariant, setAuthFormVariant] = useState<'register' | 'signIn'>(
+    'signIn'
+  );
 
   const handleSignOut = async () => {
     try {
       setLoading(true);
-      const isOk = await signOut();
+      const payload = await signOut();
       setLoading(false);
-      if (isOk) router.push('/');
+      if (payload.status) {
+        return router.push('/');
+      }
+      throw Error(payload.error);
     } catch (error) {
       setLoading(false);
     }
   };
 
+  const handleRegister = async () => {
+    onOpen();
+    setAuthFormVariant('register');
+  };
   const handleSignIn = async () => {
-    try {
-      setLoading(true);
-      const isOk = await signInWithGoogle();
-      setLoading(false);
-      if (isOk) router.push(prevRoute || '/');
-    } catch (error) {
-      setLoading(false);
-    }
+    onOpen();
+    setAuthFormVariant('signIn');
   };
 
   return (
@@ -60,9 +66,14 @@ export const Navbar = ({ user: initialUser }: Props) => {
       ) : (
         <>
           <button onClick={handleSignIn}>Sign in</button>
-          <button onClick={handleSignIn}>Register</button>
+          <button onClick={handleRegister}>Register</button>
         </>
       )}
+      <Dialog open={open} onClose={onClose}>
+        <div>
+          <AuthForm variant={authFormVariant} onSuccess={onClose} />
+        </div>
+      </Dialog>
     </div>
   );
 };
