@@ -1,3 +1,5 @@
+'use client';
+
 import emotionStyled from '@emotion/styled';
 import React, { FormEvent, useState } from 'react';
 import { register, signInWithEmailPassword } from '@/src/lib/firebase/auth';
