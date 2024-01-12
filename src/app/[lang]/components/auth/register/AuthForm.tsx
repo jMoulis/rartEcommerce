@@ -15,7 +15,9 @@ type Props = {
 
 export const AuthForm = ({ onSuccess, variant }: Props) => {
   const router = useRouter();
+
   const prevRoute = useSearchParams().get('from');
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
