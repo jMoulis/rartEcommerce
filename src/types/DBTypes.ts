@@ -1,9 +1,8 @@
 export type InvoiceStatusType = 'paid' | 'unpaid' | 'overdue';
 export type PaymentMethodType = 'creditCard' | 'bankTransfert' | 'check';
 export type OrderStatusType = 'pending' | 'cancelled' | 'converted to invoice';
-export type CreditStatusType = 'applied' | 'notApplied'
-export type ContactInfoType = 'phone'
-  | 'email';
+export type CreditStatusType = 'applied' | 'notApplied';
+export type ContactInfoType = 'phone' | 'email';
 export type InteractionType = 'call' | 'email' | 'sms' | 'socialNetwork';
 export type PurchaseOrderStatusType = 'pending' | 'completed' | 'cancelled';
 export type UserRoleType = 'student' | 'employee' | 'supplier' | 'customer';
@@ -122,7 +121,7 @@ export interface IInvoice {
   isArchived?: boolean;
 }
 
-export type AddressType = {
+export interface AddressType {
   addressId: string;
   label: string;
   streetName: string;
@@ -160,7 +159,6 @@ export interface IUser {
   updatedAt: string;
 }
 
-
 // Specific interfaces for different roles
 export interface IStudentInfo {
   // Student-specific fields
@@ -184,4 +182,3 @@ export interface IInteraction {
   createdAt: string;
   updatedAt: string;
 }
-
