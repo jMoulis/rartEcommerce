@@ -1,1 +1,1 @@
-declare "next-auth/providers"
+declare 'next-auth/providers';

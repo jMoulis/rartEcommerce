@@ -2,25 +2,29 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signOut } from '@/src/lib/firebase/auth';
+import { useAuth } from '@/src/lib/firebase/useAuth';
 import Link from 'next/link';
 import { User } from 'firebase/auth';
 import { useUserSession } from './useUserSession';
 import { useToggle } from '../hooks/useToggle';
 import { Dialog } from '@mui/material';
 import { AuthForm } from '../auth/register/AuthForm';
+import { ENUM_AUTH_FORM_VARIANT } from '../auth/register/enums';
+import { useTranslations } from 'next-intl';
+import LocaleSwitcher from './LocaleSwitcher';
 
-type Props = {
+interface Props {
   user?: User | null;
-};
+}
 export const Navbar = ({ user: initialUser }: Props) => {
+  const { signOut } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const { open, onOpen, onClose } = useToggle();
   const user = useUserSession(initialUser);
   const router = useRouter();
-  const [authFormVariant, setAuthFormVariant] = useState<'register' | 'signIn'>(
-    'signIn'
-  );
+  const [authFormVariant, setAuthFormVariant] =
+    useState<ENUM_AUTH_FORM_VARIANT>(ENUM_AUTH_FORM_VARIANT.SIGNIN);
+  const t = useTranslations();
 
   const handleSignOut = async () => {
     try {
@@ -28,9 +32,10 @@ export const Navbar = ({ user: initialUser }: Props) => {
       const payload = await signOut();
       setLoading(false);
       if (payload.status) {
-        return router.push('/');
+        router.push('/');
+      } else if (payload.error) {
+        throw Error(payload.error);
       }
-      throw Error(payload.error);
     } catch (error) {
       setLoading(false);
     }
@@ -38,11 +43,11 @@ export const Navbar = ({ user: initialUser }: Props) => {
 
   const handleRegister = async () => {
     onOpen();
-    setAuthFormVariant('register');
+    setAuthFormVariant(ENUM_AUTH_FORM_VARIANT.REGISTER);
   };
   const handleSignIn = async () => {
     onOpen();
-    setAuthFormVariant('signIn');
+    setAuthFormVariant(ENUM_AUTH_FORM_VARIANT.SIGNIN);
   };
 
   return (
@@ -62,17 +67,16 @@ export const Navbar = ({ user: initialUser }: Props) => {
       <Link href='/'>Store</Link>
       <Link href='/dashboard'>Dashboard</Link>
       {user ? (
-        <button onClick={handleSignOut}>Sign Out</button>
+        <button onClick={handleSignOut}>{t('authCommons.signOut')}</button>
       ) : (
         <>
-          <button onClick={handleSignIn}>Sign in</button>
-          <button onClick={handleRegister}>Register</button>
+          <button onClick={handleSignIn}>{t('authCommons.signIn')}</button>
+          <button onClick={handleRegister}>{t('authCommons.register')}</button>
         </>
       )}
-      <Dialog open={open} onClose={onClose}>
-        <div>
-          <AuthForm variant={authFormVariant} onSuccess={onClose} />
-        </div>
+      <LocaleSwitcher />
+      <Dialog open={open} onClose={onClose} keepMounted={false}>
+        <AuthForm variant={authFormVariant} onSuccess={onClose} />
       </Dialog>
     </div>
   );

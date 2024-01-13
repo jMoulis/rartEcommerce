@@ -1,5 +1,7 @@
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { defaultLocale } from '../intl/config';
 
-export default async function HomePage() {
-  return <span>Hello</span>;
+// This page only renders when the app is built statically (output: 'export')
+export default function RootPage() {
+  redirect(defaultLocale);
 }

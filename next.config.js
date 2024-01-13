@@ -1,16 +1,8 @@
+// @ts-check
+
+const withNextIntl = require('next-intl/plugin')();
+
 /** @type {import('next').NextConfig} */
+const config = {};
 
-const nextConfig = {
-  reactStrictMode: true,
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/',
-  //       destination: '/dashboard',
-  //       permanent: true,
-  //     },
-  //   ];
-  // },
-};
-
-module.exports = nextConfig;
+module.exports = withNextIntl(config);
