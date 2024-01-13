@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export type InvoiceStatusType = 'paid' | 'unpaid' | 'overdue';
 export type PaymentMethodType = 'creditCard' | 'bankTransfert' | 'check';
 export type OrderStatusType = 'pending' | 'cancelled' | 'converted to invoice';
@@ -181,4 +183,12 @@ export interface IInteraction {
   type: InteractionType;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface UserProfile {
+  _id: string;
+  avatar: string;
+  createdAt: Timestamp;
+  email: string;
+  lastConnexion: Timestamp;
 }

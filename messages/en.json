@@ -15,11 +15,17 @@
     "locale": "{locale, select, fr {French} en {English} other {Unknown}}"
   },
   "Navbar": {
-    "store": "Store"
+    "store": "Store",
+    "dashboard": "Dashboard",
+    "account": "Account",
+    "personalInfo": "Personal informations"
   },
   "Authform": {
     "email": "E-Mail",
-    "password": "Password"
+    "password": "Password",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
+    "messageSent": "Le lien vient de vous être envoyé"
   },
   "Metadata": {
     "title": "Rartcreation",
@@ -35,6 +41,7 @@
     "auth/weak-password": "weak-password",
     "auth/email-already-exists": "email-already-exists",
     "auth/email-already-in-use": "email-already-in-use",
+    "auth/invalid-credentials": "Informations invalides",
     "auth/invalid-email": "invalid-email",
     "auth/operation-not-allowed": "operation-not-allowed",
     "auth/phone-number-already-exists": "phone-number-already-exists",

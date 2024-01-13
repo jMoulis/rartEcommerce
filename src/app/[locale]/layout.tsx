@@ -1,10 +1,12 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { Navbar } from './components/navbar/Navbar';
-import { getCurrentUser } from '../../lib/firebase/firebase-admin';
+
+import { getCurrentUser } from '../../lib/firebase/firebaseAuth/firebase-admin';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { locales } from '@/src/intl/config';
-import NextIntlProvider from '../NextIntlProvider';
+
 import { notFound } from 'next/navigation';
+import NextIntlProvider from '../contexts/NextIntlProvider';
+import { Navbar } from '../components/navbar/Navbar';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

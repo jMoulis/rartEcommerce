@@ -2,10 +2,10 @@
 
 import emotionStyled from '@emotion/styled';
 import React, { FormEvent, useState } from 'react';
-import { useAuth } from '@/src/lib/firebase/useAuth';
+import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
 import SignIn from '../sign-in/SignIn';
-import { ENUM_AUTH_FORM_VARIANT } from './enums';
+import { ENUM_AUTH_FORM_VARIANT } from '../enums';
 import { useTranslations } from 'next-intl';
 
 const Form = emotionStyled.form``;
@@ -13,9 +13,11 @@ const Form = emotionStyled.form``;
 interface Props {
   onSuccess?: () => void;
   variant: ENUM_AUTH_FORM_VARIANT;
+
+  onForgetMenu: (state: boolean) => void;
 }
 
-export const AuthForm = ({ onSuccess, variant }: Props) => {
+export const AuthForm = ({ onSuccess, variant, onForgetMenu }: Props) => {
   const router = useRouter();
   const { register, signInWithEmailPassword } = useAuth();
   const t = useTranslations();
@@ -64,7 +66,6 @@ export const AuthForm = ({ onSuccess, variant }: Props) => {
 
   return (
     <>
-      {t(`authCommons.${variant}`)}
       <Form onSubmit={handleSubmit}>
         {errorMessage ? <span>{errorMessage}</span> : null}
         <label htmlFor='email'>
@@ -78,6 +79,9 @@ export const AuthForm = ({ onSuccess, variant }: Props) => {
         <button type='submit'>{t('commons.create')}</button>
       </Form>
       <SignIn onSuccess={onSuccess} />
+      <button type='button' onClick={() => onForgetMenu(true)}>
+        {t('Authform.resetPassword')}
+      </button>
     </>
   );
 };

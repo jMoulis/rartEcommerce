@@ -1,7 +1,8 @@
 'use client';
 
+import React from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '@/src/lib/firebase/useAuth';
+import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 
 interface Props {
   onSuccess?: () => void;
@@ -17,9 +18,5 @@ export default function SignIn({ onSuccess }: Props) {
     if (isOk) router.push(prevRoute ?? '/');
   };
 
-  return (
-    <>
-      <button onClick={handleSignIn}>Sign In with Google</button>
-    </>
-  );
+  return <button onClick={handleSignIn}>Sign In with Google</button>;
 }
