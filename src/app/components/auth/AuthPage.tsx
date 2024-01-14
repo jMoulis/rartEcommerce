@@ -5,6 +5,7 @@ import { ENUM_AUTH_FORM_VARIANT } from '../auth/enums';
 import { useTranslations } from 'next-intl';
 import { ForgetPassword } from './ForgetPassword';
 import { AuthForm } from './register/AuthForm';
+import SignIn from './sign-in/SignIn';
 
 interface Props {
   onSuccess?: () => void;
@@ -17,15 +18,25 @@ export const AuthPage = ({ onSuccess, variant }: Props) => {
 
   return (
     <>
-      {t(`authCommons.${variant}`)}
       {forgotMenu ? (
         <ForgetPassword onForgetMenu={setForgotMenu} onCloseAll={onSuccess} />
       ) : (
-        <AuthForm
-          onSuccess={onSuccess}
-          variant={variant}
-          onForgetMenu={setForgotMenu}
-        />
+        <>
+          <AuthForm
+            onSuccess={onSuccess}
+            variant={ENUM_AUTH_FORM_VARIANT.SIGNIN}
+            onForgetMenu={setForgotMenu}
+          />
+          <AuthForm
+            onSuccess={onSuccess}
+            variant={ENUM_AUTH_FORM_VARIANT.REGISTER}
+            onForgetMenu={setForgotMenu}
+          />
+          <SignIn onSuccess={onSuccess} />
+          <button type='button' onClick={() => setForgotMenu(true)}>
+            {t('Authform.resetPassword')}
+          </button>
+        </>
       )}
     </>
   );

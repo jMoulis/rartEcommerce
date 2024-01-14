@@ -9,12 +9,12 @@ interface Props {
 }
 export const Confirmation = ({ onValidate }: Props) => {
   const router = useRouter();
-  const { signOut } = useAuth();
+  const { onSignOut } = useAuth();
 
   const t = useTranslations();
 
   const handleValidate = async () => {
-    await signOut();
+    await onSignOut();
     router.replace('/');
     onValidate?.();
   };

@@ -7,7 +7,7 @@ export type CreditStatusType = 'applied' | 'notApplied';
 export type ContactInfoType = 'phone' | 'email';
 export type InteractionType = 'call' | 'email' | 'sms' | 'socialNetwork';
 export type PurchaseOrderStatusType = 'pending' | 'completed' | 'cancelled';
-export type UserRoleType = 'student' | 'employee' | 'supplier' | 'customer';
+export type UserRoleType = 'admin' | 'supplier' | 'customer';
 
 export interface IPurchaseOrder {
   _id: string;
@@ -123,19 +123,6 @@ export interface IInvoice {
   isArchived?: boolean;
 }
 
-export interface AddressType {
-  addressId: string;
-  label: string;
-  streetName: string;
-  number: string;
-  postalCode: string;
-  city: string;
-  country: string;
-  default: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface IContact {
   type: ContactInfoType,
   label: string;
@@ -146,7 +133,7 @@ export interface IUserCommonInfo {
   lastname: string;
   firstname: string;
   contacts: IContact[];
-  address: AddressType[];
+  address: IAddress[];
   isArchived?: boolean;
 }
 
@@ -185,10 +172,24 @@ export interface IInteraction {
   updatedAt: string;
 }
 
+export interface IAddress {
+  id: string;
+  name: string;
+  type: 'billing' | 'shipping';
+  streetNumber: string;
+  route: string;
+  locality: string;
+  country: string;
+  postalCode: string;
+  default?: boolean;
+}
 export interface UserProfile {
   _id: string;
   avatar: string;
-  createdAt: Timestamp;
+  createdAt?: Timestamp;
   email: string;
-  lastConnexion: Timestamp;
+  lastConnexion?: Timestamp;
+  firstname?: string;
+  lastname?: string;
+  addresses: IAddress[];
 }

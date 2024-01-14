@@ -1,6 +1,6 @@
+'use client';
+
 import React, { useState } from 'react';
-import { User } from 'firebase/auth';
-import { useUserSession } from '../../../contexts/auth/hooks/useUserSession';
 import { Dialog, Menu } from '@mui/material';
 import emotionStyled from '@emotion/styled';
 import { AuthMenu } from './AuthMenu';
@@ -9,19 +9,17 @@ import { useToggle } from '../../hooks/useToggle';
 import { ENUM_AUTH_FORM_VARIANT } from '../../auth/enums';
 import Image from 'next/image';
 import { AuthPage } from '../../auth/AuthPage';
+import { useAuthSelector } from '@/src/app/contexts/auth/hooks/useAuthSelector';
+import { UserProfile } from '@/src/types/DBTypes';
 
 const ButtonProfileMenu = emotionStyled.button``;
 
-interface Props {
-  initialUser?: User | null;
-}
-
-export const ProfileMenu = ({ initialUser }: Props) => {
+export const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [authFormVariant, setAuthFormVariant] =
     useState<ENUM_AUTH_FORM_VARIANT>(ENUM_AUTH_FORM_VARIANT.SIGNIN);
 
-  const { profile } = useUserSession(initialUser);
+  const profile = useAuthSelector((state) => state.profile) as UserProfile;
 
   const { open, onOpen, onClose: onCloseAuthDialog } = useToggle();
 

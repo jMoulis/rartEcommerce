@@ -1,12 +1,10 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-
-import { getCurrentUser } from '../../lib/firebase/firebaseAuth/firebase-admin';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { locales } from '@/src/intl/config';
-
 import { notFound } from 'next/navigation';
 import NextIntlProvider from '../contexts/NextIntlProvider';
 import { Navbar } from '../components/navbar/Navbar';
+import { AuthProvider } from '../contexts/auth/authContext';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -34,7 +32,6 @@ export default async function RootLayout({ children, params }: Props) {
   } catch (error) {
     notFound();
   }
-  const currentUser = await getCurrentUser();
   return (
     <html lang={params.locale}>
       <body>
@@ -44,8 +41,10 @@ export default async function RootLayout({ children, params }: Props) {
             messages={messages}
             timeZone='Europe/Paris'
             now={new Date()}>
-            <Navbar user={currentUser} />
-            {children}
+            <AuthProvider>
+              <Navbar />
+              {children}
+            </AuthProvider>
           </NextIntlProvider>
         </AppRouterCacheProvider>
       </body>

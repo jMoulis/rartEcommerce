@@ -1,5 +1,5 @@
+'use client';
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
@@ -8,15 +8,14 @@ interface Props {
   onClose: () => void;
 }
 export const LinksMenu = ({ onClose }: Props) => {
-  const { signOut } = useAuth();
-  const router = useRouter();
+  const { onSignOut } = useAuth();
   const t = useTranslations();
 
   const handleSignOut = async () => {
     try {
-      const payload = await signOut();
+      const payload = await onSignOut();
       if (payload.status) {
-        router.push('/');
+        // router.push('/');
         onClose();
       } else if (payload.error) {
         throw Error(payload.error);

@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { ENUM_AUTH_FORM_VARIANT } from '../../auth/enums';
 import { useTranslations } from 'next-intl';

@@ -3,7 +3,8 @@
     "create": "Create",
     "cancel": "Cancel",
     "close": "Close",
-    "back": "Back"
+    "back": "Back",
+    "delete": "Supprimer"
   },
   "authCommons": {
     "signIn": "Sign in",
@@ -27,6 +28,24 @@
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
     "messageSent": "Le lien vient de vous être envoyé"
   },
+  "ProfileForm": {
+    "firstname": "Prénom",
+    "lastname": "Nom",
+    "email": "E-Mail",
+    "password": "Mot de passe",
+    "avatar": "Photo de profile"
+  },
+  "AddressForm": {
+    "name": "Libellé",
+    "route": "Addresse",
+    "streetNumber": "Numéro",
+    "locality": "Ville",
+    "country": "Pays",
+    "default": "Défault",
+    "addressType": "Type d'adresse",
+    "type": "{type, select, shipping {Livraison} billing {Facturation} other {Unknown}}",
+    "postalCode": "Code postal"
+  },
   "Metadata": {
     "title": "Rartcreation",
     "description": "The world of creation"
@@ -38,6 +57,7 @@
     "auth/invalid-action-code": "invalid-action-code",
     "auth/user-disabled": "user-disabled",
     "auth/user-not-found": "user-not-found",
+    "auth/user-mismatch": "Inadéquation des utilisateurs",
     "auth/weak-password": "weak-password",
     "auth/email-already-exists": "email-already-exists",
     "auth/email-already-in-use": "email-already-in-use",

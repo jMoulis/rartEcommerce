@@ -2,24 +2,22 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { User } from 'firebase/auth';
 import LocaleSwitcher from './LocaleSwitcher';
 import styled from '@emotion/styled';
-import { ProfileMenu } from './ProfileManu/ProfileMenu';
+import { ProfileMenu } from './ProfileMenu/ProfileMenu';
+import { useUserSession } from '../../contexts/auth/hooks/useUserSession';
 
 const Root = styled.header`
   display: flex;
 `;
 
-interface Props {
-  user?: User | null;
-}
-export const Navbar = ({ user }: Props) => {
+export const Navbar = () => {
+  useUserSession();
   return (
     <Root>
       <Link href='/'>Store</Link>
       <LocaleSwitcher />
-      <ProfileMenu initialUser={user} />
+      <ProfileMenu />
     </Root>
   );
 };

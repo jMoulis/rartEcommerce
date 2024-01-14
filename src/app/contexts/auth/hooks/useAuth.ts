@@ -1,11 +1,14 @@
-import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged as _onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, type UserCredential, NextOrObserver, Unsubscribe, sendPasswordResetEmail } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+'use client';
 
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged as _onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, type UserCredential, NextOrObserver, Unsubscribe, sendPasswordResetEmail, reauthenticateWithCredential, signOut, verifyBeforeUpdateEmail, EmailAuthProvider, updateProfile } from 'firebase/auth';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useTranslations } from 'next-intl';
 import { ENUM_AUTH_ROUTES } from './routesEnum';
 import { APIResponse } from '@/src/types/types';
 import { db, rootAuth } from '@/src/lib/firebase/firebase';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { ApiPayload } from './types';
+import { useFirebaseStorage } from '../../storage/useFirebaseStorage';
 
 interface SignEmailPasswordType {
   email: string
@@ -15,13 +18,10 @@ interface RegisterProps {
   email: string
   password: string
 };
-interface ApiPayload {
-  status: boolean;
-  code: string;
-  error: string | null;
-};
+
 export const useAuth = () => {
   const t = useTranslations();
+  const { onAddFile } = useFirebaseStorage();
 
   const onAuthStateChanged = (cb: NextOrObserver<User>): Unsubscribe => {
     return _onAuthStateChanged(rootAuth, cb);
@@ -57,6 +57,15 @@ export const useAuth = () => {
         status: false
       };
     }
+  };
+
+  const userCheckApiPayload = () => {
+    const message = t('ApiErrors.auth/user-not-found');
+    return {
+      status: false,
+      error: message,
+      code: 'auth/user-not-found'
+    };
   };
 
   const buildSetSessionCookieResponse = (response: Response, resBody: APIResponse<string>): ApiPayload => {
@@ -99,7 +108,7 @@ export const useAuth = () => {
       const userCredentials = await signInWithPopup(rootAuth, provider);
       await updateUserProfile(userCredentials);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return responsePayload;
+      return { ...responsePayload, data: userCredentials };
     } catch (error: any) {
       return setErrorMessage(error);
     }
@@ -110,7 +119,7 @@ export const useAuth = () => {
       const userCredentials = await signInWithEmailAndPassword(rootAuth, email, password);
       await updateUserProfile(userCredentials);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return responsePayload;
+      return { ...responsePayload, data: userCredentials };
     } catch (error: any) {
       return setErrorMessage(error);
     }
@@ -121,15 +130,15 @@ export const useAuth = () => {
       const userCredentials = await createUserWithEmailAndPassword(rootAuth, email, password);
       await updateUserProfile(userCredentials);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return responsePayload;
+      return { ...responsePayload, data: userCredentials };
     } catch (error: any) {
       return setErrorMessage(error);
     }
   };
 
-  const signOut = async () => {
+  const onSignOut = async () => {
     try {
-      await rootAuth.signOut();
+      await signOut(rootAuth);
       const response = await fetch(ENUM_AUTH_ROUTES.SIGN_OUT, {
         headers: defaultResponseHeaders()
       });
@@ -153,12 +162,113 @@ export const useAuth = () => {
     }
   };
 
+  const onUpdateEmail = async (email: string): Promise<ApiPayload> => {
+    if (!rootAuth?.currentUser) {
+      return userCheckApiPayload();
+    }
+    try {
+      await verifyBeforeUpdateEmail(rootAuth.currentUser, email);
+      return {
+        status: true,
+        error: null,
+        code: 'auth/email-sent'
+      };
+    } catch (error) {
+      return setErrorMessage(error);
+    }
+  };
+
+  const onReauthenticateWithCredential = async (userCredential: { email: string, password: string }) => {
+    try {
+      const user = rootAuth.currentUser;
+
+      if (!user) {
+        const message = t('ApiErrors.auth/user-not-found');
+        return {
+          status: false,
+          error: message,
+          code: 'auth/user-not-found'
+        };
+      }
+      const credential = EmailAuthProvider.credential(userCredential.email, userCredential.password);
+      const newCredential = await reauthenticateWithCredential(user, credential);
+      console.log(newCredential);
+    } catch (error) {
+      console.log(error);
+      return setErrorMessage(error);
+    }
+  };
+
+  const onPromptForCredentials = async (userCredential: { email: string, password: string }): Promise<ApiPayload> => {
+    try {
+      const user = rootAuth.currentUser;
+
+      if (!user) {
+        const message = t('ApiErrors.auth/user-not-found');
+        return {
+          status: false,
+          error: message,
+          code: 'auth/user-not-found'
+        };
+      }
+      const credential = EmailAuthProvider.credential(userCredential.email, userCredential.password);
+      const newCredential = await reauthenticateWithCredential(user, credential);
+      return {
+        status: true,
+        error: null,
+        code: 'auth/reauthenticated',
+        data: newCredential
+      };
+    } catch (error) {
+      return setErrorMessage(error);
+    }
+  };
+
+  const onUpdateUserAvatar = async (file: File): Promise<ApiPayload> => {
+    if (!rootAuth?.currentUser) {
+      return userCheckApiPayload();
+    }
+    // profiles/userId
+    const filePath = `${ENUM_COLLECTIONS.PROFILES}/${rootAuth.currentUser.uid}/`;
+    try {
+      const downloadURL = await onAddFile(file, filePath, 'avatar');
+
+      if (downloadURL) {
+        await updateProfile(rootAuth.currentUser, { photoURL: downloadURL });
+        const userRef = doc(db, ENUM_COLLECTIONS.PROFILES, rootAuth?.currentUser.uid);
+
+        const userProfile = {
+          avatar: downloadURL
+        };
+        await setDoc(userRef, userProfile, { merge: true });
+
+        return {
+          status: true,
+          error: null,
+          data: userProfile,
+          code: 'update-avatar'
+        };
+      }
+      return {
+        status: true,
+        error: null,
+        code: 'update-avatar'
+      };
+    } catch (error) {
+      return setErrorMessage(error);
+    }
+  };
+
   return {
     onAuthStateChanged,
-    signOut,
+    onSignOut,
     register,
     signInWithEmailPassword,
     signInWithGoogle,
-    resetPasswordEmail
+    resetPasswordEmail,
+    onUpdateEmail,
+    onReauthenticateWithCredential,
+    onPromptForCredentials,
+    onUpdateUserAvatar
   };
 };
