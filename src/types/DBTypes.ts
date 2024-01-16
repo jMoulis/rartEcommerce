@@ -1,4 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
+import { ENUM_ROLES } from '../app/contexts/auth/enums';
 
 export type InvoiceStatusType = 'paid' | 'unpaid' | 'overdue';
 export type PaymentMethodType = 'creditCard' | 'bankTransfert' | 'check';
@@ -183,6 +184,7 @@ export interface IAddress {
   postalCode: string;
   default?: boolean;
 }
+
 export interface UserProfile {
   _id: string;
   avatar: string;
@@ -192,4 +194,5 @@ export interface UserProfile {
   firstname?: string;
   lastname?: string;
   addresses: IAddress[];
+  roles: ENUM_ROLES[];
 }

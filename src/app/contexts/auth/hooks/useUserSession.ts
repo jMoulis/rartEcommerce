@@ -4,19 +4,18 @@ import { useAuth } from './useAuth';
 import { User } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useFirestorProfile } from './useFirestoreProfile';
 import { UserProfile } from '@/src/types/DBTypes';
 import { useAuthDispatch } from './useAuthDispatch';
 import { onSigninAction } from '../actions';
 import { useAuthSelector } from './useAuthSelector';
-
-export const useUserSession: any = () => {
-  const [user, setUser] = useState<User | null>(null);
+export const useUserSession: any = (initialUser: { user: User, profile: UserProfile } | null) => {
+  const [user, setUser] = useState<User | null>(initialUser?.user ?? null);
   const authDispatch = useAuthDispatch();
-
   const profile: UserProfile = useAuthSelector((state) => state.profile);
 
-  const { getAuthProfile } = useFirestorProfile();
+  useEffect(() => {
+    authDispatch(onSigninAction(initialUser?.profile ?? null));
+  }, [initialUser?.profile]);
 
   const { onAuthStateChanged } = useAuth();
   const router = useRouter();
@@ -24,15 +23,6 @@ export const useUserSession: any = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged((authUser: User | null) => {
       setUser(authUser);
-      if (authUser) {
-        console.log('TEST');
-        getAuthProfile(authUser.uid).then((payload) => {
-          authDispatch(onSigninAction(payload as UserProfile));
-        }).catch((error) => console.error(error));
-      } else {
-        authDispatch(onSigninAction(null));
-        setUser(null);
-      }
     });
     return () => { unsubscribe(); };
   }, []);
@@ -45,6 +35,7 @@ export const useUserSession: any = () => {
       };
       if (user?.email !== authUser?.email) {
         router.refresh();
+        authDispatch(onSigninAction(null));
       }
     });
   }, [user]);

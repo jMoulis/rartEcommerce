@@ -3,19 +3,22 @@ import React from 'react';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   onClose: () => void;
 }
 export const LinksMenu = ({ onClose }: Props) => {
-  const { onSignOut } = useAuth();
+  const { onSignOut, isAdmin } = useAuth();
+
   const t = useTranslations();
+  const router = useRouter();
 
   const handleSignOut = async () => {
     try {
       const payload = await onSignOut();
       if (payload.status) {
-        // router.push('/');
+        router.push('/');
         onClose();
       } else if (payload.error) {
         throw Error(payload.error);
@@ -26,13 +29,15 @@ export const LinksMenu = ({ onClose }: Props) => {
   return (
     <nav>
       <ul>
+        {isAdmin ? (
+          <li>
+            <Link onClick={onClose} href='/dashboard'>
+              {t('Navbar.dashboard')}
+            </Link>
+          </li>
+        ) : null}
         <li>
-          <Link onClick={onClose} href='/dashboard'>
-            {t('Navbar.dashboard')}
-          </Link>
-        </li>
-        <li>
-          <Link onClick={onClose} href='/account-settings'>
+          <Link onClick={onClose} href='/account'>
             {t('Navbar.account')}
           </Link>
         </li>

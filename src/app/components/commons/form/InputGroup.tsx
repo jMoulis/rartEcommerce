@@ -4,7 +4,7 @@ import { Input } from './Input';
 
 interface Props {
   label: string;
-  onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   id: string;
   name: string;
   value?: string;
@@ -20,7 +20,12 @@ export const InputGroup = ({
   return (
     <Label htmlFor={id}>
       {label}
-      <Input id={id} name={name} onChange={onInputChange} value={value} />
+      <Input
+        id={id}
+        name={name}
+        onChange={onInputChange}
+        value={value ?? undefined}
+      />
     </Label>
   );
 };

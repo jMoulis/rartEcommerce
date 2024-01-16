@@ -1,3 +1,4 @@
 export enum ENUM_COLLECTIONS {
-  PROFILES = 'profiles'
+  PROFILES = 'profiles',
+  PRODUCTS = 'products'
 }

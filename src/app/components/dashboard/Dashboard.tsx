@@ -1,5 +1,13 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 export default function Dashboard() {
-  return <h1>Dashboard Page</h1>;
+  const t = useTranslations('Dashboard');
+
+  return (
+    <section>
+      <h1>{t('title')}</h1>
+    </section>
+  );
 }

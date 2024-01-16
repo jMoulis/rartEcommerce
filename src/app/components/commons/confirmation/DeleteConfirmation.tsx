@@ -9,9 +9,17 @@ import { DialogFooter } from './DialogFooter';
 interface Props {
   children?: React.ReactNode;
   headerTitle: string;
+  actions: Array<{
+    label: string;
+    callback: () => Promise<any>;
+  }>;
 }
 
-export const DeleteConfirmation = ({ children, headerTitle }: Props) => {
+export const DeleteConfirmation = ({
+  children,
+  headerTitle,
+  actions,
+}: Props) => {
   const { open, onOpen, onClose } = useToggle();
   const t = useTranslations('commons');
 
@@ -23,7 +31,7 @@ export const DeleteConfirmation = ({ children, headerTitle }: Props) => {
       <Dialog open={open} onClose={onClose}>
         <DialogHeader onClose={onClose} title={headerTitle} />
         <DialogContent>{children}</DialogContent>
-        <DialogFooter actions={[]} />
+        <DialogFooter actions={actions} onClose={onClose} />
       </Dialog>
     </>
   );

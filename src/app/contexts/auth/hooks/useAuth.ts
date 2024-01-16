@@ -7,8 +7,13 @@ import { ENUM_AUTH_ROUTES } from './routesEnum';
 import { APIResponse } from '@/src/types/types';
 import { db, rootAuth } from '@/src/lib/firebase/firebase';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
-import { ApiPayload } from './types';
+import { ApiPayload } from '../../shared/types';
 import { useFirebaseStorage } from '../../storage/useFirebaseStorage';
+import { onErrorMessage, onSuccessMessage } from '../../shared/response';
+import { useAuthDispatch } from './useAuthDispatch';
+import { onSigninAction } from '../actions';
+import { useAuthSelector } from './useAuthSelector';
+import { ENUM_ROLES } from '../enums';
 
 interface SignEmailPasswordType {
   email: string
@@ -26,6 +31,8 @@ export const useAuth = () => {
   const onAuthStateChanged = (cb: NextOrObserver<User>): Unsubscribe => {
     return _onAuthStateChanged(rootAuth, cb);
   };
+  const authDispatch = useAuthDispatch();
+  const isAdmin = useAuthSelector((state) => state.profile?.roles?.includes(ENUM_ROLES.ADMIN));
 
   const defaultResponseHeaders = (customHeaders: Record<string, any> = {}): Record<string, any> => ({
     'Content-Type': 'application/json',
@@ -33,9 +40,8 @@ export const useAuth = () => {
 
   });
 
-  const updateUserProfile = async (userCredentials: UserCredential) => {
+  const onUpdateUser = async (user: User) => {
     try {
-      const { user } = userCredentials;
       const userRef = doc(db, ENUM_COLLECTIONS.PROFILES, user.uid);
 
       const userProfile = {
@@ -46,48 +52,23 @@ export const useAuth = () => {
       };
 
       await setDoc(userRef, userProfile, { merge: true });
-
-      return {
-        error: null,
-        status: true
-      };
+      return onSuccessMessage('update-user-profile', t);
     } catch (error: any) {
-      return {
-        error: error.message,
-        status: false
-      };
+      return onErrorMessage(error, t);
     }
   };
 
-  const userCheckApiPayload = () => {
-    const message = t('ApiErrors.auth/user-not-found');
-    return {
-      status: false,
-      error: message,
-      code: 'auth/user-not-found'
-    };
+  const userCheckApiPayload = (): ApiPayload => {
+    return onErrorMessage({
+      code: 'auth/user-not-found',
+    }, t);
   };
 
   const buildSetSessionCookieResponse = (response: Response, resBody: APIResponse<string>): ApiPayload => {
     if (response.ok && resBody.success) {
-      return { status: true, error: null, code: 'setSessionCookie' };
+      return onSuccessMessage('setSessionCookie', t);
     }
-    return {
-      error: t('ApiErrors.setSessionCookie'),
-      status: false,
-      code: 'setSessionCookie'
-    };
-  };
-
-  const setErrorMessage = (error: any): ApiPayload => {
-    const errorObject = JSON.parse(JSON.stringify(error));
-    const code: string = errorObject?.code || 'unknown';
-    const message = t(`ApiErrors.${code}` as any);
-    return {
-      error: error.message,
-      status: false,
-      code: message
-    };
+    return onErrorMessage({ code: 'setSessionCookie' }, t);
   };
 
   const onSucessSetSessionCookie = async (userCredentials: UserCredential) => {
@@ -106,33 +87,34 @@ export const useAuth = () => {
     const provider = new GoogleAuthProvider();
     try {
       const userCredentials = await signInWithPopup(rootAuth, provider);
-      await updateUserProfile(userCredentials);
+      await onUpdateUser(userCredentials.user);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return { ...responsePayload, data: userCredentials };
+      console.info('SignIn', responsePayload);
+      return onSuccessMessage(responsePayload.code, userCredentials);
     } catch (error: any) {
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
   const signInWithEmailPassword = async ({ email, password }: SignEmailPasswordType): Promise<ApiPayload> => {
     try {
       const userCredentials = await signInWithEmailAndPassword(rootAuth, email, password);
-      await updateUserProfile(userCredentials);
+      await onUpdateUser(userCredentials.user);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return { ...responsePayload, data: userCredentials };
+      return onSuccessMessage(responsePayload.code, userCredentials);
     } catch (error: any) {
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
-  const register = async ({ email, password }: RegisterProps): Promise<ApiPayload> => {
+  const onRegister = async ({ email, password }: RegisterProps): Promise<ApiPayload> => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(rootAuth, email, password);
-      await updateUserProfile(userCredentials);
+      await onUpdateUser(userCredentials.user);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return { ...responsePayload, data: userCredentials };
+      return onSuccessMessage(responsePayload.code, userCredentials);
     } catch (error: any) {
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
@@ -143,22 +125,19 @@ export const useAuth = () => {
         headers: defaultResponseHeaders()
       });
       const resBody = (await response.json()) as unknown as APIResponse<string>;
+      authDispatch(onSigninAction(null));
       return buildSetSessionCookieResponse(response, resBody);
     } catch (error: any) {
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
   const resetPasswordEmail = async (email: string): Promise<ApiPayload> => {
     try {
       await sendPasswordResetEmail(rootAuth, email);
-      return {
-        status: true,
-        error: null,
-        code: 'reset-email'
-      };
+      return onSuccessMessage('reset-email', t);
     } catch (error) {
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
@@ -168,13 +147,9 @@ export const useAuth = () => {
     }
     try {
       await verifyBeforeUpdateEmail(rootAuth.currentUser, email);
-      return {
-        status: true,
-        error: null,
-        code: 'auth/email-sent'
-      };
+      return onSuccessMessage('auth/email-sent', t);
     } catch (error) {
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
@@ -192,10 +167,9 @@ export const useAuth = () => {
       }
       const credential = EmailAuthProvider.credential(userCredential.email, userCredential.password);
       const newCredential = await reauthenticateWithCredential(user, credential);
-      console.log(newCredential);
+      return onSuccessMessage('auth/reauth', t, newCredential);
     } catch (error) {
-      console.log(error);
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
@@ -205,22 +179,16 @@ export const useAuth = () => {
 
       if (!user) {
         const message = t('ApiErrors.auth/user-not-found');
-        return {
-          status: false,
+        return onErrorMessage({
           error: message,
           code: 'auth/user-not-found'
-        };
+        }, t);
       }
       const credential = EmailAuthProvider.credential(userCredential.email, userCredential.password);
       const newCredential = await reauthenticateWithCredential(user, credential);
-      return {
-        status: true,
-        error: null,
-        code: 'auth/reauthenticated',
-        data: newCredential
-      };
+      return onSuccessMessage('auth/reauthenticated', newCredential, t);
     } catch (error) {
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
@@ -241,34 +209,27 @@ export const useAuth = () => {
           avatar: downloadURL
         };
         await setDoc(userRef, userProfile, { merge: true });
-
-        return {
-          status: true,
-          error: null,
-          data: userProfile,
-          code: 'update-avatar'
-        };
+        return onSuccessMessage('update-avatar', t, userProfile);
       }
-      return {
-        status: true,
-        error: null,
+      return onErrorMessage({
         code: 'update-avatar'
-      };
+      }, t);
     } catch (error) {
-      return setErrorMessage(error);
+      return onErrorMessage(error, t);
     }
   };
 
   return {
     onAuthStateChanged,
     onSignOut,
-    register,
+    onRegister,
     signInWithEmailPassword,
     signInWithGoogle,
     resetPasswordEmail,
     onUpdateEmail,
     onReauthenticateWithCredential,
     onPromptForCredentials,
-    onUpdateUserAvatar
+    onUpdateUserAvatar,
+    isAdmin
   };
 };

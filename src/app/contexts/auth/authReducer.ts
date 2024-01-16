@@ -14,7 +14,6 @@ export const authReducer = (state: AuthReducer, action: AuthActions): AuthReduce
     }
     case AuthActionTypes.UPDATE_PROFILE: {
       const fields = action.payload;
-      console.log(state.profile);
       if (!state.profile) return state;
       return {
         ...state,

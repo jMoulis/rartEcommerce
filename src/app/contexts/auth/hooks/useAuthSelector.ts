@@ -2,7 +2,7 @@
 
 import { useCallback, useContext } from 'react';
 import { AuthReducer } from '../types';
-import { AuthContext } from '../authContext';
+import { AuthContext } from '../AuthContext';
 
 export const useAuthSelector = (selector: (state: AuthReducer) => any) => {
   const context = useContext(AuthContext);

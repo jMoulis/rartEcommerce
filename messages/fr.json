@@ -4,22 +4,48 @@
     "cancel": "Annuler",
     "close": "Fermer",
     "back": "Retour",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "save": "Sauvegarder"
   },
   "authCommons": {
     "signIn": "Connexion",
     "signOut": "Déconnexion",
     "register": "S'inscrire"
   },
+  "Product": {
+    "addProduct": "Ajouter un article"
+  },
+  "Dashboard": {
+    "title": "Tableau de bord",
+    "orders": "Commandes",
+    "carts": "Paniers",
+    "abandonedCarts": "Paniers abandonnés",
+    "productsAndServices": "Articles & Services",
+    "products": "Articles",
+    "shopProducts": "Articles de la boutique",
+    "bookings": "Réservations",
+    "agenda": "Agenda",
+    "inventory": "Inventaires",
+    "categories": "Catégories",
+    "services": "Services",
+    "customers": "Clients",
+    "payments": "Paiements",
+    "financial": "Finances",
+    "estimates": "Devis",
+    "billings": "Factures",
+    "subscriptions": "Abonnements"
+  },
   "LocaleSwitcher": {
     "label": "Langue",
     "locale": "{locale, select, fr {Français} en {Anglais} other {Unknown}}"
   },
   "Navbar": {
-    "store": "Store",
+    "store": "Boutique",
     "dashboard": "Tableau de bord",
     "account": "Compte",
-    "personalInfo": "Informations personnelles"
+    "personalInfo": "Informations personnelles",
+    "orders": "Commandes"
   },
   "Authform": {
     "email": "E-Mail",
@@ -44,11 +70,22 @@
     "default": "Défault",
     "addressType": "Type d'adresse",
     "type": "{type, select, shipping {Livraison} billing {Facturation} other {Unknown}}",
-    "postalCode": "Code postal"
+    "shipping": "Livraison",
+    "billing": "Facturation",
+    "postalCode": "Code postal",
+    "deleteAddress": "Supprimer une adresse"
   },
   "Metadata": {
     "title": "Rartcreation",
     "description": "Le monde de la création"
+  },
+  "ApiSuccess": {
+    "edit-user-address": "Addresse ajouté",
+    "setSessionCookie": "Cookie enregistrer",
+    "update-user-profile": "Profile mise à jour",
+    "update-avatar": "Avatar mise à jour",
+    "edit": "Modifié",
+    "profile-updated": "Profile mise à jour"
   },
   "ApiErrors": {
     "setSessionCookie": "Impossible d'enregistrer le cookie de session",

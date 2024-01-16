@@ -6,13 +6,11 @@ import { useRouter, usePathname } from '@/src/navigation';
 interface Props {
   children: ReactNode;
   defaultValue: string;
-  label: string;
 }
 
 export default function LocaleSwitcherSelect({
   children,
   defaultValue,
-  label,
 }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -27,8 +25,9 @@ export default function LocaleSwitcherSelect({
 
   return (
     <label>
-      <p>{label}</p>
       <select
+        id='language'
+        name='language'
         defaultValue={defaultValue}
         disabled={isPending}
         onChange={onSelectChange}>

@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { AuthPage } from '../../auth/AuthPage';
 import { useAuthSelector } from '@/src/app/contexts/auth/hooks/useAuthSelector';
 import { UserProfile } from '@/src/types/DBTypes';
+import PlaceholderAvatar from '../../account/profile/PlaceholderAvatar';
 
 const ButtonProfileMenu = emotionStyled.button``;
 
@@ -42,13 +43,22 @@ export const ProfileMenu = () => {
   return (
     <div>
       <ButtonProfileMenu onClick={handleOpenMenu} type='button'>
-        <Image
-          width={30}
-          height={30}
-          alt='user'
-          src={profile?.avatar ?? '/images/default-avatar.png'}
-          priority
-        />
+        {profile?.avatar ? (
+          <Image
+            width={30}
+            height={30}
+            alt='user'
+            src={profile?.avatar}
+            priority
+          />
+        ) : profile ? (
+          <PlaceholderAvatar
+            firstname={profile.firstname}
+            lastname={profile.lastname}
+          />
+        ) : (
+          <PlaceholderAvatar firstname='A' />
+        )}
       </ButtonProfileMenu>
 
       <Menu

@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ENUM_AUTH_FORM_VARIANT } from '../enums';
 import { useTranslations } from 'next-intl';
 import { UserCredential } from 'firebase/auth';
-import { ApiPayload } from '@/src/app/contexts/auth/hooks/types';
+import { ApiPayload } from '@/src/app/contexts/shared/types';
 
 const Form = emotionStyled.form``;
 
@@ -19,7 +19,7 @@ interface Props {
 
 export const AuthForm = ({ onSuccess, variant, onForgetMenu }: Props) => {
   const router = useRouter();
-  const { register, signInWithEmailPassword } = useAuth();
+  const { onRegister, signInWithEmailPassword } = useAuth();
   const t = useTranslations();
 
   const prevRoute = useSearchParams().get('from');
@@ -38,9 +38,10 @@ export const AuthForm = ({ onSuccess, variant, onForgetMenu }: Props) => {
         error: null,
         status: false,
         code: '',
+        message: null,
       };
       if (variant === ENUM_AUTH_FORM_VARIANT.REGISTER) {
-        payload = await register({
+        payload = await onRegister({
           email,
           password,
         });

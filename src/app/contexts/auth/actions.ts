@@ -10,7 +10,6 @@ export const onSigninAction = (profile: UserProfile | null): SignInAction => ({
 });
 
 export const onUpdateProfileAction = (fields: Record<string, any>): UpdateProfileAction => {
-  console.log(fields);
   return ({
     type: AuthActionTypes.UPDATE_PROFILE,
     payload: fields

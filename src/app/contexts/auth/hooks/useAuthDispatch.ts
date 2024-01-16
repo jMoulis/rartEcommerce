@@ -2,7 +2,7 @@
 
 import { useCallback, useContext } from 'react';
 import { AuthActions } from '../types';
-import { AuthContext } from '../authContext';
+import { AuthContext } from '../AuthContext';
 
 export const useAuthDispatch = () => {
   const context = useContext(AuthContext);

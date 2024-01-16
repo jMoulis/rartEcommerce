@@ -4,22 +4,48 @@
     "cancel": "Cancel",
     "close": "Close",
     "back": "Back",
-    "delete": "Supprimer"
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Sauvegarder"
   },
   "authCommons": {
     "signIn": "Sign in",
     "signOut": "Sign out",
     "register": "Register"
   },
+  "Product": {
+    "addProduct": "Ajouter un article"
+  },
   "LocaleSwitcher": {
     "label": "Language",
     "locale": "{locale, select, fr {French} en {English} other {Unknown}}"
+  },
+  "Dashboard": {
+    "title": "Tableau de bord",
+    "orders": "Commandes",
+    "carts": "Paniers",
+    "abandonedCarts": "Paniers abandonnés",
+    "productsAndServices": "Articles & Services",
+    "products": "Articles",
+    "shopProducts": "Articles de la boutique",
+    "booking": "Booking",
+    "agenda": "Agenda",
+    "inventory": "Inventory",
+    "categories": "Categories",
+    "services": "Services",
+    "customers": "Customers",
+    "payments": "Payments",
+    "financial": "Financial",
+    "estimates": "Estimates",
+    "billings": "Billings",
+    "subscriptions": "Subscriptions"
   },
   "Navbar": {
     "store": "Store",
     "dashboard": "Dashboard",
     "account": "Account",
-    "personalInfo": "Personal informations"
+    "personalInfo": "Personal informations",
+    "orders": "Commandes"
   },
   "Authform": {
     "email": "E-Mail",
@@ -44,11 +70,22 @@
     "default": "Défault",
     "addressType": "Type d'adresse",
     "type": "{type, select, shipping {Livraison} billing {Facturation} other {Unknown}}",
-    "postalCode": "Code postal"
+    "postalCode": "Code postal",
+    "shipping": "Livraison",
+    "billing": "Facturation",
+    "deleteAddress": "Supprimer une adresse"
   },
   "Metadata": {
     "title": "Rartcreation",
     "description": "The world of creation"
+  },
+  "ApiSuccess": {
+    "edit-user-address": "Address added",
+    "setSessionCookie": "Cookie enregistrer",
+    "update-user-profile": "Profile updated",
+    "update-avatar": "Avatar updated",
+    "edit": "Modifié",
+    "profile-updated": "Profile mise à jour"
   },
   "ApiErrors": {
     "setSessionCookie": "setSessionCookiee",

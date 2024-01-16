@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 
 interface Props {
@@ -11,11 +11,12 @@ interface Props {
 export default function SignIn({ onSuccess }: Props) {
   const { signInWithGoogle } = useAuth();
   const router = useRouter();
-  const prevRoute = useSearchParams().get('from');
   const handleSignIn = async () => {
-    const isOk = await signInWithGoogle();
+    const payload = await signInWithGoogle();
     onSuccess?.();
-    if (isOk) router.push(prevRoute ?? '/');
+    if (payload.status) {
+      router.refresh();
+    }
   };
 
   return <button onClick={handleSignIn}>Sign In with Google</button>;
