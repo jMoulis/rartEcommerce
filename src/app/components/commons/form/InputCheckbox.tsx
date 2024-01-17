@@ -1,10 +1,14 @@
 import React, { ChangeEvent } from 'react';
 import { Label } from './Label';
 import { Input } from './Input';
+import styled from '@emotion/styled';
 
+const CustomLabel = styled(Label)`
+  flex-direction: row;
+`;
 interface Props {
   label: string;
-  onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   id: string;
   name: string;
   value?: string | boolean;
@@ -18,8 +22,8 @@ export const InputGroupCheckbox = ({
   value,
 }: Props) => {
   return (
-    <Label htmlFor={id}>
-      {label}
+    <CustomLabel htmlFor={id}>
+      <span>{label}</span>
       <Input
         type='checkbox'
         id={id}
@@ -27,6 +31,6 @@ export const InputGroupCheckbox = ({
         onChange={onInputChange}
         checked={value as boolean}
       />
-    </Label>
+    </CustomLabel>
   );
 };

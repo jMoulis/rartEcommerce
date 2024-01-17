@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 interface Props {
   label: string;
-  onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   id: string;
   name: string;
   value?: string;

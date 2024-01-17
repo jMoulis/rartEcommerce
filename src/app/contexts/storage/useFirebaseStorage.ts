@@ -1,9 +1,10 @@
 import { storage } from '@/src/lib/firebase/firebase';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
 import { useState } from 'react';
 
 export const useFirebaseStorage = () => {
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState<Record<string, number>>({});
+  const [errors, setErrors] = useState<Record<string, any>>({}); // New state for errors
 
   const onAddFile = async (file: File, filePath: string, fileName?: string): Promise<string | undefined> => {
     return await new Promise((resolve, reject) => {
@@ -12,18 +13,11 @@ export const useFirebaseStorage = () => {
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on('state_changed',
         (snapshot) => {
-          const progression = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setProgress(progression);
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-          }
+          const progression = Math.floor((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgress(prevProgress => ({ ...prevProgress, [customFileName]: progression }));
         },
         (error: any) => {
+          setErrors(prevErrors => ({ ...prevErrors, [customFileName]: error })); // Update error state
           reject(error);
         },
         () => {
@@ -31,6 +25,7 @@ export const useFirebaseStorage = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             resolve(url);
           }).catch((error: any) => {
+            setErrors(prevErrors => ({ ...prevErrors, [customFileName]: error })); // Handle error in getting download URL
             reject(error);
           });
         }
@@ -38,8 +33,19 @@ export const useFirebaseStorage = () => {
     });
   };
 
+  const listFilesInFolder = async (folderPath: string) => {
+    const folderRef = ref(storage, folderPath);
+    try {
+      const fileList = await listAll(folderRef);
+      return fileList.items;
+    } catch (error) {
+      return [];
+    }
+  };
   return {
     onAddFile,
     progress,
+    errors,
+    listFilesInFolder
   };
 };

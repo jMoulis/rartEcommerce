@@ -2,12 +2,12 @@
 
 import { IProductService } from '@/src/types/DBTypes';
 import React from 'react';
+import { CreateForm } from '../CreateForm/CreateForm';
 
 interface Props {
   product?: IProductService;
 }
 
-export const ProductDetail = (props: Props) => {
-  console.log(props);
-  return <h1>ProductDetail</h1>;
+export const ProductDetail = ({ product }: Props) => {
+  return <CreateForm prevProduct={product} />;
 };

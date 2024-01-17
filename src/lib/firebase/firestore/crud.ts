@@ -17,14 +17,30 @@ export const onCreateDocument = async (
     return onErrorMessage(error);
   }
 };
+export const onUpdateDocument = async (
+  fields: Record<string, any>,
+  collection: ENUM_COLLECTIONS,
+  id: string
+) => {
+  try {
+    const docRef = doc(db, collection, id);
+    await setDoc(docRef, fields, { merge: true });
+    console.log(fields);
+    return onSuccessMessage('create', undefined, { id: docRef.id });
+  } catch (error) {
+    console.log(error);
+    return onErrorMessage(error);
+  }
+};
 export const findAll = async (collection: ENUM_COLLECTIONS) => {
   try {
     const productsRef = firestoreCollection(db, collection);
     const querySnapshot = await getDocs(productsRef);
     const products = querySnapshot.docs.map(doc => ({
-      id: doc.id,
       ...doc.data(),
+      id: doc.id,
     }));
+    console.log(products);
     return products;
   } catch (error) {
     return onErrorMessage(error);
@@ -38,7 +54,7 @@ export const getDocument = async (
     const docRef = doc(db, collection, docId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return docSnap.data();
+      return { ...docSnap.data(), id: docSnap.id };
     } else {
       return onErrorMessage({ code: 'not-found' });
     }

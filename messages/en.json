@@ -1,65 +1,28 @@
 {
-  "commons": {
-    "create": "Create",
-    "cancel": "Cancel",
-    "close": "Close",
-    "back": "Back",
-    "delete": "Delete",
-    "edit": "Edit",
-    "save": "Sauvegarder"
-  },
   "authCommons": {
-    "signIn": "Sign in",
-    "signOut": "Sign out",
-    "register": "Register"
+    "signIn": "Connexion",
+    "signOut": "Déconnexion",
+    "register": "S'inscrire"
   },
-  "Product": {
-    "addProduct": "Ajouter un article"
-  },
-  "LocaleSwitcher": {
-    "label": "Language",
-    "locale": "{locale, select, fr {French} en {English} other {Unknown}}"
-  },
-  "Dashboard": {
-    "title": "Tableau de bord",
-    "orders": "Commandes",
-    "carts": "Paniers",
-    "abandonedCarts": "Paniers abandonnés",
-    "productsAndServices": "Articles & Services",
-    "products": "Articles",
-    "shopProducts": "Articles de la boutique",
-    "booking": "Booking",
-    "agenda": "Agenda",
-    "inventory": "Inventory",
-    "categories": "Categories",
-    "services": "Services",
-    "customers": "Customers",
-    "payments": "Payments",
-    "financial": "Financial",
-    "estimates": "Estimates",
-    "billings": "Billings",
-    "subscriptions": "Subscriptions"
-  },
-  "Navbar": {
-    "store": "Store",
-    "dashboard": "Dashboard",
-    "account": "Account",
-    "personalInfo": "Personal informations",
-    "orders": "Commandes"
-  },
-  "Authform": {
-    "email": "E-Mail",
-    "password": "Password",
-    "resetPassword": "Réinitialiser le mot de passe",
-    "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
-    "messageSent": "Le lien vient de vous être envoyé"
-  },
-  "ProfileForm": {
-    "firstname": "Prénom",
-    "lastname": "Nom",
-    "email": "E-Mail",
-    "password": "Mot de passe",
-    "avatar": "Photo de profile"
+  "commons": {
+    "create": "Créer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "back": "Retour",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "save": "Sauvegarder",
+    "dragAndDropFile": "Glissez-déposez les fichiers ici",
+    "or": "ou",
+    "importFiles": "Importer des fichiers",
+    "selectImages": "Choisissez des images",
+    "select": "Choisir",
+    "add": "Ajouter",
+    "remove": "Retirer",
+    "label": "Libéllé",
+    "value": "Valeur",
+    "archive": "Archiver",
+    "archives": "Archives"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -70,25 +33,102 @@
     "default": "Défault",
     "addressType": "Type d'adresse",
     "type": "{type, select, shipping {Livraison} billing {Facturation} other {Unknown}}",
-    "postalCode": "Code postal",
     "shipping": "Livraison",
     "billing": "Facturation",
+    "postalCode": "Code postal",
     "deleteAddress": "Supprimer une adresse"
+  },
+  "Authform": {
+    "email": "E-Mail",
+    "password": "Mot de passe",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
+    "messageSent": "Le lien vient de vous être envoyé"
+  },
+  "Dashboard": {
+    "title": "Tableau de bord",
+    "orders": "Commandes",
+    "carts": "Paniers",
+    "abandonedCarts": "Paniers abandonnés",
+    "productsAndServices": "Articles & Services",
+    "products": "Articles",
+    "shopProducts": "Articles de la boutique",
+    "bookings": "Réservations",
+    "agenda": "Agenda",
+    "inventory": "Inventaires",
+    "categories": "Catégories",
+    "services": "Services",
+    "customers": "Clients",
+    "payments": "Paiements",
+    "financial": "Finances",
+    "estimates": "Devis",
+    "billings": "Factures",
+    "subscriptions": "Abonnements"
+  },
+  "LocaleSwitcher": {
+    "label": "Langue",
+    "locale": "{locale, select, fr {Français} en {Anglais} other {Unknown}}"
   },
   "Metadata": {
     "title": "Rartcreation",
-    "description": "The world of creation"
+    "description": "Le monde de la création"
   },
+  "Navbar": {
+    "store": "Boutique",
+    "dashboard": "Tableau de bord",
+    "account": "Compte",
+    "personalInfo": "Informations personnelles",
+    "orders": "Commandes"
+  },
+  "Product": {
+    "addProduct": "Ajouter un article"
+  },
+  "ProductForm": {
+    "name": "Nom",
+    "category": "Catégorie",
+    "itemId": "Id",
+    "price": "Prix",
+    "stockQuantity": "Quantité",
+    "description": "Description",
+    "images": "Images",
+    "videos": "Vidéos",
+    "imagesVideos": "Images et vidéos",
+    "addImages": "Ajouter des images",
+    "addToProduct": "Ajouter à l'article",
+    "default": "Défault",
+    "productDetail": "Détails de l'article",
+    "options": "Options",
+    "properties": "Propriétés",
+    "addProperty": "Ajouter une propriété",
+    "addSection": "Ajouter une section",
+    "newSection": "Nouvelle section",
+    "deleteSectionMessage": {
+      "title": "Voulez-vous supprimer {section} ?",
+      "explanation": "En supprimant la section vous perdrez accès à la donnée"
+    }
+  },
+  "PropertyForm": {
+    "component": "Type de champs",
+    "color": "Couleur"
+  },
+  "ProfileForm": {
+    "firstname": "Prénom",
+    "lastname": "Nom",
+    "email": "E-Mail",
+    "password": "Mot de passe",
+    "avatar": "Photo de profile"
+  },
+
   "ApiSuccess": {
-    "edit-user-address": "Address added",
+    "edit-user-address": "Addresse ajouté",
     "setSessionCookie": "Cookie enregistrer",
-    "update-user-profile": "Profile updated",
-    "update-avatar": "Avatar updated",
+    "update-user-profile": "Profile mise à jour",
+    "update-avatar": "Avatar mise à jour",
     "edit": "Modifié",
     "profile-updated": "Profile mise à jour"
   },
   "ApiErrors": {
-    "setSessionCookie": "setSessionCookiee",
+    "setSessionCookie": "Impossible d'enregistrer le cookie de session",
     "auth/app-deleted": "app-deleted",
     "auth/expired-action-code": "expired-action-code",
     "auth/invalid-action-code": "invalid-action-code",
@@ -97,7 +137,7 @@
     "auth/user-mismatch": "Inadéquation des utilisateurs",
     "auth/weak-password": "weak-password",
     "auth/email-already-exists": "email-already-exists",
-    "auth/email-already-in-use": "email-already-in-use",
+    "auth/email-already-in-use": "Email déjà utilisé",
     "auth/invalid-credentials": "Informations invalides",
     "auth/invalid-email": "invalid-email",
     "auth/operation-not-allowed": "operation-not-allowed",

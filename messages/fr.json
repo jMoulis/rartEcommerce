@@ -1,4 +1,9 @@
 {
+  "authCommons": {
+    "signIn": "Connexion",
+    "signOut": "Déconnexion",
+    "register": "S'inscrire"
+  },
   "commons": {
     "create": "Créer",
     "cancel": "Annuler",
@@ -6,15 +11,39 @@
     "back": "Retour",
     "delete": "Supprimer",
     "edit": "Modifier",
-    "save": "Sauvegarder"
+    "save": "Sauvegarder",
+    "dragAndDropFile": "Glissez-déposez les fichiers ici",
+    "or": "ou",
+    "importFiles": "Importer des fichiers",
+    "selectImages": "Choisissez des images",
+    "select": "Choisir",
+    "add": "Ajouter",
+    "remove": "Retirer",
+    "label": "Libéllé",
+    "value": "Valeur",
+    "archive": "Archiver",
+    "archives": "Archives"
   },
-  "authCommons": {
-    "signIn": "Connexion",
-    "signOut": "Déconnexion",
-    "register": "S'inscrire"
+  "AddressForm": {
+    "name": "Libellé",
+    "route": "Addresse",
+    "streetNumber": "Numéro",
+    "locality": "Ville",
+    "country": "Pays",
+    "default": "Défault",
+    "addressType": "Type d'adresse",
+    "type": "{type, select, shipping {Livraison} billing {Facturation} other {Unknown}}",
+    "shipping": "Livraison",
+    "billing": "Facturation",
+    "postalCode": "Code postal",
+    "deleteAddress": "Supprimer une adresse"
   },
-  "Product": {
-    "addProduct": "Ajouter un article"
+  "Authform": {
+    "email": "E-Mail",
+    "password": "Mot de passe",
+    "resetPassword": "Réinitialiser le mot de passe",
+    "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
+    "messageSent": "Le lien vient de vous être envoyé"
   },
   "Dashboard": {
     "title": "Tableau de bord",
@@ -40,6 +69,10 @@
     "label": "Langue",
     "locale": "{locale, select, fr {Français} en {Anglais} other {Unknown}}"
   },
+  "Metadata": {
+    "title": "Rartcreation",
+    "description": "Le monde de la création"
+  },
   "Navbar": {
     "store": "Boutique",
     "dashboard": "Tableau de bord",
@@ -47,12 +80,36 @@
     "personalInfo": "Informations personnelles",
     "orders": "Commandes"
   },
-  "Authform": {
-    "email": "E-Mail",
-    "password": "Mot de passe",
-    "resetPassword": "Réinitialiser le mot de passe",
-    "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
-    "messageSent": "Le lien vient de vous être envoyé"
+  "Product": {
+    "addProduct": "Ajouter un article"
+  },
+  "ProductForm": {
+    "name": "Nom",
+    "category": "Catégorie",
+    "itemId": "Id",
+    "price": "Prix",
+    "stockQuantity": "Quantité",
+    "description": "Description",
+    "images": "Images",
+    "videos": "Vidéos",
+    "imagesVideos": "Images et vidéos",
+    "addImages": "Ajouter des images",
+    "addToProduct": "Ajouter à l'article",
+    "default": "Défault",
+    "productDetail": "Détails de l'article",
+    "options": "Options",
+    "properties": "Propriétés",
+    "addProperty": "Ajouter une propriété",
+    "addSection": "Ajouter une section",
+    "newSection": "Nouvelle section",
+    "deleteSectionMessage": {
+      "title": "Voulez-vous supprimer {section} ?",
+      "explanation": "En supprimant la section vous perdrez accès à la donnée"
+    }
+  },
+  "PropertyForm": {
+    "component": "Type de champs",
+    "color": "Couleur"
   },
   "ProfileForm": {
     "firstname": "Prénom",
@@ -61,24 +118,7 @@
     "password": "Mot de passe",
     "avatar": "Photo de profile"
   },
-  "AddressForm": {
-    "name": "Libellé",
-    "route": "Addresse",
-    "streetNumber": "Numéro",
-    "locality": "Ville",
-    "country": "Pays",
-    "default": "Défault",
-    "addressType": "Type d'adresse",
-    "type": "{type, select, shipping {Livraison} billing {Facturation} other {Unknown}}",
-    "shipping": "Livraison",
-    "billing": "Facturation",
-    "postalCode": "Code postal",
-    "deleteAddress": "Supprimer une adresse"
-  },
-  "Metadata": {
-    "title": "Rartcreation",
-    "description": "Le monde de la création"
-  },
+
   "ApiSuccess": {
     "edit-user-address": "Addresse ajouté",
     "setSessionCookie": "Cookie enregistrer",

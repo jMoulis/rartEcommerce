@@ -1,7 +1,17 @@
+:root {
+  --default-font-color: #20455E;
+  --header-font-color: #162D3D;
+  --background-section-color: #f0f4f7;
+  --card-header-border-color: #dfe5eb;
+  --input-border-color: #c1e4fe;
+  --input-background-color-hover: #eaf7ff;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  color: var(--default-font-color);
 }
 
 html,
@@ -112,8 +122,23 @@ h4,
 h5,
 h6,
 p,
+textarea,
 span {
   display: block;
+  font-family: sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+label,
+span {
+  color: var(--header-font-color);
   font-family: sans-serif;
 }
 
@@ -162,8 +187,44 @@ button {
   cursor: pointer;
 }
 
+input,
+textarea,
+select {
+  padding: 8px 10px;
+  font-size: 16px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 6px;
+  resize: none;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  background-color: var(--input-background-color-hover);
+
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-label {
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
 .page {
-  height: calc(100vh - 50px)
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}
+
+.section-page {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-section-color);
+  overflow: auto;
 }
 
 @media (prefers-color-scheme: dark) {}

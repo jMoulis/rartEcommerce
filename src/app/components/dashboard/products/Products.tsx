@@ -1,7 +1,7 @@
 'use client';
 
 import { IProductService } from '@/src/types/DBTypes';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   useReactTable,
   createColumnHelper,
@@ -12,80 +12,65 @@ import {
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
-interface User {
-  firstName: string;
-  lastName: string;
-  age: number;
-  visits: number;
-  progress: number;
-  status: string;
-}
-
 interface Props {
   products?: IProductService[];
 }
 
-export const Products = (props: Props) => {
+export const Products = ({ products }: Props) => {
   const t = useTranslations('Product');
+  const tProductForm = useTranslations('ProductForm');
+  const data: IProductService[] = useMemo(() => products ?? [], []);
 
-  const data: any = [
-    {
-      firstName: 'Tanner',
-      lastName: 'Linsley',
-      age: 33,
-      visits: 100,
-      progress: 50,
-      status: 'Married',
-    },
-    {
-      firstName: 'Kevin',
-      lastName: 'Vandy',
-      age: 27,
-      visits: 200,
-      progress: 100,
-      status: 'Single',
-    },
-  ];
-  const columnHelper = createColumnHelper<User>() as any;
+  const columnHelper = createColumnHelper<IProductService>() as any;
+
   const columns = [
-    columnHelper.accessor('firstName', {
-      cell: (info: any) => info.getValue(),
-      footer: (info: any) => info.column.id,
+    columnHelper.accessor((row: any) => row.id, {
+      id: 'id',
+      header: () => <span />,
+      cell: (info: any) => <span />,
     }),
-    columnHelper.accessor((row: any) => row.lastName, {
-      id: 'lastName',
+    columnHelper.accessor((row: any) => row.images, {
+      id: 'id',
+      header: () => <span />,
+      cell: (info: any) => {
+        return <span />;
+      },
+    }),
+    columnHelper.accessor((row: any) => row.name, {
+      id: 'name',
+      header: () => <span>{tProductForm('name')}</span>,
+      cell: (info: any) => {
+        const id = info.row.original.id;
+        console.log(id);
+        return (
+          <Link href={`/dashboard/products/${id}`}>{info.getValue()}</Link>
+        );
+      },
+    }),
+    columnHelper.accessor('category', {
+      id: 'category',
+      header: () => <span>{tProductForm('category')}</span>,
       cell: (info: any) => <i>{info.getValue()}</i>,
-      header: () => <span>Last Name</span>,
-      footer: (info: any) => info.column.id,
-    }),
-    columnHelper.accessor('age', {
-      header: () => 'Age',
-      cell: (info: any) => info.renderValue(),
-      footer: (info: any) => info.column.id,
-    }),
-    columnHelper.accessor('visits', {
-      header: () => <span>Visits</span>,
-      footer: (info: any) => info.column.id,
-    }),
-    columnHelper.accessor('status', {
-      header: 'Status',
-      footer: (info: any) => info.column.id,
-    }),
-    columnHelper.accessor('progress', {
-      header: 'Profile Progress',
-      footer: (info: any) => info.column.id,
     }),
   ];
   const table = useReactTable({
     columns,
     data,
+    state: {
+      columnVisibility: {
+        id: false,
+      },
+    },
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const renderHeader = useCallback((header: Header<unknown, unknown>) => {
-    if (header.isPlaceholder) return null;
-    return flexRender(header.column.columnDef.header, header.getContext());
-  }, []);
+  const renderHeader = useCallback(
+    (header: Header<IProductService, unknown>) => {
+      if (header.isPlaceholder) return null;
+      return flexRender(header.column.columnDef.header, header.getContext());
+    },
+    []
+  );
 
   return (
     <section>

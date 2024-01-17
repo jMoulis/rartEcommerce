@@ -33,19 +33,34 @@ export interface IStockItem {
   updatedAt: string;
 }
 
+export interface IProductImage {
+  url: string;
+  name: string;
+}
+export interface ISection {
+  id: string;
+  title: string;
+  archive?: boolean;
+  properties: IProperty[]
+}
+
+export interface IProperty {
+  id: string;
+  label: string;
+  technicalName: string;
+  component: string;
+  value?: string | number | boolean;
+}
 export interface IProductService {
-  _id: string;
-  itemId: string;
+  id?: string;
+  name: string;
   description: string;
-  price: number;
-  category: string;
-  stockQuantity: number;
-  imageUrls: string[];
-  stockItemId?: string;
   isActive: boolean;
   isArchived?: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
+  images: IProductImage[];
+  sections: ISection[]
 }
 
 export interface ILineItem {

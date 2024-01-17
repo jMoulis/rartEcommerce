@@ -1,39 +1,41 @@
 import React, { ChangeEvent } from 'react';
 import { Label } from './Label';
-import { Input } from './Input';
+import { Textarea } from './Textarea';
 
 interface Props {
   label: string;
-  onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onInputChange?: (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   id: string;
   name: string;
-  value?: string | number;
-  defaultValue?: string | number;
-  type?: string;
+  value?: string;
+  defaultValue?: string;
+  style?: React.CSSProperties;
+  onBlur?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
-export const InputGroup = ({
+export const TextareaGroup = ({
   label,
   onInputChange,
   id,
   name,
   value,
   defaultValue,
-  type,
+  style,
   onBlur,
 }: Props) => {
   return (
     <Label htmlFor={id} className='input-group'>
       <span className='input-label'>{label}</span>
-      <Input
-        type={type}
+      <Textarea
+        style={style}
         id={id}
         name={name}
         onChange={onInputChange}
-        onBlur={onBlur}
         value={value ?? undefined}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue ?? undefined}
+        onBlur={onBlur}
       />
     </Label>
   );
