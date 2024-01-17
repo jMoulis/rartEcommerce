@@ -1,10 +1,15 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { Navbar } from './components/navbar/Navbar';
-import { getCurrentUser } from '../../lib/firebase/firebase-admin';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 import { locales } from '@/src/intl/config';
-import NextIntlProvider from '../NextIntlProvider';
 import { notFound } from 'next/navigation';
+import NextIntlProvider from '../contexts/NextIntlProvider';
+import { Navbar } from '../components/navbar/Navbar';
+import { AuthProvider } from '../contexts/auth/AuthContext';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { getCurrentUser } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
+
+config.autoAddCss = false;
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -32,7 +37,8 @@ export default async function RootLayout({ children, params }: Props) {
   } catch (error) {
     notFound();
   }
-  const currentUser = await getCurrentUser();
+  const current = await getCurrentUser();
+
   return (
     <html lang={params.locale}>
       <body>
@@ -42,8 +48,10 @@ export default async function RootLayout({ children, params }: Props) {
             messages={messages}
             timeZone='Europe/Paris'
             now={new Date()}>
-            <Navbar user={currentUser} />
-            {children}
+            <AuthProvider>
+              <Navbar current={current} />
+              {children}
+            </AuthProvider>
           </NextIntlProvider>
         </AppRouterCacheProvider>
       </body>
