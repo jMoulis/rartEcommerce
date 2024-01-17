@@ -1,25 +1,11 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { Navbar } from './_components/navbar/Navbar';
-import { getCurrentUser } from '../lib/firebase/firebase-admin';
+import { ReactNode } from 'react';
+import './style/globals.css';
+import './style/style.css';
 
-export const metadata: Metadata = {
-  title: 'Rartcreation',
-  description: 'Le monde de la création',
-};
+interface Props {
+  children: ReactNode;
+}
 
-type Props = {
-  children: React.ReactNode;
-};
-
-export default async function RootLayout({ children }: Props) {
-  const currentUser = await getCurrentUser();
-  return (
-    <html lang='fr'>
-      <body>
-        <Navbar user={currentUser} />
-        {children}
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: Props) {
+  return children;
 }

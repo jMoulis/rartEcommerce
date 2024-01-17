@@ -1,12 +1,14 @@
+import { Timestamp } from 'firebase/firestore';
+import { ENUM_ROLES } from '../app/contexts/auth/enums';
+
 export type InvoiceStatusType = 'paid' | 'unpaid' | 'overdue';
 export type PaymentMethodType = 'creditCard' | 'bankTransfert' | 'check';
 export type OrderStatusType = 'pending' | 'cancelled' | 'converted to invoice';
-export type CreditStatusType = 'applied' | 'notApplied'
-export type ContactInfoType = 'phone'
-  | 'email';
+export type CreditStatusType = 'applied' | 'notApplied';
+export type ContactInfoType = 'phone' | 'email';
 export type InteractionType = 'call' | 'email' | 'sms' | 'socialNetwork';
 export type PurchaseOrderStatusType = 'pending' | 'completed' | 'cancelled';
-export type UserRoleType = 'student' | 'employee' | 'supplier' | 'customer';
+export type UserRoleType = 'admin' | 'supplier' | 'customer';
 
 export interface IPurchaseOrder {
   _id: string;
@@ -31,19 +33,34 @@ export interface IStockItem {
   updatedAt: string;
 }
 
+export interface IProductImage {
+  url: string;
+  name: string;
+}
+export interface ISection {
+  id: string;
+  title: string;
+  archive?: boolean;
+  properties: IProperty[]
+}
+
+export interface IProperty {
+  id: string;
+  label: string;
+  technicalName: string;
+  component: string;
+  value?: string | number | boolean;
+}
 export interface IProductService {
-  _id: string;
-  itemId: string;
+  id?: string;
+  name: string;
   description: string;
-  price: number;
-  category: string;
-  stockQuantity: number;
-  imageUrls: string[];
-  stockItemId?: string;
   isActive: boolean;
   isArchived?: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
+  images: IProductImage[];
+  sections: ISection[]
 }
 
 export interface ILineItem {
@@ -122,19 +139,6 @@ export interface IInvoice {
   isArchived?: boolean;
 }
 
-export type AddressType = {
-  addressId: string;
-  label: string;
-  streetName: string;
-  number: string;
-  postalCode: string;
-  city: string;
-  country: string;
-  default: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface IContact {
   type: ContactInfoType,
   label: string;
@@ -145,7 +149,7 @@ export interface IUserCommonInfo {
   lastname: string;
   firstname: string;
   contacts: IContact[];
-  address: AddressType[];
+  address: IAddress[];
   isArchived?: boolean;
 }
 
@@ -159,7 +163,6 @@ export interface IUser {
   createdAt: string;
   updatedAt: string;
 }
-
 
 // Specific interfaces for different roles
 export interface IStudentInfo {
@@ -185,3 +188,26 @@ export interface IInteraction {
   updatedAt: string;
 }
 
+export interface IAddress {
+  id: string;
+  name: string;
+  type: 'billing' | 'shipping';
+  streetNumber: string;
+  route: string;
+  locality: string;
+  country: string;
+  postalCode: string;
+  default?: boolean;
+}
+
+export interface UserProfile {
+  _id: string;
+  avatar: string;
+  createdAt?: Timestamp;
+  email: string;
+  lastConnexion?: Timestamp;
+  firstname?: string;
+  lastname?: string;
+  addresses: IAddress[];
+  roles: ENUM_ROLES[];
+}

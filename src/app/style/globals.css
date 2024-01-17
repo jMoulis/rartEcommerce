@@ -1,0 +1,230 @@
+:root {
+  --default-font-color: #20455E;
+  --header-font-color: #162D3D;
+  --background-section-color: #f0f4f7;
+  --card-header-border-color: #dfe5eb;
+  --input-border-color: #c1e4fe;
+  --input-background-color-hover: #eaf7ff;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  color: var(--default-font-color);
+}
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+textarea,
+span {
+  display: block;
+  font-family: sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+label,
+span {
+  color: var(--header-font-color);
+  font-family: sans-serif;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  display: flex;
+  border: none;
+  background-color: inherit;
+  align-items: center;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  padding: 8px 10px;
+  font-size: 16px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 6px;
+  resize: none;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  background-color: var(--input-background-color-hover);
+
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-label {
+  margin-bottom: 5px;
+  font-weight: 400;
+}
+
+.page {
+  height: calc(100vh - 50px);
+  overflow: hidden;
+}
+
+.section-page {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-section-color);
+  overflow: auto;
+}
+
+@media (prefers-color-scheme: dark) {}

@@ -1,5 +1,6 @@
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { defaultLocale } from '../intl/config';
 
-export default async function HomePage() {
-  return <span>Hello</span>;
+export default function RootPage() {
+  redirect(defaultLocale);
 }
