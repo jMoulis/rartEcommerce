@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/auth/hooks/useAuth';
+import { Button } from '../commons/confirmation/Buttons/Button';
 
 interface Props {
   onValidate?: () => void;
@@ -21,9 +22,9 @@ export const Confirmation = ({ onValidate }: Props) => {
   return (
     <div>
       <p>{t('Authform.messageSent')}</p>
-      <button type='button' onClick={handleValidate}>
+      <Button type='button' onClick={handleValidate}>
         OK
-      </button>
+      </Button>
     </div>
   );
 };

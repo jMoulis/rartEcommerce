@@ -1,53 +1,54 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { SubmitButton } from './SubmitButton';
 import { IProductService, ISection } from '@/src/types/DBTypes';
 import { ImageLoader } from './ImageLoader/ImageLoader';
 import {
   onCreateDocument,
   onUpdateDocument,
+  onDeleteDocument,
 } from '@/src/lib/firebase/firestore/crud';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { IImageType } from './ImageLoader/types';
 import { Section } from './sections/Section';
 import './style.css';
-import { useTranslations } from 'next-intl';
 import { defaultProduct, defaultSection } from './defaultData';
-import { SwipeableDrawer } from '@mui/material';
-import { useToggle } from '../../../hooks/useToggle';
+import { CreateFormHeader } from './CreateFormHeader';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { ProductDetailForm } from './ProductDetailForm';
+import { sortArrayByKey } from './utils';
+import { PriceCard } from './PriceCard';
 import { Flexbox } from '../../../commons/Flexbox';
+import { Menu } from './RightMenu/Menu';
 
-const Header = styled.header`
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-`;
 const LoadingBackdrop = styled.div`
   position: absolute;
-  top: 0;
+  top: 60px;
   bottom: 0;
   right: 0;
   left: 0;
-  background-color: rgba(0, 0, 255, 0.01);
+  background-color: rgba(0, 0, 255, 0.2);
   z-index: 10;
+`;
+
+const Content = styled.div`
+  overflow: auto;
+  position: relative;
+  flex: 1;
 `;
 
 interface Props {
   prevProduct?: IProductService;
 }
+
 export const CreateForm = ({ prevProduct }: Props) => {
   const defaultData = defaultProduct();
   const [form, setForm] = useState<IProductService>(defaultData);
   const [saving, setSaving] = useState(false);
-  const t = useTranslations('ProductForm');
-  const tCommons = useTranslations('commons');
-  const {
-    open: openArchive,
-    onOpen: onOpenArchive,
-    onClose: onCloseArchive,
-  } = useToggle();
+  const router = useRouter();
+  const t = useTranslations();
 
   useEffect(() => {
     if (prevProduct) {
@@ -63,107 +64,260 @@ export const CreateForm = ({ prevProduct }: Props) => {
       if (prevProduct?.id) {
         await onUpdateDocument(form, ENUM_COLLECTIONS.PRODUCTS, prevProduct.id);
       } else {
-        await onCreateDocument(form, ENUM_COLLECTIONS.PRODUCTS);
+        const payload = await onCreateDocument(form, ENUM_COLLECTIONS.PRODUCTS);
+        router.replace(`/dashboard/products/${payload.data?.id}`);
       }
       setSaving(false);
     } catch (error) {
       setSaving(false);
     }
   };
-
+  const handleDeleteProduct = async (productId?: string) => {
+    if (!productId) return;
+    try {
+      setSaving(true);
+      await onDeleteDocument(ENUM_COLLECTIONS.PRODUCTS, productId);
+      setSaving(false);
+      router.replace('/dashboard/products');
+    } catch (error) {
+      setSaving(false);
+    }
+  };
   const handleSubmitImages = (images: IImageType[]) => {
     setForm((prev) => ({
       ...prev,
       images,
     }));
   };
-
-  const handleUpdateSection = (section: ISection) => {
-    setForm((prev) => ({
-      ...prev,
-      sections: prev.sections.map((prevSection) =>
-        prevSection.id === section.id ? section : prevSection
-      ),
-    }));
-  };
-
   const handleArchiveSection = (sectionId: string) => {
+    setForm((prev) => {
+      const updatedSections = sortArrayByKey(
+        prev.sections.map((prevSection) =>
+          prevSection.id === sectionId
+            ? { ...prevSection, isArchived: !prevSection.isArchived }
+            : prevSection
+        ),
+        'isArchived'
+      ) as ISection[];
+      return {
+        ...prev,
+        sections: updatedSections,
+      };
+    });
+  };
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { value, name } = event.currentTarget;
     setForm((prev) => ({
       ...prev,
-      sections: prev.sections.map((prevSection) =>
-        prevSection.id === sectionId
-          ? { ...prevSection, archive: true }
-          : prevSection
-      ),
+      [name]: value,
     }));
   };
   const handleAddSection = () => {
-    const newSection = defaultSection();
+    const newSection = defaultSection(t);
     setForm((prev) => ({
       ...prev,
-      sections: [...prev.sections, newSection],
+      sections: sortArrayByKey(
+        [...prev.sections, newSection],
+        'archived'
+      ) as ISection[],
     }));
   };
+  const handleMoveSectionUp = useCallback(
+    (sectionId: string) => {
+      const updatedSections = [...(form.sections || [])];
 
-  const activeSections = useMemo(() => {
-    return form.sections.filter((section) => !section.archive);
-  }, [form.sections]);
-  const archives = useMemo(() => {
-    return form.sections.filter((section) => section.archive);
-  }, [form.sections]);
+      const index = updatedSections.findIndex((prev) => prev.id === sectionId);
+      if (index > 0) {
+        [updatedSections[index], updatedSections[index - 1]] = [
+          updatedSections[index - 1],
+          updatedSections[index],
+        ];
+      }
+      setForm((prev) => ({
+        ...prev,
+        sections: updatedSections,
+      }));
+    },
+    [form.sections]
+  );
+  const handleMoveSectionDown = useCallback(
+    (sectionId: string) => {
+      const updatedSections = [...(form.sections || [])];
+      const index = updatedSections.findIndex((prev) => prev.id === sectionId);
+      if (index < updatedSections.length - 1) {
+        [updatedSections[index], updatedSections[index + 1]] = [
+          updatedSections[index + 1],
+          updatedSections[index],
+        ];
+      }
+      setForm((prev) => ({
+        ...prev,
+        sections: updatedSections,
+      }));
+    },
+    [form.sections]
+  );
+  const handleMovePropertyUp = useCallback(
+    (propertyId: string, sectionId: string) => {
+      setForm((prevForm) => {
+        const sectionsClone = prevForm.sections.map((section) => ({
+          ...section,
+          properties: [...section.properties], // Deep clone properties
+        }));
 
+        const currentSection = sectionsClone.find(
+          (section) => section.id === sectionId
+        );
+        if (!currentSection) return prevForm;
+
+        const propertyIndex = currentSection.properties.findIndex(
+          (property) => property.id === propertyId
+        );
+        if (propertyIndex <= 0) return prevForm; // Check if it's not the first element
+
+        // Swap elements
+        [
+          currentSection.properties[propertyIndex],
+          currentSection.properties[propertyIndex - 1],
+        ] = [
+          currentSection.properties[propertyIndex - 1],
+          currentSection.properties[propertyIndex],
+        ];
+
+        return { ...prevForm, sections: sectionsClone };
+      });
+    },
+    [form.sections]
+  );
+  const handleMovePropertyDown = useCallback(
+    (propertyId: string, sectionId: string) => {
+      setForm((prevForm) => {
+        // Deep cloning the sections array and the properties within each section
+        const sectionsClone = prevForm.sections.map((section) => ({
+          ...section,
+          properties: [...section.properties],
+        }));
+
+        // Finding the section that contains the property to be moved
+        const currentSection = sectionsClone.find(
+          (section) => section.id === sectionId
+        );
+        if (!currentSection) return prevForm;
+
+        // Finding the index of the property to be moved
+        const propertyIndex = currentSection.properties.findIndex(
+          (property) => property.id === propertyId
+        );
+
+        // If the property is not found or it's already the last element, return the previous state
+        if (
+          propertyIndex === -1 ||
+          propertyIndex === currentSection.properties.length - 1
+        ) {
+          return prevForm;
+        }
+
+        // Swapping the property with the one below it
+        [
+          currentSection.properties[propertyIndex],
+          currentSection.properties[propertyIndex + 1],
+        ] = [
+          currentSection.properties[propertyIndex + 1],
+          currentSection.properties[propertyIndex],
+        ];
+
+        // Returning the new state with the updated sections
+        return { ...prevForm, sections: sectionsClone };
+      });
+    },
+    [form.sections]
+  );
+  const handleArchiveProduct = useCallback(
+    async (productId?: string) => {
+      if (!productId) return;
+      const updatedForm: IProductService = {
+        ...form,
+        isArchived: !form.isArchived,
+      };
+      setForm(updatedForm);
+      try {
+        await onUpdateDocument(
+          updatedForm,
+          ENUM_COLLECTIONS.PRODUCTS,
+          productId
+        );
+      } catch (error) {
+        // console.error(error);
+      }
+    },
+    [form]
+  );
+  const handlePublishProduct = useCallback(
+    async (event: ChangeEvent<HTMLInputElement>, productId?: string) => {
+      const { checked } = event.currentTarget;
+      if (!productId) return;
+
+      const updatedForm: IProductService = {
+        ...form,
+        published: checked,
+      };
+      setForm(updatedForm);
+    },
+    [form]
+  );
+  const handleStockStatusChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { checked, name } = event.currentTarget;
+    setForm((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
   return (
     <>
-      {saving ? <LoadingBackdrop /> : null}
-      <Header>
-        <SubmitButton
-          disabled={saving}
-          saving={saving}
-          onClick={handleSubmit}
-        />
-        <Flexbox>
-          <button type='button' className='button' onClick={handleAddSection}>
-            {t('addSection')}
-          </button>
-          <button
-            type='button'
-            className='button button-cancel'
-            onClick={onOpenArchive}>
-            {tCommons('archives')}
-          </button>
-        </Flexbox>
-      </Header>
-      <ImageLoader
-        images={form.images ?? []}
-        onSubmitImages={handleSubmitImages}
+      {saving || form.isArchived ? <LoadingBackdrop /> : null}
+      <CreateFormHeader
+        saving={saving}
+        onAddSection={handleAddSection}
+        onSubmit={handleSubmit}
+        product={form}
+        onDeleteProduct={handleDeleteProduct}
+        onArchiveProduct={handleArchiveProduct}
+        onPublishProduct={handlePublishProduct}
       />
-      {activeSections.map((section, key) => (
-        <Section
-          section={section}
-          key={key}
-          onUpdateSection={handleUpdateSection}
-          onArchiveSection={handleArchiveSection}
-        />
-      ))}
-      {/* <Details form={form} onInputChange={handleInputChange} />
-      <Price form={form} onInputChange={handleInputChange} /> */}
-      {/*
-      <Properties
-        form={form}
-        onUpdateProperty={handleUpdateProperty}
-        onAddProperty={handleAddProperty}
-      /> */}
-      <SwipeableDrawer
-        open={openArchive}
-        onClose={onCloseArchive}
-        anchor='right'
-        onOpen={onOpenArchive}>
-        <ul>
-          {archives.map((archive, key) => (
-            <li key={key}>{archive.title}</li>
+      <Flexbox
+        style={{
+          overflow: 'hidden',
+        }}>
+        <Content>
+          <ImageLoader
+            images={form.images ?? []}
+            onSubmitImages={handleSubmitImages}
+          />
+          <ProductDetailForm form={form} onInputChange={handleInputChange} />
+          <PriceCard
+            form={form}
+            onInputChange={handleInputChange}
+            onStockStatusChange={handleStockStatusChange}
+          />
+          {form.sections.map((section, key) => (
+            <Section
+              section={section}
+              sectionArrayIndex={key}
+              sectionsLength={form.sections.length}
+              key={key}
+              onUpdateSection={setForm}
+              onArchiveSection={handleArchiveSection}
+              onMoveSectionDown={handleMoveSectionDown}
+              onMoveSectionUp={handleMoveSectionUp}
+              onMovePropertyDown={handleMovePropertyDown}
+              onMovePropertyUp={handleMovePropertyUp}
+            />
           ))}
-        </ul>
-      </SwipeableDrawer>
+        </Content>
+        <Menu />
+      </Flexbox>
     </>
   );
 };

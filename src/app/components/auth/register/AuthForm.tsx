@@ -8,6 +8,8 @@ import { ENUM_AUTH_FORM_VARIANT } from '../enums';
 import { useTranslations } from 'next-intl';
 import { UserCredential } from 'firebase/auth';
 import { ApiPayload } from '@/src/app/contexts/shared/types';
+import { Button } from '../../commons/confirmation/Buttons/Button';
+import { InputGroup } from '../../commons/form/InputGroup';
 
 const Form = emotionStyled.form``;
 
@@ -66,15 +68,14 @@ export const AuthForm = ({ onSuccess, variant, onForgetMenu }: Props) => {
   return (
     <Form onSubmit={handleSubmit}>
       {errorMessage ? <span>{errorMessage}</span> : null}
-      <label htmlFor='email'>
-        <span>{t('Authform.email')}</span>
-        <input id='email' />
-      </label>
-      <label htmlFor='password'>
-        <span>{t('Authform.password')}</span>
-        <input type='password' id='password' />
-      </label>
-      <button type='submit'> {t(`authCommons.${variant}`)}</button>
+      <InputGroup id='email' name='email' label={t('Authform.email')} />
+      <InputGroup
+        type='password'
+        id='password'
+        name='password'
+        label={t('Authform.password')}
+      />
+      <Button type='submit'> {t(`authCommons.${variant}`)}</Button>
     </Form>
   );
 };

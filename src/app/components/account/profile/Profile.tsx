@@ -14,6 +14,7 @@ import { AddressForm } from './Address/AddressForm';
 import { useFirestorProfile } from '../../../contexts/auth/hooks/useFirestoreProfile';
 import AvatarInputFile from './AvatarInputFile';
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
+import { Button } from '../../commons/confirmation/Buttons/Button';
 
 const Form = emotionStyled.form`
   display: flex;
@@ -107,7 +108,7 @@ export const Profile = () => {
           value={form.lastname}
         />
 
-        <button type='submit'>{tCommons('edit')}</button>
+        <Button type='submit'>{tCommons('edit')}</Button>
       </Form>
       <AddressForm prevAddresses={form.addresses} />
     </main>

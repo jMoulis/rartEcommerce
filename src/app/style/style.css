@@ -1,24 +1,8 @@
-.card {
-  border-radius: 10px;
-  background-color: #fff;
-  margin: 10px;
-}
-
-.card-header {
-  padding: 18px 24px 10px;
-  border-bottom: 1px solid var(--card-header-border-color);
-}
-
-.card-content {
-  padding: 30px;
-  display: flex;
-}
-
 .button {
   padding: 10px 15px;
   border-radius: 18px;
   width: fit-content;
-  background-color: #3899ec;
+  background-color: var(--primary-color);
   display: flex;
   cursor: pointer;
   font-size: 15px;
@@ -43,13 +27,35 @@
 }
 
 .button-delete {
-  background-color: rgba(255, 0, 0, 0.5);
+  background-color: var(--error-color);
+  ;
 }
 
 .button-save {
-  background-color: rgba(11, 175, 11, 0.7);
+  background-color: var(--success-color);
 }
 
 .button-cancel {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--cancel-color);
+}
+
+.button-icon {
+  border-radius: 100px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-up {
+  background-color: var(--purple-color);
+}
+
+.button-down {
+  background-color: var(--purple-color);
+}
+
+.row {
+  margin-right: 10px
 }

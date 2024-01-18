@@ -3,6 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
+import { Button } from '../../commons/confirmation/Buttons/Button';
 
 interface Props {
   onSuccess?: () => void;
@@ -19,5 +20,5 @@ export default function SignIn({ onSuccess }: Props) {
     }
   };
 
-  return <button onClick={handleSignIn}>Sign In with Google</button>;
+  return <Button onClick={handleSignIn}>Sign In with Google</Button>;
 }

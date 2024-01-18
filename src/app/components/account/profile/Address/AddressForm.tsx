@@ -9,6 +9,7 @@ import { useTranslations } from 'next-intl';
 import { Dialog } from '@mui/material';
 import { useToggle } from '../../../hooks/useToggle';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { Button } from '../../../commons/confirmation/Buttons/Button';
 
 interface Props {
   prevAddresses: IAddress[];
@@ -83,9 +84,9 @@ export const AddressForm = ({ prevAddresses }: Props) => {
           </li>
         ))}
       </ul>
-      <button type='button' onClick={onOpen}>
+      <Button type='button' onClick={onOpen}>
         {t('commons.create')}
-      </button>
+      </Button>
       <Dialog open={open} onClose={handleCloseDialog} keepMounted={false}>
         <AddAddressForm
           selectedAddress={selectedAddress}

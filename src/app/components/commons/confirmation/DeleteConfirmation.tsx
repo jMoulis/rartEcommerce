@@ -6,29 +6,45 @@ import { DialogHeader } from '../dialog/DialogHeader';
 import { DialogContent } from '../dialog/DialogContent';
 import { DialogFooter } from './DialogFooter';
 import { IAction } from './types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/pro-light-svg-icons';
+import { Button } from './Buttons/Button';
 
 interface Props {
   children?: React.ReactNode;
   headerTitle: string;
   actions: IAction[];
+  withIcon?: boolean;
+  withLabel: boolean;
+  className?: string;
 }
 
 export const DeleteConfirmation = ({
   children,
   headerTitle,
   actions,
+  withIcon,
+  withLabel,
+  className,
 }: Props) => {
   const { open, onOpen, onClose } = useToggle();
   const t = useTranslations('commons');
 
   return (
     <>
-      <button type='button' className='button button-delete' onClick={onOpen}>
-        {t('delete')}
-      </button>
+      <Button
+        type='button'
+        className={`${className ?? ''}`}
+        style={{
+          backgroundColor: 'var(--error-color)',
+        }}
+        onClick={onOpen}>
+        {withIcon ? <FontAwesomeIcon icon={faTrash} /> : null}
+        {withLabel ? t('delete') : null}
+      </Button>
       <Dialog open={open} onClose={onClose} fullWidth maxWidth='xs'>
         <DialogHeader onClose={onClose} title={headerTitle} />
-        <DialogContent>{children}</DialogContent>
+        <DialogContent height='20vh'>{children}</DialogContent>
         <DialogFooter actions={actions} onClose={onClose} />
       </Dialog>
     </>

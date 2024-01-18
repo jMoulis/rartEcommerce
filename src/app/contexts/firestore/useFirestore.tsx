@@ -1,7 +1,13 @@
 'use client';
 
 import { db, rootAuth } from '../../../lib/firebase/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+} from 'firebase/firestore';
 import { ENUM_COLLECTIONS } from '../../../lib/firebase/enums';
 import { onErrorMessage, onSuccessMessage } from '../shared/response';
 import { useTranslations } from 'next-intl';
@@ -30,7 +36,29 @@ export const useFirestore = () => {
     }
   };
 
+  const onFindAllRealtime = (
+    collectionName: ENUM_COLLECTIONS,
+    onResult: (data: any[]) => void,
+    onError: (error: Error) => void
+  ) => {
+    const productsRef = collection(db, collectionName);
+
+    return onSnapshot(
+      query(productsRef),
+      (querySnapshot) => {
+        const products = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        onResult(products);
+      },
+      (error) => {
+        onError(error);
+      }
+    );
+  };
   return {
     onUpsertDoc,
+    onFindAllRealtime,
   };
 };

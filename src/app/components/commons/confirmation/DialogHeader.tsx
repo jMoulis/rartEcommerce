@@ -1,4 +1,5 @@
 import emotionStyled from '@emotion/styled';
+import { CloseModalButton } from './Buttons/CloseModalButton';
 
 const Root = emotionStyled.header``;
 
@@ -10,9 +11,7 @@ export const DialogHeader = ({ onClose, title }: Props) => {
   return (
     <Root>
       <h2>{title}</h2>
-      <button type='button' onClick={onClose}>
-        X
-      </button>
+      <CloseModalButton onClose={onClose} />
     </Root>
   );
 };
