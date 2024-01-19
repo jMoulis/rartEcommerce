@@ -27,7 +27,9 @@
     "archive": "Archiver",
     "unArchive": "Désarchiver",
     "archives": "Archives",
-    "color": "Couleur"
+    "color": "Couleur",
+    "name": "Nom",
+    "title": "Titre"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -80,7 +82,8 @@
     "financial": "Finances",
     "estimates": "Devis",
     "billings": "Factures",
-    "subscriptions": "Abonnements"
+    "subscriptions": "Abonnements",
+    "templates": "Modèles"
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -114,11 +117,12 @@
     "addToProduct": "Ajouter à l'article",
     "default": "Défault",
     "productDetail": "Détails de l'article",
-    "options": "Options",
+    "options": "Déclinaisons",
+    "addOption": "Ajouter une option",
     "properties": "Propriétés",
     "addProperty": "Ajouter une propriété",
-    "addSection": "Ajouter une section",
-    "newSection": "Nouvelle section",
+    "addSection": "Ajouter une rubrique",
+    "newSection": "Nouvelle rubrique",
     "saveAsTemplate": "Sauvegarder model",
     "published": "Publier",
     "unPublished": "Dépublier",
@@ -126,7 +130,7 @@
     "categories": "Catégories",
     "deleteSectionMessage": {
       "title": "Voulez-vous supprimer {section} ?",
-      "explanation": "En supprimant la section vous perdrez accès à la donnée"
+      "explanation": "En supprimant la rubrique vous perdrez accès à la donnée"
     },
     "deleteProductMessage": {
       "title": "Voulez-vous supprimer {product} ?",
@@ -152,7 +156,14 @@
     "password": "Mot de passe",
     "avatar": "Photo de profile"
   },
-
+  "Template": {
+    "template": "Modèle",
+    "addTemplate": "Ajouter un modèle",
+    "deleteTemplate": "Supprimer un modèle",
+    "createTemplate": "Créer un modèle",
+    "editTemplate": "Modifier un modèle",
+    "newTemplate": "Nouveau modèle"
+  },
   "ApiSuccess": {
     "edit-user-address": "Addresse ajouté",
     "setSessionCookie": "Cookie enregistrer",

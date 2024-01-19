@@ -1,4 +1,4 @@
-import { IElement, IProductService, IProperty, ISection } from '@/src/types/DBTypes';
+import { IElement, IProductService, IProperty, ISection, ITemplate } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 
 export const defaultElement = (): IElement => {
@@ -28,6 +28,13 @@ export const defaultSection: (t: any) => ISection = (t) => {
     published: false,
   });
 };
+export const buildDefaultTemplate: (t: any) => ITemplate = (t) => {
+  return ({
+    title: t('Template.newTemplate'),
+    sections: [],
+    categories: []
+  });
+};
 
 export const defaultProduct = (): IProductService => ({
   name: '',
@@ -39,5 +46,9 @@ export const defaultProduct = (): IProductService => ({
   price: 0,
   stockQuantity: 0,
   withStock: false,
-  categories: []
+  categories: [],
+  options: {
+    refIds: [],
+    published: false
+  }
 });

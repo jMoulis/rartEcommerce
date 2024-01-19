@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { ICategory, IProductService, ISection } from '@/src/types/DBTypes';
+import { IProductService, ISection } from '@/src/types/DBTypes';
 import { ImageLoader } from './ImageLoader/ImageLoader';
 import {
   onCreateDocument,
@@ -22,6 +22,7 @@ import { sortArrayByKey } from './utils';
 import { PriceCard } from './PriceCard';
 import { Flexbox } from '../../../commons/Flexbox';
 import { Menu } from './RightMenu/Menu';
+import { OptionsCard } from './OptionsCard/OptionsCard';
 
 const LoadingBackdrop = styled.div`
   position: absolute;
@@ -41,9 +42,10 @@ const Content = styled.div`
 
 interface Props {
   prevProduct?: IProductService;
+  onSubmit?: (product: IProductService) => void;
 }
 
-export const CreateForm = ({ prevProduct }: Props) => {
+export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
   const defaultData = defaultProduct();
   const [form, setForm] = useState<IProductService>(defaultData);
   const [saving, setSaving] = useState(false);
@@ -61,11 +63,19 @@ export const CreateForm = ({ prevProduct }: Props) => {
   const handleSubmit = async () => {
     try {
       setSaving(true);
-      if (prevProduct?.id) {
-        await onUpdateDocument(form, ENUM_COLLECTIONS.PRODUCTS, prevProduct.id);
+      if (prevProduct?._id) {
+        await onUpdateDocument(
+          form,
+          ENUM_COLLECTIONS.PRODUCTS,
+          prevProduct._id
+        );
       } else {
         const payload = await onCreateDocument(form, ENUM_COLLECTIONS.PRODUCTS);
-        router.replace(`/dashboard/products/${payload.data?.id}`);
+        if (onSubmit) {
+          onSubmit(payload.data);
+        } else {
+          router.replace(`/dashboard/products/${payload.data?._id}`);
+        }
       }
       setSaving(false);
     } catch (error) {
@@ -274,12 +284,20 @@ export const CreateForm = ({ prevProduct }: Props) => {
       [name]: checked,
     }));
   };
-  const handleSelectCategory = (category: ICategory) => {
+  const handleSelectCategory = (categoryId: string) => {
     setForm((prev) => ({
       ...prev,
-      categories: [...(prev.categories || []), category],
+      sections: [...prev.sections],
+      categories: [...(prev.categories || []), categoryId],
     }));
   };
+  const handleSelectSections = (sections: ISection[]) => {
+    setForm((prev) => ({
+      ...prev,
+      sections: [...prev.sections, ...sections],
+    }));
+  };
+
   return (
     <div
       style={{
@@ -298,27 +316,30 @@ export const CreateForm = ({ prevProduct }: Props) => {
       />
       <Flexbox>
         <Content>
-          <ProductDetailForm
-            form={form}
-            onInputChange={handleInputChange}
-            onDeleteCategory={setForm}
-          />
+          <Flexbox>
+            <ProductDetailForm
+              form={form}
+              onInputChange={handleInputChange}
+              onDeleteCategory={setForm}
+            />
+            <PriceCard
+              form={form}
+              onInputChange={handleInputChange}
+              onStockStatusChange={handleStockStatusChange}
+            />
+          </Flexbox>
           <ImageLoader
             images={form.images ?? []}
             onSubmitImages={handleSubmitImages}
           />
-          <PriceCard
-            form={form}
-            onInputChange={handleInputChange}
-            onStockStatusChange={handleStockStatusChange}
-          />
+
           {form.sections.map((section, key) => (
             <Section
               section={section}
               sectionArrayIndex={key}
               sectionsLength={form.sections.length}
               key={key}
-              onUpdateSection={setForm}
+              onUpdateSection={setForm as any}
               onArchiveSection={handleArchiveSection}
               onMoveSectionDown={handleMoveSectionDown}
               onMoveSectionUp={handleMoveSectionUp}
@@ -327,7 +348,14 @@ export const CreateForm = ({ prevProduct }: Props) => {
             />
           ))}
         </Content>
-        <Menu onSelectCategory={handleSelectCategory} />
+        <Flexbox flexDirection='column'>
+          <Menu
+            onSelectCategory={handleSelectCategory}
+            onSelectSections={handleSelectSections}
+            previousSelectedCategories={form.categories}
+          />
+          <OptionsCard form={form} onUpdateSection={setForm as any} />
+        </Flexbox>
       </Flexbox>
     </div>
   );

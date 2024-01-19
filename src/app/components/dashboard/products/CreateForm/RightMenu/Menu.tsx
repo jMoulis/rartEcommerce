@@ -1,3 +1,4 @@
+/* eslint-disable n/handle-callback-err */
 import React, { useEffect, useState } from 'react';
 import { Article } from '../Article';
 import { useTranslations } from 'next-intl';
@@ -8,7 +9,7 @@ import { Dialog } from '@mui/material';
 import { DialogHeader } from '@/src/app/components/commons/dialog/DialogHeader';
 import { DialogContent } from '@/src/app/components/commons/dialog/DialogContent';
 import { CategoryForm } from './CategoryForm';
-import { ICategory } from '@/src/types/DBTypes';
+import { ICategory, ISection } from '@/src/types/DBTypes';
 import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
 import { CategoryList } from './CategoryList';
 import { SmallButton } from '@/src/app/components/commons/Buttons/SmallButton';
@@ -19,10 +20,16 @@ const Root = styled.aside`
 `;
 
 interface Props {
-  onSelectCategory: (category: ICategory) => void;
+  onSelectCategory: (categoryId: string) => void;
+  onSelectSections?: (sections: ISection[]) => void;
+  previousSelectedCategories: string[];
 }
 
-export const Menu = ({ onSelectCategory }: Props) => {
+export const Menu = ({
+  onSelectCategory,
+  onSelectSections,
+  previousSelectedCategories,
+}: Props) => {
   const t = useTranslations();
   const { open, onClose, onOpen } = useToggle();
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -34,7 +41,9 @@ export const Menu = ({ onSelectCategory }: Props) => {
       (data) => {
         setCategories(data);
       },
-      (error) => console.log(error)
+      (error) => {
+        // console.log(error);
+      }
     );
 
     return () => {
@@ -54,6 +63,8 @@ export const Menu = ({ onSelectCategory }: Props) => {
           <CategoryList
             categories={categories}
             onSelectCategory={onSelectCategory}
+            onSelectSections={onSelectSections}
+            previousSelectedCategories={previousSelectedCategories}
           />
         </Flexbox>
       </Article>

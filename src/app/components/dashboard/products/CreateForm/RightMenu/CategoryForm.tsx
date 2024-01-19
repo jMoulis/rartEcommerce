@@ -64,13 +64,14 @@ export const CategoryForm = ({ editedCategory, onClose }: Props) => {
         id='category'
         name='name'
         label={t('ProductForm.name')}
-        value={form.name}
+        value={form.name ?? ''}
         onInputChange={onInputChange}
       />
       <InputGroup
         type='color'
         id='color'
         name='color'
+        value={form.color ?? ''}
         onInputChange={onInputChange}
         styling={{
           root: {

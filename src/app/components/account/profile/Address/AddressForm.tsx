@@ -37,7 +37,7 @@ export const AddressForm = ({ prevAddresses }: Props) => {
 
       if (edit) {
         updatedAddresses = updatedAddresses.map((prev) =>
-          prev.id === newAddress.id ? newAddress : prev
+          prev._id === newAddress._id ? newAddress : prev
         );
       } else {
         updatedAddresses = [...updatedAddresses, newAddress];
@@ -56,7 +56,7 @@ export const AddressForm = ({ prevAddresses }: Props) => {
 
   const handleDeleteAddress = async (addressId: string) => {
     const updatedAddresses = prevAddresses.filter(
-      (prevAddress) => prevAddress.id !== addressId
+      (prevAddress) => prevAddress._id !== addressId
     );
     setAddresses(updatedAddresses);
     await onUpdateAddress(
@@ -66,8 +66,8 @@ export const AddressForm = ({ prevAddresses }: Props) => {
     handleCloseDialog();
   };
 
-  const handleSelectAddress = (addressId: string) => {
-    const foundAddress = addresses.find((prev) => prev.id === addressId);
+  const handleSelectAddress = (addressId?: string) => {
+    const foundAddress = addresses.find((prev) => prev._id === addressId);
     setSelectedAddress(foundAddress ?? null);
     onOpen();
   };

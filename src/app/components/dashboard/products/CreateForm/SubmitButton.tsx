@@ -5,7 +5,7 @@ import React from 'react';
 import { Button } from '../../../commons/Buttons/Button';
 
 interface Props {
-  disabled: boolean;
+  disabled?: boolean;
   saving?: boolean;
   onClick: () => void;
 }
@@ -18,8 +18,8 @@ export const SubmitButton = ({ disabled, saving, onClick }: Props) => {
       }}
       type='button'
       onClick={onClick}
-      aria-disabled={disabled || saving}
-      disabled={disabled || saving}>
+      aria-disabled={disabled ?? saving}
+      disabled={disabled ?? saving}>
       {saving ? (
         <FontAwesomeIcon icon={faSpinner} className='fa-pulse' />
       ) : (

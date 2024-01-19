@@ -44,7 +44,7 @@ export const useFirestore = () => {
     try {
       const docRef = doc(firestoreCollection(db, collection));
       await setDoc(docRef, fields, { merge: true });
-      return onSuccessMessage('create', undefined, { id: docRef.id });
+      return onSuccessMessage('create', undefined, { _id: docRef.id });
     } catch (error) {
       return onErrorMessage(error);
     }
@@ -58,7 +58,7 @@ export const useFirestore = () => {
     try {
       const docRef = doc(db, collection, id);
       await setDoc(docRef, fields, { merge: true });
-      return onSuccessMessage('create', undefined, { id: docRef.id });
+      return onSuccessMessage('create', undefined, { _id: docRef.id });
     } catch (error) {
       return onErrorMessage(error);
     }
@@ -68,7 +68,7 @@ export const useFirestore = () => {
       const docRef = doc(db, collection, id);
       await deleteDoc(docRef);
 
-      return onSuccessMessage('deleted', undefined, { id: docRef.id });
+      return onSuccessMessage('deleted', undefined, { _id: docRef.id });
     } catch (error) {
       return onErrorMessage(error);
     }
@@ -81,7 +81,7 @@ export const useFirestore = () => {
         ...doc.data(),
         _id: doc.id,
       }));
-      return products;
+      return onSuccessMessage('deleted', undefined, products);
     } catch (error) {
       return onErrorMessage(error);
     }
@@ -97,7 +97,7 @@ export const useFirestore = () => {
       if (docSnap.exists()) {
         return onSuccessMessage('fetch', undefined, {
           ...docSnap.data(),
-          id: docSnap.id,
+          _id: docSnap.id,
         });
       } else {
         return onErrorMessage({ code: 'not-found' });
@@ -106,6 +106,60 @@ export const useFirestore = () => {
       return onErrorMessage(error);
     }
   };
+  const onFetchDocsByIdsArray = async (
+    documentRefIds: string[],
+    collection: ENUM_COLLECTIONS
+  ) => {
+    const payload = [];
+    try {
+      for (const refId of documentRefIds) {
+        const templateRef = doc(db, collection, refId);
+        const templateSnap = await getDoc(templateRef);
+
+        if (templateSnap.exists()) {
+          payload.push({ ...templateSnap.data(), _id: templateSnap.id });
+        }
+      }
+      return onSuccessMessage('fetch', undefined, payload);
+    } catch (error) {
+      return onErrorMessage(error);
+    }
+  };
+  const onFetchDocsByIdsArrayWithSnapshot = (
+    documentRefIds: string[],
+    collection: ENUM_COLLECTIONS,
+    onChange: (payload: any[]) => void,
+    onError: (error: Error) => void
+  ) => {
+    const payload: any = [];
+    const unsubscribes: any[] = [];
+
+    try {
+      documentRefIds.forEach((refId) => {
+        const templateRef = doc(db, collection, refId);
+
+        const unsubscribe = onSnapshot(templateRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const index = payload.findIndex(
+              (item: any) => item._id === docSnap.id
+            );
+            const docData = { ...docSnap.data(), _id: docSnap.id };
+
+            if (index === -1) {
+              payload.push(docData);
+            } else {
+              payload[index] = docData;
+            }
+            onChange([...payload]);
+          }
+        });
+        unsubscribes.push(unsubscribe);
+      });
+    } catch (error: any) {
+      onError(error);
+    }
+    return () => unsubscribes.forEach((unsubscribe) => unsubscribe());
+  };
   return {
     onFindAllRealtime,
     findDocumentById,
@@ -113,5 +167,7 @@ export const useFirestore = () => {
     onDeleteDocument,
     onUpdateDocument,
     onCreateDocument,
+    onFetchDocsByIdsArray,
+    onFetchDocsByIdsArrayWithSnapshot,
   };
 };

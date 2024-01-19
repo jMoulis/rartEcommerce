@@ -34,7 +34,9 @@ export const DeleteConfirmation = ({
 
   return (
     <>
-      {<span onClick={onOpen}>{CustomDelete}</span> ?? (
+      {CustomDelete ? (
+        <span onClick={onOpen}>{CustomDelete}</span>
+      ) : (
         <Button
           type='button'
           className={`${className ?? ''}`}

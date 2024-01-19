@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { ICategory } from '@/src/types/DBTypes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTag } from '@fortawesome/pro-light-svg-icons';
+import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 
 const CategoriesTags = styled.ul`
   display: flex;
@@ -41,11 +43,31 @@ const CategoryTag = styled.button<{
   }
 `;
 interface Props {
-  categories: ICategory[];
-  onDeleteCategory?: (category: ICategory) => void;
+  categoriesIds: string[];
+  onDeleteCategory?: (categoryId: string) => void;
 }
 
-export const CategoryTags = ({ categories, onDeleteCategory }: Props) => {
+export const CategoryTags = ({ categoriesIds, onDeleteCategory }: Props) => {
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const { onFetchDocsByIdsArray } = useFirestore();
+
+  const fetchCategories = useCallback(async () => {
+    try {
+      const payload = await onFetchDocsByIdsArray(
+        categoriesIds,
+        ENUM_COLLECTIONS.CATEGORIES
+      );
+      if (Array.isArray(payload.data)) {
+        setCategories(payload.data);
+      }
+    } catch (error) {}
+  }, [categoriesIds]);
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchCategories();
+  }, [categoriesIds]);
+
   return (
     <CategoriesTags>
       {categories.map((category, key) => (
@@ -53,7 +75,7 @@ export const CategoryTags = ({ categories, onDeleteCategory }: Props) => {
           <CategoryTag
             backgroundColor={category.color}
             deleatable={Boolean(onDeleteCategory)}
-            onClick={() => onDeleteCategory?.(category)}>
+            onClick={() => onDeleteCategory?.(category._id!)}>
             <FontAwesomeIcon
               style={{
                 marginRight: '5px',

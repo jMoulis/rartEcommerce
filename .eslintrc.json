@@ -3,7 +3,12 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "standard-with-typescript"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@next/next/recommended",
+    "standard-with-typescript",
+    "plugin:@next/next/recommended"
+  ],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -31,6 +36,7 @@
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-console": "warn",
-    "@typescript-eslint/return-await": "off"
+    "@typescript-eslint/return-await": "off",
+    "@typescript-eslint/no-floating-promises": "off"
   }
 }

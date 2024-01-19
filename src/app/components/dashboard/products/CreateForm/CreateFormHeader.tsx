@@ -33,6 +33,7 @@ const BackgroundImage = styled.header<{ backgroundImage?: string }>`
   position: absolute;
   background: url(${({ backgroundImage }) => backgroundImage}), #fff;
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
   bottom: -10px;
   top: -10px;
@@ -120,7 +121,7 @@ export const CreateFormHeader = ({
 
   const handleSelectMenu = (callback: (props: any) => void) => {
     setAnchorEl(null);
-    callback(product.id);
+    callback(product._id);
   };
 
   const actions: IAction[] = useMemo(
@@ -133,7 +134,7 @@ export const CreateFormHeader = ({
         callback: async () => handleSelectMenu(onDeleteProduct),
       },
     ],
-    [product.id]
+    [product._id]
   );
 
   useEffect(() => {
@@ -201,9 +202,9 @@ export const CreateFormHeader = ({
                 name='published'
                 label={product.published ? t('unPublished') : t('published')}
                 value={product.published}
-                onInputChange={(event) => onPublishProduct(event, product.id)}
+                onInputChange={(event) => onPublishProduct(event, product._id)}
               />
-              <CategoryTags categories={product.categories || []} />
+              <CategoryTags categoriesIds={product.categories || []} />
             </Flexbox>
             <Flexbox alignItems='center'>
               <Button

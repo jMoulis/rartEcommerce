@@ -70,7 +70,6 @@ export const GalleryListItem = ({
           width={150}
           height={150}
           quality={50}
-          loading='lazy'
           style={{
             objectFit: 'contain',
             borderRadius: '5px',

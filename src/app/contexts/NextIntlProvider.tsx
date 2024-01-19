@@ -25,6 +25,7 @@ export default function NextIntlProvider({
   function onError(error: any) {
     if (error.code === IntlErrorCode.MISSING_MESSAGE) {
       // Missing translations are expected and should only log an error
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   }

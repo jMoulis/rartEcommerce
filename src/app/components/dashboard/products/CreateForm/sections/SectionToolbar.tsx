@@ -22,9 +22,10 @@ import { CollapseButton } from '@/src/app/components/commons/Buttons/CollapseBut
 import { MenuListItem } from '@/src/app/components/commons/Menu/MenuItem';
 import { IconButton } from '@/src/app/components/commons/Buttons/IconButton';
 
-const Header = styled.header<{ disabled?: boolean }>`
+const Header = styled.header<{ disabled?: boolean; open: boolean }>`
   padding: 18px 24px 10px;
-  border-bottom: 1px solid var(--card-header-border-color);
+  border-bottom: ${({ open }) =>
+    open ? '1px solid var(--card-header-border-color)' : 'none'};
   justify-content: space-between;
   display: flex;
   align-items: center;
@@ -53,6 +54,7 @@ interface Props {
   onPublishSection: (event: ChangeEvent<HTMLInputElement>) => void;
   onToggle?: VoidFunction;
   openCollapse: boolean;
+  noPublished?: boolean;
 }
 
 export const SectionToolbar = ({
@@ -68,6 +70,7 @@ export const SectionToolbar = ({
   onPublishSection,
   onToggle,
   openCollapse,
+  noPublished,
 }: Props) => {
   const t = useTranslations();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -107,7 +110,7 @@ export const SectionToolbar = ({
     setAnchorEl(null);
   };
   return (
-    <Header disabled={section.isArchived}>
+    <Header disabled={section.isArchived} open={openCollapse}>
       <Wrapper>
         <CollapseButton open={openCollapse} onToggle={onToggle} />
         <CustomInputTitle
@@ -116,18 +119,20 @@ export const SectionToolbar = ({
           onChange={onChangeSectionName}
           disabled={section.isArchived}
         />
-        <SwitchGroup
-          id={`published-${section.id}`}
-          name='published'
-          disabled={section.isArchived}
-          label={
-            section.published
-              ? t('ProductForm.unPublished')
-              : t('ProductForm.published')
-          }
-          value={section.published || false}
-          onInputChange={onPublishSection}
-        />
+        {noPublished ? null : (
+          <SwitchGroup
+            id={`published-${section.id}`}
+            name='published'
+            disabled={section.isArchived}
+            label={
+              section.published
+                ? t('ProductForm.unPublished')
+                : t('ProductForm.published')
+            }
+            value={section.published || false}
+            onInputChange={onPublishSection}
+          />
+        )}
       </Wrapper>
       <Flexbox alignItems='center'>
         <Button

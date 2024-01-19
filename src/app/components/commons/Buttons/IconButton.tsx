@@ -38,6 +38,7 @@ interface Props {
   variant?: 'normal' | 'xs';
   backgroundColor?: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  disabled?: boolean;
 }
 
 export const IconButton = ({
@@ -46,11 +47,13 @@ export const IconButton = ({
   variant = 'normal',
   backgroundColor,
   onClick,
+  disabled,
 }: Props) => {
   return (
     <Root
       type='button'
       onClick={onClick}
+      disabled={disabled}
       className={className}
       variant={variant}
       backgroundColor={backgroundColor}>

@@ -58,6 +58,7 @@ export const Gallery = ({
         );
         setImages(urls);
       })
+      // eslint-disable-next-line no-console
       .catch((error) => console.log(error));
   }, []);
 

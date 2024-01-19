@@ -7,7 +7,7 @@ import { Button } from '../../../commons/Buttons/Button';
 
 interface Props {
   address: IAddress;
-  onSelectAddress: (addressId: string) => void;
+  onSelectAddress: (addressId?: string) => void;
 }
 
 export const AddressItem = ({ address, onSelectAddress }: Props) => {
@@ -50,7 +50,7 @@ export const AddressItem = ({ address, onSelectAddress }: Props) => {
           {address.type}
         </p>
       </address>
-      <Button type='button' onClick={() => onSelectAddress(address.id)}>
+      <Button type='button' onClick={() => onSelectAddress(address._id)}>
         {tCommons('edit')}
       </Button>
     </>

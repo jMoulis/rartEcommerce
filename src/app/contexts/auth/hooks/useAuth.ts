@@ -22,7 +22,7 @@ interface SignEmailPasswordType {
 interface RegisterProps {
   email: string
   password: string
-};
+}
 
 export const useAuth = () => {
   const t = useTranslations();

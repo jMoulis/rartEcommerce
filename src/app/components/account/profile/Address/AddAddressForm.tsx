@@ -48,8 +48,8 @@ export const AddAddressForm = ({
     {
       label: t('commons.delete'),
       callback: async () => {
-        if (!selectedAddress) return;
-        onDeleteAddress(selectedAddress.id);
+        if (!selectedAddress?._id) return;
+        onDeleteAddress(selectedAddress._id);
       },
     },
   ]);

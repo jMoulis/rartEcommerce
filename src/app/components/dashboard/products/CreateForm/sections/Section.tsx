@@ -1,4 +1,9 @@
-import { IProductService, IProperty, ISection } from '@/src/types/DBTypes';
+import {
+  IProductService,
+  IProperty,
+  ISection,
+  ITemplate,
+} from '@/src/types/DBTypes';
 import { useTranslations } from 'next-intl';
 import React, {
   ChangeEvent,
@@ -45,13 +50,16 @@ type CustomChangeEvent = ChangeEvent<
 interface Props {
   section: ISection;
   sectionArrayIndex: number;
-  onUpdateSection: React.Dispatch<React.SetStateAction<IProductService>>;
+  onUpdateSection: React.Dispatch<
+    React.SetStateAction<IProductService | ITemplate>
+  >;
   onArchiveSection: (sectionID: string) => void;
   onMoveSectionUp: (sectionId: string) => void;
   onMoveSectionDown: (sectionID: string) => void;
   onMovePropertyUp: (propertyId: string, sectionId: string) => void;
   onMovePropertyDown: (propertyId: string, sectionId: string) => void;
   sectionsLength: number;
+  noPublished?: boolean;
 }
 
 export const Section = ({
@@ -64,6 +72,7 @@ export const Section = ({
   onMovePropertyDown,
   sectionArrayIndex,
   sectionsLength,
+  noPublished,
 }: Props) => {
   const t = useTranslations();
   const { open, onOpen, onClose } = useToggle();
@@ -118,17 +127,14 @@ export const Section = ({
     },
     []
   );
-
   const handleArchiveSection = useCallback(() => {
     onArchiveSection(section.id);
   }, [section.id]);
-
   const handleEditProperty = (propertyId: string) => {
     onOpen();
     const property = section.properties.find((prev) => prev.id === propertyId);
     setSelectedEditProperty(property ?? null);
   };
-
   const renderProperty = useCallback(
     (property: IProperty, propertyIndex: number) => {
       const propertiesLength = section.properties.length;
@@ -174,7 +180,6 @@ export const Section = ({
     },
     []
   );
-
   const handleAddProperty = (property: IProperty) => {
     onUpdateSection((prev) => {
       const prevSection = prev.sections.find(
@@ -315,6 +320,7 @@ export const Section = ({
             onDeleteSection={handleDeleteSection}
             onToggle={handleToggle}
             openCollapse={collapsed}
+            noPublished={noPublished}
           />
         }>
         <Content blur={section.isArchived}>

@@ -40,7 +40,7 @@ export const Products = ({ products }: Props) => {
       id: 'name',
       header: () => <span>{tProductForm('name')}</span>,
       cell: (info: any) => {
-        const id = info.row.original.id;
+        const id = info.row.original._id;
         return (
           <Link href={`/dashboard/products/${id}`}>{info.getValue()}</Link>
         );

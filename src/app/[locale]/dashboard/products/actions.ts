@@ -23,6 +23,6 @@ export async function upsertProduct(id?: string, formData?: FormData) {
   } else {
     const payload = await onCreateDocument(rawFormData, ENUM_COLLECTIONS.PRODUCTS);
     revalidatePath('/dashboard/products');
-    redirect(`/dashboard/products/${payload.data?.id}`);
+    redirect(`/dashboard/products/${payload.data?._id}`);
   }
 }

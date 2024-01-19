@@ -12,7 +12,7 @@ export const onCreateDocument = async (
   try {
     const docRef = doc(firestoreCollection(db, collection));
     await setDoc(docRef, fields, { merge: true });
-    return onSuccessMessage('create', undefined, { id: docRef.id });
+    return onSuccessMessage('create', undefined, { _id: docRef.id });
   } catch (error) {
     return onErrorMessage(error);
   }
@@ -26,7 +26,7 @@ export const onUpdateDocument = async (
   try {
     const docRef = doc(db, collection, id);
     await setDoc(docRef, fields, { merge: true });
-    return onSuccessMessage('create', undefined, { id: docRef.id });
+    return onSuccessMessage('create', undefined, { _id: docRef.id });
   } catch (error) {
     return onErrorMessage(error);
   }
@@ -39,7 +39,7 @@ export const onDeleteDocument = async (
     const docRef = doc(db, collection, id);
     await deleteDoc(docRef);
 
-    return onSuccessMessage('deleted', undefined, { id: docRef.id });
+    return onSuccessMessage('deleted', undefined, { _id: docRef.id });
   } catch (error) {
     return onErrorMessage(error);
   }
@@ -50,7 +50,7 @@ export const findAll = async (collection: ENUM_COLLECTIONS) => {
     const querySnapshot = await getDocs(productsRef);
     const products = querySnapshot.docs.map(doc => ({
       ...doc.data(),
-      id: doc.id,
+      _id: doc.id,
     }));
     return products;
   } catch (error) {
@@ -66,7 +66,7 @@ export const getDocument = async (
     const docRef = doc(db, collection, docId);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return onSuccessMessage('fetch', undefined, { ...docSnap.data(), id: docSnap.id });
+      return onSuccessMessage('fetch', undefined, { ...docSnap.data(), _id: docSnap.id });
     } else {
       return onErrorMessage({ code: 'not-found' });
     }
