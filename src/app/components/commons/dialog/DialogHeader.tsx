@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import styled from '@emotion/styled';
-import { CloseModalButton } from '../confirmation/Buttons/CloseModalButton';
+import { CloseModalButton } from '../Buttons/CloseModalButton';
 
 const Header = styled.header`
   display: flex;
@@ -12,13 +12,23 @@ const Header = styled.header`
 interface Props {
   title: string;
   onClose?: VoidFunction;
+  styling?: {
+    root?: CSSProperties;
+    title?: CSSProperties;
+    button?: {
+      root?: CSSProperties;
+      icon?: CSSProperties;
+    };
+  };
 }
 
-export const DialogHeader = ({ title, onClose }: Props) => {
+export const DialogHeader = ({ title, onClose, styling }: Props) => {
   return (
-    <Header>
-      <h1>{title}</h1>
-      {onClose ? <CloseModalButton onClose={onClose} /> : null}
+    <Header style={styling?.root}>
+      <h1 style={styling?.title}>{title}</h1>
+      {onClose ? (
+        <CloseModalButton styling={styling?.button} onClose={onClose} />
+      ) : null}
     </Header>
   );
 };

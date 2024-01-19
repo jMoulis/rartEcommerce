@@ -2,7 +2,7 @@ import emotionStyled from '@emotion/styled';
 import { DialogFooter as RootFooter } from '../dialog/DialogFooter';
 import { IAction } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button } from './Buttons/Button';
+import { Button } from '../Buttons/Button';
 
 const Root = emotionStyled(RootFooter)``;
 

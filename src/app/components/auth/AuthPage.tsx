@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl';
 import { ForgetPassword } from './ForgetPassword';
 import { AuthForm } from './register/AuthForm';
 import SignIn from './sign-in/SignIn';
-import { Button } from '../commons/confirmation/Buttons/Button';
+import { Button } from '../commons/Buttons/Button';
 
 interface Props {
   onSuccess?: () => void;

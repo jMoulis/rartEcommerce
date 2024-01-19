@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import { useTranslations } from 'next-intl';
 import { Gallery } from './Gallery';
 import { IImageType } from './types';
-import { Button } from '@/src/app/components/commons/confirmation/Buttons/Button';
-import { CloseModalButton } from '@/src/app/components/commons/confirmation/Buttons/CloseModalButton';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
+import { CloseModalButton } from '@/src/app/components/commons/Buttons/CloseModalButton';
 
 const Content = styled.div`
   display: flex;

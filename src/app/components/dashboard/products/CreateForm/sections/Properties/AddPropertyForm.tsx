@@ -13,7 +13,7 @@ import {
 import { AlignButton } from './AlignButton';
 import { RoundedButtonWrapper } from './RoundedButtonWrapper';
 import { DeleteConfirmation } from '@/src/app/components/commons/confirmation/DeleteConfirmation';
-import { Button } from '@/src/app/components/commons/confirmation/Buttons/Button';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
 
 const parseTechnicalName = (label: string) => {
   return label

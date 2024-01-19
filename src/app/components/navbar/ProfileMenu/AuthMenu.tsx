@@ -2,7 +2,7 @@
 import React from 'react';
 import { ENUM_AUTH_FORM_VARIANT } from '../../auth/enums';
 import { useTranslations } from 'next-intl';
-import { Button } from '../../commons/confirmation/Buttons/Button';
+import { Button } from '../../commons/Buttons/Button';
 
 interface Props {
   onClick: (variant: ENUM_AUTH_FORM_VARIANT) => void;

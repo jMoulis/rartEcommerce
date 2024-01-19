@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle } from 'react';
 import styled from '@emotion/styled';
 import { Collapse } from '@mui/material';
 import { useToggle } from '../../../hooks/useToggle';
-import { CollapseButton } from '../../../commons/confirmation/Buttons/CollapseButton';
+import { CollapseButton } from '../../../commons/Buttons/CollapseButton';
 
 const Root = styled.article`
   border-radius: 10px;

@@ -1,4 +1,4 @@
-import { Button } from '@/src/app/components/commons/confirmation/Buttons/Button';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
 import styled from '@emotion/styled';
 
 export const MoveButton = styled(Button)`

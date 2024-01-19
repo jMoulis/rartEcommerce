@@ -15,7 +15,7 @@ import { Selectbox } from '../../../commons/form/Selectbox';
 import { InputGroupCheckbox } from '../../../commons/form/InputCheckbox';
 import emotionStyled from '@emotion/styled';
 import { DeleteConfirmation } from '../../../commons/confirmation/DeleteConfirmation';
-import { Button } from '../../../commons/confirmation/Buttons/Button';
+import { Button } from '../../../commons/Buttons/Button';
 
 const Form = emotionStyled.form``;
 

@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/auth/hooks/useAuth';
-import { Button } from '../commons/confirmation/Buttons/Button';
+import { Button } from '../commons/Buttons/Button';
 
 interface Props {
   onValidate?: () => void;

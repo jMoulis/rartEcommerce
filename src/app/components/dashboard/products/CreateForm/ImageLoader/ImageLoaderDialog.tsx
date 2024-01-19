@@ -8,7 +8,7 @@ import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { ProgressionUploadingFile } from './ProgressionUploadingFile';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
 import { IImageType } from './types';
-import { CloseModalButton } from '@/src/app/components/commons/confirmation/Buttons/CloseModalButton';
+import { CloseModalButton } from '@/src/app/components/commons/Buttons/CloseModalButton';
 
 const Content = styled.div`
   margin: 50px;

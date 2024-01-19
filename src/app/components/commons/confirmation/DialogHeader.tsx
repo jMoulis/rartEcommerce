@@ -1,5 +1,5 @@
 import emotionStyled from '@emotion/styled';
-import { CloseModalButton } from './Buttons/CloseModalButton';
+import { CloseModalButton } from '../Buttons/CloseModalButton';
 
 const Root = emotionStyled.header``;
 

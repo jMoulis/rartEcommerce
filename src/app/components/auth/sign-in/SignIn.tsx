@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
-import { Button } from '../../commons/confirmation/Buttons/Button';
+import { Button } from '../../commons/Buttons/Button';
 
 interface Props {
   onSuccess?: () => void;

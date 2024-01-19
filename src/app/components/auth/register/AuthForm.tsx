@@ -8,7 +8,7 @@ import { ENUM_AUTH_FORM_VARIANT } from '../enums';
 import { useTranslations } from 'next-intl';
 import { UserCredential } from 'firebase/auth';
 import { ApiPayload } from '@/src/app/contexts/shared/types';
-import { Button } from '../../commons/confirmation/Buttons/Button';
+import { Button } from '../../commons/Buttons/Button';
 import { InputGroup } from '../../commons/form/InputGroup';
 
 const Form = emotionStyled.form``;

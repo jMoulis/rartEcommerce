@@ -14,7 +14,7 @@ import { AddressForm } from './Address/AddressForm';
 import { useFirestorProfile } from '../../../contexts/auth/hooks/useFirestoreProfile';
 import AvatarInputFile from './AvatarInputFile';
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
-import { Button } from '../../commons/confirmation/Buttons/Button';
+import { Button } from '../../commons/Buttons/Button';
 
 const Form = emotionStyled.form`
   display: flex;

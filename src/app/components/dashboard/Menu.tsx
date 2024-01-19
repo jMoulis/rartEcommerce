@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/pro-light-svg-icons';
 import { useToggle } from '../hooks/useToggle';
 import { Flexbox } from '../commons/Flexbox';
-import { Button } from '../commons/confirmation/Buttons/Button';
+import { Button } from '../commons/Buttons/Button';
 
 const Root = styled.aside<{ open: boolean }>`
   width: ${({ open }) => (open ? '175px' : '50px')};

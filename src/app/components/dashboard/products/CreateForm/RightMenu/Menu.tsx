@@ -3,24 +3,26 @@ import { Article } from '../Article';
 import { useTranslations } from 'next-intl';
 import styled from '@emotion/styled';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
-import { Button } from '../../../../commons/confirmation/Buttons/Button';
-import { useToggle } from '../../../../hooks/useToggle';
+import { useToggle } from '@/src/app/components/hooks/useToggle';
 import { Dialog } from '@mui/material';
-import { DialogHeader } from '../../../../commons/dialog/DialogHeader';
-import { DialogContent } from '../../../../commons/dialog/DialogContent';
-import { InputGroup } from '../../../../commons/form/InputGroup';
+import { DialogHeader } from '@/src/app/components/commons/dialog/DialogHeader';
+import { DialogContent } from '@/src/app/components/commons/dialog/DialogContent';
 import { CategoryForm } from './CategoryForm';
-import { DialogFooter } from '@/src/app/components/commons/dialog/DialogFooter';
 import { ICategory } from '@/src/types/DBTypes';
 import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { CategoryList } from './CategoryList';
+import { SmallButton } from '@/src/app/components/commons/Buttons/SmallButton';
+import { Flexbox } from '@/src/app/components/commons/Flexbox';
 
 const Root = styled.aside`
   width: 300px;
 `;
 
-interface Props {}
+interface Props {
+  onSelectCategory: (category: ICategory) => void;
+}
 
-export const Menu = (props: Props) => {
+export const Menu = ({ onSelectCategory }: Props) => {
   const t = useTranslations();
   const { open, onClose, onOpen } = useToggle();
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -30,7 +32,6 @@ export const Menu = (props: Props) => {
     const unsubscribe = onFindAllRealtime(
       ENUM_COLLECTIONS.CATEGORIES,
       (data) => {
-        console.log(data);
         setCategories(data);
       },
       (error) => console.log(error)
@@ -42,18 +43,19 @@ export const Menu = (props: Props) => {
       }
     };
   }, []);
-  console.log(categories);
+
   return (
     <Root>
       <Article headerTitle={t('Dashboard.categories')}>
-        <Button type='button' onClick={onOpen}>
-          {t('commons.add')}
-        </Button>
-        <ul>
-          {categories.map((category, key) => (
-            <li key={key}>{category.name}</li>
-          ))}
-        </ul>
+        <Flexbox flexDirection='column' flex='1'>
+          <SmallButton type='button' onClick={onOpen}>
+            {t('commons.add')}
+          </SmallButton>
+          <CategoryList
+            categories={categories}
+            onSelectCategory={onSelectCategory}
+          />
+        </Flexbox>
       </Article>
       <Dialog open={open} onClose={onClose}>
         <DialogHeader
@@ -63,7 +65,7 @@ export const Menu = (props: Props) => {
           onClose={onClose}
         />
         <DialogContent height='20vh'>
-          <CategoryForm />
+          <CategoryForm onClose={onClose} />
         </DialogContent>
       </Dialog>
     </Root>

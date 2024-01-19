@@ -7,6 +7,7 @@ import {
   faArrowAltDown,
   faArrowAltUp,
   faEllipsisV,
+  faTrash,
 } from '@fortawesome/pro-light-svg-icons';
 import { Input } from '@/src/app/components/commons/form/Input';
 import { ISection } from '@/src/types/DBTypes';
@@ -15,9 +16,11 @@ import { Menu } from '@mui/material';
 import { MoveButton } from './MoveButton';
 import { DeleteConfirmation } from '@/src/app/components/commons/confirmation/DeleteConfirmation';
 import { IAction } from '@/src/app/components/commons/confirmation/types';
-import { Button } from '@/src/app/components/commons/confirmation/Buttons/Button';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
 import { SwitchGroup } from '@/src/app/components/commons/form/SwitchGroup';
-import { CollapseButton } from '@/src/app/components/commons/confirmation/Buttons/CollapseButton';
+import { CollapseButton } from '@/src/app/components/commons/Buttons/CollapseButton';
+import { MenuListItem } from '@/src/app/components/commons/Menu/MenuItem';
+import { IconButton } from '@/src/app/components/commons/Buttons/IconButton';
 
 const Header = styled.header<{ disabled?: boolean }>`
   padding: 18px 24px 10px;
@@ -94,6 +97,11 @@ export const SectionToolbar = ({
     setAnchorEl(null);
   };
 
+  const handleSelectMenu = (callback: (props: any) => void) => {
+    setAnchorEl(null);
+    callback(section.id);
+  };
+
   const handleArchive = () => {
     onArchive();
     setAnchorEl(null);
@@ -145,29 +153,28 @@ export const SectionToolbar = ({
           <FontAwesomeIcon icon={faArrowAltDown} />
         </MoveButton>
 
-        <Button
-          type='button'
-          className='button-icon'
-          style={{
-            backgroundColor: 'var(--button-ellipsis-color)',
-          }}
-          onClick={handleOpen}>
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </Button>
+        <IconButton
+          backgroundColor='var(--button-ellipsis-color)'
+          icon={faEllipsisV}
+          onClick={handleOpen}
+        />
         <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
-          <Button
-            type='button'
-            className='button-icon'
-            style={{
-              marginBottom: '10px',
-              backgroundColor: section.isArchived
-                ? 'var(--purple-color)'
-                : 'var(--cancel-color)',
+          <MenuListItem
+            icon={faArchive}
+            label={
+              section.isArchived ? t('commons.unArchive') : t('commons.archive')
+            }
+            onClick={() => handleSelectMenu(handleArchive)}
+            active={{
+              status: section.isArchived,
+              backgroundColor: 'var(--purple-color)',
+              color: '#fff',
             }}
-            onClick={handleArchive}>
-            <FontAwesomeIcon icon={faArchive} />
-          </Button>
+          />
           <DeleteConfirmation
+            CustomDelete={
+              <MenuListItem icon={faTrash} label={t('commons.delete')} />
+            }
             withIcon
             withLabel={false}
             className='button-icon button-delete'

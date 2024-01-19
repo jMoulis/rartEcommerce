@@ -6,7 +6,7 @@ import React, { FormEvent } from 'react';
 import { useToggle } from '../../hooks/useToggle';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { Button } from '../../commons/confirmation/Buttons/Button';
+import { Button } from '../../commons/Buttons/Button';
 
 const Form = emotionStyled.form`
   display: flex;

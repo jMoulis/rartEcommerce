@@ -4,12 +4,12 @@ import { IAddress } from '@/src/types/DBTypes';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AddressItem } from './AddressItem';
 import { AddAddressForm } from './AddAddressForm';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
 import { useTranslations } from 'next-intl';
 import { Dialog } from '@mui/material';
 import { useToggle } from '../../../hooks/useToggle';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
-import { Button } from '../../../commons/confirmation/Buttons/Button';
+import { Button } from '../../../commons/Buttons/Button';
+import { useFirestorProfile } from '@/src/app/contexts/auth/hooks/useFirestoreProfile';
 
 interface Props {
   prevAddresses: IAddress[];
@@ -18,7 +18,7 @@ interface Props {
 export const AddressForm = ({ prevAddresses }: Props) => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null);
-  const { onUpsertDoc } = useFirestore();
+  const { onUpdateAddress } = useFirestorProfile();
   const t = useTranslations();
   const { open, onOpen, onClose } = useToggle();
 
@@ -44,7 +44,7 @@ export const AddressForm = ({ prevAddresses }: Props) => {
       }
       setAddresses(updatedAddresses);
 
-      await onUpsertDoc(
+      await onUpdateAddress(
         { addresses: updatedAddresses },
         ENUM_COLLECTIONS.PROFILES
       );
@@ -59,7 +59,7 @@ export const AddressForm = ({ prevAddresses }: Props) => {
       (prevAddress) => prevAddress.id !== addressId
     );
     setAddresses(updatedAddresses);
-    await onUpsertDoc(
+    await onUpdateAddress(
       { addresses: updatedAddresses },
       ENUM_COLLECTIONS.PROFILES
     );

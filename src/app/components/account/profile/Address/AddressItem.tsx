@@ -3,7 +3,7 @@
 import { IAddress } from '@/src/types/DBTypes';
 import { useTranslations } from 'next-intl';
 import React from 'react';
-import { Button } from '../../../commons/confirmation/Buttons/Button';
+import { Button } from '../../../commons/Buttons/Button';
 
 interface Props {
   address: IAddress;

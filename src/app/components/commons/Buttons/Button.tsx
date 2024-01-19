@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Button = styled.button`
-  padding: 10px 15px;
+  padding: 7px 15px;
   border-radius: 18px;
   width: fit-content;
   background-color: var(--primary-color);
@@ -15,7 +15,6 @@ export const Button = styled.button`
   & * {
     color: #fff;
   }
-
   &:hover {
     background-color: #4eb7f5;
   }

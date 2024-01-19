@@ -5,7 +5,10 @@
     "register": "S'inscrire"
   },
   "commons": {
+    "a": "un",
+    "ae": "une",
     "create": "Créer",
+    "createWith": "Créer {type}",
     "cancel": "Annuler",
     "close": "Fermer",
     "back": "Retour",
@@ -23,7 +26,8 @@
     "value": "Valeur",
     "archive": "Archiver",
     "unArchive": "Désarchiver",
-    "archives": "Archives"
+    "archives": "Archives",
+    "color": "Couleur"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -45,6 +49,18 @@
     "resetPassword": "Réinitialiser le mot de passe",
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
     "messageSent": "Le lien vient de vous être envoyé"
+  },
+  "Category": {
+    "category": "Catégorie",
+    "addCategory": "Ajouter une catégorie",
+    "createCategory": "Créer une catégorie",
+    "editCategory": "Modifier une catégorie",
+    "deleteCategory": "Supprimer une categorie",
+    "selectCategory": "Sélectionner une categorie",
+    "deleteCategoryMessage": {
+      "title": "Voulez-vous supprimer cette catégorie ?",
+      "explanation": "Elle ne sera plus disponible"
+    }
   },
   "Dashboard": {
     "title": "Tableau de bord",
@@ -107,6 +123,7 @@
     "published": "Publier",
     "unPublished": "Dépublier",
     "withStock": "Stock",
+    "categories": "Catégories",
     "deleteSectionMessage": {
       "title": "Voulez-vous supprimer {section} ?",
       "explanation": "En supprimant la section vous perdrez accès à la donnée"

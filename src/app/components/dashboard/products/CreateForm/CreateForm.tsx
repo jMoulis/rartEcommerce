@@ -2,7 +2,7 @@
 
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { IProductService, ISection } from '@/src/types/DBTypes';
+import { ICategory, IProductService, ISection } from '@/src/types/DBTypes';
 import { ImageLoader } from './ImageLoader/ImageLoader';
 import {
   onCreateDocument,
@@ -274,8 +274,17 @@ export const CreateForm = ({ prevProduct }: Props) => {
       [name]: checked,
     }));
   };
+  const handleSelectCategory = (category: ICategory) => {
+    setForm((prev) => ({
+      ...prev,
+      categories: [...(prev.categories || []), category],
+    }));
+  };
   return (
-    <>
+    <div
+      style={{
+        overflow: 'auto',
+      }}>
       {saving || form.isArchived ? <LoadingBackdrop /> : null}
       <CreateFormHeader
         saving={saving}
@@ -285,17 +294,19 @@ export const CreateForm = ({ prevProduct }: Props) => {
         onDeleteProduct={handleDeleteProduct}
         onArchiveProduct={handleArchiveProduct}
         onPublishProduct={handlePublishProduct}
+        onProductNameChange={handleInputChange}
       />
-      <Flexbox
-        style={{
-          overflow: 'hidden',
-        }}>
+      <Flexbox>
         <Content>
+          <ProductDetailForm
+            form={form}
+            onInputChange={handleInputChange}
+            onDeleteCategory={setForm}
+          />
           <ImageLoader
             images={form.images ?? []}
             onSubmitImages={handleSubmitImages}
           />
-          <ProductDetailForm form={form} onInputChange={handleInputChange} />
           <PriceCard
             form={form}
             onInputChange={handleInputChange}
@@ -316,8 +327,8 @@ export const CreateForm = ({ prevProduct }: Props) => {
             />
           ))}
         </Content>
-        <Menu />
+        <Menu onSelectCategory={handleSelectCategory} />
       </Flexbox>
-    </>
+    </div>
   );
 };

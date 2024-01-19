@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
 import { useTranslations } from 'next-intl';
 import { IImageType } from './types';
-import { Button } from '@/src/app/components/commons/confirmation/Buttons/Button';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
 
 const Root = styled.div<{ selected: boolean }>`
   width: 160px;

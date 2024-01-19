@@ -50,6 +50,18 @@
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
     "messageSent": "Le lien vient de vous être envoyé"
   },
+  "Category": {
+    "category": "Catégorie",
+    "addCategory": "Ajouter une catégorie",
+    "createCategory": "Créer une catégorie",
+    "editCategory": "Modifier une catégorie",
+    "deleteCategory": "Supprimer une categorie",
+    "selectCategory": "Sélectionner une categorie",
+    "deleteCategoryMessage": {
+      "title": "Voulez-vous supprimer cette catégorie ?",
+      "explanation": "Elle ne sera plus disponible"
+    }
+  },
   "Dashboard": {
     "title": "Tableau de bord",
     "orders": "Commandes",

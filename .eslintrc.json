@@ -30,6 +30,7 @@
     "@typescript-eslint/no-confusing-void-expression": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
-    "no-console": "warn"
+    "no-console": "warn",
+    "@typescript-eslint/return-await": "off"
   }
 }

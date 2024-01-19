@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
-import { Button } from '@/src/app/components/commons/confirmation/Buttons/Button';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/pro-light-svg-icons';
 import { InputGroupCheckbox } from '@/src/app/components/commons/form/InputCheckbox';

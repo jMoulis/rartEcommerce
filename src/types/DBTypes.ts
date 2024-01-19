@@ -76,7 +76,7 @@ export interface IProductService {
   price: number;
   stockQuantity: number;
   withStock: boolean;
-  categories: string[];
+  categories: ICategory[];
 }
 
 export interface ILineItem {

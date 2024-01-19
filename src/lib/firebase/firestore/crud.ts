@@ -3,7 +3,7 @@
 import { onErrorMessage, onSuccessMessage } from '@/src/app/contexts/shared/response';
 import { ENUM_COLLECTIONS } from '../enums';
 import { db } from '../firebase';
-import { doc, setDoc, collection as firestoreCollection, getDoc, getDocs, deleteDoc, collection, onSnapshot, query } from 'firebase/firestore';
+import { doc, setDoc, collection as firestoreCollection, getDoc, getDocs, deleteDoc } from 'firebase/firestore';
 
 export const onCreateDocument = async (
   fields: Record<string, any>,

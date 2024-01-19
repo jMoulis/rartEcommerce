@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { FormEvent, useState } from 'react';
 import { useAuth } from '../../contexts/auth/hooks/useAuth';
 import { Confirmation } from './Confirmation';
-import { Button } from '../commons/confirmation/Buttons/Button';
+import { Button } from '../commons/Buttons/Button';
 import { InputGroup } from '../commons/form/InputGroup';
 
 const Form = emotionStyled.form``;

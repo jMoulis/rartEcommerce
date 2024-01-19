@@ -2,7 +2,7 @@ import { faSpinner } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
 import React from 'react';
-import { Button } from '../../../commons/confirmation/Buttons/Button';
+import { Button } from '../../../commons/Buttons/Button';
 
 interface Props {
   disabled: boolean;
@@ -13,7 +13,9 @@ export const SubmitButton = ({ disabled, saving, onClick }: Props) => {
   const t = useTranslations();
   return (
     <Button
-      className='button-save'
+      style={{
+        backgroundColor: 'var(--success-color)',
+      }}
       type='button'
       onClick={onClick}
       aria-disabled={disabled || saving}
