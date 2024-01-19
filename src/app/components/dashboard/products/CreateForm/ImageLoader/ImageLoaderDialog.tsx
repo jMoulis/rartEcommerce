@@ -3,13 +3,12 @@ import React, { ChangeEvent, useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslations } from 'next-intl';
 import { AddImageButtonInput } from './AddImageButtonInput';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/pro-light-svg-icons';
 import { useFirebaseStorage } from '@/src/app/contexts/storage/useFirebaseStorage';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { ProgressionUploadingFile } from './ProgressionUploadingFile';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
 import { IImageType } from './types';
+import { CloseModalButton } from '@/src/app/components/commons/Buttons/CloseModalButton';
 
 const Content = styled.div`
   margin: 50px;
@@ -62,9 +61,7 @@ export const ImageLoaderDialog = ({ open, onClose, onAddNewImages }: Props) => {
     <Dialog open={open} onClose={onClose} fullWidth maxWidth='xs'>
       <Header>
         <h2>{t('addImages' as any)}</h2>
-        <button type='button' onClick={onClose}>
-          <FontAwesomeIcon icon={faXmark} />
-        </button>
+        <CloseModalButton onClose={onClose} />
       </Header>
       <Content>
         <p

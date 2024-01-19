@@ -15,6 +15,7 @@ import { Selectbox } from '../../../commons/form/Selectbox';
 import { InputGroupCheckbox } from '../../../commons/form/InputCheckbox';
 import emotionStyled from '@emotion/styled';
 import { DeleteConfirmation } from '../../../commons/confirmation/DeleteConfirmation';
+import { Button } from '../../../commons/Buttons/Button';
 
 const Form = emotionStyled.form``;
 
@@ -47,8 +48,8 @@ export const AddAddressForm = ({
     {
       label: t('commons.delete'),
       callback: async () => {
-        if (!selectedAddress) return;
-        onDeleteAddress(selectedAddress.id);
+        if (!selectedAddress?._id) return;
+        onDeleteAddress(selectedAddress._id);
       },
     },
   ]);
@@ -93,7 +94,7 @@ export const AddAddressForm = ({
         label={t('AddressForm.default')}
         id='default'
         name='default'
-        value={form.default}
+        value={form.default ?? false}
         onInputChange={handleCheckDefault}
       />
       <InputGroup
@@ -155,16 +156,17 @@ export const AddAddressForm = ({
         value={form.country}
         onInputChange={handleInputChange}
       />
-      <button type='submit'>
+      <Button type='submit'>
         {selectedAddress ? t('commons.edit') : t('commons.create')}
-      </button>
+      </Button>
       <DeleteConfirmation
+        withLabel
         headerTitle={t('AddressForm.deleteAddress')}
         actions={actions.current}
       />
-      <button type='button' onClick={onCancel}>
+      <Button type='button' onClick={onCancel}>
         {t('commons.cancel')}
-      </button>
+      </Button>
     </Form>
   );
 };

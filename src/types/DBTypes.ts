@@ -36,31 +36,79 @@ export interface IStockItem {
 export interface IProductImage {
   url: string;
   name: string;
+  default?: boolean
 }
 export interface ISection {
   id: string;
   title: string;
-  archive?: boolean;
-  properties: IProperty[]
+  isArchived?: boolean;
+  properties: IProperty[];
+  published: boolean;
 }
-
-export interface IProperty {
+export interface IElement {
   id: string;
   label: string;
   technicalName: string;
   component: string;
   value?: string | number | boolean;
+
+}
+export interface IProperty {
+  id: string;
+  align?: 'row' | 'column';
+  elements: IElement[]
+}
+export interface ICategory {
+  _id?: string;
+  name: string;
+  color?: string;
+  templates: string[]
 }
 export interface IProductService {
-  id?: string;
+  _id?: string;
   name: string;
   description: string;
-  isActive: boolean;
-  isArchived?: boolean;
+  published: boolean;
+  isArchived: boolean;
   createdAt?: string;
   updatedAt?: string;
   images: IProductImage[];
-  sections: ISection[]
+  sections: ISection[];
+  price: number;
+  stockQuantity: number;
+  withStock: boolean;
+  categories: string[];
+  options: {
+    refIds: string[];
+    published: boolean;
+  }
+}
+export interface IProductServiceWithCategories {
+  _id?: string;
+  name: string;
+  description: string;
+  published: boolean;
+  isArchived: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  images: IProductImage[];
+  sections: ISection[];
+  price: number;
+  stockQuantity: number;
+  withStock: boolean;
+  options: {
+    refIds: string[];
+    published: boolean;
+  }
+  categories: ICategory[]
+}
+export interface ITemplate {
+  _id?: string;
+  title: string;
+  createdAt?: string;
+  updatedAt?: string;
+  sections: ISection[];
+  categories: string[];
 }
 
 export interface ILineItem {
@@ -189,7 +237,7 @@ export interface IInteraction {
 }
 
 export interface IAddress {
-  id: string;
+  _id?: string;
   name: string;
   type: 'billing' | 'shipping';
   streetNumber: string;

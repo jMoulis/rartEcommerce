@@ -5,7 +5,10 @@
     "register": "S'inscrire"
   },
   "commons": {
+    "a": "un",
+    "ae": "une",
     "create": "Créer",
+    "createWith": "Créer {type}",
     "cancel": "Annuler",
     "close": "Fermer",
     "back": "Retour",
@@ -22,7 +25,11 @@
     "label": "Libéllé",
     "value": "Valeur",
     "archive": "Archiver",
-    "archives": "Archives"
+    "unArchive": "Désarchiver",
+    "archives": "Archives",
+    "color": "Couleur",
+    "name": "Nom",
+    "title": "Titre"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -45,6 +52,18 @@
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
     "messageSent": "Le lien vient de vous être envoyé"
   },
+  "Category": {
+    "category": "Catégorie",
+    "addCategory": "Ajouter une catégorie",
+    "createCategory": "Créer une catégorie",
+    "editCategory": "Modifier une catégorie",
+    "deleteCategory": "Supprimer une categorie",
+    "selectCategory": "Sélectionner une categorie",
+    "deleteCategoryMessage": {
+      "title": "Voulez-vous supprimer cette catégorie ?",
+      "explanation": "Elle ne sera plus disponible"
+    }
+  },
   "Dashboard": {
     "title": "Tableau de bord",
     "orders": "Commandes",
@@ -63,7 +82,8 @@
     "financial": "Finances",
     "estimates": "Devis",
     "billings": "Factures",
-    "subscriptions": "Abonnements"
+    "subscriptions": "Abonnements",
+    "templates": "Modèles"
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -97,19 +117,37 @@
     "addToProduct": "Ajouter à l'article",
     "default": "Défault",
     "productDetail": "Détails de l'article",
-    "options": "Options",
+    "options": "Déclinaisons",
+    "addOption": "Ajouter une déclinaison",
     "properties": "Propriétés",
     "addProperty": "Ajouter une propriété",
-    "addSection": "Ajouter une section",
-    "newSection": "Nouvelle section",
+    "addSection": "Ajouter une rubrique",
+    "newSection": "Nouvelle rubrique",
+    "saveAsTemplate": "Sauvegarder model",
+    "published": "Publier",
+    "unPublished": "Dépublier",
+    "withStock": "Stock",
+    "categories": "Catégories",
     "deleteSectionMessage": {
       "title": "Voulez-vous supprimer {section} ?",
-      "explanation": "En supprimant la section vous perdrez accès à la donnée"
+      "explanation": "En supprimant la rubrique vous perdrez accès à la donnée"
+    },
+    "deleteProductMessage": {
+      "title": "Voulez-vous supprimer {product} ?",
+      "explanation": "En supprimant le produit vous perdrez accès à la donnée"
     }
   },
   "PropertyForm": {
     "component": "Type de champs",
-    "color": "Couleur"
+    "color": "Couleur",
+    "addField": "Ajouter un champs",
+    "editProperty": "Modifier la propriété",
+    "addProperty": "Ajouter la propriété",
+    "deleteProperty": "Supprimer une propriété",
+    "deletePropertyMessage": {
+      "title": "Voulez-vous supprimer cette propriété ?",
+      "explanation": "En supprimant le propriété vous perdrez accès à la donnée"
+    }
   },
   "ProfileForm": {
     "firstname": "Prénom",
@@ -118,7 +156,14 @@
     "password": "Mot de passe",
     "avatar": "Photo de profile"
   },
-
+  "Template": {
+    "template": "Modèle",
+    "addTemplate": "Ajouter un modèle",
+    "deleteTemplate": "Supprimer un modèle",
+    "createTemplate": "Créer un modèle",
+    "editTemplate": "Modifier un modèle",
+    "newTemplate": "Nouveau modèle"
+  },
   "ApiSuccess": {
     "edit-user-address": "Addresse ajouté",
     "setSessionCookie": "Cookie enregistrer",

@@ -6,6 +6,7 @@ import React, { FormEvent } from 'react';
 import { useToggle } from '../../hooks/useToggle';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import { Button } from '../../commons/Buttons/Button';
 
 const Form = emotionStyled.form`
   display: flex;
@@ -54,7 +55,7 @@ export const ChangeEmailForm = ({ email, onChangeEmailValue }: Props) => {
           onChange={(event) => onChangeEmailValue(event.currentTarget.value)}
         />
       </label>
-      <button onClick={onOpen}>Change email</button>
+      <Button onClick={onOpen}>Change email</Button>
       <Dialog open={open}>
         <Form onSubmit={handleReauthSuccess}>
           <label htmlFor='avatar'>
@@ -65,7 +66,7 @@ export const ChangeEmailForm = ({ email, onChangeEmailValue }: Props) => {
             Password
             <input id='auth-password' type='password' name='password' />
           </label>
-          <button type='submit'>Reauth</button>
+          <Button type='submit'>Reauth</Button>
         </Form>
       </Dialog>{' '}
     </>

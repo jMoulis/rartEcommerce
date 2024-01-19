@@ -22,7 +22,7 @@ interface SignEmailPasswordType {
 interface RegisterProps {
   email: string
   password: string
-};
+}
 
 export const useAuth = () => {
   const t = useTranslations();
@@ -89,7 +89,6 @@ export const useAuth = () => {
       const userCredentials = await signInWithPopup(rootAuth, provider);
       await onUpdateUser(userCredentials.user);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      console.info('SignIn', responsePayload);
       return onSuccessMessage(responsePayload.code, userCredentials);
     } catch (error: any) {
       return onErrorMessage(error, t);

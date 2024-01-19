@@ -2,6 +2,7 @@
 import React from 'react';
 import { ENUM_AUTH_FORM_VARIANT } from '../../auth/enums';
 import { useTranslations } from 'next-intl';
+import { Button } from '../../commons/Buttons/Button';
 
 interface Props {
   onClick: (variant: ENUM_AUTH_FORM_VARIANT) => void;
@@ -14,14 +15,14 @@ export const AuthMenu = ({ onClick }: Props) => {
     <nav>
       <ul>
         <li>
-          <button onClick={() => onClick(ENUM_AUTH_FORM_VARIANT.SIGNIN)}>
+          <Button onClick={() => onClick(ENUM_AUTH_FORM_VARIANT.SIGNIN)}>
             {t('authCommons.signIn')}
-          </button>
+          </Button>
         </li>
         <li>
-          <button onClick={() => onClick(ENUM_AUTH_FORM_VARIANT.REGISTER)}>
+          <Button onClick={() => onClick(ENUM_AUTH_FORM_VARIANT.REGISTER)}>
             {t('authCommons.register')}
-          </button>
+          </Button>
         </li>
       </ul>
     </nav>

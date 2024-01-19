@@ -1,30 +1,19 @@
 import { IProperty } from '@/src/types/DBTypes';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { InputGroup } from '@/src/app/components/commons/form/InputGroup';
 import { useTranslations } from 'next-intl';
-import { Selectbox } from '@/src/app/components/commons/form/Selectbox';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
-import { defaultProperty } from '../../defaultData';
-
-const options = [
-  {
-    label: 'Selectionner',
-    value: '',
-  },
-  {
-    label: 'Champs texte',
-    value: 'INPUT',
-  },
-  {
-    label: 'Champs numérique',
-    value: 'NUMERIC',
-  },
-  {
-    label: 'Long texte',
-    value: 'TEXTAREA',
-  },
-];
+import { defaultElement, defaultProperty } from '../../defaultData';
+import { ElementForm } from './ElementForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faDistributeSpacingHorizontal,
+  faDistributeSpacingVertical,
+} from '@fortawesome/pro-light-svg-icons';
+import { AlignButton } from './AlignButton';
+import { RoundedButtonWrapper } from './RoundedButtonWrapper';
+import { DeleteConfirmation } from '@/src/app/components/commons/confirmation/DeleteConfirmation';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
 
 const parseTechnicalName = (label: string) => {
   return label
@@ -37,23 +26,60 @@ const parseTechnicalName = (label: string) => {
     )
     .join('');
 };
-const Root = styled.form``;
+
+const ElementList = styled.ul`
+  margin-top: 20px;
+  overflow: auto;
+  max-height: calc(50vh - 80px);
+`;
 
 interface Props {
   onSubmit: (property: IProperty) => void;
+  onEditSubmit: (property: IProperty) => void;
+  onDeleteProperty: (propertyId: string) => void;
   property?: IProperty;
   onClose: VoidFunction;
+  editProperty: IProperty | null;
 }
 
-export const AddPropertyForm = ({ onSubmit, onClose }: Props) => {
+export const AddPropertyForm = ({
+  onSubmit,
+  onClose,
+  editProperty,
+  onEditSubmit,
+  onDeleteProperty,
+}: Props) => {
   const defaultProp = defaultProperty();
   const tCommons = useTranslations('commons');
   const tProperty = useTranslations('PropertyForm');
-  const tProduct = useTranslations('ProductForm');
   const [property, setProperty] = useState<IProperty>(defaultProp);
 
+  const actions = useRef([
+    {
+      label: tCommons('delete'),
+      className: 'button button-delete',
+      callback: async () => {
+        if (!editProperty) return;
+        onClose();
+        onDeleteProperty(editProperty.id);
+      },
+    },
+  ]);
+  useEffect(() => {
+    if (editProperty) {
+      setProperty(editProperty);
+    } else {
+      setProperty(defaultProp);
+    }
+  }, [editProperty]);
+
   const handleSubmit = () => {
-    onSubmit(property);
+    if (editProperty) {
+      onEditSubmit(property);
+    } else {
+      onSubmit(property);
+    }
+    onClose();
   };
   const handleCancel = () => {
     setProperty(defaultProp);
@@ -61,60 +87,102 @@ export const AddPropertyForm = ({ onSubmit, onClose }: Props) => {
   };
 
   const handleInputChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    elementId: string
   ) => {
     const { name, value } = event.currentTarget;
     setProperty((prev) => ({
       ...prev,
-      [name]: value,
+      elements: prev.elements.map((prevElement) =>
+        prevElement.id === elementId
+          ? { ...prevElement, [name]: value }
+          : prevElement
+      ),
     }));
   };
 
-  const handleBlur = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleBlur = (
+    event: ChangeEvent<HTMLInputElement>,
+    elementId: string
+  ) => {
     const technicalName = parseTechnicalName(event.currentTarget.value);
     setProperty((prev) => ({
       ...prev,
-      technicalName,
+      elements: prev.elements.map((prevElement) =>
+        prevElement.id === elementId
+          ? { ...prevElement, technicalName }
+          : prevElement
+      ),
     }));
   };
-
+  const handleAddElement = () => {
+    const newElement = defaultElement();
+    setProperty((prev) => ({
+      ...prev,
+      elements: [...prev.elements, newElement],
+    }));
+  };
+  const handleSwitchAlign = (align: 'row' | 'column') => {
+    setProperty((prev) => ({
+      ...prev,
+      align,
+    }));
+  };
   return (
     <>
-      <Root>
-        <InputGroup
-          id='label'
-          name='label'
-          label={tCommons('label')}
-          onInputChange={handleInputChange}
-          value={property.label}
-          onBlur={handleBlur}
-        />
-        <InputGroup
-          id='technicalName'
-          name='technicalName'
-          label={tProduct('name')}
-          onInputChange={handleInputChange}
-          value={property.technicalName}
-        />
-        <Selectbox
-          id='component'
-          name='component'
-          label={tProperty('component')}
-          options={options}
-          onSelectOption={handleInputChange}
-          value={property.component}
-        />
-      </Root>
-      <Flexbox justifyContent='flex-end'>
-        <button type='button' className='button' onClick={handleSubmit}>
-          {tProduct('addProperty')}
-        </button>
-        <button
-          type='button'
-          className='button button-cancel'
-          onClick={handleCancel}>
+      <Flexbox flexDirection='column' flex='1'>
+        <Flexbox>
+          <Button type='button' onClick={handleAddElement}>
+            {tProperty('addField')}
+          </Button>
+          <RoundedButtonWrapper>
+            <AlignButton
+              type='button'
+              selected={property.align === 'row'}
+              onClick={() => handleSwitchAlign('row')}>
+              <FontAwesomeIcon icon={faDistributeSpacingVertical} />
+            </AlignButton>
+            <AlignButton
+              type='button'
+              selected={property.align === 'column'}
+              onClick={() => handleSwitchAlign('column')}>
+              <FontAwesomeIcon icon={faDistributeSpacingHorizontal} />
+            </AlignButton>
+          </RoundedButtonWrapper>
+        </Flexbox>
+        <ElementList>
+          {property.elements.map((element, key) => (
+            <li key={key}>
+              <ElementForm
+                element={element}
+                onBlur={(event) => handleBlur(event, element.id)}
+                onInputChange={(event) => handleInputChange(event, element.id)}
+              />
+            </li>
+          ))}
+        </ElementList>
+      </Flexbox>
+
+      <Flexbox
+        justifyContent='flex-end'
+        style={{
+          padding: '10px',
+        }}>
+        <Button type='button' onClick={handleSubmit}>
+          {tCommons(editProperty ? 'edit' : 'create')}
+        </Button>
+        {editProperty ? (
+          <DeleteConfirmation
+            withLabel
+            headerTitle={tProperty('deleteProperty')}
+            actions={actions.current}>
+            <p>{tProperty('deletePropertyMessage.title')}</p>
+            <p>{tProperty('deletePropertyMessage.explanation')}</p>
+          </DeleteConfirmation>
+        ) : null}
+        <Button type='button' className=' button-cancel' onClick={handleCancel}>
           {tCommons('cancel')}
-        </button>
+        </Button>
       </Flexbox>
     </>
   );

@@ -13,6 +13,7 @@ interface Props {
   defaultValue?: string;
   style?: React.CSSProperties;
   onBlur?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  className?: string;
 }
 
 export const TextareaGroup = ({
@@ -24,9 +25,10 @@ export const TextareaGroup = ({
   defaultValue,
   style,
   onBlur,
+  className,
 }: Props) => {
   return (
-    <Label htmlFor={id} className='input-group'>
+    <Label htmlFor={id} className={`input-group ${className ?? ''}`}>
       <span className='input-label'>{label}</span>
       <Textarea
         style={style}

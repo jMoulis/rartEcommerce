@@ -4,6 +4,7 @@ import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Button } from '@mui/material';
 
 interface Props {
   onClose: () => void;
@@ -42,7 +43,7 @@ export const LinksMenu = ({ onClose }: Props) => {
           </Link>
         </li>
         <li>
-          <button onClick={handleSignOut}>{t('authCommons.signOut')}</button>
+          <Button onClick={handleSignOut}>{t('authCommons.signOut')}</Button>
         </li>
       </ul>
     </nav>

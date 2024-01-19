@@ -8,6 +8,7 @@ interface Props {
   name: string;
   value?: string;
   label: string;
+  className?: string;
 }
 
 export const Selectbox = ({
@@ -17,9 +18,10 @@ export const Selectbox = ({
   name,
   value,
   label,
+  className,
 }: Props) => {
   return (
-    <Label htmlFor={id} className='input-group'>
+    <Label htmlFor={id} className={`input-group ${className ?? ''}`}>
       <span className='input-label'>{label}</span>
       <select id={id} name={name} value={value} onChange={onSelectOption}>
         {options.map((option, key) => (

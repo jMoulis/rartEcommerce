@@ -1,10 +1,19 @@
 :root {
-  --default-font-color: #20455E;
-  --header-font-color: #162D3D;
-  --background-section-color: #f0f4f7;
-  --card-header-border-color: #dfe5eb;
-  --input-border-color: #c1e4fe;
-  --input-background-color-hover: #eaf7ff;
+  --default-font-color: rgb(32, 69, 94);
+  --header-font-color: rgb(22, 45, 61);
+  --background-section-color: rgb(240, 244, 247);
+  --card-header-border-color: rgb(223, 229, 235);
+  --input-border-color: rgb(193, 228, 254);
+  --input-background-color-hover: rgb(234, 247, 255);
+  --primary-color: rgb(56, 153, 236);
+  --success-color: rgba(11, 175, 11, 0.7);
+  --error-color: rgba(255, 0, 0, 0.5);
+  --purple-color: rgb(75, 57, 237);
+  --green-blue-color: rgb(57, 237, 205);
+  --disabled-color: rgba(0, 0, 0, 0.3);
+  --button-ellipsis-color: rgba(0, 0, 0, 0.8);
+  --cancel-color: rgba(0, 0, 0, 0.5);
+  --disable-block-color: rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -204,10 +213,6 @@ select:hover {
 
 }
 
-.input-group {
-  margin-bottom: 15px;
-}
-
 .input-label {
   margin-bottom: 5px;
   font-weight: 400;
@@ -224,7 +229,7 @@ select:hover {
   display: flex;
   flex-direction: column;
   background-color: var(--background-section-color);
-  overflow: auto;
+  overflow: hidden;
 }
 
 @media (prefers-color-scheme: dark) {}

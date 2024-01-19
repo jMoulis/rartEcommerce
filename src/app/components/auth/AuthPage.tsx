@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { ForgetPassword } from './ForgetPassword';
 import { AuthForm } from './register/AuthForm';
 import SignIn from './sign-in/SignIn';
+import { Button } from '../commons/Buttons/Button';
 
 interface Props {
   onSuccess?: () => void;
@@ -33,9 +34,9 @@ export const AuthPage = ({ onSuccess, variant }: Props) => {
             onForgetMenu={setForgotMenu}
           />
           <SignIn onSuccess={onSuccess} />
-          <button type='button' onClick={() => setForgotMenu(true)}>
+          <Button type='button' onClick={() => setForgotMenu(true)}>
             {t('Authform.resetPassword')}
-          </button>
+          </Button>
         </>
       )}
     </>

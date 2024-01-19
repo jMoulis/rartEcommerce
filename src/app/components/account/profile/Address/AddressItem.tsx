@@ -3,10 +3,11 @@
 import { IAddress } from '@/src/types/DBTypes';
 import { useTranslations } from 'next-intl';
 import React from 'react';
+import { Button } from '../../../commons/Buttons/Button';
 
 interface Props {
   address: IAddress;
-  onSelectAddress: (addressId: string) => void;
+  onSelectAddress: (addressId?: string) => void;
 }
 
 export const AddressItem = ({ address, onSelectAddress }: Props) => {
@@ -49,9 +50,9 @@ export const AddressItem = ({ address, onSelectAddress }: Props) => {
           {address.type}
         </p>
       </address>
-      <button type='button' onClick={() => onSelectAddress(address.id)}>
+      <Button type='button' onClick={() => onSelectAddress(address._id)}>
         {tCommons('edit')}
-      </button>
+      </Button>
     </>
   );
 };

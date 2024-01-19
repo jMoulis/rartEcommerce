@@ -11,6 +11,12 @@ interface Props {
   value?: string | number;
   defaultValue?: string | number;
   type?: string;
+  className?: string;
+  styling?: {
+    root?: React.CSSProperties;
+    label?: React.CSSProperties;
+    input?: React.CSSProperties;
+  };
 }
 
 export const InputGroup = ({
@@ -22,11 +28,19 @@ export const InputGroup = ({
   defaultValue,
   type,
   onBlur,
+  className,
+  styling,
 }: Props) => {
   return (
-    <Label htmlFor={id} className='input-group'>
-      <span className='input-label'>{label}</span>
+    <Label
+      style={styling?.root}
+      htmlFor={id}
+      className={`input-group ${className ?? ''}`}>
+      <span style={styling?.label} className='input-label'>
+        {label}
+      </span>
       <Input
+        style={styling?.input}
         type={type}
         id={id}
         name={name}

@@ -2,10 +2,10 @@ import { Dialog } from '@mui/material';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslations } from 'next-intl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/pro-light-svg-icons';
 import { Gallery } from './Gallery';
 import { IImageType } from './types';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
+import { CloseModalButton } from '@/src/app/components/commons/Buttons/CloseModalButton';
 
 const Content = styled.div`
   display: flex;
@@ -62,9 +62,7 @@ export const GalleryDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth='lg'>
       <Header>
         <h2>{tCommons('selectImages')}</h2>
-        <button type='button' onClick={onClose}>
-          <FontAwesomeIcon icon={faXmark} />
-        </button>
+        <CloseModalButton onClose={onClose} />
       </Header>
       <Content>
         <Gallery
@@ -74,13 +72,12 @@ export const GalleryDialog = ({
         />
       </Content>
       <Footer>
-        <button
+        <Button
           type='button'
-          className='button'
           onClick={handleSubmit}
           disabled={!selectedImages.length}>
           {tProduct('addToProduct' as any)}
-        </button>
+        </Button>
       </Footer>
     </Dialog>
   );

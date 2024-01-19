@@ -1,6 +1,8 @@
 import emotionStyled from '@emotion/styled';
 import { DialogFooter as RootFooter } from '../dialog/DialogFooter';
 import { IAction } from './types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from '../Buttons/Button';
 
 const Root = emotionStyled(RootFooter)``;
 
@@ -20,13 +22,14 @@ export const DialogFooter = ({ actions, onClose }: Props) => {
   return (
     <Root>
       {actions.map((action, key) => (
-        <button
+        <Button
           key={key}
           type='button'
-          className={action.className}
+          style={action.style}
           onClick={(event) => handleClick(event, action.callback)}>
+          {action.icon ? <FontAwesomeIcon icon={action.icon} /> : null}
           {action.label}
-        </button>
+        </Button>
       ))}
     </Root>
   );

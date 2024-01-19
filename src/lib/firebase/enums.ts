@@ -1,5 +1,7 @@
 export enum ENUM_COLLECTIONS {
   PROFILES = 'profiles',
   PRODUCTS = 'products',
-  MEDIAS = 'medias'
+  MEDIAS = 'medias',
+  CATEGORIES = 'categories',
+  TEMPLATES = 'templates',
 }

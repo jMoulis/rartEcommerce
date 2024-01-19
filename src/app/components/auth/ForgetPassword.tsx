@@ -5,6 +5,8 @@ import { useTranslations } from 'next-intl';
 import { FormEvent, useState } from 'react';
 import { useAuth } from '../../contexts/auth/hooks/useAuth';
 import { Confirmation } from './Confirmation';
+import { Button } from '../commons/Buttons/Button';
+import { InputGroup } from '../commons/form/InputGroup';
 
 const Form = emotionStyled.form``;
 
@@ -41,15 +43,16 @@ export const ForgetPassword = ({ onForgetMenu, onCloseAll }: Props) => {
       ) : (
         <>
           <Form onSubmit={handleSubmit}>
-            <label htmlFor='email-forgot'>
-              <span>{t('Authform.email')}</span>
-              <input id='email-forgot' />
-            </label>
-            <button type='submit'>{t('Authform.sendResetPasswordLink')}</button>
+            <InputGroup
+              label={t('Authform.email')}
+              id='email-forget'
+              name='email-forgot'
+            />
+            <Button type='submit'>{t('Authform.sendResetPasswordLink')}</Button>
           </Form>
-          <button type='button' onClick={() => onForgetMenu(false)}>
+          <Button type='button' onClick={() => onForgetMenu(false)}>
             {t('authCommons.signIn')}
-          </button>
+          </Button>
         </>
       )}
     </>

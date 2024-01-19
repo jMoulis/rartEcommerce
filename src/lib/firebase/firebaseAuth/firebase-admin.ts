@@ -56,6 +56,7 @@ const getAuthProfile = async (uid: string) => {
       return null;
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching profile: ', error);
     throw error;
   }

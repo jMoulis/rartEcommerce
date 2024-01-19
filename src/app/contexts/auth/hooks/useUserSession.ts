@@ -32,7 +32,7 @@ export const useUserSession: any = (initialUser: { user: User, profile: UserProf
       if (user === undefined) {
         authDispatch(onSigninAction(null));
         return;
-      };
+      }
       if (user?.email !== authUser?.email) {
         router.refresh();
         authDispatch(onSigninAction(null));
