@@ -1,6 +1,6 @@
 'use client';
 
-import { ITemplate, UserProfile } from '@/src/types/DBTypes';
+import { ITemplate } from '@/src/types/DBTypes';
 import {
   Header,
   createColumnHelper,
@@ -21,7 +21,6 @@ export const Templates = ({ templates }: Props) => {
   const tCommons = useTranslations('commons');
   const data: ITemplate[] = useMemo(() => templates ?? [], []);
 
-  console.log(data);
   const columnHelper = createColumnHelper<ITemplate>() as any;
 
   const columns = [
