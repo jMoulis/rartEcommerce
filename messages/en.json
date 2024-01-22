@@ -29,9 +29,15 @@
     "archives": "Archives",
     "color": "Couleur",
     "name": "Nom",
-    "title": "Titre"
+    "title": "Titre",
+    "description": "Description",
+    "priceModality": "Prix et modalités",
+    "price": "Prix",
+    "file": "Fichier",
+    "image": "Image"
   },
   "AddressForm": {
+    "addresses": "Adresses",
     "name": "Libellé",
     "route": "Addresse",
     "streetNumber": "Numéro",
@@ -43,7 +49,10 @@
     "shipping": "Livraison",
     "billing": "Facturation",
     "postalCode": "Code postal",
-    "deleteAddress": "Supprimer une adresse"
+    "deleteAddress": "Supprimer une adresse",
+    "newAddress": "Nouvelle adresse",
+    "createAddress": "Créer une addresse",
+    "selectAddress": "Choisir une adresse"
   },
   "Authform": {
     "email": "E-Mail",
@@ -51,6 +60,36 @@
     "resetPassword": "Réinitialiser le mot de passe",
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
     "messageSent": "Le lien vient de vous être envoyé"
+  },
+  "Booking": {
+    "bookings": "Réservations",
+    "booking": "Réservation",
+    "title": "Titre",
+    "location": "Lieu",
+    "locations": "Lieux",
+    "serviceLoaction": "Lieu du service",
+    "excerpt": "Phrase de présentation",
+    "createBooking": "Créer une réservation",
+    "editBooking": "Modifier une réservation",
+    "deleteBooking": "Supprimer une réservation",
+    "selectBooking": "Choise une réservation",
+    "category": "{type, select, course {Cours} workshop {Atelier} other {Unknown}}",
+    "maxParticipants": "Max. de Participants",
+    "currentParticipants": "Participants",
+    "status": "Status",
+    "session": "Séance",
+    "subscription": "Abonnement",
+    "subscriptions": "Abonnements",
+    "sessions": "Séances",
+    "prefrences": "Préférences",
+    "recurrence": "Répétition",
+    "serviceDetailTitle": "Détail du service",
+    "pricePayment": "Prix et paiement",
+    "serviceType": "Type de service",
+    "paymentPreference": "Préférences de paiement",
+    "paymentPreferenceSelect": "{type, select, online {En ligne} person {En personne} other {Unknown}}",
+    "paymentType": "{type, select, session {Par scéance} subscription {Avec abonnement} other {Unknown}}",
+    "selectPaymentType": "Choisissez comment les clients peuvent payer ce service"
   },
   "Category": {
     "category": "Catégorie",
@@ -63,6 +102,10 @@
       "title": "Voulez-vous supprimer cette catégorie ?",
       "explanation": "Elle ne sera plus disponible"
     }
+  },
+  "Course": {
+    "title": "Titre",
+    "courses": "Cours"
   },
   "Dashboard": {
     "title": "Tableau de bord",
@@ -154,7 +197,40 @@
     "lastname": "Nom",
     "email": "E-Mail",
     "password": "Mot de passe",
-    "avatar": "Photo de profile"
+    "avatar": "Photo de profile",
+    "connect": "Connexion",
+    "editEmail": "Edit email"
+  },
+  "Service": {
+    "bookings": "Réservations"
+  },
+  "Session": {
+    "addSession": "Ajouter une session",
+    "newSession": "Nouvelle session",
+    "createSession": "Créer une session",
+    "editSession": "Modifier une session",
+    "deleteSession": "Supprimer une session",
+    "start": "Début",
+    "end": "Fin",
+    "until": "Jusqu'à",
+    "duration": "Duration",
+    "repetition": {
+      "label": "Répétition",
+      "frequency": "{frequency, select, daily {Quotidien} weekly {Hébdomadaire} monthly {Mensuel} yearly {Annuel} other {Unknown}}"
+    },
+    "generatedDates": "{count, plural, =0 {Aucune date générée} =1 {Date générée} other {Dates générées}}",
+    "generate": "Générer"
+  },
+  "Subscription": {
+    "addSubscription": "Ajouter un abonnement",
+    "newSubscription": "Nouvel abonnement",
+    "monthly": "Mensuel",
+    "annualy": "Annuel",
+    "weekly": "Hébdomadaire",
+    "createSubscription": "Créer un abonnement",
+    "paymentPeriodLabel": "Période de paiement",
+    "paymentPeriod": "{paymentPeriod, select, weekly {Hébdomadaire} monthly {Mensuel} annualy {Annuel} other {Unknown}}",
+    "subscriptionDetail": "Détails de l'abonnement"
   },
   "Template": {
     "template": "Modèle",
@@ -162,7 +238,8 @@
     "deleteTemplate": "Supprimer un modèle",
     "createTemplate": "Créer un modèle",
     "editTemplate": "Modifier un modèle",
-    "newTemplate": "Nouveau modèle"
+    "newTemplate": "Nouveau modèle",
+    "templates": "Modèles"
   },
   "ApiSuccess": {
     "edit-user-address": "Addresse ajouté",

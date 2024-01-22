@@ -1,16 +1,11 @@
 'use client';
 
 import { ITemplate } from '@/src/types/DBTypes';
-import {
-  Header,
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { FinderLayoutPage } from '../../commons/Layouts/FinderLayoutPage';
 
 interface Props {
   templates: ITemplate[];
@@ -23,7 +18,7 @@ export const Templates = ({ templates }: Props) => {
 
   const columnHelper = createColumnHelper<ITemplate>() as any;
 
-  const columns = [
+  const columns: Array<ColumnDef<any, any>> = [
     columnHelper.accessor((row: any) => row.id, {
       id: 'id',
       header: () => <span />,
@@ -40,48 +35,16 @@ export const Templates = ({ templates }: Props) => {
       },
     }),
   ];
-  const table = useReactTable({
-    columns,
-    data,
-    state: {
-      columnVisibility: {
-        id: false,
-      },
-    },
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  const renderHeader = useCallback((header: Header<ITemplate, unknown>) => {
-    if (header.isPlaceholder) return null;
-    return flexRender(header.column.columnDef.header, header.getContext());
-  }, []);
 
   return (
-    <div>
-      Templates
-      <Link href='/dashboard/templates/create'>{t('createTemplate')}</Link>
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <th key={header.id}>{renderHeader(header)}</th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <FinderLayoutPage
+      columns={columns}
+      data={data}
+      sectionTitle={t('templates')}
+      createLink={{
+        href: '/dashboard/templates/create',
+        label: t('templates'),
+      }}
+    />
   );
 };

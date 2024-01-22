@@ -13,11 +13,17 @@ import { useTranslations } from 'next-intl';
 import { v4 } from 'uuid';
 import { Selectbox } from '../../../commons/form/Selectbox';
 import { InputGroupCheckbox } from '../../../commons/form/InputCheckbox';
-import emotionStyled from '@emotion/styled';
+import styled from '@emotion/styled';
 import { DeleteConfirmation } from '../../../commons/confirmation/DeleteConfirmation';
 import { Button } from '../../../commons/Buttons/Button';
+import { Flexbox } from '../../../commons/Flexbox';
+import { CancelButton } from '../../../commons/Buttons/CancelButton';
 
-const Form = emotionStyled.form``;
+const Form = styled.form`
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+`;
 
 const defaultAddress = {
   id: v4(),
@@ -36,12 +42,16 @@ interface Props {
   selectedAddress: IAddress | null;
   onDeleteAddress: (addressId: string) => void;
   onCancel: () => void;
+  noType?: boolean;
+  noDefault?: boolean;
 }
 export const AddAddressForm = ({
   selectedAddress,
   onUpsertAddress,
   onDeleteAddress,
   onCancel,
+  noType,
+  noDefault,
 }: Props) => {
   const t = useTranslations();
   const actions = useRef([
@@ -90,13 +100,15 @@ export const AddAddressForm = ({
 
   return (
     <Form onSubmit={handleSubmit}>
-      <InputGroupCheckbox
-        label={t('AddressForm.default')}
-        id='default'
-        name='default'
-        value={form.default ?? false}
-        onInputChange={handleCheckDefault}
-      />
+      {noDefault ? null : (
+        <InputGroupCheckbox
+          label={t('AddressForm.default')}
+          id='default'
+          name='default'
+          value={form.default ?? false}
+          onInputChange={handleCheckDefault}
+        />
+      )}
       <InputGroup
         label={t('AddressForm.name')}
         id='name'
@@ -104,23 +116,25 @@ export const AddAddressForm = ({
         value={form.name}
         onInputChange={handleInputChange}
       />
-      <Selectbox
-        label={t('AddressForm.addressType')}
-        id='type'
-        name='type'
-        value={form.type}
-        onSelectOption={handleInputChange}
-        options={[
-          {
-            label: t('AddressForm.type', { type: 'shipping' }),
-            value: 'shipping',
-          },
-          {
-            label: t('AddressForm.type', { type: 'billing' }),
-            value: 'billing',
-          },
-        ]}
-      />
+      {noType ? null : (
+        <Selectbox
+          label={t('AddressForm.addressType')}
+          id='type'
+          name='type'
+          value={form.type}
+          onSelectOption={handleInputChange}
+          options={[
+            {
+              label: t('AddressForm.type', { type: 'shipping' }),
+              value: 'shipping',
+            },
+            {
+              label: t('AddressForm.type', { type: 'billing' }),
+              value: 'billing',
+            },
+          ]}
+        />
+      )}
       <InputGroup
         label={t('AddressForm.streetNumber')}
         id='streetNumber'
@@ -156,17 +170,19 @@ export const AddAddressForm = ({
         value={form.country}
         onInputChange={handleInputChange}
       />
-      <Button type='submit'>
-        {selectedAddress ? t('commons.edit') : t('commons.create')}
-      </Button>
-      <DeleteConfirmation
-        withLabel
-        headerTitle={t('AddressForm.deleteAddress')}
-        actions={actions.current}
-      />
-      <Button type='button' onClick={onCancel}>
-        {t('commons.cancel')}
-      </Button>
+      <Flexbox justifyContent='flex-end'>
+        <Button type='submit'>
+          {selectedAddress ? t('commons.edit') : t('commons.create')}
+        </Button>
+        <DeleteConfirmation
+          withLabel
+          headerTitle={t('AddressForm.deleteAddress')}
+          actions={actions.current}
+        />
+        <CancelButton type='button' onClick={onCancel}>
+          {t('commons.cancel')}
+        </CancelButton>
+      </Flexbox>
     </Form>
   );
 };

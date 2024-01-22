@@ -3,7 +3,7 @@ import { Label } from './Label';
 import { Switch } from '@mui/material';
 
 interface Props {
-  label: string;
+  label?: string;
   onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   id: string;
@@ -31,13 +31,15 @@ export const SwitchGroup = ({
         alignItems: 'center',
         marginBottom: 0,
       }}>
-      <span
-        className='input-label'
-        style={{
-          margin: 0,
-        }}>
-        {label}
-      </span>
+      {label ? (
+        <span
+          className='input-label'
+          style={{
+            margin: 0,
+          }}>
+          {label}
+        </span>
+      ) : null}
       <Switch
         name={name}
         disabled={disabled}

@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { CSSProperties, ChangeEvent } from 'react';
 import { Label } from './Label';
 
 interface Props {
@@ -7,8 +7,13 @@ interface Props {
   id: string;
   name: string;
   value?: string;
-  label: string;
+  label?: string;
   className?: string;
+  styling?: {
+    root?: CSSProperties;
+    label?: CSSProperties;
+    select?: CSSProperties;
+  };
 }
 
 export const Selectbox = ({
@@ -19,11 +24,24 @@ export const Selectbox = ({
   value,
   label,
   className,
+  styling,
 }: Props) => {
   return (
-    <Label htmlFor={id} className={`input-group ${className ?? ''}`}>
-      <span className='input-label'>{label}</span>
-      <select id={id} name={name} value={value} onChange={onSelectOption}>
+    <Label
+      style={styling?.root}
+      htmlFor={id}
+      className={`input-group ${className ?? ''}`}>
+      {label ? (
+        <span style={styling?.label} className='input-label'>
+          {label}
+        </span>
+      ) : null}
+      <select
+        style={styling?.select}
+        id={id}
+        name={name}
+        value={value}
+        onChange={onSelectOption}>
         {options.map((option, key) => (
           <option key={key} value={option.value}>
             {option.label}

@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { SubmitButton } from './SubmitButton';
 import { useTranslations } from 'next-intl';
 import { Menu } from '@mui/material';
-import { IProductService } from '@/src/types/DBTypes';
+import { IBooking, IProductService } from '@/src/types/DBTypes';
 import {
   faArchive,
   faEllipsisV,
@@ -23,6 +23,7 @@ import { Button } from '../../../commons/Buttons/Button';
 import { IconButton } from '../../../commons/Buttons/IconButton';
 import { MenuListItem } from '../../../commons/Menu/MenuItem';
 import { CategoryTags } from '../categories/CategoryTags';
+import { IImageType } from './ImageLoader/types';
 
 const TopHeader = styled.header`
   position: relative;
@@ -75,30 +76,39 @@ const Header = styled.header`
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  overflow-y: auto;
 `;
+
 interface Props {
   saving: boolean;
   onSubmit: VoidFunction;
-  onAddSection: VoidFunction;
-  product: IProductService;
-  onDeleteProduct: (productId?: string) => void;
-  onArchiveProduct: (productId?: string) => void;
-  onPublishProduct: (
+  onAddSection?: VoidFunction;
+  form: IProductService | IBooking;
+  onDelete: (itemId?: string) => void;
+  onArchive?: (itemId?: string) => void;
+  onPublish?: (
     event: ChangeEvent<HTMLInputElement>,
     productId?: string
   ) => void;
-  onProductNameChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onNameChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  backgroundImage?: IImageType;
+  headerTitle: string;
+  onDeleteCategory?: (categoryId: string) => void;
 }
 
 export const CreateFormHeader = ({
   saving,
   onSubmit,
   onAddSection,
-  product,
-  onDeleteProduct,
-  onArchiveProduct,
-  onPublishProduct,
-  onProductNameChange,
+  form,
+  onDelete,
+  onArchive,
+  onPublish,
+  onNameChange,
+  backgroundImage,
+  headerTitle,
+  onDeleteCategory,
 }: Props) => {
   const t = useTranslations('ProductForm');
   const tCommons = useTranslations('commons');
@@ -121,7 +131,7 @@ export const CreateFormHeader = ({
 
   const handleSelectMenu = (callback: (props: any) => void) => {
     setAnchorEl(null);
-    callback(product._id);
+    callback(form._id);
   };
 
   const actions: IAction[] = useMemo(
@@ -131,13 +141,15 @@ export const CreateFormHeader = ({
         style: {
           backgroundColor: 'var(--error-color)',
         },
-        callback: async () => handleSelectMenu(onDeleteProduct),
+        callback: async () => handleSelectMenu(onDelete),
       },
     ],
-    [product._id]
+    [form._id]
   );
 
   useEffect(() => {
+    const isMobileDevice = window.innerWidth <= 768; // Check for mobile device width
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         const toolbar = toolbarRef.current;
@@ -146,7 +158,7 @@ export const CreateFormHeader = ({
             toolbar.style.position = 'fixed';
             toolbar.style.top = '50px';
             toolbar.style.right = '0';
-            toolbar.style.left = '175px';
+            toolbar.style.left = isMobileDevice ? '0' : '175px';
             toolbar.style.zIndex = '300';
             toolbar.style.backgroundColor = '#fff';
             toolbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)'; // Discreet box shadow
@@ -178,42 +190,52 @@ export const CreateFormHeader = ({
       }
     };
   }, []);
+
   return (
     <>
       <TopHeader ref={headerRef}>
-        <BackgroundImage
-          backgroundImage={product.images.find((image) => image.default)?.url}
-        />
+        <BackgroundImage backgroundImage={backgroundImage?.url} />
         <HeaderMenu>
           <ArticleInput
             name='name'
-            value={product.name}
-            onChange={onProductNameChange}
+            value={form.name || ''}
+            onChange={onNameChange}
           />
           <Header ref={toolbarRef}>
             <Flexbox alignItems='center'>
               <SubmitButton
-                disabled={saving || product.isArchived}
+                disabled={saving || (form as any).isArchived}
                 saving={saving}
                 onClick={onSubmit}
               />
-              <SwitchGroup
-                id='published'
-                name='published'
-                label={product.published ? t('unPublished') : t('published')}
-                value={product.published}
-                onInputChange={(event) => onPublishProduct(event, product._id)}
+              {onPublish ? (
+                <SwitchGroup
+                  id='published'
+                  name='published'
+                  label={
+                    (form as any).published ? t('unPublished') : t('published')
+                  }
+                  value={(form as any).published}
+                  onInputChange={(event) => onPublish(event, (form as any)._id)}
+                />
+              ) : null}
+              <CategoryTags
+                onDeleteCategory={onDeleteCategory}
+                categoriesIds={(form as any).categories || []}
               />
-              <CategoryTags categoriesIds={product.categories || []} />
             </Flexbox>
             <Flexbox alignItems='center'>
-              <Button
-                type='button'
-                disabled={saving || product.isArchived}
-                onClick={onAddSection}>
-                {t('addSection')}
-              </Button>
-
+              {onAddSection ? (
+                <Button
+                  type='button'
+                  style={{
+                    whiteSpace: 'nowrap',
+                  }}
+                  disabled={saving || (form as any).isArchived}
+                  onClick={onAddSection}>
+                  {t('addSection')}
+                </Button>
+              ) : null}
               <IconButton
                 backgroundColor='var(--button-ellipsis-color)'
                 icon={faEllipsisV}
@@ -224,11 +246,13 @@ export const CreateFormHeader = ({
         </HeaderMenu>
       </TopHeader>
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
-        <MenuListItem
-          icon={faArchive}
-          label={tCommons('archive')}
-          onClick={() => handleSelectMenu(onArchiveProduct)}
-        />
+        {onArchive ? (
+          <MenuListItem
+            icon={faArchive}
+            label={tCommons('archive')}
+            onClick={() => handleSelectMenu(onArchive)}
+          />
+        ) : null}
         <DeleteConfirmation
           CustomDelete={
             <MenuListItem icon={faTrash} label={tCommons('delete')} />
@@ -237,8 +261,8 @@ export const CreateFormHeader = ({
           withIcon
           className='button-icon'
           actions={actions}
-          headerTitle={`${tCommons('delete')} - ${product.name}`}>
-          <p>{t('deleteProductMessage.title', { product: product.name })}</p>
+          headerTitle={headerTitle}>
+          <p>{t('deleteProductMessage.title', { product: form.name })}</p>
           <p>{t('deleteProductMessage.explanation')}</p>
         </DeleteConfirmation>
       </Menu>

@@ -20,3 +20,21 @@ export const hexToRgba = (hex: string, opacity: number): string => {
 
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
+
+export const sortArrayByAlphabet = <T extends Record<string, any>>(array: T[], key: keyof T): T[] => {
+  return array.sort((a, b) => {
+    if (typeof a[key] === 'string' && typeof b[key] === 'string') {
+      const valA = a[key].toUpperCase();
+      const valB = b[key].toUpperCase();
+      if (valA < valB) {
+        return -1;
+      }
+      if (valA > valB) {
+        return 1;
+      }
+      return 0;
+    } else {
+      return 0;
+    }
+  });
+};

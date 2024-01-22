@@ -3,7 +3,7 @@ import { Label } from './Label';
 import { Input } from './Input';
 
 interface Props {
-  label: string;
+  label?: string;
   onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   id: string;
@@ -36,9 +36,11 @@ export const InputGroup = ({
       style={styling?.root}
       htmlFor={id}
       className={`input-group ${className ?? ''}`}>
-      <span style={styling?.label} className='input-label'>
-        {label}
-      </span>
+      {label ? (
+        <span style={styling?.label} className='input-label'>
+          {label}
+        </span>
+      ) : null}
       <Input
         style={styling?.input}
         type={type}

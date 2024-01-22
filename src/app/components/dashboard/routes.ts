@@ -1,4 +1,4 @@
-import { faBoxesStacked, faCalendarWeek, faCartCircleCheck, faCartCircleExclamation, faFileInvoice, faHandsHoldingCircle, faReceipt, faRotateLeft, faSackDollar, faShelves, faTableLayout, faTags, faUsers } from '@fortawesome/pro-light-svg-icons';
+import { faBoxesStacked, faCalendarWeek, faCartCircleCheck, faCartCircleExclamation, faFileInvoice, faReceipt, faRotateLeft, faSackDollar, faShelves, faTableLayout, faTags, faUsers } from '@fortawesome/pro-light-svg-icons';
 import { INavigationRoute } from '../navbar/types';
 
 export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigationRoute[] }> => [{
@@ -31,14 +31,10 @@ export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigati
   }]
 
 }, {
-  label: t('Dashboard.services'),
+  label: t('Dashboard.bookings'),
   menus: [{
-    label: t('Dashboard.services'),
-    href: '/dashboard/services',
-    icon: faHandsHoldingCircle
-  }, {
     label: t('Dashboard.bookings'),
-    href: '/dashboard/services/bookings',
+    href: '/dashboard/bookings',
     icon: faCalendarWeek
   }]
 

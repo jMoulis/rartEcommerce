@@ -45,9 +45,13 @@ export const ProfileMenu = () => {
       <ButtonProfileMenu onClick={handleOpenMenu} type='button'>
         {profile?.avatar ? (
           <Image
-            width={30}
-            height={30}
+            width={40}
+            height={40}
             alt='user'
+            style={{
+              borderRadius: '5px',
+              margin: '0 10px',
+            }}
             src={profile?.avatar}
             priority
           />

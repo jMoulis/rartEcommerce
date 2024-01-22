@@ -5,29 +5,16 @@ import { InputGroup } from '../../../commons/form/InputGroup';
 import { IProductService } from '@/src/types/DBTypes';
 import { TextareaGroup } from '../../../commons/form/TextareaGroup';
 import { Flexbox } from '../../../commons/Flexbox';
-import { CategoryTags } from '../categories/CategoryTags';
 
 interface Props {
   onInputChange: (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   form: IProductService;
-  onDeleteCategory: (form: IProductService) => void;
 }
 
-export const ProductDetailForm = ({
-  form,
-  onInputChange,
-  onDeleteCategory,
-}: Props) => {
+export const ProductDetailForm = ({ form, onInputChange }: Props) => {
   const t = useTranslations();
-  const handleDeleteCategory = (categoryId: string) => {
-    const updatedForm = {
-      ...form,
-      categories: form.categories.filter((prev) => prev !== categoryId),
-    };
-    onDeleteCategory(updatedForm);
-  };
 
   return (
     <Article
@@ -35,6 +22,7 @@ export const ProductDetailForm = ({
       styling={{
         root: {
           flex: '1',
+          marginRight: '10px',
         },
       }}>
       <Flexbox flexDirection='column' flex='1'>
@@ -51,10 +39,6 @@ export const ProductDetailForm = ({
           value={form.description}
           onInputChange={onInputChange}
           label={t('ProductForm.description')}
-        />
-        <CategoryTags
-          categoriesIds={form.categories}
-          onDeleteCategory={handleDeleteCategory}
         />
       </Flexbox>
     </Article>

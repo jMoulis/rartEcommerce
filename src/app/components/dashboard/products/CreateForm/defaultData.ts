@@ -1,4 +1,4 @@
-import { IElement, IProductService, IProperty, ISection, ITemplate } from '@/src/types/DBTypes';
+import { IBooking, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 
 export const defaultElement = (): IElement => {
@@ -26,6 +26,33 @@ export const defaultSection: (t: any) => ISection = (t) => {
     title: t('ProductForm.newSection'),
     properties: [],
     published: false,
+  });
+};
+export const generateDefaultSession: () => ISession = () => {
+  const _id = v4();
+  return ({
+    _id,
+    start: '',
+    people: [],
+  });
+};
+export const generateDefaultRepetition: (startDate?: string) => IRepetition = (startDate) => {
+  return ({
+    start: startDate,
+    end: '',
+    rule: '',
+    days: [],
+    interval: 1
+  });
+};
+export const generateDefaultBooking: () => IBooking = () => {
+  return ({
+    categories: [],
+    name: '',
+    maxParticipants: 0,
+    currentParticipantIds: [],
+    price: 0,
+    sessions: []
   });
 };
 export const buildDefaultTemplate: (t: any) => ITemplate = (t) => {

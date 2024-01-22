@@ -5,6 +5,12 @@ import styled from '@emotion/styled';
 
 const CustomLabel = styled(Label)`
   flex-direction: row;
+  align-items: center;
+`;
+
+const CheckboxInnerText = styled.span`
+  margin-bottom: 0;
+  margin-right: 5px;
 `;
 
 const SquareCheckbox = styled.div<{ checked: boolean }>`
@@ -51,9 +57,9 @@ export const InputGroupCheckbox = ({
       htmlFor={id}
       className={`input-group ${className ?? ''}`}>
       {label ? (
-        <span style={styling?.label} className='input-label'>
+        <CheckboxInnerText style={styling?.label} className='input-label'>
           {label}
-        </span>
+        </CheckboxInnerText>
       ) : null}
       <SquareCheckbox style={styling?.input} checked={value as any} />
       <Input
