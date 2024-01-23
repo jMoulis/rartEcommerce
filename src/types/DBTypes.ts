@@ -270,6 +270,7 @@ export interface IRepetition {
   rule?: string;
   interval?: number;
   start?: string;
+  _id?: string;
 }
 export interface IOccurence {
   dayString: string;
