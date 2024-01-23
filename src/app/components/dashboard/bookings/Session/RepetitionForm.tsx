@@ -1,17 +1,14 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { Selectbox } from '../../../commons/form/Selectbox';
-import { useForm } from '../../../hooks/useForm';
 import { useTranslations } from 'next-intl';
 import { Flexbox } from '../../../commons/Flexbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarCheck, faRepeat } from '@fortawesome/pro-light-svg-icons';
-import { IRepetition, ISession, IOccurence } from '@/src/types/DBTypes';
-import { InputGroup } from '../../../commons/form/InputGroup';
-import { Button } from '../../../commons/Buttons/Button';
+import { faRepeat } from '@fortawesome/pro-light-svg-icons';
+import { IRepetition, ISession } from '@/src/types/DBTypes';
 import { ByWeekday, Frequency } from './types';
-import { APIResponse } from '@/src/types/types';
 import { generateDefaultRepetition } from '../../products/CreateForm/defaultData';
+import { Button } from '../../../commons/Buttons/Button';
 
 const days: Array<{
   label: string;
@@ -75,37 +72,16 @@ interface Props {
   until?: string;
 }
 
-export const RepetitionForm = ({
-  location,
-  repetition,
-  startDate,
-  until,
-  onSubmit,
-  onChange,
-}: Props) => {
-  // const { form, onInputChange, onDirectMutation, onInitForm } =
-  //   useForm<IRepetition>();
+export const RepetitionForm = ({ repetition, onChange }: Props) => {
   const t = useTranslations();
 
-  useEffect(() => {
-    if (!repetition) {
-      const defaultRepetition = generateDefaultRepetition();
-      onChange((prev) => ({
-        ...prev,
-        repetition: defaultRepetition,
-      }));
-    }
-  }, [repetition]);
-
-  // useEffect(() => {
-  //   if (startDate) {
-  //     onDirectMutation((prev) => ({
-  //       ...prev,
-  //       start: startDate,
-  //     }));
-  //   }
-  // }, [startDate]);
-
+  const handleAddRepetion = () => {
+    const defaultRepetition = generateDefaultRepetition();
+    onChange((prev) => ({
+      ...prev,
+      repetition: defaultRepetition,
+    }));
+  };
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -140,69 +116,76 @@ export const RepetitionForm = ({
 
   return (
     <Root>
-      <Flexbox alignItems='flex-start'>
-        <Flexbox alignItems='center'>
-          <FontAwesomeIcon icon={faRepeat} />
-          <p
-            style={{
-              marginLeft: '10px',
-            }}>
-            {t('Session.repetition.label')}
-          </p>
-        </Flexbox>
-        <Flexbox flexDirection='column'>
-          <Selectbox
-            id='frequency'
-            name='frequency'
-            onSelectOption={handleInputChange}
-            styling={{
-              root: {
-                margin: 0,
-              },
-            }}
-            options={[
-              {
-                label: t('commons.select'),
-                value: '',
-              },
-              {
-                label: t('Session.repetition.frequency', {
-                  frequency: 'daily',
-                }),
-                value: Frequency.DAILY,
-              },
-              {
-                label: t('Session.repetition.frequency', {
-                  frequency: 'weekly',
-                }),
-                value: Frequency.WEEKLY,
-              },
-              {
-                label: t('Session.repetition.frequency', {
-                  frequency: 'monthly',
-                }),
-                value: Frequency.MONTHLY,
-              },
-              {
-                label: t('Session.repetition.frequency', {
-                  frequency: 'yearly',
-                }),
-                value: Frequency.YEARLY,
-              },
-            ]}
-          />
-          <Flexbox>
-            {days.map((day, key) => (
-              <DayTag
-                key={key}
-                selected={(repetition?.days ?? []).includes(day.value)}
-                onClick={() => handleSelectDay(day.value)}>
-                {day.label}
-              </DayTag>
-            ))}
+      {repetition?._id ? (
+        <Flexbox alignItems='flex-start' flexDirection='column'>
+          <Flexbox alignItems='center'>
+            <FontAwesomeIcon icon={faRepeat} />
+            <p
+              style={{
+                marginLeft: '10px',
+              }}>
+              {t('Session.repetition.label')}
+            </p>
+          </Flexbox>
+          <Flexbox flexDirection='column'>
+            <Selectbox
+              id='frequency'
+              name='frequency'
+              value={repetition.frequency}
+              onSelectOption={handleInputChange}
+              styling={{
+                root: {
+                  margin: 0,
+                },
+              }}
+              options={[
+                {
+                  label: t('commons.select'),
+                  value: '',
+                },
+                {
+                  label: t('Session.repetition.frequency', {
+                    frequency: 'daily',
+                  }),
+                  value: Frequency.DAILY,
+                },
+                {
+                  label: t('Session.repetition.frequency', {
+                    frequency: 'weekly',
+                  }),
+                  value: Frequency.WEEKLY,
+                },
+                {
+                  label: t('Session.repetition.frequency', {
+                    frequency: 'monthly',
+                  }),
+                  value: Frequency.MONTHLY,
+                },
+                {
+                  label: t('Session.repetition.frequency', {
+                    frequency: 'yearly',
+                  }),
+                  value: Frequency.YEARLY,
+                },
+              ]}
+            />
+            <Flexbox>
+              {days.map((day, key) => (
+                <DayTag
+                  key={key}
+                  selected={(repetition?.days ?? []).includes(day.value)}
+                  onClick={() => handleSelectDay(day.value)}>
+                  {day.label}
+                </DayTag>
+              ))}
+            </Flexbox>
           </Flexbox>
         </Flexbox>
-      </Flexbox>
+      ) : (
+        <Button onClick={handleAddRepetion}>
+          {t('Session.repetition.addRepetition')}
+        </Button>
+      )}
     </Root>
   );
 };

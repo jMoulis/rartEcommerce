@@ -115,11 +115,25 @@ export const BookingForm = ({ prevBooking }: Props) => {
   }, []);
 
   const handleNewSession = useCallback((session: ISession) => {
-    onDirectMutation((prev) => ({
-      ...prev,
-      sessions: [...prev.sessions, session],
-    }));
+    onDirectMutation((prev) => {
+      const previous = prev.sessions.find(
+        (prevSession) => prevSession._id === session._id
+      );
+      if (!previous) {
+        return {
+          ...prev,
+          sessions: [...prev.sessions, session],
+        };
+      }
+      return {
+        ...prev,
+        sessions: prev.sessions.map((prevSession) =>
+          prevSession._id === session._id ? session : prevSession
+        ),
+      };
+    });
   }, []);
+
   return (
     <Root>
       {saving ? <Backdrop /> : null}
@@ -225,7 +239,10 @@ export const BookingForm = ({ prevBooking }: Props) => {
               />
             </ContentDetailLayout>
           </Article>
-          <SessionForm onNewSession={handleNewSession} />
+          <SessionForm
+            onNewSession={handleNewSession}
+            sessions={form.sessions}
+          />
         </Flexbox>
 
         <Menu

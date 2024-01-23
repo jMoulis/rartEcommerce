@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Article } from '../../products/CreateForm/Article';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
 import { useToggle } from '../../../hooks/useToggle';
@@ -20,6 +20,8 @@ import { RecurrenceRule } from './RecurrenceRule';
 import { generateDefaultSession } from '../../products/CreateForm/defaultData';
 import { APIResponse } from '@/src/types/types';
 import { Occurences } from './Occurences';
+import { SessionList } from './SessionList';
+import { SubmitButton } from '../../products/CreateForm/SubmitButton';
 
 const minuteToMillisecondes = (minutes: number) => {
   const secondsPerMinute = 60;
@@ -36,10 +38,10 @@ const hourToMillisecondes = (hours: number) => {
 
 interface Props {
   onNewSession: (session: ISession) => void;
-  editedSession?: ISession | null;
+  sessions: ISession[];
 }
 
-export const SessionForm = ({ onNewSession, editedSession }: Props) => {
+export const SessionForm = ({ onNewSession, sessions }: Props) => {
   const { open, onOpen, onClose } = useToggle();
   const { onInputChange, onDirectMutation, form, onInitForm } =
     useForm<ISession>();
@@ -47,14 +49,6 @@ export const SessionForm = ({ onNewSession, editedSession }: Props) => {
   const [loading, setLoading] = useState(false);
   const [occurences, setOccurences] = useState<IOccurence[]>([]);
 
-  useEffect(() => {
-    if (editedSession) {
-      onInitForm(editedSession);
-    } else {
-      const defaultSession = generateDefaultSession();
-      onInitForm(defaultSession);
-    }
-  }, [editedSession]);
   const handleUpdateRepetition = (rule: string) => {
     onDirectMutation((prev) => ({
       ...prev,
@@ -73,11 +67,14 @@ export const SessionForm = ({ onNewSession, editedSession }: Props) => {
     const repetitionRule = recurrence.toString();
     onNewSession({
       ...form,
-      repetition: {
-        ...form?.repetition,
-        rule: repetitionRule,
-      },
+      repetition: form?.repetition?._id
+        ? {
+            ...form?.repetition,
+            rule: repetitionRule,
+          }
+        : undefined,
     });
+    onClose();
   };
 
   const handleSelectedDateInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -112,16 +109,41 @@ export const SessionForm = ({ onNewSession, editedSession }: Props) => {
       setLoading(false);
     }
   };
+  const handleSaveOccurences = (occurencesJsonUrl: string) => {
+    onDirectMutation((prev) => ({
+      ...prev,
+      repetition: {
+        ...prev.repetition,
+        occurencesJsonUrl,
+      },
+    }));
+  };
+  const handleCreateSession = () => {
+    const defaultSession = generateDefaultSession();
+    onInitForm(defaultSession);
+    onOpen();
+  };
+
+  const handleSelectionSession = (selectedSession: ISession) => {
+    onInitForm(selectedSession);
+    onOpen();
+  };
   return (
     <>
       <Article headerTitle='Sessions'>
-        <Button onClick={onOpen}>{t('Session.createSession')}</Button>
+        <Button onClick={handleCreateSession}>
+          {t('Session.createSession')}
+        </Button>
+        <SessionList
+          sessions={sessions || []}
+          onSelectSession={handleSelectionSession}
+        />
       </Article>
       <FullDialog
         open={open}
         onClose={onClose}
         header={{
-          title: t('Session.newSession'),
+          title: t('Session.editSession'),
         }}
         dialog={{
           keepMounted: false,
@@ -252,14 +274,29 @@ export const SessionForm = ({ onNewSession, editedSession }: Props) => {
               onInputChange={handleSelectedDateInput}
             />
           </Flexbox>
-          <Button type='button' onClick={handleGenerate}>
-            generate
-            {loading ? <span>Loading</span> : null}
-          </Button>
-          {occurences?.length ? <Occurences occurences={occurences} /> : null}
-          <Flexbox>
-            <Button onClick={handleSubmit}>{t('commons.create')}</Button>
+          <Flexbox
+            style={{
+              marginTop: '10px',
+            }}>
+            <Button type='button' onClick={handleGenerate}>
+              <span> {t('Session.generate')}</span>
+              {loading ? <span>Loading</span> : null}
+            </Button>
+            {occurences?.length ? (
+              <Occurences
+                occurences={occurences}
+                sessionId={form._id}
+                onSaveOccurences={handleSaveOccurences}
+              />
+            ) : null}
           </Flexbox>
+        </Flexbox>
+        <Flexbox
+          style={{
+            marginTop: '20px',
+            justifyContent: 'flex-end',
+          }}>
+          <SubmitButton onClick={handleSubmit} />
         </Flexbox>
       </FullDialog>
     </>

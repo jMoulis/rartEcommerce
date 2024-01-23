@@ -37,12 +37,14 @@ export const generateDefaultSession: () => ISession = () => {
   });
 };
 export const generateDefaultRepetition: (startDate?: string) => IRepetition = (startDate) => {
+  const _id = v4();
   return ({
     start: startDate,
     end: '',
     rule: '',
     days: [],
-    interval: 1
+    interval: 1,
+    _id
   });
 };
 export const generateDefaultBooking: () => IBooking = () => {

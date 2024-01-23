@@ -279,6 +279,7 @@ export interface IOccurence {
   time24: string;
   jsDate: Date;
   available: boolean;
+  sessionId: string;
 }
 export interface ISession {
   _id: string; // client generated
@@ -288,8 +289,6 @@ export interface ISession {
   people: string[];
   calenderId?: string;
   location?: string; // Location refId
-  title?: string;
-  description?: string;
   repetition?: IRepetition;
 }
 export interface ISubscription {

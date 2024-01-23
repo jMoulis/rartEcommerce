@@ -216,6 +216,10 @@
     "duration": "Duration",
     "repetition": {
       "label": "Répétition",
+      "addRepetition": "Ajouter une répétition",
+      "days": "Days",
+      "frequencyLabel": "Fréquence",
+      "day": "{day, select, MO {Lundi} TU {Mardi} WE {Mensuel} TH {Jeudi} FR {Vendredi} SA {Samedi} SU {Dimanche} other {Other}}",
       "frequency": "{frequency, select, daily {Quotidien} weekly {Hébdomadaire} monthly {Mensuel} yearly {Annuel} other {Unknown}}"
     },
     "generatedDates": "{count, plural, =0 {Aucune date générée} =1 {Date générée} other {Dates générées}}",

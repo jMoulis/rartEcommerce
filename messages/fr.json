@@ -45,7 +45,7 @@
     "country": "Pays",
     "default": "Défault",
     "addressType": "Type d'adresse",
-    "type": "{type, select, shipping {Livraison} billing {Facturation} other {Unknown}}",
+    "type": "{type, select, shipping {Livraison} billing {Facturation} other {Inconnu}}",
     "shipping": "Livraison",
     "billing": "Facturation",
     "postalCode": "Code postal",
@@ -75,7 +75,7 @@
     "editBooking": "Modifier une réservation",
     "deleteBooking": "Supprimer une réservation",
     "selectBooking": "Choise une réservation",
-    "category": "{type, select, course {Cours} workshop {Atelier} other {Unknown}}",
+    "category": "{type, select, course {Cours} workshop {Atelier} other {Inconnu}}",
     "maxParticipants": "Max. de Participants",
     "currentParticipants": "Participants",
     "status": "Status",
@@ -85,12 +85,12 @@
     "sessions": "Séances",
     "prefrences": "Préférences",
     "paymentPreference": "Préférences de paiement",
-    "paymentPreferenceSelect": "{type, select, online {En ligne} person {En personne} other {Unknown}}",
+    "paymentPreferenceSelect": "{type, select, online {En ligne} person {En personne} other {Inconnu}}",
     "recurrence": "Répétition",
     "serviceDetailTitle": "Détail du service",
     "pricePayment": "Prix et paiement",
     "serviceType": "Type de service",
-    "paymentType": "{type, select, session {Par scéance} subscription {Avec abonnement} other {Unknown}}",
+    "paymentType": "{type, select, session {Par scéance} subscription {Avec abonnement} other {Inconnu}}",
     "selectPaymentType": "Choisissez comment les clients peuvent payer ce service"
   },
   "Category": {
@@ -132,7 +132,7 @@
   },
   "LocaleSwitcher": {
     "label": "Langue",
-    "locale": "{locale, select, fr {Français} en {Anglais} other {Unknown}}"
+    "locale": "{locale, select, fr {Français} en {Anglais} other {Inconnu}}"
   },
   "Metadata": {
     "title": "Rartcreation",
@@ -218,7 +218,11 @@
     "duration": "Duration",
     "repetition": {
       "label": "Répétition",
-      "frequency": "{frequency, select, daily {Quotidien} weekly {Hébdomadaire} monthly {Mensuel} yearly {Annuel} other {Unknown}}"
+      "addRepetition": "Ajouter une répétition",
+      "days": "Jours",
+      "frequencyLabel": "Fréquence",
+      "day": "{day, select, MO {Lundi} TU {Mardi} WE {Mensuel} TH {Jeudi} FR {Vendredi} SA {Samedi} SU {Dimanche} other {Autre}}",
+      "frequency": "{frequency, select, daily {Quotidien} weekly {Hébdomadaire} monthly {Mensuel} yearly {Annuel} other {Inconnu}}"
     },
     "generatedDates": "{count, plural, =0 {Aucune date générée} =1 {Date générée} other {Dates générées}}",
     "generate": "Générer"
@@ -231,7 +235,7 @@
     "annualy": "Annuel",
     "weekly": "Hébdomadaire",
     "paymentPeriodLabel": "Période de paiement",
-    "paymentPeriod": "{paymentPeriod, select, weekly {Hébdomadaire} monthly {Mensuel} annualy {Annuel} other {Unknown}}",
+    "paymentPeriod": "{paymentPeriod, select, weekly {Hébdomadaire} monthly {Mensuel} annualy {Annuel} other {Inconnu}}",
     "subscriptionDetail": "Détails de l'abonnement"
   },
   "Template": {

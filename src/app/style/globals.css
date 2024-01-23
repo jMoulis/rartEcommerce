@@ -4,7 +4,7 @@
   --background-section-color: rgb(240, 244, 247);
   --card-header-border-color: rgb(223, 229, 235);
   --input-border-color: rgb(193, 228, 254);
-  --input-background-color-hover: rgb(234, 247, 255);
+  --input-border-color: rgb(234, 247, 255);
   --primary-color: rgb(56, 153, 236);
   --success-color: rgba(11, 175, 11, 0.7);
   --error-color: rgba(255, 0, 0, 0.5);

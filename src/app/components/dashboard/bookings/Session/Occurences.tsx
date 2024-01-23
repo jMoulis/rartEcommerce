@@ -1,4 +1,4 @@
-import { IOccurence, ISession } from '@/src/types/DBTypes';
+import { IOccurence } from '@/src/types/DBTypes';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { IconButton } from '../../../commons/Buttons/IconButton';
 import { useToggle } from '../../../hooks/useToggle';
@@ -16,30 +16,18 @@ import {
 import { SwitchGroup } from '../../../commons/form/SwitchGroup';
 import { v4 } from 'uuid';
 import { Button } from '../../../commons/Buttons/Button';
+import { uploadFile } from '@/src/lib/firebase/firestorage';
 
 declare module '@tanstack/react-table' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface TableMeta<TData extends RowData> {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void;
   }
 }
-
-function useSkipper() {
-  const shouldSkipRef = React.useRef(true);
-  const shouldSkip = shouldSkipRef.current;
-
-  // Wrap a function with this to skip a pagination reset temporarily
-  const skip = React.useCallback(() => {
-    shouldSkipRef.current = false;
-  }, []);
-
-  React.useEffect(() => {
-    shouldSkipRef.current = true;
-  });
-
-  return [shouldSkip, skip] as const;
-}
 interface Props {
   occurences: IOccurence[];
+  sessionId: string;
+  onSaveOccurences: (jsonUrl: string) => void;
 }
 
 const columnHelper = createColumnHelper<IOccurence>();
@@ -74,15 +62,9 @@ const columns = [
     id: 'available',
     cell: ({ getValue, row: { index }, column: { id }, table }) => {
       const initialValue = getValue();
-      // We need to keep and update the state of the cell normally
+
       const [value, setValue] = React.useState(initialValue);
 
-      // When the input is blurred, we'll call our table meta's updateData function
-      const onBlur = () => {
-        table.options.meta?.updateData(index, id, value);
-      };
-
-      // If the initialValue is changed external, sync it up with our state
       React.useEffect(() => {
         setValue(initialValue);
       }, [initialValue]);
@@ -104,25 +86,30 @@ const columns = [
   }),
 ];
 
-export const Occurences = ({ occurences }: Props) => {
+export const Occurences = ({
+  occurences,
+  sessionId,
+  onSaveOccurences,
+}: Props) => {
   const [editableOccurences, setEditableOccurences] = useState<IOccurence[]>(
     []
   );
   const { open, onOpen, onClose } = useToggle();
   const t = useTranslations();
-  const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
+  // const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
   useEffect(() => {
     setEditableOccurences(occurences);
-  }, []);
+  }, [occurences]);
+
   const table = useReactTable({
     data: editableOccurences,
     columns,
     getCoreRowModel: getCoreRowModel(),
     meta: {
       updateData: (rowIndex, columnId, value) => {
-        // Skip page index reset until after next rerender
-        skipAutoResetPageIndex();
+        // // Skip page index reset until after next rerender
+        // skipAutoResetPageIndex();
         setEditableOccurences((old) => {
           return old.map((row, index) => {
             if (index === rowIndex) {
@@ -137,9 +124,20 @@ export const Occurences = ({ occurences }: Props) => {
       },
     },
   });
-  const handleSubmitUpdatedOccurences = () => {
-    // UpdateFile
-    console.log('Push file');
+  const handleSubmitUpdatedOccurences = async () => {
+    try {
+      const url = await uploadFile(
+        JSON.stringify(
+          editableOccurences.map((occurence) => ({ ...occurence, sessionId }))
+        ),
+        `occurences/${sessionId}`
+      );
+      onSaveOccurences(url);
+      onClose();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
   };
   return (
     <div>
