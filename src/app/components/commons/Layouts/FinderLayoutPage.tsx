@@ -1,7 +1,7 @@
 'use client';
 
 import { IProductService } from '@/src/types/DBTypes';
-import React, { useCallback } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -54,6 +54,7 @@ interface Props {
   data: any[];
   columns: Array<ColumnDef<any, any>>;
   sectionTitle: string;
+  headerChildren?: ReactNode;
   createLink: {
     href: string;
     label: string;
@@ -65,6 +66,7 @@ export const FinderLayoutPage = ({
   columns,
   sectionTitle,
   createLink,
+  headerChildren,
 }: Props) => {
   const table = useReactTable({
     columns,
@@ -89,7 +91,10 @@ export const FinderLayoutPage = ({
     <Root>
       <Flexbox alignItems='center' justifyContent='space-between'>
         <SectionTitle>{sectionTitle}</SectionTitle>
-        <CustomLink href={createLink.href}>{createLink.label}</CustomLink>
+        <Flexbox alignItems='center'>
+          <CustomLink href={createLink.href}>{createLink.label}</CustomLink>
+          {headerChildren}
+        </Flexbox>
       </Flexbox>
       <TableContainer>
         <Table>

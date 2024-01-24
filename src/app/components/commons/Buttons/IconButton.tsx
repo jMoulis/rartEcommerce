@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Button } from './Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { CSSProperties } from 'react';
 
 const Root = styled(Button)<{
   variant?: 'normal' | 'xs';
@@ -39,6 +40,7 @@ interface Props {
   backgroundColor?: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   disabled?: boolean;
+  style?: CSSProperties;
 }
 
 export const IconButton = ({
@@ -48,10 +50,12 @@ export const IconButton = ({
   backgroundColor,
   onClick,
   disabled,
+  style,
 }: Props) => {
   return (
     <Root
       type='button'
+      style={style}
       onClick={onClick}
       disabled={disabled}
       className={className}
