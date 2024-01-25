@@ -1,7 +1,5 @@
 'use client';
-import { Page } from '@/src/app/components/client/commons/layout/Page';
 import { Section } from '../commons/layout/Section';
-import { Title } from '../commons/typography/Title';
 import Image from 'next/image';
 import { Flexbox } from '../../commons/Flexbox';
 import { Subtitle } from '../commons/typography/Subtitle';
