@@ -10,21 +10,31 @@ import { faSpinner } from '@fortawesome/pro-light-svg-icons';
 import { UserProfile } from '@/src/types/DBTypes';
 import { User } from 'firebase/auth';
 import { navRoutes } from './routes';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Flexbox } from '../commons/Flexbox';
 import { NavigationLink } from '../commons/NavigationLink';
+import { Logo } from './Logo';
+import { usePathname } from 'next/navigation';
 
 const Root = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #eaeaea;
+  background-color: var(--primary-color);
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 300;
 `;
 
 const Nav = styled.nav`
   display: flex;
-  height: 50px;
   align-items: center;
+  padding: 1.5rem 3rem;
+`;
+const ListRoute = styled.ul`
+  display: flex;
 `;
 
 interface Props {
@@ -33,27 +43,41 @@ interface Props {
 export const Navbar = ({ current }: Props) => {
   useUserSession(current);
   const t = useTranslations();
+  const pathname = usePathname();
 
+  const locale = useLocale();
   return (
     <Root>
+      <Logo />
       <Nav>
-        <ul>
-          {navRoutes(t).map((route, key) => (
-            <NavigationLink key={key} route={route} />
-          ))}
-        </ul>
+        <ListRoute>
+          {navRoutes(t).map((route, key) => {
+            const isRootRoute = route.href === '/';
+
+            const checkedUrl = isRootRoute
+              ? `/${locale}`
+              : `/${locale}${route.href}`;
+            return (
+              <NavigationLink
+                active={pathname === checkedUrl}
+                key={key}
+                route={route}
+              />
+            );
+          })}
+        </ListRoute>
+        <Flexbox alignItems='center'>
+          <LocaleSwitcher />
+          <Suspense
+            fallback={
+              <i>
+                <FontAwesomeIcon icon={faSpinner} className='fa-pulse' />
+              </i>
+            }>
+            <ProfileMenu />
+          </Suspense>
+        </Flexbox>
       </Nav>
-      <Flexbox alignItems='center'>
-        <LocaleSwitcher />
-        <Suspense
-          fallback={
-            <i>
-              <FontAwesomeIcon icon={faSpinner} className='fa-pulse' />
-            </i>
-          }>
-          <ProfileMenu />
-        </Suspense>
-      </Flexbox>
     </Root>
   );
 };

@@ -1,12 +1,11 @@
 'use client';
 
 import styled from '@emotion/styled';
-import { Page } from './Page';
-
-export const DashboardPageLayout = styled(Page)`
+export const DashboardPageLayout = styled.main`
   height: calc(100vh - 50px);
   overflow: hidden;
   background-color: var(--background-section-color);
+  padding-top: 50px;
   display: grid;
   grid-template-columns: auto 1fr; /* Adjust the width of the menu */
   grid-template-rows: auto 1fr; /* Auto for breadcrumb, 1fr for content */

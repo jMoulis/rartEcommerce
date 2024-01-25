@@ -128,6 +128,13 @@
     "subscriptions": "Abonnements",
     "templates": "Modèles"
   },
+  "Home": {
+    "about": "About",
+    "sectionAbout": {
+      "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
+      "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
+    }
+  },
   "LocaleSwitcher": {
     "label": "Langue",
     "locale": "{locale, select, fr {Français} en {Anglais} other {Unknown}}"
@@ -137,11 +144,17 @@
     "description": "Le monde de la création"
   },
   "Navbar": {
-    "store": "Boutique",
+    "home": "Accueil",
+    "about": "A propos",
+    "services": "Services",
+    "products": "Produits",
+    "reviews": "Avis clients",
+    "contact": "Contact",
     "dashboard": "Tableau de bord",
     "account": "Compte",
     "personalInfo": "Informations personnelles",
-    "orders": "Commandes"
+    "bookNow": "Réserver maintenant",
+    "buyNow": "Acheter maintenant"
   },
   "Product": {
     "addProduct": "Ajouter un article"

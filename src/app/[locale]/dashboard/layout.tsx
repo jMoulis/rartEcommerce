@@ -8,6 +8,7 @@ import Menu from '../../components/dashboard/Menu';
 import { SectionPage } from '../../components/commons/Layouts/SectionPage';
 import { DashboardPageLayout } from '../../components/commons/Layouts/DashboardPageLayout';
 import { BackButton } from '../../components/dashboard/BackButton';
+import './admin.css';
 
 interface Props {
   children: React.ReactNode;
