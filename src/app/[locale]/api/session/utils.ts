@@ -64,6 +64,7 @@ export function formatDateInfo(date: Date): IOccurence {
     yearString: date.getFullYear().toString(),
     time24: `${hours}:${minutes}`,
     jsDate: date,
-    available: true
+    available: true,
+    sessionId: ''
   };
 }
