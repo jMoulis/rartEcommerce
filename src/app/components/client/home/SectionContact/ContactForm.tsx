@@ -82,9 +82,9 @@ export const ContactForm = (props: Props) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const name: string | undefined = (event.target as any).name?.value;
-    const email: string | undefined = (event.target as any).email?.value;
-    const message: string | undefined = (event.target as any).message?.value;
+    // const name: string | undefined = (event.target as any).name?.value;
+    // const email: string | undefined = (event.target as any).email?.value;
+    // const message: string | undefined = (event.target as any).message?.value;
   };
   const renderText = useCallback(
     ({

@@ -74,9 +74,6 @@ export const DashboardNavigationLink = ({
           {routes.map((route, key) => (
             <li key={key}>
               <CustomLink href={route.href} className={className} open={open}>
-                <Flexbox justifyContent='center'>
-                  <FontAwesomeIcon icon={route.icon} />
-                </Flexbox>
                 <Flexbox justifyContent='flex-start'>
                   <p className='link-text'>{route.label}</p>
                 </Flexbox>
