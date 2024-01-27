@@ -23,4 +23,5 @@ export const Button = styled.button`
     color: rgba(255, 255, 255, 0.8);
     cursor: not-allowed;
   }
+  white-space: nowrap;
 `;

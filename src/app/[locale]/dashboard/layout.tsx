@@ -5,7 +5,10 @@ import {
 } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { ENUM_ROLES } from '../../contexts/auth/enums';
 import Menu from '../../components/dashboard/Menu';
-import './style.css';
+import { SectionPage } from '../../components/commons/Layouts/SectionPage';
+import { DashboardPageLayout } from '../../components/commons/Layouts/DashboardPageLayout';
+import { BackButton } from '../../components/dashboard/BackButton';
+import './admin.css';
 
 interface Props {
   children: React.ReactNode;
@@ -20,9 +23,10 @@ export default async function DashboardLayout({ children }: Props) {
   }
 
   return (
-    <main className='page dashboard-page'>
+    <DashboardPageLayout>
+      <BackButton />
       <Menu />
-      <section className='section-page'>{children}</section>
-    </main>
+      <SectionPage>{children}</SectionPage>
+    </DashboardPageLayout>
   );
 }

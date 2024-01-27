@@ -11,9 +11,14 @@ interface Props {
   name: string;
   value?: string;
   defaultValue?: string;
-  style?: React.CSSProperties;
+  styling?: {
+    root?: React.CSSProperties;
+    label?: React.CSSProperties;
+    input?: React.CSSProperties;
+  };
   onBlur?: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   className?: string;
+  required?: boolean;
 }
 
 export const TextareaGroup = ({
@@ -23,21 +28,28 @@ export const TextareaGroup = ({
   name,
   value,
   defaultValue,
-  style,
+  styling,
   onBlur,
   className,
+  required,
 }: Props) => {
   return (
-    <Label htmlFor={id} className={`input-group ${className ?? ''}`}>
-      <span className='input-label'>{label}</span>
+    <Label
+      style={styling?.root}
+      htmlFor={id}
+      className={`input-group ${className ?? ''}`}>
+      <span style={styling?.label} className='input-label'>
+        {label}
+      </span>
       <Textarea
-        style={style}
+        style={styling?.input}
         id={id}
         name={name}
         onChange={onInputChange}
         value={value ?? undefined}
         defaultValue={defaultValue ?? undefined}
         onBlur={onBlur}
+        required={required}
       />
     </Label>
   );

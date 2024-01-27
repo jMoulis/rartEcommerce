@@ -4,7 +4,7 @@ import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Button } from '@mui/material';
+import { Button } from '../../commons/Buttons/Button';
 
 interface Props {
   onClose: () => void;

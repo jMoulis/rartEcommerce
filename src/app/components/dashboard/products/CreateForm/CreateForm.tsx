@@ -12,7 +12,6 @@ import {
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { IImageType } from './ImageLoader/types';
 import { Section } from './sections/Section';
-import './style.css';
 import { defaultProduct, defaultSection } from './defaultData';
 import { CreateFormHeader } from './CreateFormHeader';
 import { useRouter } from 'next/navigation';
@@ -33,11 +32,24 @@ const LoadingBackdrop = styled.div`
   background-color: rgba(0, 0, 255, 0.2);
   z-index: 10;
 `;
+const AsideWrapper = styled(Flexbox)`
+  margin-right: 10px;
+  @media (max-width: 768px) {
+    margin-right: 0;
+    flex: 1;
+  }
+`;
 
 const Content = styled.div`
+  label: Content;
   overflow: auto;
   position: relative;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 768px) {
+    min-width: 100%;
+  }
 `;
 
 interface Props {
@@ -308,20 +320,24 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
         saving={saving}
         onAddSection={handleAddSection}
         onSubmit={handleSubmit}
-        product={form}
-        onDeleteProduct={handleDeleteProduct}
-        onArchiveProduct={handleArchiveProduct}
-        onPublishProduct={handlePublishProduct}
-        onProductNameChange={handleInputChange}
+        form={form}
+        backgroundImage={form.images[0]}
+        headerTitle={`${t('commons.delete')} - ${form.name}`}
+        onDelete={handleDeleteProduct}
+        onArchive={handleArchiveProduct}
+        onPublish={handlePublishProduct}
+        onNameChange={handleInputChange}
       />
-      <Flexbox>
-        <Content>
-          <Flexbox>
-            <ProductDetailForm
-              form={form}
-              onInputChange={handleInputChange}
-              onDeleteCategory={setForm}
-            />
+      <Flexbox
+        style={{
+          flexWrap: 'wrap',
+        }}>
+        <Content
+          style={{
+            flexWrap: 'wrap',
+          }}>
+          <Flexbox flexWrap='wrap'>
+            <ProductDetailForm form={form} onInputChange={handleInputChange} />
             <PriceCard
               form={form}
               onInputChange={handleInputChange}
@@ -348,14 +364,14 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
             />
           ))}
         </Content>
-        <Flexbox flexDirection='column'>
+        <AsideWrapper flexDirection='column'>
           <Menu
             onSelectCategory={handleSelectCategory}
             onSelectSections={handleSelectSections}
             previousSelectedCategories={form.categories}
           />
           <OptionsCard form={form} onUpdateSection={setForm as any} />
-        </Flexbox>
+        </AsideWrapper>
       </Flexbox>
     </div>
   );

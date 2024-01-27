@@ -3,7 +3,7 @@ import { Label } from './Label';
 import { Input } from './Input';
 
 interface Props {
-  label: string;
+  label?: string;
   onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   id: string;
@@ -12,6 +12,7 @@ interface Props {
   defaultValue?: string | number;
   type?: string;
   className?: string;
+  required?: boolean;
   styling?: {
     root?: React.CSSProperties;
     label?: React.CSSProperties;
@@ -30,15 +31,18 @@ export const InputGroup = ({
   onBlur,
   className,
   styling,
+  required,
 }: Props) => {
   return (
     <Label
       style={styling?.root}
       htmlFor={id}
       className={`input-group ${className ?? ''}`}>
-      <span style={styling?.label} className='input-label'>
-        {label}
-      </span>
+      {label ? (
+        <span style={styling?.label} className='input-label'>
+          {label}
+        </span>
+      ) : null}
       <Input
         style={styling?.input}
         type={type}
@@ -48,6 +52,7 @@ export const InputGroup = ({
         onBlur={onBlur}
         value={value ?? undefined}
         defaultValue={defaultValue}
+        required={required}
       />
     </Label>
   );

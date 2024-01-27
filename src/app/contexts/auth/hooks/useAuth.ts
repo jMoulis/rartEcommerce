@@ -37,7 +37,6 @@ export const useAuth = () => {
   const defaultResponseHeaders = (customHeaders: Record<string, any> = {}): Record<string, any> => ({
     'Content-Type': 'application/json',
     ...customHeaders
-
   });
 
   const onUpdateUser = async (user: User) => {

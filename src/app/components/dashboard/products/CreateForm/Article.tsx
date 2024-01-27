@@ -7,22 +7,30 @@ import { SwitchGroup } from '../../../commons/form/SwitchGroup';
 import { useTranslations } from 'next-intl';
 
 const Root = styled.article`
+  label: Article;
   border-radius: 10px;
   background-color: #fff;
-  margin: 10px;
+  margin: 10px 0;
+  margin-bottom: 0;
+  height: fit-content;
+  @media (max-width: 768px) {
+    min-width: 100%;
+  }
 `;
 const Header = styled.header<{ open: boolean }>`
-  padding: 18px 24px;
+  padding: 10px 24px;
   border-bottom: ${({ open }) =>
     open ? '1px solid var(--card-header-border-color)' : 'none'};
-  height: 66px;
+  height: 50px;
   display: grid;
   grid-template-columns: 20px 1fr auto;
   align-items: center;
 `;
 const Content = styled.div`
-  padding: 20px;
+  padding: 15px;
   display: flex;
+  flex-direction: column;
+  height: fit-content;
 `;
 
 interface Props {

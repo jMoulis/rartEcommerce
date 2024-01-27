@@ -44,7 +44,10 @@ export const useFirestore = () => {
     try {
       const docRef = doc(firestoreCollection(db, collection));
       await setDoc(docRef, fields, { merge: true });
-      return onSuccessMessage('create', undefined, { _id: docRef.id });
+      return onSuccessMessage('create', undefined, {
+        _id: docRef.id,
+        ...fields,
+      });
     } catch (error) {
       return onErrorMessage(error);
     }

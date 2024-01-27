@@ -9,6 +9,7 @@ import { useToggle } from '@/src/app/components/hooks/useToggle';
 import { GalleryDialog } from './GalleryDialog';
 import { Article } from '../Article';
 import { ImageLoaderItem } from './ImageLoaderItem';
+import './style.css';
 
 const Button = styled.button`
   padding: 20px;
@@ -26,9 +27,10 @@ const Button = styled.button`
 interface Props {
   images: IImageType[];
   onSubmitImages: (images: IImageType[]) => void;
+  single?: boolean;
 }
 
-export const ImageLoader = ({ images, onSubmitImages }: Props) => {
+export const ImageLoader = ({ images, onSubmitImages, single }: Props) => {
   const t = useTranslations('ProductForm');
   const { open, onOpen, onClose } = useToggle();
 
@@ -60,7 +62,17 @@ export const ImageLoader = ({ images, onSubmitImages }: Props) => {
   };
   return (
     <>
-      <Article headerTitle={t('images')}>
+      <Article
+        headerTitle={t('images')}
+        styling={{
+          root: {
+            flex: 1,
+            marginRight: '10px',
+          },
+          body: {
+            flexDirection: 'row',
+          },
+        }}>
         <ul className='gallery'>
           {images.map((image, key) => (
             <ImageLoaderItem
@@ -71,27 +83,32 @@ export const ImageLoader = ({ images, onSubmitImages }: Props) => {
               onDeleteImage={handleDeleteImage}
             />
           ))}
-          <li>
-            <Button onClick={onOpen}>
-              {!images?.length ? (
-                <>
-                  <Flexbox flex='1'>
-                    <FontAwesomeIcon icon={faImages} />
-                  </Flexbox>
-                  <span
-                    style={{
-                      display: 'block',
-                      flex: '2',
-                      textAlign: 'center',
-                    }}>
-                    {t('addImages' as any)}
-                  </span>
-                </>
-              ) : (
-                <FontAwesomeIcon icon={faAdd} />
-              )}
-            </Button>
-          </li>
+
+          {single && images.length ? (
+            <div />
+          ) : (
+            <li>
+              <Button onClick={onOpen}>
+                {!images?.length ? (
+                  <>
+                    <Flexbox flex='1'>
+                      <FontAwesomeIcon icon={faImages} />
+                    </Flexbox>
+                    <span
+                      style={{
+                        display: 'block',
+                        flex: '2',
+                        textAlign: 'center',
+                      }}>
+                      {t('addImages' as any)}
+                    </span>
+                  </>
+                ) : (
+                  <FontAwesomeIcon icon={faAdd} />
+                )}
+              </Button>
+            </li>
+          )}
         </ul>
       </Article>
       <GalleryDialog

@@ -1,13 +1,14 @@
 import React, { CSSProperties } from 'react';
 import { Breakpoint, Dialog } from '@mui/material';
 import { DialogHeader } from './DialogHeader';
-import { DialogContent } from './DialogContent';
+import { DialogContentWrapper } from './DialogContent';
 
 interface Props {
   children: React.ReactNode;
   dialog?: {
     fullWidth?: boolean;
     maxWidth?: Breakpoint;
+    keepMounted?: boolean;
   };
   header: {
     title: string;
@@ -42,13 +43,16 @@ export const FullDialog = ({
       fullWidth={dialog?.fullWidth}
       maxWidth={dialog?.maxWidth}
       open={open}
+      keepMounted={dialog?.keepMounted}
       onClose={onClose}>
       <DialogHeader
         styling={styling?.header}
         title={header.title}
         onClose={onClose}
       />
-      <DialogContent style={styling?.content}>{children}</DialogContent>
+      <DialogContentWrapper style={styling?.content}>
+        {children}
+      </DialogContentWrapper>
     </Dialog>
   );
 };

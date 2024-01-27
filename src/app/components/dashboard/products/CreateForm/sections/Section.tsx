@@ -306,6 +306,11 @@ export const Section = ({
     <>
       <Article
         ref={articleRef}
+        styling={{
+          root: {
+            marginRight: '10px',
+          },
+        }}
         Header={
           <SectionToolbar
             section={section}

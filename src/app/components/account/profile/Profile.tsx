@@ -1,6 +1,6 @@
 'use client';
 
-import emotionStyled from '@emotion/styled';
+import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { UserProfile } from '@/src/types/DBTypes';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
@@ -16,7 +16,23 @@ import AvatarInputFile from './AvatarInputFile';
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 import { Button } from '../../commons/Buttons/Button';
 
-const Form = emotionStyled.form`
+const Root = styled.main`
+  border: 1px solid var(--card-header-border-color);
+  border-radius: 5px;
+  margin: 20px;
+`;
+const Content = styled.div`
+  margin: 20px;
+`;
+
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--card-header-border-color);
+`;
+const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
@@ -33,7 +49,8 @@ export const Profile = () => {
   });
   const profile = useAuthSelector((state) => state.profile);
 
-  const t = useTranslations('ProfileForm');
+  const tProfileForm = useTranslations('ProfileForm');
+  const t = useTranslations();
   const tCommons = useTranslations('commons');
 
   const authDispatch = useAuthDispatch();
@@ -86,32 +103,37 @@ export const Profile = () => {
     await onUpdateProfile(form);
   };
   return (
-    <main>
-      <ChangeEmailForm
-        email={form.email}
-        onChangeEmailValue={handleChangeEmailValue}
-      />
-
-      <Form onSubmit={handleUpdateProfile}>
-        <AvatarInputFile profile={form} onChange={handleInputFileChange} />
-        <InputGroup
-          id='firstname'
-          name='firstname'
-          label={t('firstname')}
-          onInputChange={handleInputChange}
-          value={form.firstname}
-        />
-        <InputGroup
-          id='lastname'
-          name='lastname'
-          label={t('lastname')}
-          onInputChange={handleInputChange}
-          value={form.lastname}
-        />
-
-        <Button type='submit'>{tCommons('edit')}</Button>
-      </Form>
+    <>
+      <Root>
+        <Header>
+          <h1>{t('Navbar.personalInfo')}</h1>
+        </Header>
+        <Content>
+          <ChangeEmailForm
+            email={form.email}
+            onChangeEmailValue={handleChangeEmailValue}
+          />
+          <Form onSubmit={handleUpdateProfile}>
+            <AvatarInputFile profile={form} onChange={handleInputFileChange} />
+            <InputGroup
+              id='firstname'
+              name='firstname'
+              label={tProfileForm('firstname')}
+              onInputChange={handleInputChange}
+              value={form.firstname}
+            />
+            <InputGroup
+              id='lastname'
+              name='lastname'
+              label={tProfileForm('lastname')}
+              onInputChange={handleInputChange}
+              value={form.lastname}
+            />
+            <Button type='submit'>{tCommons('edit')}</Button>
+          </Form>
+        </Content>
+      </Root>
       <AddressForm prevAddresses={form.addresses} />
-    </main>
+    </>
   );
 };

@@ -14,9 +14,13 @@ import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
 import { CategoryList } from './CategoryList';
 import { SmallButton } from '@/src/app/components/commons/Buttons/SmallButton';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
+import { sortArrayByAlphabet } from '@/src/lib/utils/main';
 
 const Root = styled.aside`
   width: 300px;
+  @media (max-width: 768px) {
+    width: unset;
+  }
 `;
 
 interface Props {
@@ -39,7 +43,7 @@ export const Menu = ({
     const unsubscribe = onFindAllRealtime(
       ENUM_COLLECTIONS.CATEGORIES,
       (data) => {
-        setCategories(data);
+        setCategories(sortArrayByAlphabet<ICategory>(data, 'name'));
       },
       (error) => {
         // console.log(error);

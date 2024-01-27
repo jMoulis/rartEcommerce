@@ -1,10 +1,10 @@
 :root {
-  --default-font-color: rgb(32, 69, 94);
+  --default-font-color: rgb(8, 91, 121);
   --header-font-color: rgb(22, 45, 61);
   --background-section-color: rgb(240, 244, 247);
   --card-header-border-color: rgb(223, 229, 235);
   --input-border-color: rgb(193, 228, 254);
-  --input-background-color-hover: rgb(234, 247, 255);
+  --input-border-color: rgb(234, 247, 255);
   --primary-color: rgb(56, 153, 236);
   --success-color: rgba(11, 175, 11, 0.7);
   --error-color: rgba(255, 0, 0, 0.5);
@@ -14,6 +14,18 @@
   --button-ellipsis-color: rgba(0, 0, 0, 0.8);
   --cancel-color: rgba(0, 0, 0, 0.5);
   --disable-block-color: rgba(0, 0, 0, 0.3);
+  --primary-color: rgb(8, 91, 121);
+  --primary-accent: rgb(103, 221, 238);
+  --secondary-color: rgb(106, 8, 120);
+  --secondary-accent: #FFBDFF;
+  --tertiary-color: #FDF5F8;
+  --tertiary-accent-1: #845B6A;
+  --tertiary-accent-2: #82240E;
+  --white: #fff;
+  --default-font-color: #000;
+  --font-weight-body: 400;
+  --title-font-size: 46px;
+  --subtile-font-size: 35px;
 }
 
 * {
@@ -21,6 +33,7 @@
   padding: 0;
   margin: 0;
   color: var(--default-font-color);
+  -webkit-font-smoothing: antialiased;
 }
 
 html,
@@ -108,7 +121,7 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
+  font-family: var(--font-garamond);
   vertical-align: baseline;
 }
 
@@ -134,7 +147,7 @@ p,
 textarea,
 span {
   display: block;
-  font-family: sans-serif;
+  font-family: var(--font-garamond);
 }
 
 h1,
@@ -146,9 +159,10 @@ h6,
 input,
 textarea,
 label,
+select,
 span {
   color: var(--header-font-color);
-  font-family: sans-serif;
+  font-family: var(--font-garamond);
 }
 
 html,
@@ -185,6 +199,7 @@ table {
 
 a {
   color: inherit;
+  text-decoration: none;
 }
 
 button {
@@ -217,19 +232,3 @@ select:hover {
   margin-bottom: 5px;
   font-weight: 400;
 }
-
-.page {
-  height: calc(100vh - 50px);
-  overflow: hidden;
-}
-
-.section-page {
-  position: relative;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--background-section-color);
-  overflow: hidden;
-}
-
-@media (prefers-color-scheme: dark) {}

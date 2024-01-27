@@ -18,7 +18,16 @@ export const PriceCard = ({
 }: Props) => {
   const t = useTranslations();
   return (
-    <Article headerTitle={t('ProductForm.price')}>
+    <Article
+      headerTitle={t('ProductForm.price')}
+      styling={{
+        root: {
+          marginRight: '10px',
+        },
+        body: {
+          flexWrap: 'wrap',
+        },
+      }}>
       <InputGroup
         label={t('ProductForm.price')}
         type='number'

@@ -1,5 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 import { ENUM_ROLES } from '../app/contexts/auth/enums';
+import { IImageType } from '../app/components/dashboard/products/CreateForm/ImageLoader/types';
+import { Frequency, ByWeekday } from '../app/components/dashboard/bookings/Session/types';
 
 export type InvoiceStatusType = 'paid' | 'unpaid' | 'overdue';
 export type PaymentMethodType = 'creditCard' | 'bankTransfert' | 'check';
@@ -258,4 +260,63 @@ export interface UserProfile {
   lastname?: string;
   addresses: IAddress[];
   roles: ENUM_ROLES[];
+}
+
+export interface IRepetition {
+  occurencesJsonUrl?: string;
+  frequency?: Frequency;
+  days?: ByWeekday[];
+  end?: string;
+  rule?: string;
+  interval?: number;
+  start?: string;
+  _id?: string;
+}
+export interface IOccurence {
+  dayString: string;
+  dayNumber: string;
+  monthString: string;
+  yearString: string;
+  time24: string;
+  jsDate: Date;
+  available: boolean;
+  sessionId: string;
+}
+export interface ISession {
+  _id: string; // client generated
+  start: string;
+  end?: string;
+  duration?: number;
+  people: string[];
+  calenderId?: string;
+  location?: string; // Location refId
+  repetition?: IRepetition;
+}
+export interface ISubscription {
+  _id: string;
+  name: string;
+  description: string;
+  image?: IImageType;
+  price: number;
+  recurring?: boolean;
+  paymentPeriod: 'monthly' | 'weekly' | 'annualy';
+  paymentEnding: string;
+}
+export interface IBooking {
+  _id?: string;
+  categories?: string[];
+  image?: IProductImage;
+  name: string;
+  excerpt?: string;
+  description?: string;
+  maxParticipants: number;
+  currentParticipantIds: string[];
+  status?: 'upcoming' | 'ongoing' | 'completed';
+  instructorId?: string;
+  paymentType?: 'session' | 'subscription',
+  subscriptionId?: string;
+  price: number,
+  preferences?: 'online' | 'person' | 'both' | 'account'
+  locationId?: string;
+  sessions: ISession[];
 }

@@ -8,6 +8,14 @@ import { AuthProvider } from '../contexts/auth/AuthContext';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { getCurrentUser } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
+import { EB_Garamond } from 'next/font/google';
+
+const garamond = EB_Garamond({
+  subsets: ['latin'],
+  display: 'block',
+  weight: ['400', '500', '600', '700', '800'],
+  fallback: ['serif'],
+});
 
 config.autoAddCss = false;
 
@@ -40,7 +48,7 @@ export default async function RootLayout({ children, params }: Props) {
   const current = await getCurrentUser();
 
   return (
-    <html lang={params.locale}>
+    <html lang={params.locale} className={garamond.className}>
       <body>
         <AppRouterCacheProvider>
           <NextIntlProvider
