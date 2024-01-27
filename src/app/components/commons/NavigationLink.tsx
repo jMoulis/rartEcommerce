@@ -27,7 +27,6 @@ const Root = styled.div<{ activelink: boolean }>`
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.15s;
   margin-right: 10px;
-
   &:hover {
     background-color: var(--primary-accent);
     color: var(--default-font-color);

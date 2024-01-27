@@ -4,6 +4,27 @@ import Image from 'next/image';
 import { Flexbox } from '../../commons/Flexbox';
 import { Subtitle } from '../commons/typography/Subtitle';
 import { useTranslations } from 'next-intl';
+import styled from '@emotion/styled';
+
+const TextWrapper = styled(Flexbox)`
+  margin-right: 50px;
+  min-width: 500px;
+  @media (max-width: 768px) {
+    width: 100%;
+    min-width: unset;
+  }
+`;
+
+const Text = styled.p`
+  color: var(--white);
+  margin: 20px 0;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: justify;
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+`;
 
 export default function SectionAbout() {
   const t = useTranslations();
@@ -13,46 +34,34 @@ export default function SectionAbout() {
     <>
       <Section
         style={{
-          height: '500px',
           backgroundColor: 'var(--secondary-color)',
           display: 'flex',
           justifyContent: 'space-between',
           flexWrap: 'wrap',
-          padding: '70px 50px',
         }}>
-        <Flexbox
-          flex='1'
-          flexDirection='column'
-          style={{
-            marginRight: '50px',
-          }}>
+        <TextWrapper flex='1' flexDirection='column'>
           <Subtitle>{t('Home.about')}</Subtitle>
           <ul>
             {keys.map((key) => (
               <li key={key}>
-                <p
-                  style={{
-                    color: 'var(--white)',
-                    margin: '20px 0',
-                  }}>
-                  {t(`Home.sectionAbout.${key}`)}
-                </p>
+                <Text>{t(`Home.sectionAbout.${key}`)}</Text>
               </li>
             ))}
           </ul>
-        </Flexbox>
+        </TextWrapper>
         <Flexbox
           flex='1'
           justifyContent='center'
           alignItems='center'
           style={{
-            height: '100%',
             position: 'relative',
+            width: '100%',
           }}>
           <Image
             alt='Rachel'
             src='/images/home/rachAbout.webp'
-            fill
+            width='400'
+            height='300'
             style={{
               borderRadius: '15px',
               objectFit: 'cover',

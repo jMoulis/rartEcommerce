@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Dialog, Menu } from '@mui/material';
-import emotionStyled from '@emotion/styled';
+import styled from '@emotion/styled';
 import { AuthMenu } from './AuthMenu';
 import { LinksMenu } from './LinksMenu';
 import { useToggle } from '../../hooks/useToggle';
@@ -13,7 +13,9 @@ import { useAuthSelector } from '@/src/app/contexts/auth/hooks/useAuthSelector';
 import { UserProfile } from '@/src/types/DBTypes';
 import PlaceholderAvatar from '../../account/profile/PlaceholderAvatar';
 
-const ButtonProfileMenu = emotionStyled.button``;
+const ButtonProfileMenu = styled.button`
+  margin-left: 10px;
+`;
 
 export const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);

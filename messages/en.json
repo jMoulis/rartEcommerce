@@ -103,6 +103,18 @@
       "explanation": "Elle ne sera plus disponible"
     }
   },
+  "Contact": {
+    "title": "Au plaisir d'échanger avec vous",
+    "coords": {
+      "formContact": "En complétant le formulaire de contact",
+      "email": "Par mail à <a href='mailto:{email}'",
+      "phone": "Par téléphone <a href='phone:{number}'"
+    },
+    "name": "Nom",
+    "email": "E-mail",
+    "message": "Message",
+    "send": "Envoyer"
+  },
   "Course": {
     "title": "Titre",
     "courses": "Cours"
@@ -154,7 +166,8 @@
     "account": "Compte",
     "personalInfo": "Informations personnelles",
     "bookNow": "Réserver maintenant",
-    "buyNow": "Acheter maintenant"
+    "buyNow": "Acheter maintenant",
+    "orders": "Commandes"
   },
   "Product": {
     "addProduct": "Ajouter un article"

@@ -26,15 +26,30 @@ const Root = styled.header`
   top: 0;
   right: 0;
   z-index: 300;
+  padding: 20px 20px;
+  padding-right: 10px;
+  @media (max-width: 768px) {
+    padding: 20px 10px 20px 20px;
+  }
 `;
 
 const Nav = styled.nav`
   display: flex;
   align-items: center;
-  padding: 1.5rem 3rem;
+  padding: 0;
 `;
+
 const ListRoute = styled.ul`
   display: flex;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+const ToolbarWrapper = styled(Flexbox)`
+  display: flex;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 interface Props {
@@ -53,7 +68,6 @@ export const Navbar = ({ current }: Props) => {
         <ListRoute>
           {navRoutes(t).map((route, key) => {
             const isRootRoute = route.href === '/';
-
             const checkedUrl = isRootRoute
               ? `/${locale}`
               : `/${locale}${route.href}`;
@@ -66,7 +80,7 @@ export const Navbar = ({ current }: Props) => {
             );
           })}
         </ListRoute>
-        <Flexbox alignItems='center'>
+        <ToolbarWrapper alignItems='center'>
           <LocaleSwitcher />
           <Suspense
             fallback={
@@ -76,7 +90,7 @@ export const Navbar = ({ current }: Props) => {
             }>
             <ProfileMenu />
           </Suspense>
-        </Flexbox>
+        </ToolbarWrapper>
       </Nav>
     </Root>
   );

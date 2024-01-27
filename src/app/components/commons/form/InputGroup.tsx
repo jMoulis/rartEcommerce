@@ -12,6 +12,7 @@ interface Props {
   defaultValue?: string | number;
   type?: string;
   className?: string;
+  required?: boolean;
   styling?: {
     root?: React.CSSProperties;
     label?: React.CSSProperties;
@@ -30,6 +31,7 @@ export const InputGroup = ({
   onBlur,
   className,
   styling,
+  required,
 }: Props) => {
   return (
     <Label
@@ -50,6 +52,7 @@ export const InputGroup = ({
         onBlur={onBlur}
         value={value ?? undefined}
         defaultValue={defaultValue}
+        required={required}
       />
     </Label>
   );

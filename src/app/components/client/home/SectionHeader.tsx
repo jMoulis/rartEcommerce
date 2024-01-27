@@ -7,24 +7,40 @@ import { Flexbox } from '../../commons/Flexbox';
 import { NavigationLink } from '../../commons/NavigationLink';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
 import { useTranslations } from 'next-intl';
+import styled from '@emotion/styled';
+
+const BackgroundImageWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: contrast(0.5);
+`;
+
+const ContentWrapper = styled(Flexbox)`
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 30px;
+`;
+
+const CustomSection = styled(Section)`
+  height: 500px;
+  @media (max-width: 768px) {
+    height: 350px;
+  }
+`;
 
 export default function SectionHeader() {
   const t = useTranslations();
   return (
     <>
-      <Section
-        style={{
-          height: '500px',
-        }}>
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            filter: 'contrast(0.5)',
-          }}>
+      <CustomSection>
+        <BackgroundImageWrapper>
           <Image
             alt='Wonderful picture'
             src={'/images/home/background.webp'}
@@ -33,19 +49,11 @@ export default function SectionHeader() {
               objectFit: 'cover',
             }}
           />
-        </div>
-        <Flexbox
+        </BackgroundImageWrapper>
+        <ContentWrapper
           alignItems='center'
           flexDirection='column'
-          justifyContent='center'
-          style={{
-            zIndex: 10,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}>
+          justifyContent='center'>
           <Title
             style={{
               marginBottom: '20px',
@@ -79,8 +87,8 @@ export default function SectionHeader() {
               }}
             />
           </Flexbox>
-        </Flexbox>
-      </Section>
+        </ContentWrapper>
+      </CustomSection>
     </>
   );
 }

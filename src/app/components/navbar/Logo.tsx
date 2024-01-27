@@ -5,14 +5,28 @@ import Link from 'next/link';
 import { ENUM_ROUTES } from './routes.enums';
 
 const CustomLink = styled(Link)`
-  width: 100px;
-  height: 100px;
+  /* width: 50px;
+  height: 50px; */
 `;
 
-export const Logo = () => {
+interface Props {
+  size?: {
+    width?: number;
+    height?: number;
+  };
+}
+export const Logo = ({ size }: Props) => {
   return (
     <CustomLink href={ENUM_ROUTES.HOME}>
-      <Image src='' alt='Rart-creation' />
+      <Image
+        src='/images/logo.png'
+        height={size?.height ?? 50}
+        width={size?.width ?? 50}
+        alt='Rart-creation'
+        style={{
+          borderRadius: '10px',
+        }}
+      />
     </CustomLink>
   );
 };

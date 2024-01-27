@@ -1,5 +1,5 @@
 :root {
-  --default-font-color: #085B79;
+  --default-font-color: rgb(8, 91, 121);
   --header-font-color: rgb(22, 45, 61);
   --background-section-color: rgb(240, 244, 247);
   --card-header-border-color: rgb(223, 229, 235);
@@ -14,9 +14,9 @@
   --button-ellipsis-color: rgba(0, 0, 0, 0.8);
   --cancel-color: rgba(0, 0, 0, 0.5);
   --disable-block-color: rgba(0, 0, 0, 0.3);
-  --primary-color: #085B79;
-  --primary-accent: #67DDEE;
-  --secondary-color: #6A0878;
+  --primary-color: rgb(8, 91, 121);
+  --primary-accent: rgb(103, 221, 238);
+  --secondary-color: rgb(106, 8, 120);
   --secondary-accent: #FFBDFF;
   --tertiary-color: #FDF5F8;
   --tertiary-accent-1: #845B6A;

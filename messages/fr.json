@@ -105,6 +105,18 @@
       "explanation": "Elle ne sera plus disponible"
     }
   },
+  "Contact": {
+    "title": "Au plaisir d'échanger avec vous",
+    "coords": {
+      "formContact": "En complétant le formulaire de contact",
+      "email": "Par mail à",
+      "phone": "Par téléphone"
+    },
+    "name": "Nom",
+    "email": "E-mail",
+    "message": "Message",
+    "send": "Envoyer"
+  },
   "Course": {
     "title": "Titre",
     "courses": "Cours"
@@ -137,6 +149,7 @@
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
     }
   },
+
   "LocaleSwitcher": {
     "label": "Langue",
     "locale": "{locale, select, fr {Français} en {Anglais} other {Inconnu}}"
@@ -156,7 +169,8 @@
     "account": "Compte",
     "personalInfo": "Informations personnelles",
     "bookNow": "Réserver maintenant",
-    "buyNow": "Acheter maintenant"
+    "buyNow": "Acheter maintenant",
+    "orders": "Commandes"
   },
   "Product": {
     "addProduct": "Ajouter un article"
