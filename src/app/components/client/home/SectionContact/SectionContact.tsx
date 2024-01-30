@@ -12,6 +12,9 @@ const CustomSection = styled(Section)`
   );
   justify-content: space-around;
   padding-top: 10px;
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 export default function SectionContact() {

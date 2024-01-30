@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     const occurrences = generateOccurrences(reqBody.start, reqBody.interval, reqBody.end, reqBody.days, reqBody.frequency);
     const formattedOccurences = occurrences.map(formatDateInfo);
 
-    return NextResponse.json<APIResponse<IOccurence[]>>({ success: true, data: formattedOccurences });
+    return NextResponse.json<APIResponse<IOccurence[]>>({ error: null, success: true, data: formattedOccurences });
   } catch (error: any) {
     return NextResponse.json<APIResponse<Date[]>>({ success: false, data: null, error }, {
       status: 400

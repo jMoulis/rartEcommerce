@@ -113,7 +113,11 @@
     "name": "Nom",
     "email": "E-mail",
     "message": "Message",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "sendingMessage": "En train d'envoyer votre message aux étoiles de l'art... Un instant, s'il vous plaît.",
+    "success": "Nous avons reçu votre message",
+    "subject": "Confirmation de votre demande de contact sur {company}",
+    "securityLoading": "Chargement de securité"
   },
   "Course": {
     "title": "Titre",
