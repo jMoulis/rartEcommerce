@@ -25,7 +25,8 @@
   --default-font-color: #000;
   --font-weight-body: 400;
   --title-font-size: 46px;
-  --subtile-font-size: 35px;
+  --subtile-font-size: 20px;
+  --default-font-size: 16px;
 }
 
 * {

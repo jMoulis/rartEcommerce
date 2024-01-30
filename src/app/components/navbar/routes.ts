@@ -6,19 +6,19 @@ export const navRoutes = (t: any): INavigationRoute[] => [{
   href: '/',
   icon: faStore
 }, {
+  label: t('Navbar.products'),
+  href: '/products',
+  icon: faStore
+}, {
+  label: t('Navbar.services'),
+  href: '/services',
+  icon: faStore
+}, {
   label: t('Navbar.about'),
   href: '/about',
   icon: faStore
 },
 {
-  label: t('Navbar.services'),
-  href: '/services',
-  icon: faStore
-}, {
-  label: t('Navbar.products'),
-  href: '/products',
-  icon: faStore
-}, {
   label: t('Navbar.reviews'),
   href: '/reviews',
   icon: faStore

@@ -190,7 +190,6 @@ export const CreateFormHeader = ({
       }
     };
   }, []);
-
   return (
     <>
       <TopHeader ref={headerRef}>

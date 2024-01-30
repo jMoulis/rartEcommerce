@@ -1,9 +1,7 @@
-'use server';
-
 import { onErrorMessage, onSuccessMessage } from '@/src/app/contexts/shared/response';
 import { ENUM_COLLECTIONS } from '../enums';
 import { db } from '../firebase';
-import { doc, setDoc, collection as firestoreCollection, getDoc, getDocs, deleteDoc } from 'firebase/firestore';
+import { doc, setDoc, collection as firestoreCollection, getDoc, getDocs, deleteDoc, QueryConstraint, where, query } from 'firebase/firestore';
 
 export const onCreateDocument = async (
   fields: Record<string, any>,
@@ -50,6 +48,28 @@ export const findAll = async (collection: ENUM_COLLECTIONS) => {
     const querySnapshot = await getDocs(productsRef);
     const products = querySnapshot.docs.map(doc => ({
       ...doc.data(),
+      _id: doc.id,
+    }));
+    return products;
+  } catch (error) {
+    return onErrorMessage(error);
+  }
+};
+export const findByQuery = async (collection: ENUM_COLLECTIONS, queryObject: any) => {
+  try {
+    const productsRef = firestoreCollection(db, collection);
+    const queryConstraints: QueryConstraint[] = [];
+
+    for (const [field, value] of Object.entries(queryObject)) {
+      queryConstraints.push(where(field, '==', value));
+    }
+
+    const firebaseQuery = query(productsRef, ...queryConstraints);
+
+    const querySnapshot = await getDocs(firebaseQuery);
+
+    const products = querySnapshot.docs.map(doc => ({
+      ...doc.data() || {},
       _id: doc.id,
     }));
     return products;

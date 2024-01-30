@@ -42,6 +42,10 @@ const CustomButton = styled(Button)`
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 12px 16px;
+  @media (max-width: 768px) {
+    margin: 0;
+    margin-top: 10px;
+  }
 `;
 
 const CustomSubtitle = styled(Subtitle)`
@@ -55,6 +59,9 @@ const ListItem = styled.li`
 const Text = styled.p`
   color: #fff;
   margin: 10px;
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 `;
 const Form = styled.form`
   position: relative;
@@ -261,6 +268,7 @@ export const ContactForm = (props: Props) => {
             />
             <Flexbox
               alignItems='center'
+              flexWrap='wrap'
               justifyContent='space-between'
               style={{
                 marginTop: '20px',

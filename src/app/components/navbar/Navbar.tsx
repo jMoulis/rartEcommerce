@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import LocaleSwitcher from './LocaleSwitcher';
 import styled from '@emotion/styled';
 import { ProfileMenu } from './ProfileMenu/ProfileMenu';
@@ -16,12 +16,14 @@ import { NavigationLink } from '../commons/NavigationLink';
 import { Logo } from './Logo';
 import { usePathname } from 'next/navigation';
 
-const Root = styled.header`
+const Root = styled.header<{ isScrolled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--primary-color);
+  background-color: ${({ isScrolled }) =>
+    isScrolled ? 'var(--primary-color)' : 'transparent'};
   position: fixed;
+  transition: background-color 150ms ease;
   left: 0;
   top: 0;
   right: 0;
@@ -59,10 +61,27 @@ export const Navbar = ({ current }: Props) => {
   useUserSession(current);
   const t = useTranslations();
   const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const locale = useLocale();
+
   return (
-    <Root>
+    <Root isScrolled={isScrolled}>
       <Logo />
       <Nav>
         <ListRoute>

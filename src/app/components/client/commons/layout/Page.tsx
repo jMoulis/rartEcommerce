@@ -2,20 +2,24 @@
 
 import styled from '@emotion/styled';
 import { Footer } from '../../../Footer/Footer';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 const Root = styled.main`
   height: 100vh;
-  overflow: auto;
+  /* overflow: auto; */
   padding-top: 80px;
+  @media (max-width: 768px) {
+    padding-top: 70px;
+  }
 `;
 
 interface Props {
   children: ReactNode;
+  style?: CSSProperties;
 }
-export const Page = ({ children }: Props) => {
+export const Page = ({ children, style }: Props) => {
   return (
-    <Root>
+    <Root style={style}>
       {children}
       <Footer />
     </Root>

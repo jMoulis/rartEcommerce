@@ -1,32 +1,32 @@
 import React from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
-import { Subtitle } from '../commons/typography/Subtitle';
+import Link from 'next/link';
 
-const Root = styled.div`
+const Root = styled(Link)`
   label: Root;
-  width: 500px;
-  height: 350px;
+  max-width: 200px;
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 400px;
-  flex: 1;
-  margin: 0 40px;
+  width: 200px;
+  min-width: 200px;
+  margin: 0 20px;
+  cursor: pointer;
   @media (max-width: 768px) {
     width: 100%;
     min-width: 100%;
     height: 300px;
     margin: 30px 0;
+    flex: 1;
   }
 `;
 const ImageContent = styled.div`
   label: ImageContent;
-  width: 100%;
   position: relative;
-  height: 250px;
-  margin-bottom: 20px;
-  min-height: 250px;
+  height: 150px;
+  margin-bottom: 5px;
+  min-height: 150px;
   @media (max-width: 768px) {
     width: 100%;
     height: 250px;
@@ -34,16 +34,45 @@ const ImageContent = styled.div`
   }
 `;
 
+const Text = styled.p`
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  line-height: 18px;
+`;
+const Price = styled(Text)`
+  font-weight: 700;
+`;
+const Title = styled.h2`
+  color: var(--white);
+  font-weight: 700;
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
+`;
+
 interface Props {
   title: string;
-  imageIndex: number;
-  root: string;
+  src?: string;
   textColor: string;
+  price: number;
+  description: string;
+  id: string;
 }
 
-export const Card = ({ imageIndex, title, root, textColor }: Props) => {
+export const Card = ({
+  title,
+  src,
+  textColor,
+  price,
+  description,
+  id,
+}: Props) => {
   return (
-    <Root>
+    <Root href={`/products/${id}`}>
       <ImageContent>
         <Image
           fill
@@ -52,16 +81,19 @@ export const Card = ({ imageIndex, title, root, textColor }: Props) => {
             objectPosition: 'center',
             borderRadius: '10px',
           }}
+          sizes='500px'
           alt={title}
-          src={`${root}${imageIndex + 1}.webp`}
+          src={src ?? ''}
         />
       </ImageContent>
-      <Subtitle
+      <Title
         style={{
           color: textColor,
         }}>
         {title}
-      </Subtitle>
+      </Title>
+      <Text>{description}</Text>
+      <Price>{price}€</Price>
     </Root>
   );
 };

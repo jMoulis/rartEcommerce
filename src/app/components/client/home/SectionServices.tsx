@@ -17,15 +17,17 @@ export default function SectionServices() {
   return (
     <>
       <CustomSection>
-        <Subtitle>{t('Home.about')}</Subtitle>
+        <Subtitle>{t('Home.services')}</Subtitle>
         <Flexbox flexWrap='wrap'>
           {services.map((service, imageIndex) => (
             <Card
               textColor='#fff'
-              root='/images/services/service'
+              src='/images/services/service'
               key={imageIndex}
-              imageIndex={imageIndex}
               title={service.title}
+              description=''
+              price={2}
+              id='imageIndex'
             />
           ))}
         </Flexbox>

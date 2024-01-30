@@ -7,15 +7,22 @@ import SectionServices from './SectionServices';
 import SectionProducts from './SectionProducts';
 import SectionContact from './SectionContact/SectionContact';
 import SectionTestimonial from './SectionTestimonial';
+import { IProductService } from '@/src/types/DBTypes';
 
-export default function Home() {
+interface Props {
+  initialProducts: IProductService[];
+}
+export default function Home({ initialProducts }: Props) {
   return (
-    <Page>
+    <Page
+      style={{
+        paddingTop: 0,
+      }}>
       <SectionHeader />
-      <SectionAbout />
+      <SectionProducts products={initialProducts} />
       <SectionServices />
-      <SectionProducts />
       <SectionTestimonial />
+      <SectionAbout />
       <SectionContact />
     </Page>
   );
