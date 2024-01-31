@@ -1,3 +1,4 @@
+/* eslint-disable n/handle-callback-err */
 'use client';
 import { Page } from '@/src/app/components/client/commons/layout/Page';
 import { IProductImage, IProductService } from '@/src/types/DBTypes';
@@ -8,6 +9,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { ImageNavigation } from './ImageNavigation';
 import { MainImage } from './MainImage';
 import { ProductOptions } from './ProductOptions';
+import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { Unsubscribe } from 'firebase/firestore';
 
 const Title = styled.h1`
   z-index: 10;
@@ -25,22 +29,52 @@ const BackgroundImageWrapper = styled.div`
 `;
 
 interface Props {
-  product: IProductService;
+  initialProduct: IProductService;
 }
-export default function ProductDetail({ product }: Props) {
+export default function ProductDetail({ initialProduct }: Props) {
+  const [product, setProduct] = useState<IProductService>();
+  const { onFindSingleRealtime } = useFirestore();
+
+  useEffect(() => {
+    setProduct(initialProduct);
+  }, [initialProduct]);
+
+  useEffect(() => {
+    let unsubscribe: Unsubscribe | null = null;
+    if (product?._id) {
+      unsubscribe = onFindSingleRealtime(
+        ENUM_COLLECTIONS.PRODUCTS,
+        product?._id,
+        (data) => {
+          setProduct(data);
+        },
+        (error) => {
+          // console.log(error);
+        }
+      );
+    }
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, [product?._id]);
   const [selectedImage, setSelectedImage] = useState<IProductImage | null>(
     null
   );
   const defaultImage = useMemo(() => {
     const foundImage: IProductImage | undefined =
-      product.images.find((image) => image.default) ?? product.images[0];
+      product?.images.find((image) => image.default) ?? product?.images[0];
     return foundImage;
-  }, [product.images]);
+  }, [product?.images]);
   useEffect(() => {
     if (!selectedImage && defaultImage) {
       setSelectedImage(defaultImage);
     }
   }, [selectedImage, defaultImage]);
+
+  if (!product) return null;
 
   return (
     <Page

@@ -1,9 +1,68 @@
 'use client';
+
 import { Page } from '@/src/app/components/client/commons/layout/Page';
-import { IProductService } from '@/src/types/DBTypes';
+import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { IProductImage, IProductService } from '@/src/types/DBTypes';
+import { useCallback, useEffect, useState } from 'react';
+import { Flexbox } from '../../commons/Flexbox';
+import { Card } from '../home/Card';
+
 interface Props {
-  products: IProductService[];
+  initialProducts: IProductService[];
 }
-export default function Products({ products }: Props) {
-  return <Page>Products</Page>;
+
+export default function Products({ initialProducts }: Props) {
+  const [products, setProducts] = useState<IProductService[]>([]);
+  const { onFindAllRealtime } = useFirestore();
+
+  useEffect(() => {
+    setProducts(initialProducts);
+  }, [initialProducts]);
+
+  useEffect(() => {
+    const unsubscribe = onFindAllRealtime(
+      ENUM_COLLECTIONS.PRODUCTS,
+      (data) => {
+        setProducts(data);
+      },
+      (error) => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      },
+      {
+        published: true,
+      }
+    );
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, []);
+  const imageProduct = useCallback((product: IProductService) => {
+    const defaultImage: IProductImage | undefined =
+      product.images.find((image) => image.default) ?? product.images[0];
+    return defaultImage?.url;
+  }, []);
+
+  return (
+    <Page>
+      <Flexbox flexWrap='wrap'>
+        {products.map((product, imageIndex) => (
+          <Card
+            textColor='var(--default-font-color)'
+            key={imageIndex}
+            src={imageProduct(product)}
+            title={product.name}
+            price={product.price}
+            description={product.description}
+            id={product._id!}
+            hrefRoot='products'
+          />
+        ))}
+      </Flexbox>
+    </Page>
+  );
 }

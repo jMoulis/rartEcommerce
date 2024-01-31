@@ -61,6 +61,7 @@ interface Props {
   price: number;
   description: string;
   id: string;
+  hrefRoot: string;
 }
 
 export const Card = ({
@@ -70,9 +71,10 @@ export const Card = ({
   price,
   description,
   id,
+  hrefRoot,
 }: Props) => {
   return (
-    <Root href={`/products/${id}`}>
+    <Root href={`/${hrefRoot}/${id}`}>
       <ImageContent>
         <Image
           fill
@@ -92,7 +94,12 @@ export const Card = ({
         }}>
         {title}
       </Title>
-      <Text>{description}</Text>
+      <Text
+        style={{
+          flex: 1,
+        }}>
+        {description}
+      </Text>
       <Price>{price}€</Price>
     </Root>
   );

@@ -319,4 +319,5 @@ export interface IBooking {
   preferences?: 'online' | 'person' | 'both' | 'account'
   locationId?: string;
   sessions: ISession[];
+  pusblished: boolean;
 }

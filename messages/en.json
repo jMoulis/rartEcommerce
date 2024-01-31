@@ -155,7 +155,7 @@
   },
   "LocaleSwitcher": {
     "label": "Langue",
-    "locale": "{locale, select, fr {Français} en {Anglais} other {Unknown}}"
+    "locale": "{locale, select, fr {French} en {English} other {Unknown}}"
   },
   "Metadata": {
     "title": "Rartcreation",

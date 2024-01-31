@@ -6,5 +6,5 @@ import { notFound } from 'next/navigation';
 export default async function ProductDetailPage({ params }: any) {
   const payload = await getDocument(params.id, ENUM_COLLECTIONS.PRODUCTS);
   if (payload.error) notFound();
-  return <ProductDetail product={payload.data} />;
+  return <ProductDetail initialProduct={payload.data} />;
 }

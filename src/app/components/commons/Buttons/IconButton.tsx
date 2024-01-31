@@ -21,12 +21,12 @@ const Root = styled(Button)<{
     if (variant === 'xs') return '20px';
     return '30px';
   }};
-  & * {
-    font-size: ${({ variant }) => {
-      if (variant === 'xs') return '10px';
-      return '20px';
-    }};
-  }
+  color: unset;
+  font-size: ${({ variant }) => {
+    if (variant === 'xs') return '10px';
+    return '20px';
+  }};
+
   background-color: ${({ backgroundColor }) => backgroundColor};
   display: flex;
   justify-content: center;

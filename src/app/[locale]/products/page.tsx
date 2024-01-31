@@ -3,8 +3,8 @@ import Products from '../../components/client/products';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 
 export default async function ProductPage() {
-  const products: any = await findByQuery(ENUM_COLLECTIONS.PRODUCTS, {
+  const initialProducts: any = await findByQuery(ENUM_COLLECTIONS.PRODUCTS, {
     published: true,
   });
-  return <Products products={products} />;
+  return <Products initialProducts={initialProducts} />;
 }

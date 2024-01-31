@@ -54,7 +54,8 @@ export const generateDefaultBooking: () => IBooking = () => {
     maxParticipants: 0,
     currentParticipantIds: [],
     price: 0,
-    sessions: []
+    sessions: [],
+    pusblished: false,
   });
 };
 export const buildDefaultTemplate: (t: any) => ITemplate = (t) => {

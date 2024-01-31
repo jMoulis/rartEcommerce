@@ -25,7 +25,7 @@
   --default-font-color: #000;
   --font-weight-body: 400;
   --title-font-size: 46px;
-  --subtile-font-size: 20px;
+  --subtile-font-size: 40px;
   --default-font-size: 16px;
 }
 
@@ -169,6 +169,8 @@ span {
 html,
 body {
   height: 100vh;
+  padding: 0 !important;
+  overflow: hidden;
 }
 
 body {

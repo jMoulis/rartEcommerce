@@ -156,9 +156,9 @@ export const CreateFormHeader = ({
         if (toolbar) {
           if (!entry.isIntersecting) {
             toolbar.style.position = 'fixed';
-            toolbar.style.top = '50px';
+            toolbar.style.top = '80px';
             toolbar.style.right = '0';
-            toolbar.style.left = isMobileDevice ? '0' : '175px';
+            toolbar.style.left = isMobileDevice ? '0' : '200px';
             toolbar.style.zIndex = '300';
             toolbar.style.backgroundColor = '#fff';
             toolbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)'; // Discreet box shadow
@@ -214,7 +214,7 @@ export const CreateFormHeader = ({
                   label={
                     (form as any).published ? t('unPublished') : t('published')
                   }
-                  value={(form as any).published}
+                  value={(form as any).published || false}
                   onInputChange={(event) => onPublish(event, (form as any)._id)}
                 />
               ) : null}

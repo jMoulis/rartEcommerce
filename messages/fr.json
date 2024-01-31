@@ -155,7 +155,6 @@
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
     }
   },
-
   "LocaleSwitcher": {
     "label": "Langue",
     "locale": "{locale, select, fr {Français} en {Anglais} other {Inconnu}}"

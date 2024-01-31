@@ -26,9 +26,9 @@ const ListMenu = styled.ul`
 const Root = styled.aside<{ open: boolean }>`
   width: ${({ open }) => (open ? '200px' : '50px')};
   transition: width 150ms ease-in;
+  border-top-right-radius: 10px;
   min-width: 60px;
   overflow: hidden;
-  padding-top: 20px;
   background-color: #fff;
   grid-area: menu;
 `;
@@ -39,12 +39,20 @@ export const Menu = () => {
   const t = useTranslations();
   return (
     <Root open={open}>
-      <Flexbox justifyContent={open ? 'flex-end' : 'center'}>
+      <Flexbox
+        justifyContent={open ? 'flex-end' : 'center'}
+        style={{
+          padding: '10px',
+          paddingBottom: '5px',
+          borderBottom: '1px solid var(--card-header-border-color)',
+        }}>
         <IconButton
           icon={faChevronRight}
           onClick={onToggle}
           style={{
             transition: 'transform 150ms ease',
+            backgroundColor: 'transparent',
+            color: 'var(--default-font-color) !important',
             transform: open ? 'rotate(180deg)' : 'rotate(360deg)',
             fontSize: '20px',
           }}

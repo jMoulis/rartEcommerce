@@ -1,3 +1,4 @@
+/* eslint-disable n/handle-callback-err */
 'use client';
 import { Section } from '../commons/layout/Section';
 import { Flexbox } from '../../commons/Flexbox';
@@ -6,13 +7,42 @@ import { useTranslations } from 'next-intl';
 import { Card } from './Card';
 // import { products } from './products';
 import { IProductImage, IProductService } from '@/src/types/DBTypes';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 
 interface Props {
-  products: IProductService[];
+  initialProducts: IProductService[];
 }
 
-export default function SectionProducts({ products }: Props) {
+export default function SectionProducts({ initialProducts }: Props) {
+  const [products, setProducts] = useState<IProductService[]>([]);
+  const { onFindAllRealtime } = useFirestore();
+
+  useEffect(() => {
+    setProducts(initialProducts);
+  }, [initialProducts]);
+
+  useEffect(() => {
+    const unsubscribe = onFindAllRealtime(
+      ENUM_COLLECTIONS.PRODUCTS,
+      (data) => {
+        setProducts(data);
+      },
+      (error) => {
+        // console.log(error);
+      },
+      {
+        published: true,
+      }
+    );
+
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, []);
   const t = useTranslations();
   const imageProduct = useCallback((product: IProductService) => {
     const defaultImage: IProductImage | undefined =
@@ -26,6 +56,7 @@ export default function SectionProducts({ products }: Props) {
           minHeight: '500px',
           flexWrap: 'wrap',
           flexDirection: 'column',
+          justifyContent: 'unset',
         }}>
         <Subtitle
           style={{
@@ -43,6 +74,7 @@ export default function SectionProducts({ products }: Props) {
               price={product.price}
               description={product.description}
               id={product._id!}
+              hrefRoot='products'
             />
           ))}
         </Flexbox>

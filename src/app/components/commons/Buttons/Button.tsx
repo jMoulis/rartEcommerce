@@ -12,9 +12,7 @@ export const Button = styled.button`
   align-items: center;
   transition: background-color 150ms ease;
   margin: 0 5px;
-  & * {
-    color: #fff;
-  }
+  color: #fff;
   &:hover {
     background-color: #4eb7f5;
   }

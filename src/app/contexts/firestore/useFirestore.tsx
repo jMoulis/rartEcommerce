@@ -10,6 +10,9 @@ import {
   deleteDoc,
   getDocs,
   getDoc,
+  QueryConstraint,
+  where,
+  FirestoreError,
 } from 'firebase/firestore';
 import { ENUM_COLLECTIONS } from '../../../lib/firebase/enums';
 import { onErrorMessage, onSuccessMessage } from '../shared/response';
@@ -18,12 +21,18 @@ export const useFirestore = () => {
   const onFindAllRealtime = (
     collectionName: ENUM_COLLECTIONS,
     onResult: (data: any[]) => void,
-    onError: (error: Error) => void
+    onError: (error: Error) => void,
+    queryObject = {}
   ) => {
     const productsRef = firestoreCollection(db, collectionName);
+    const queryConstraints: QueryConstraint[] = [];
+
+    for (const [field, value] of Object.entries(queryObject)) {
+      queryConstraints.push(where(field, '==', value));
+    }
 
     return onSnapshot(
-      query(productsRef),
+      query(productsRef, ...queryConstraints),
       (querySnapshot) => {
         const products = querySnapshot.docs.map((doc) => ({
           ...doc.data(),
@@ -66,6 +75,7 @@ export const useFirestore = () => {
       return onErrorMessage(error);
     }
   };
+
   const onDeleteDocument = async (collection: ENUM_COLLECTIONS, id: string) => {
     try {
       const docRef = doc(db, collection, id);
@@ -76,6 +86,7 @@ export const useFirestore = () => {
       return onErrorMessage(error);
     }
   };
+
   const findAllOnce = async (collection: ENUM_COLLECTIONS) => {
     try {
       const productsRef = firestoreCollection(db, collection);
@@ -109,6 +120,7 @@ export const useFirestore = () => {
       return onErrorMessage(error);
     }
   };
+
   const onFetchDocsByIdsArray = async (
     documentRefIds: string[],
     collection: ENUM_COLLECTIONS
@@ -128,6 +140,7 @@ export const useFirestore = () => {
       return onErrorMessage(error);
     }
   };
+
   const onFetchDocsByIdsArrayWithSnapshot = (
     documentRefIds: string[],
     collection: ENUM_COLLECTIONS,
@@ -163,6 +176,34 @@ export const useFirestore = () => {
     }
     return () => unsubscribes.forEach((unsubscribe) => unsubscribe());
   };
+
+  const onFindSingleRealtime = (
+    collectionName: ENUM_COLLECTIONS,
+    docId: string,
+    onResult: (data: any) => void,
+    onError: (error: FirestoreError) => void
+  ) => {
+    const docRef = doc(db, collectionName, docId);
+
+    return onSnapshot(
+      docRef,
+      (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const data = {
+            ...docSnapshot.data(),
+            _id: docSnapshot.id,
+          };
+          onResult(data);
+        } else {
+          // Handle the case where the document does not exist
+          onResult(null);
+        }
+      },
+      (error) => {
+        onError(error);
+      }
+    );
+  };
   return {
     onFindAllRealtime,
     findDocumentById,
@@ -172,5 +213,6 @@ export const useFirestore = () => {
     onCreateDocument,
     onFetchDocsByIdsArray,
     onFetchDocsByIdsArrayWithSnapshot,
+    onFindSingleRealtime,
   };
 };

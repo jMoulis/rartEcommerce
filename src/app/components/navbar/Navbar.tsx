@@ -63,8 +63,8 @@ export const Navbar = ({ current }: Props) => {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const handleScroll = () => {
-    if (window.scrollY > 0) {
+  const handleScroll = (event: any) => {
+    if (event.currentTarget.scrollTop > 0) {
       setIsScrolled(true);
     } else {
       setIsScrolled(false);
@@ -72,9 +72,14 @@ export const Navbar = ({ current }: Props) => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    const mainPage = document.getElementById('page-layout');
+    if (mainPage) {
+      mainPage.addEventListener('scroll', handleScroll);
+    }
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      if (mainPage) {
+        mainPage.removeEventListener('scroll', handleScroll);
+      }
     };
   }, []);
 

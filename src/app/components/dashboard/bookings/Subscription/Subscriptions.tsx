@@ -1,24 +1,31 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
-import { ISubscription } from '@/src/types/DBTypes';
+import { IBooking, ISubscription } from '@/src/types/DBTypes';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { useTranslations } from 'next-intl';
 import { SubscriptionTable } from './SubscriptionTable';
 import { useToggle } from '../../../hooks/useToggle';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
 import { SubscriptionItem } from './SubscriptionItem';
+import { PriceSessionForm } from '../PriceSessionForm';
 
 const Root = styled.div``;
 
 interface Props {
   subscriptionId?: string;
   onSelectSubscription: (subscriptionId: string) => void;
+  form: IBooking;
+  onInputChange: (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
 }
 
 export const Subscriptions = ({
   subscriptionId,
   onSelectSubscription,
+  form,
+  onInputChange,
 }: Props) => {
   const { open, onClose, onOpen } = useToggle();
   const { onFindAllRealtime } = useFirestore();
@@ -50,6 +57,7 @@ export const Subscriptions = ({
 
   return (
     <Root>
+      <PriceSessionForm form={form} onInputChange={onInputChange} />
       <SubscriptionItem onOpen={onOpen} subscription={selectedSubscription} />
       <FullDialog
         open={open}

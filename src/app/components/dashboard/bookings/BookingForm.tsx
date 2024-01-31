@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { IBooking, ISession } from '@/src/types/DBTypes';
 import { useForm } from '../../hooks/useForm';
@@ -133,7 +133,19 @@ export const BookingForm = ({ prevBooking }: Props) => {
       };
     });
   }, []);
+  const handlePublishProduct = useCallback(
+    async (event: ChangeEvent<HTMLInputElement>, bookingId?: string) => {
+      const { checked } = event.currentTarget;
 
+      if (!bookingId) return;
+
+      onDirectMutation((prev) => ({
+        ...prev,
+        published: checked,
+      }));
+    },
+    [form]
+  );
   return (
     <Root>
       {saving ? <Backdrop /> : null}
@@ -146,6 +158,7 @@ export const BookingForm = ({ prevBooking }: Props) => {
         backgroundImage={form.image}
         headerTitle='Title'
         onDeleteCategory={handleDeleteCategory}
+        onPublish={handlePublishProduct}
       />
       <Flexbox flexWrap='wrap'>
         <Flexbox
@@ -226,6 +239,8 @@ export const BookingForm = ({ prevBooking }: Props) => {
                 <Subscriptions
                   subscriptionId={form.subscriptionId}
                   onSelectSubscription={handleSubscription}
+                  form={form}
+                  onInputChange={onInputChange}
                 />
               ) : null}
             </ContentDetailLayout>
