@@ -89,6 +89,7 @@ export const SessionForm = ({ onNewSession, sessions }: Props) => {
       },
     }));
   };
+
   const handleGenerate = async () => {
     const payload = {
       method: 'POST',
@@ -109,6 +110,7 @@ export const SessionForm = ({ onNewSession, sessions }: Props) => {
       setLoading(false);
     }
   };
+
   const handleSaveOccurences = (occurencesJsonUrl: string) => {
     onDirectMutation((prev) => ({
       ...prev,
@@ -118,6 +120,7 @@ export const SessionForm = ({ onNewSession, sessions }: Props) => {
       },
     }));
   };
+
   const handleCreateSession = () => {
     const defaultSession = generateDefaultSession();
     onInitForm(defaultSession);

@@ -10,7 +10,7 @@ import styled from '@emotion/styled';
 import { SubmitButton } from './SubmitButton';
 import { useTranslations } from 'next-intl';
 import { Menu } from '@mui/material';
-import { IBooking, IProductService } from '@/src/types/DBTypes';
+import { IWorkshop, IProductService } from '@/src/types/DBTypes';
 import {
   faArchive,
   faEllipsisV,
@@ -84,7 +84,7 @@ interface Props {
   saving: boolean;
   onSubmit: VoidFunction;
   onAddSection?: VoidFunction;
-  form: IProductService | IBooking;
+  form: IProductService | IWorkshop;
   onDelete: (itemId?: string) => void;
   onArchive?: (itemId?: string) => void;
   onPublish?: (

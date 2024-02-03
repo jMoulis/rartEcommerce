@@ -66,7 +66,7 @@ const DayTag = styled.button<{ selected: boolean }>`
 interface Props {
   repetition?: IRepetition;
   location?: string;
-  startDate?: string;
+  startDate: string;
   onSubmit: (rule: string) => void;
   onChange: React.Dispatch<React.SetStateAction<ISession>>;
   until?: string;

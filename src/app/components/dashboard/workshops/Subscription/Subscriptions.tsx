@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
 import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
-import { IBooking, ISubscription } from '@/src/types/DBTypes';
+import { IWorkshop, ISubscription } from '@/src/types/DBTypes';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { useTranslations } from 'next-intl';
 import { SubscriptionTable } from './SubscriptionTable';
@@ -15,7 +15,7 @@ const Root = styled.div``;
 interface Props {
   subscriptionId?: string;
   onSelectSubscription: (subscriptionId: string) => void;
-  form: IBooking;
+  form: IWorkshop;
   onInputChange: (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;

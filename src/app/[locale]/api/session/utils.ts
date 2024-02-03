@@ -1,4 +1,4 @@
-import { Frequency, WeekdayStr } from '@/src/app/components/dashboard/bookings/Session/types';
+import { Frequency, WeekdayStr } from '@/src/app/components/dashboard/workshops/Session/types';
 import { IOccurence } from '@/src/types/DBTypes';
 
 export function generateOccurrences(dtstart?: string, interval: number = 1, until?: string, byweekday?: WeekdayStr[], freq: Frequency = Frequency.MONTHLY) {

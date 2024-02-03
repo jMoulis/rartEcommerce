@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback, ChangeEvent } from 'react';
 import styled from '@emotion/styled';
-import { IBooking, ISession } from '@/src/types/DBTypes';
+import { IWorkshop, ISession } from '@/src/types/DBTypes';
 import { useForm } from '../../hooks/useForm';
 import { InputGroup } from '../../commons/form/InputGroup';
 import { useTranslations } from 'next-intl';
@@ -24,6 +24,7 @@ import { ImageLoader } from '../products/CreateForm/ImageLoader/ImageLoader';
 import { IImageType } from '../products/CreateForm/ImageLoader/types';
 import { SessionForm } from './Session/SessionForm';
 import { generateDefaultBooking } from '../products/CreateForm/defaultData';
+import { ENUM_DASHBOARD_MENU_ROUTES } from '../routes';
 
 const Root = styled.div`
   overflow: auto;
@@ -31,12 +32,12 @@ const Root = styled.div`
 `;
 
 interface Props {
-  prevBooking?: IBooking;
+  prevWorkshop?: IWorkshop;
 }
 
-export const BookingForm = ({ prevBooking }: Props) => {
+export const WorkshopForm = ({ prevWorkshop }: Props) => {
   const { form, onInitForm, onInputChange, onDirectMutation } =
-    useForm<IBooking>();
+    useForm<IWorkshop>();
   const t = useTranslations();
   const { onUpdateDocument, onCreateDocument, onDeleteDocument } =
     useFirestore();
@@ -45,26 +46,32 @@ export const BookingForm = ({ prevBooking }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (prevBooking) {
-      onInitForm(prevBooking);
+    if (prevWorkshop) {
+      onInitForm(prevWorkshop);
     } else {
       const defaultBooking = generateDefaultBooking();
       onInitForm(defaultBooking);
     }
-  }, [prevBooking]);
+  }, [prevWorkshop]);
 
   const handleSubmit = async () => {
     try {
       setSaving(true);
-      if (prevBooking?._id) {
+
+      if (prevWorkshop?._id) {
         await onUpdateDocument(
           form,
-          ENUM_COLLECTIONS.BOOKINGS,
-          prevBooking._id
+          ENUM_COLLECTIONS.WORKSHOPS,
+          prevWorkshop._id
         );
       } else {
-        const payload = await onCreateDocument(form, ENUM_COLLECTIONS.BOOKINGS);
-        router.replace(`/dashboard/bookings/${payload.data?._id}`);
+        const payload = await onCreateDocument(
+          form,
+          ENUM_COLLECTIONS.WORKSHOPS
+        );
+        router.replace(
+          `${ENUM_DASHBOARD_MENU_ROUTES.WORKSHOPS}/${payload.data?._id}`
+        );
       }
       setSaving(false);
     } catch (error) {
@@ -86,7 +93,7 @@ export const BookingForm = ({ prevBooking }: Props) => {
   const handleDelete = async (bookingId?: string) => {
     if (!bookingId) return;
     try {
-      await onDeleteDocument(ENUM_COLLECTIONS.BOOKINGS, bookingId);
+      await onDeleteDocument(ENUM_COLLECTIONS.WORKSHOPS, bookingId);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error(error);

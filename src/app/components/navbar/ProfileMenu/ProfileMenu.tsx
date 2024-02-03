@@ -21,8 +21,7 @@ export const ProfileMenu = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [authFormVariant, setAuthFormVariant] =
     useState<ENUM_AUTH_FORM_VARIANT>(ENUM_AUTH_FORM_VARIANT.SIGNIN);
-
-  const profile = useAuthSelector((state) => state.profile) as UserProfile;
+  const authProfile = useAuthSelector((state) => state.profile) as UserProfile;
 
   const { open, onOpen, onClose: onCloseAuthDialog } = useToggle();
 
@@ -43,46 +42,55 @@ export const ProfileMenu = () => {
   };
 
   return (
-    <div>
-      <ButtonProfileMenu onClick={handleOpenMenu} type='button'>
-        {profile?.avatar ? (
-          <Image
-            width={40}
-            height={40}
-            alt='user'
-            style={{
-              borderRadius: '5px',
-              margin: '0 10px',
-            }}
-            src={profile?.avatar}
-            priority
-          />
-        ) : profile ? (
-          <PlaceholderAvatar
-            firstname={profile.firstname}
-            lastname={profile.lastname}
-          />
-        ) : (
-          <PlaceholderAvatar firstname='A' />
-        )}
-      </ButtonProfileMenu>
+    <>
+      {authProfile ? (
+        <>
+          <ButtonProfileMenu onClick={handleOpenMenu} type='button'>
+            {authProfile?.avatar ? (
+              <Image
+                width={40}
+                height={40}
+                alt='user'
+                style={{
+                  borderRadius: '5px',
+                  margin: '0 10px',
+                }}
+                src={authProfile?.avatar}
+                priority
+              />
+            ) : (
+              <PlaceholderAvatar
+                firstname={authProfile.firstname}
+                lastname={authProfile.lastname}
+              />
+            )}
+          </ButtonProfileMenu>
+          <Menu
+            open={Boolean(anchorEl)}
+            transitionDuration={0}
+            anchorEl={anchorEl}
+            onClose={handleCloseMenu}>
+            <li>
+              <LinksMenu onClose={handleCloseMenu} />
+            </li>
+          </Menu>
+        </>
+      ) : (
+        <AuthMenu onClick={handleSelect} />
+      )}
 
-      <Menu
-        open={Boolean(anchorEl)}
-        transitionDuration={0}
-        anchorEl={anchorEl}
-        onClose={handleCloseMenu}>
-        <li>
-          {profile ? (
-            <LinksMenu onClose={handleCloseMenu} />
-          ) : (
-            <AuthMenu onClick={handleSelect} />
-          )}
-        </li>
-      </Menu>
-      <Dialog open={open} onClose={onCloseAuthDialog} keepMounted={false}>
-        <AuthPage variant={authFormVariant} onSuccess={onCloseAuthDialog} />
+      <Dialog
+        fullWidth
+        maxWidth='sm'
+        open={open}
+        onClose={onCloseAuthDialog}
+        keepMounted={false}>
+        <AuthPage
+          variant={authFormVariant}
+          onSuccess={onCloseAuthDialog}
+          onChangeVariant={setAuthFormVariant}
+        />
       </Dialog>
-    </div>
+    </>
   );
 };

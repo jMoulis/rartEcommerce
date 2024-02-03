@@ -6,7 +6,7 @@ import { Subtitle } from '../commons/typography/Subtitle';
 import { useTranslations } from 'next-intl';
 import { Card } from './Card';
 import styled from '@emotion/styled';
-import { IBooking, IProductImage } from '@/src/types/DBTypes';
+import { IWorkshop, IProductImage } from '@/src/types/DBTypes';
 import { useCallback, useEffect, useState } from 'react';
 import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
@@ -19,22 +19,18 @@ const CustomSection = styled(Section)`
   justify-content: unset;
 `;
 interface Props {
-  initialBookings: IBooking[];
+  initWorkshops: IWorkshop[];
 }
-export default function SectionServices({ initialBookings }: Props) {
+export default function SectionWorkshops({ initWorkshops }: Props) {
   const t = useTranslations();
-  const [bookings, setBookings] = useState<IBooking[]>([]);
+  const [workshops, setWorkshops] = useState<IWorkshop[]>(initWorkshops);
   const { onFindAllRealtime } = useFirestore();
 
   useEffect(() => {
-    setBookings(initialBookings);
-  }, [initialBookings]);
-
-  useEffect(() => {
     const unsubscribe = onFindAllRealtime(
-      ENUM_COLLECTIONS.BOOKINGS,
+      ENUM_COLLECTIONS.WORKSHOPS,
       (data) => {
-        setBookings(data);
+        setWorkshops(data);
       },
       (error) => {
         // console.log(error);
@@ -47,16 +43,16 @@ export default function SectionServices({ initialBookings }: Props) {
       }
     };
   }, []);
-  const imageProduct = useCallback((booking: IBooking) => {
+  const imageProduct = useCallback((booking: IWorkshop) => {
     const defaultImage: IProductImage | undefined = booking.image;
     return defaultImage?.url;
   }, []);
   return (
     <>
       <CustomSection>
-        <Subtitle>{t('Home.services')}</Subtitle>
+        <Subtitle>{t('Home.workshops')}</Subtitle>
         <Flexbox flexWrap='wrap'>
-          {bookings.map((booking, imageIndex) => (
+          {workshops.map((booking, imageIndex) => (
             <Card
               textColor='#fff'
               src={imageProduct(booking)}
@@ -65,7 +61,7 @@ export default function SectionServices({ initialBookings }: Props) {
               description={booking.description ?? ''}
               price={booking.price}
               id='imageIndex'
-              hrefRoot='services'
+              hrefRoot='workshops'
             />
           ))}
         </Flexbox>

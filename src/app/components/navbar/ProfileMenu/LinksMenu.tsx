@@ -10,7 +10,7 @@ interface Props {
   onClose: () => void;
 }
 export const LinksMenu = ({ onClose }: Props) => {
-  const { onSignOut, isAdmin } = useAuth();
+  const { onSignOut, isAdmin, loading } = useAuth();
 
   const t = useTranslations();
   const router = useRouter();
@@ -18,6 +18,7 @@ export const LinksMenu = ({ onClose }: Props) => {
   const handleSignOut = async () => {
     try {
       const payload = await onSignOut();
+
       if (payload.status) {
         router.push('/');
         onClose();
@@ -26,26 +27,24 @@ export const LinksMenu = ({ onClose }: Props) => {
       }
     } catch (error) {}
   };
-
   return (
-    <nav>
-      <ul>
-        {isAdmin ? (
-          <li>
-            <Link onClick={onClose} href='/dashboard'>
-              {t('Navbar.dashboard')}
-            </Link>
-          </li>
-        ) : null}
+    <ul>
+      {loading ? ' loading' : ''}
+      {isAdmin ? (
         <li>
-          <Link onClick={onClose} href='/account'>
-            {t('Navbar.account')}
+          <Link onClick={onClose} href='/dashboard'>
+            {t('Navbar.dashboard')}
           </Link>
         </li>
-        <li>
-          <Button onClick={handleSignOut}>{t('authCommons.signOut')}</Button>
-        </li>
-      </ul>
-    </nav>
+      ) : null}
+      <li>
+        <Link onClick={onClose} href='/account'>
+          {t('Navbar.account')}
+        </Link>
+      </li>
+      <li>
+        <Button onClick={handleSignOut}>{t('authCommons.signOut')}</Button>
+      </li>
+    </ul>
   );
 };

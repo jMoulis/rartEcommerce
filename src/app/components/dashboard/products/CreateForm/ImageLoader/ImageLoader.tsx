@@ -67,7 +67,6 @@ export const ImageLoader = ({ images, onSubmitImages, single }: Props) => {
         styling={{
           root: {
             flex: 1,
-            marginRight: '10px',
           },
           body: {
             flexDirection: 'row',

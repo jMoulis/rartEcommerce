@@ -18,6 +18,7 @@ interface Props {
     label?: React.CSSProperties;
     input?: React.CSSProperties;
   };
+  CustomLabel?: JSX.Element;
 }
 
 export const InputGroup = ({
@@ -32,17 +33,19 @@ export const InputGroup = ({
   className,
   styling,
   required,
+  CustomLabel,
 }: Props) => {
   return (
     <Label
       style={styling?.root}
       htmlFor={id}
       className={`input-group ${className ?? ''}`}>
-      {label ? (
-        <span style={styling?.label} className='input-label'>
-          {label}
-        </span>
-      ) : null}
+      {CustomLabel ??
+        (label ? (
+          <span style={styling?.label} className='input-label'>
+            {label}
+          </span>
+        ) : null)}
       <Input
         style={styling?.input}
         type={type}

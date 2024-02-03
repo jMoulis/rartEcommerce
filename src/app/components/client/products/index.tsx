@@ -7,13 +7,15 @@ import { IProductImage, IProductService } from '@/src/types/DBTypes';
 import { useCallback, useEffect, useState } from 'react';
 import { Flexbox } from '../../commons/Flexbox';
 import { Card } from '../home/Card';
+import { Section } from '../commons/layout/Section';
+import { SectionHeader } from './SectionHeader';
 
 interface Props {
   initialProducts: IProductService[];
 }
 
 export default function Products({ initialProducts }: Props) {
-  const [products, setProducts] = useState<IProductService[]>([]);
+  const [products, setProducts] = useState<IProductService[]>(initialProducts);
   const { onFindAllRealtime } = useFirestore();
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function Products({ initialProducts }: Props) {
       }
     };
   }, []);
+
   const imageProduct = useCallback((product: IProductService) => {
     const defaultImage: IProductImage | undefined =
       product.images.find((image) => image.default) ?? product.images[0];
@@ -49,20 +52,23 @@ export default function Products({ initialProducts }: Props) {
 
   return (
     <Page>
-      <Flexbox flexWrap='wrap'>
-        {products.map((product, imageIndex) => (
-          <Card
-            textColor='var(--default-font-color)'
-            key={imageIndex}
-            src={imageProduct(product)}
-            title={product.name}
-            price={product.price}
-            description={product.description}
-            id={product._id!}
-            hrefRoot='products'
-          />
-        ))}
-      </Flexbox>
+      <SectionHeader />
+      <Section>
+        <Flexbox flexWrap='wrap'>
+          {products.map((product, imageIndex) => (
+            <Card
+              textColor='var(--default-font-color)'
+              key={imageIndex}
+              src={imageProduct(product)}
+              title={product.name}
+              price={product.price}
+              description={product.description}
+              id={product._id!}
+              hrefRoot='products'
+            />
+          ))}
+        </Flexbox>
+      </Section>
     </Page>
   );
 }

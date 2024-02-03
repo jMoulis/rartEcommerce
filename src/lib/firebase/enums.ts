@@ -4,8 +4,7 @@ export enum ENUM_COLLECTIONS {
   MEDIAS = 'medias',
   CATEGORIES = 'categories',
   TEMPLATES = 'templates',
-  BOOKINGS = 'bookings',
-  SERVICES = 'services',
+  WORKSHOPS = 'workshops',
   LOCATIONS = 'locations',
   SUBSCRIPTIONS = 'subscriptions'
 }

@@ -1,7 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 import { ENUM_ROLES } from '../app/contexts/auth/enums';
 import { IImageType } from '../app/components/dashboard/products/CreateForm/ImageLoader/types';
-import { Frequency, ByWeekday } from '../app/components/dashboard/bookings/Session/types';
+import { Frequency, ByWeekday } from '../app/components/dashboard/workshops/Session/types';
 
 export type InvoiceStatusType = 'paid' | 'unpaid' | 'overdue';
 export type PaymentMethodType = 'creditCard' | 'bankTransfert' | 'check';
@@ -260,6 +260,9 @@ export interface UserProfile {
   lastname?: string;
   addresses: IAddress[];
   roles: ENUM_ROLES[];
+  token?: string | null;
+  verified: boolean;
+  verificationDate?: Timestamp;
 }
 
 export interface IRepetition {
@@ -302,7 +305,7 @@ export interface ISubscription {
   paymentPeriod: 'monthly' | 'weekly' | 'annualy';
   paymentEnding: string;
 }
-export interface IBooking {
+export interface IWorkshop {
   _id?: string;
   categories?: string[];
   image?: IProductImage;

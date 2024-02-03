@@ -1,4 +1,4 @@
-import { IBooking, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate } from '@/src/types/DBTypes';
+import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 
 export const defaultElement = (): IElement => {
@@ -32,7 +32,7 @@ export const generateDefaultSession: () => ISession = () => {
   const _id = v4();
   return ({
     _id,
-    start: '',
+    start: new Date().toISOString(),
     people: [],
   });
 };
@@ -47,7 +47,7 @@ export const generateDefaultRepetition: (startDate?: string) => IRepetition = (s
     _id
   });
 };
-export const generateDefaultBooking: () => IBooking = () => {
+export const generateDefaultBooking: () => IWorkshop = () => {
   return ({
     categories: [],
     name: '',

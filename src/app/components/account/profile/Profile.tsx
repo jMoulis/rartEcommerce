@@ -11,7 +11,7 @@ import { ChangeEmailForm } from './ChangeEmailForm';
 import { useTranslations } from 'next-intl';
 import { InputGroup } from '../../commons/form/InputGroup';
 import { AddressForm } from './Address/AddressForm';
-import { useFirestorProfile } from '../../../contexts/auth/hooks/useFirestoreProfile';
+import { useFirestoreProfile } from '../../../contexts/auth/hooks/useFirestoreProfile';
 import AvatarInputFile from './AvatarInputFile';
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 import { Button } from '../../commons/Buttons/Button';
@@ -46,6 +46,7 @@ export const Profile = () => {
     firstname: '',
     lastname: '',
     roles: [ENUM_ROLES.VISITOR],
+    verified: false,
   });
   const profile = useAuthSelector((state) => state.profile);
 
@@ -56,7 +57,7 @@ export const Profile = () => {
   const authDispatch = useAuthDispatch();
 
   const { onUpdateUserAvatar } = useAuth();
-  const { onUpdateProfile } = useFirestorProfile();
+  const { onUpdateProfile } = useFirestoreProfile();
 
   useEffect(() => {
     if (profile) {
@@ -102,6 +103,9 @@ export const Profile = () => {
     event.preventDefault();
     await onUpdateProfile(form);
   };
+
+  if (!profile) return null;
+
   return (
     <>
       <Root>
@@ -133,7 +137,7 @@ export const Profile = () => {
           </Form>
         </Content>
       </Root>
-      <AddressForm prevAddresses={form.addresses} />
+      <AddressForm prevAddresses={form.addresses || []} />
     </>
   );
 };

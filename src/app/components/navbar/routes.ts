@@ -10,8 +10,8 @@ export const navRoutes = (t: any): INavigationRoute[] => [{
   href: '/products',
   icon: faStore
 }, {
-  label: t('Navbar.services'),
-  href: '/services',
+  label: t('Navbar.workshop'),
+  href: '/workshops',
   icon: faStore
 }, {
   label: t('Navbar.about'),

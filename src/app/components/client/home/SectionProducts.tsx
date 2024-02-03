@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function SectionProducts({ initialProducts }: Props) {
-  const [products, setProducts] = useState<IProductService[]>([]);
+  const [products, setProducts] = useState<IProductService[]>(initialProducts);
   const { onFindAllRealtime } = useFirestore();
 
   useEffect(() => {

@@ -15,8 +15,8 @@ export default async function HomePage({ params: { locale } }: Props) {
   const products: any = await findByQuery(ENUM_COLLECTIONS.PRODUCTS, {
     published: true,
   });
-  const initialBookings: any = await findByQuery(ENUM_COLLECTIONS.BOOKINGS, {
+  const initWorkshops: any = await findByQuery(ENUM_COLLECTIONS.WORKSHOPS, {
     published: true,
   });
-  return <Home initialProducts={products} initialBookings={initialBookings} />;
+  return <Home initialProducts={products} initWorkshops={initWorkshops} />;
 }

@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import styled from '@emotion/styled';
 import { InputGroup } from '../../commons/form/InputGroup';
 import { useTranslations } from 'next-intl';
-import { IBooking } from '@/src/types/DBTypes';
+import { IWorkshop } from '@/src/types/DBTypes';
 import { Selectbox } from '../../commons/form/Selectbox';
 
 const Root = styled.div``;
@@ -11,7 +11,7 @@ interface Props {
   onInputChange: (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
-  form: IBooking;
+  form: IWorkshop;
 }
 
 export const PriceSessionForm = ({ form, onInputChange }: Props) => {

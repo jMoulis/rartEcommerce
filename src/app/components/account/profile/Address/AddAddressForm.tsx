@@ -113,7 +113,7 @@ export const AddAddressForm = ({
         label={t('AddressForm.name')}
         id='name'
         name='name'
-        value={form.name}
+        value={form.name || ''}
         onInputChange={handleInputChange}
       />
       {noType ? null : (
@@ -121,7 +121,7 @@ export const AddAddressForm = ({
           label={t('AddressForm.addressType')}
           id='type'
           name='type'
-          value={form.type}
+          value={form.type || ''}
           onSelectOption={handleInputChange}
           options={[
             {
@@ -139,35 +139,35 @@ export const AddAddressForm = ({
         label={t('AddressForm.streetNumber')}
         id='streetNumber'
         name='streetNumber'
-        value={form.streetNumber}
+        value={form.streetNumber || ''}
         onInputChange={handleInputChange}
       />
       <InputGroup
         label={t('AddressForm.route')}
         id='route'
         name='route'
-        value={form.route}
+        value={form.route || ''}
         onInputChange={handleInputChange}
       />
       <InputGroup
         label={t('AddressForm.postalCode')}
         id='postalCode'
         name='postalCode'
-        value={form.postalCode}
+        value={form.postalCode || ''}
         onInputChange={handleInputChange}
       />
       <InputGroup
         label={t('AddressForm.locality')}
         id='locality'
         name='locality'
-        value={form.locality}
+        value={form.locality || ''}
         onInputChange={handleInputChange}
       />
       <InputGroup
         label={t('AddressForm.country')}
         id='country'
         name='country'
-        value={form.country}
+        value={form.country || ''}
         onInputChange={handleInputChange}
       />
       <Flexbox justifyContent='flex-end'>

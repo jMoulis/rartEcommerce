@@ -7,8 +7,6 @@ import { ProfileMenu } from './ProfileMenu/ProfileMenu';
 import { useUserSession } from '../../contexts/auth/hooks/useUserSession';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/pro-light-svg-icons';
-import { UserProfile } from '@/src/types/DBTypes';
-import { User } from 'firebase/auth';
 import { navRoutes } from './routes';
 import { useLocale, useTranslations } from 'next-intl';
 import { Flexbox } from '../commons/Flexbox';
@@ -29,7 +27,7 @@ const Root = styled.header<{ isScrolled: boolean }>`
   right: 0;
   z-index: 300;
   padding: 20px 20px;
-  padding-right: 10px;
+  padding-right: 30px;
   @media (max-width: 768px) {
     padding: 20px 10px 20px 20px;
   }
@@ -54,11 +52,8 @@ const ToolbarWrapper = styled(Flexbox)`
   }
 `;
 
-interface Props {
-  current: { profile: UserProfile; user: User } | null;
-}
-export const Navbar = ({ current }: Props) => {
-  useUserSession(current);
+export const Navbar = () => {
+  useUserSession();
   const t = useTranslations();
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);

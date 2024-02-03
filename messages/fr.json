@@ -60,7 +60,12 @@
     "password": "Mot de passe",
     "resetPassword": "Réinitialiser le mot de passe",
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
-    "messageSent": "Le lien vient de vous être envoyé"
+    "messageSent": "Le lien vient de vous être envoyé",
+    "signInTo": "Connectez-vous à {company}",
+    "dontHaveAnAccount": "Vous n'avez pas de compte?",
+    "orSignWithEmail": "ou connectez-vous avec un email",
+    "connectWith": "Connectez-vous avec {provider}",
+    "forgotPassword": "Oublié?"
   },
 
   "Booking": {
@@ -135,6 +140,7 @@
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
     "agenda": "Agenda",
+    "workshops": "Ateliers",
     "inventory": "Inventaires",
     "categories": "Catégories",
     "services": "Services",
@@ -149,7 +155,7 @@
   "Home": {
     "about": "A propos",
     "products": "Oeuvres d'art",
-    "services": "Services",
+    "workshops": "Ateliers",
     "sectionAbout": {
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
@@ -168,6 +174,7 @@
     "about": "A propos",
     "services": "Services",
     "products": "Produits",
+    "workshop": "Ateliers",
     "reviews": "Avis clients",
     "contact": "Contact",
     "dashboard": "Tableau de bord",
@@ -279,7 +286,13 @@
     "newTemplate": "Nouveau modèle",
     "templates": "Modèles"
   },
+  "Workshop": {
+    "workshop": "Atelier",
+    "workshops": "Ateliers",
+    "createWorkshop": "Créer un atelier"
+  },
   "ApiSuccess": {
+    "reset-mail": "Réinitialisation Email envoyé",
     "edit-user-address": "Addresse ajouté",
     "setSessionCookie": "Cookie enregistrer",
     "update-user-profile": "Profile mise à jour",
@@ -291,6 +304,7 @@
     "setSessionCookie": "Impossible d'enregistrer le cookie de session",
     "auth/app-deleted": "app-deleted",
     "auth/expired-action-code": "expired-action-code",
+    "auth/quota-exceeded": "Quota dépassé",
     "auth/invalid-action-code": "invalid-action-code",
     "auth/user-disabled": "user-disabled",
     "auth/user-not-found": "user-not-found",

@@ -3,17 +3,17 @@
 import { Page } from '@/src/app/components/client/commons/layout/Page';
 import SectionHeader from './SectionHeader';
 import SectionAbout from './SectionAbout';
-import SectionServices from './SectionServices';
+import SectionServices from './SectionWorkshops';
 import SectionProducts from './SectionProducts';
 import SectionContact from './SectionContact/SectionContact';
 import SectionTestimonial from './SectionTestimonial';
-import { IBooking, IProductService } from '@/src/types/DBTypes';
+import { IWorkshop, IProductService } from '@/src/types/DBTypes';
 
 interface Props {
   initialProducts: IProductService[];
-  initialBookings: IBooking[];
+  initWorkshops: IWorkshop[];
 }
-export default function Home({ initialProducts, initialBookings }: Props) {
+export default function Home({ initialProducts, initWorkshops }: Props) {
   return (
     <Page
       style={{
@@ -21,7 +21,7 @@ export default function Home({ initialProducts, initialBookings }: Props) {
       }}>
       <SectionHeader />
       <SectionProducts initialProducts={initialProducts} />
-      <SectionServices initialBookings={initialBookings} />
+      <SectionServices initWorkshops={initWorkshops} />
       <SectionTestimonial />
       <SectionAbout />
       <SectionContact />

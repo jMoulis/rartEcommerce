@@ -1,6 +1,6 @@
 'use client';
 
-import { IBooking } from '@/src/types/DBTypes';
+import { IWorkshop } from '@/src/types/DBTypes';
 import React, { useMemo } from 'react';
 import { FinderLayoutPage } from '../../commons/Layouts/FinderLayoutPage';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
@@ -11,20 +11,21 @@ import { faCalendar } from '@fortawesome/pro-light-svg-icons';
 import { useToggle } from '../../hooks/useToggle';
 import { FullDialog } from '../../commons/dialog/FullDialog';
 import { CalendarApp } from './Calendar';
+import { ENUM_DASHBOARD_MENU_ROUTES } from '../routes';
 
 interface Props {
-  bookings?: IBooking[];
+  workshops?: IWorkshop[];
 }
 
-export const Bookings = ({ bookings }: Props) => {
-  const data: IBooking[] = useMemo(() => bookings ?? [], []);
+export default function Workshops({ workshops }: Props) {
+  const data: IWorkshop[] = useMemo(() => workshops ?? [], []);
   const t = useTranslations();
   const { open, onOpen, onClose } = useToggle();
 
   const handleOpenCalendar = () => {
     onOpen();
   };
-  const columnHelper = createColumnHelper<IBooking>() as any;
+  const columnHelper = createColumnHelper<IWorkshop>() as any;
 
   const columns: Array<ColumnDef<any, any>> = [
     columnHelper.accessor((row: any) => row.id, {
@@ -32,13 +33,16 @@ export const Bookings = ({ bookings }: Props) => {
       header: () => <span />,
       cell: (info: any) => <span />,
     }),
+
     columnHelper.accessor((row: any) => row.name, {
       id: 'name',
       header: () => <span>{t('commons.name')}</span>,
       cell: (info: any) => {
         const id = info.row.original._id;
         return (
-          <Link href={`/dashboard/bookings/${id}`}>{info.getValue()}</Link>
+          <Link href={`${ENUM_DASHBOARD_MENU_ROUTES.WORKSHOPS}/${id}`}>
+            {info.getValue()}
+          </Link>
         );
       },
     }),
@@ -49,10 +53,10 @@ export const Bookings = ({ bookings }: Props) => {
       <FinderLayoutPage
         data={data}
         columns={columns}
-        sectionTitle={t('Booking.bookings')}
+        sectionTitle={t('Workshop.workshop')}
         createLink={{
-          label: t('Booking.createBooking'),
-          href: '/dashboard/bookings/create',
+          label: t('Workshop.createWorkshop'),
+          href: ENUM_DASHBOARD_MENU_ROUTES.WORKSHOPS_CREATE,
         }}
         headerChildren={
           <IconButton icon={faCalendar} onClick={handleOpenCalendar} />
@@ -66,10 +70,10 @@ export const Bookings = ({ bookings }: Props) => {
           fullWidth: true,
         }}
         header={{
-          title: t('Booking.bookings'),
+          title: t('Workshop.workshops'),
         }}>
         <CalendarApp />
       </FullDialog>
     </>
   );
-};
+}

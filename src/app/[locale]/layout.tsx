@@ -39,13 +39,14 @@ export default async function RootLayout({ children, params }: Props) {
   unstable_setRequestLocale(params.locale);
 
   let messages;
+
   try {
     messages = (await import(`../../../messages/${params.locale}.json`))
       .default;
   } catch (error) {
     notFound();
   }
-  const current = await getCurrentUser();
+  await getCurrentUser();
 
   return (
     <html lang={params.locale} className={garamond.className}>
@@ -57,7 +58,7 @@ export default async function RootLayout({ children, params }: Props) {
             timeZone='Europe/Paris'
             now={new Date()}>
             <AuthProvider>
-              <Navbar current={current} />
+              <Navbar />
               {children}
             </AuthProvider>
           </NextIntlProvider>

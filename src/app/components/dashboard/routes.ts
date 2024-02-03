@@ -31,10 +31,10 @@ export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigati
   }]
 
 }, {
-  label: t('Dashboard.bookings'),
+  label: t('Dashboard.workshops'),
   menus: [{
-    label: t('Dashboard.bookings'),
-    href: '/dashboard/bookings',
+    label: t('Dashboard.workshops'),
+    href: '/dashboard/workshops',
     icon: faCalendarWeek
   }]
 
@@ -72,3 +72,10 @@ export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigati
     icon: faTableLayout
   }]
 }];
+
+const ROOT = 'dashboard';
+
+export enum ENUM_DASHBOARD_MENU_ROUTES {
+  WORKSHOPS = `/${ROOT}/workshops`,
+  WORKSHOPS_CREATE = `/${ROOT}/workshops/create`
+}
