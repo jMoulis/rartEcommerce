@@ -91,7 +91,7 @@ export const useAuth = () => {
       const userCredentials = await signInWithPopup(rootAuth, provider);
       await onUpdateUser(userCredentials.user);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return onSuccessMessage(responsePayload.code, userCredentials);
+      return onSuccessMessage(responsePayload.code, undefined, userCredentials);
     } catch (error: any) {
       return onErrorMessage(error, t);
     }
@@ -102,11 +102,12 @@ export const useAuth = () => {
       const userCredentials = await signInWithEmailAndPassword(rootAuth, email, password);
       await onUpdateUser(userCredentials.user);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return onSuccessMessage(responsePayload.code, userCredentials);
+      return onSuccessMessage(responsePayload.code, undefined, userCredentials);
     } catch (error: any) {
       return onErrorMessage(error, t);
     }
   };
+
   const onRegister = async ({ email, password }: RegisterProps): Promise<ApiPayload> => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(rootAuth, email, password);
@@ -131,7 +132,7 @@ export const useAuth = () => {
       };
       await fetch('/api/auth/send-email-auth', payload);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return onSuccessMessage(responsePayload.code, userCredentials);
+      return onSuccessMessage(responsePayload.code, undefined, userCredentials);
     } catch (error: any) {
       return onErrorMessage(error, t);
     }

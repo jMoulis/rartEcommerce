@@ -3,16 +3,15 @@
 import styled from '@emotion/styled';
 import React, { FormEvent, useState } from 'react';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { ENUM_AUTH_FORM_VARIANT } from '../enums';
 import { useTranslations } from 'next-intl';
-import { UserCredential } from 'firebase/auth';
 import { ApiPayload } from '@/src/app/contexts/shared/types';
 import { Button } from '../../commons/Buttons/Button';
 import { InputGroup } from '../../commons/form/InputGroup';
 import { Flexbox } from '../../commons/Flexbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/pro-light-svg-icons';
+import { useError } from '../../hooks/useError';
 
 const Form = styled.form`
   display: flex;
@@ -25,10 +24,12 @@ const LabelWithForgot = styled.div`
 `;
 
 interface Props {
-  onSuccess?: (credentials?: UserCredential) => void;
+  onSuccess: (payload: ApiPayload) => void;
   variant: ENUM_AUTH_FORM_VARIANT;
-  onForgetMenu: (state: boolean) => void;
-  onChangeVariant: React.Dispatch<React.SetStateAction<ENUM_AUTH_FORM_VARIANT>>;
+  onForgetMenu?: (state: boolean) => void;
+  onChangeVariant?: React.Dispatch<
+    React.SetStateAction<ENUM_AUTH_FORM_VARIANT>
+  >;
 }
 
 export const AuthForm = ({
@@ -37,15 +38,12 @@ export const AuthForm = ({
   onForgetMenu,
   onChangeVariant,
 }: Props) => {
-  const router = useRouter();
   const { onRegister, signInWithEmailPassword } = useAuth();
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
-
-  const prevRoute = useSearchParams().get('from');
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  const { onSetError, ErrorComponent } = useError({
+    titleContext: '',
+  });
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email: string | undefined = (event.target as any).email?.value;
@@ -70,22 +68,20 @@ export const AuthForm = ({
         });
       }
       if (payload.status) {
-        onSuccess?.(payload.data);
-        setErrorMessage(null);
-        router.push(prevRoute ?? '/');
+        onSuccess(payload);
+        onSetError(null);
       } else if (payload.error) {
         throw Error(payload.error);
       }
       setLoading(false);
     } catch (error: any) {
       setLoading(false);
-      setErrorMessage(error.message as string);
+      onSetError(error.message as string);
     }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      {errorMessage ? <span>{errorMessage}</span> : null}
       <InputGroup
         required
         id={`email-${variant}`}
@@ -100,7 +96,8 @@ export const AuthForm = ({
         label={t('Authform.password')}
         required
         CustomLabel={
-          variant === ENUM_AUTH_FORM_VARIANT.SIGNIN ? (
+          variant === ENUM_AUTH_FORM_VARIANT.SIGNIN &&
+          typeof onForgetMenu === 'function' ? (
             <LabelWithForgot>
               <span className='input-label'>{t('Authform.password')}</span>
               <Button
@@ -121,8 +118,6 @@ export const AuthForm = ({
       />
       <Button
         style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 30px',
           width: 'unset',
           alignItems: 'center',
           justifyContent: 'center',
@@ -148,7 +143,7 @@ export const AuthForm = ({
           <span />
         )}
       </Button>
-      {variant === ENUM_AUTH_FORM_VARIANT.SIGNIN ? (
+      {variant === ENUM_AUTH_FORM_VARIANT.SIGNIN && onChangeVariant ? (
         <Flexbox
           alignItems='center'
           justifyContent='center'
@@ -164,7 +159,6 @@ export const AuthForm = ({
             }}>
             {t('Authform.dontHaveAnAccount')}
           </span>
-
           <Button
             style={{
               backgroundColor: 'transparent',
@@ -178,6 +172,7 @@ export const AuthForm = ({
           </Button>
         </Flexbox>
       ) : null}
+      {ErrorComponent}
     </Form>
   );
 };

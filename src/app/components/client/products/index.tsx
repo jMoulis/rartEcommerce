@@ -8,7 +8,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Flexbox } from '../../commons/Flexbox';
 import { Card } from '../home/Card';
 import { Section } from '../commons/layout/Section';
-import { SectionHeader } from './SectionHeader';
+import { SectionHeader } from '../../commons/Layouts/SectionHeader';
 
 interface Props {
   initialProducts: IProductService[];
@@ -65,6 +65,7 @@ export default function Products({ initialProducts }: Props) {
               description={product.description}
               id={product._id!}
               hrefRoot='products'
+              item={product}
             />
           ))}
         </Flexbox>

@@ -9,9 +9,9 @@ const Root = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   @media (max-width: 768px) {
-    padding-top: 70px;
+    /* padding-top: 70px; */
   }
 `;
 
@@ -22,7 +22,7 @@ interface Props {
 export const Page = ({ children, style }: Props) => {
   return (
     <Root id='page-layout' style={style}>
-      <div>{children}</div>
+      {children}
       <Footer />
     </Root>
   );

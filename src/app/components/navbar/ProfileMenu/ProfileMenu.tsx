@@ -12,6 +12,7 @@ import { AuthPage } from '../../auth/AuthPage';
 import { useAuthSelector } from '@/src/app/contexts/auth/hooks/useAuthSelector';
 import { UserProfile } from '@/src/types/DBTypes';
 import PlaceholderAvatar from '../../account/profile/PlaceholderAvatar';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const ButtonProfileMenu = styled.button`
   margin-left: 10px;
@@ -22,6 +23,8 @@ export const ProfileMenu = () => {
   const [authFormVariant, setAuthFormVariant] =
     useState<ENUM_AUTH_FORM_VARIANT>(ENUM_AUTH_FORM_VARIANT.SIGNIN);
   const authProfile = useAuthSelector((state) => state.profile) as UserProfile;
+  const prevRoute = useSearchParams().get('from');
+  const router = useRouter();
 
   const { open, onOpen, onClose: onCloseAuthDialog } = useToggle();
 
@@ -41,6 +44,14 @@ export const ProfileMenu = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleSuccess = () => {
+    router.push(prevRoute ?? '/');
+    onCloseAuthDialog();
+  };
+
+  const handleCloseAll = () => {
+    router.push(prevRoute ?? '/');
+  };
   return (
     <>
       {authProfile ? (
@@ -87,8 +98,9 @@ export const ProfileMenu = () => {
         keepMounted={false}>
         <AuthPage
           variant={authFormVariant}
-          onSuccess={onCloseAuthDialog}
+          onSuccess={handleSuccess}
           onChangeVariant={setAuthFormVariant}
+          onCloseAll={handleCloseAll}
         />
       </Dialog>
     </>

@@ -1,0 +1,7 @@
+Billing Address:
+To avoid disrupting users, it’s key to ensure the following when it comes to implementing billing address fields:
+
+Set the billing address to equal the shipping address by default
+Use a preticked checkbox for “Billing = Shipping” and hide the billing address fields
+Ask users to fill out the shipping address fields instead of the billing address fields
+Summarize the entered shipping address when displaying the “Billing = Shipping” checkbox

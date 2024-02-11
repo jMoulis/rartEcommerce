@@ -1,3 +1,4 @@
+import { DEFAULT_CURRENCY } from '@/src/lib/constants';
 import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 
@@ -54,6 +55,7 @@ export const generateDefaultBooking: () => IWorkshop = () => {
     maxParticipants: 0,
     currentParticipantIds: [],
     price: 0,
+    currency: DEFAULT_CURRENCY,
     sessions: [],
     pusblished: false,
   });
@@ -77,6 +79,7 @@ export const defaultProduct = (): IProductService => ({
   stockQuantity: 0,
   withStock: false,
   categories: [],
+  currency: DEFAULT_CURRENCY,
   options: {
     refIds: [],
     published: false

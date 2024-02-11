@@ -13,6 +13,7 @@ import { Flexbox } from '../commons/Flexbox';
 import { NavigationLink } from '../commons/NavigationLink';
 import { Logo } from './Logo';
 import { usePathname } from 'next/navigation';
+import { CartMenu } from './CartMenu';
 
 const Root = styled.header<{ isScrolled: boolean }>`
   display: flex;
@@ -109,6 +110,7 @@ export const Navbar = () => {
             }>
             <ProfileMenu />
           </Suspense>
+          <CartMenu />
         </ToolbarWrapper>
       </Nav>
     </Root>

@@ -34,7 +34,8 @@
     "priceModality": "Prix et modalités",
     "price": "Prix",
     "file": "Fichier",
-    "image": "Image"
+    "image": "Image",
+    "required": "required"
   },
   "AddressForm": {
     "addresses": "Adresses",
@@ -52,7 +53,12 @@
     "deleteAddress": "Supprimer une adresse",
     "newAddress": "Nouvelle adresse",
     "createAddress": "Créer une addresse",
-    "selectAddress": "Choisir une adresse"
+    "selectAddress": "Choisir une adresse",
+    "address": "Adresse",
+    "streetNumberStreet": "numéro et rue",
+    "autofillAddress": "Start typing your address",
+    "additional": "Complément d'addresse",
+    "additionalPlaceholder": "Apartment, suite, unit, building, floor, etc."
   },
   "Authform": {
     "email": "E-Mail",
@@ -64,7 +70,8 @@
     "dontHaveAnAccount": "Vous n'avez pas de compte?",
     "orSignWithEmail": "Ou connectez-vous avec un email",
     "connectWith": "Connectez-vous avec {provider}",
-    "forgotPassword": "Oublié?"
+    "forgotPassword": "Oublié?",
+    "alreadyHaveAnAccount": "Vous avez déjà un compte?"
   },
   "Booking": {
     "bookings": "Réservations",
@@ -108,6 +115,24 @@
       "explanation": "Elle ne sera plus disponible"
     }
   },
+  "Cart": {
+    "cart": "Cart",
+    "summary": "Summary",
+    "item": "Produit/Service",
+    "total": "Total",
+    "plusDelivery": "Hors frais de livraison",
+    "securised": "Sécurisé",
+    "payment": "Paiement",
+    "checkout": "Valider mon panier",
+    "newCustomer": "Nouveau client",
+    "existingCustomer": "Déjà client",
+    "shippingCost": "Frais de livraison",
+    "shipping": "Livraison",
+    "validateShipping": "Valider la livraison",
+    "contactInformations": "Information de contact",
+    "shippingAddress": "Information pour la livraison",
+    "confirm": "Confirm"
+  },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
     "coords": {
@@ -116,6 +141,7 @@
       "phone": "Par téléphone <a href='phone:{number}'"
     },
     "name": "Nom",
+    "firstname": "Prénom",
     "email": "E-mail",
     "message": "Message",
     "send": "Envoyer",

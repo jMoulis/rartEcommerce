@@ -2,8 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import Link from 'next/link';
+import { AddToCart } from '../checkout/processing/cart/AddToCart';
+import { IProductService, IWorkshop } from '@/src/types/DBTypes';
 
-const Root = styled(Link)`
+const Root = styled.div``;
+
+const CustomLink = styled(Link)`
   label: Root;
   max-width: 200px;
   position: relative;
@@ -62,6 +66,7 @@ interface Props {
   description: string;
   id: string;
   hrefRoot: string;
+  item: IProductService | IWorkshop;
 }
 
 export const Card = ({
@@ -72,35 +77,39 @@ export const Card = ({
   description,
   id,
   hrefRoot,
+  item,
 }: Props) => {
   return (
-    <Root href={`/${hrefRoot}/${id}`}>
-      <ImageContent>
-        <Image
-          fill
+    <Root>
+      <CustomLink href={`/${hrefRoot}/${id}`}>
+        <ImageContent>
+          <Image
+            fill
+            style={{
+              objectFit: 'cover',
+              objectPosition: 'center',
+              borderRadius: '10px',
+            }}
+            sizes='500px'
+            alt={title}
+            src={src ?? ''}
+          />
+        </ImageContent>
+        <Title
           style={{
-            objectFit: 'cover',
-            objectPosition: 'center',
-            borderRadius: '10px',
-          }}
-          sizes='500px'
-          alt={title}
-          src={src ?? ''}
-        />
-      </ImageContent>
-      <Title
-        style={{
-          color: textColor,
-        }}>
-        {title}
-      </Title>
-      <Text
-        style={{
-          flex: 1,
-        }}>
-        {description}
-      </Text>
-      <Price>{price}€</Price>
+            color: textColor,
+          }}>
+          {title}
+        </Title>
+        <Text
+          style={{
+            flex: 1,
+          }}>
+          {description}
+        </Text>
+        <Price>{price}€</Price>
+      </CustomLink>
+      <AddToCart item={item} />
     </Root>
   );
 };

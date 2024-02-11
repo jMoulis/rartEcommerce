@@ -9,6 +9,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { getCurrentUser } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { EB_Garamond } from 'next/font/google';
+import { CartProvider } from '../contexts/cart/CartContext';
 
 const garamond = EB_Garamond({
   subsets: ['latin'],
@@ -58,8 +59,10 @@ export default async function RootLayout({ children, params }: Props) {
             timeZone='Europe/Paris'
             now={new Date()}>
             <AuthProvider>
-              <Navbar />
-              {children}
+              <CartProvider>
+                <Navbar />
+                {children}
+              </CartProvider>
             </AuthProvider>
           </NextIntlProvider>
         </AppRouterCacheProvider>

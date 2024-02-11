@@ -1,6 +1,13 @@
 import React, { ChangeEvent } from 'react';
 import { Label } from './Label';
 import { Input } from './Input';
+import styled from '@emotion/styled';
+import { Flexbox } from '../Flexbox';
+
+const InputLabelText = styled.span`
+  display: inline-block;
+  margin-left: 5px;
+`;
 
 interface Props {
   label?: string;
@@ -13,12 +20,17 @@ interface Props {
   type?: string;
   className?: string;
   required?: boolean;
+  placeholder?: string;
   styling?: {
     root?: React.CSSProperties;
     label?: React.CSSProperties;
     input?: React.CSSProperties;
+    labelTip?: React.CSSProperties;
+    required?: React.CSSProperties;
   };
   CustomLabel?: JSX.Element;
+  autoComplete?: string;
+  labelTip?: string;
 }
 
 export const InputGroup = ({
@@ -34,6 +46,9 @@ export const InputGroup = ({
   styling,
   required,
   CustomLabel,
+  autoComplete,
+  placeholder,
+  labelTip,
 }: Props) => {
   return (
     <Label
@@ -42,9 +57,19 @@ export const InputGroup = ({
       className={`input-group ${className ?? ''}`}>
       {CustomLabel ??
         (label ? (
-          <span style={styling?.label} className='input-label'>
-            {label}
-          </span>
+          <Flexbox>
+            <InputLabelText style={styling?.label} className='input-label'>
+              {label}
+            </InputLabelText>
+            {labelTip ? (
+              <InputLabelText style={styling?.labelTip}>
+                {labelTip}
+              </InputLabelText>
+            ) : null}
+            {required ? (
+              <InputLabelText style={styling?.required}>*</InputLabelText>
+            ) : null}
+          </Flexbox>
         ) : null)}
       <Input
         style={styling?.input}
@@ -56,6 +81,8 @@ export const InputGroup = ({
         value={value ?? undefined}
         defaultValue={defaultValue}
         required={required}
+        autoComplete={autoComplete}
+        placeholder={placeholder}
       />
     </Label>
   );

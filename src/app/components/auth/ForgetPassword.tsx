@@ -11,7 +11,7 @@ import { InputGroup } from '../commons/form/InputGroup';
 const Form = emotionStyled.form``;
 
 interface Props {
-  onForgetMenu: (state: boolean) => void;
+  onForgetMenu: () => void;
   onCloseAll?: () => void;
 }
 export const ForgetPassword = ({ onForgetMenu, onCloseAll }: Props) => {
@@ -50,7 +50,7 @@ export const ForgetPassword = ({ onForgetMenu, onCloseAll }: Props) => {
             />
             <Button type='submit'>{t('Authform.sendResetPasswordLink')}</Button>
           </Form>
-          <Button type='button' onClick={() => onForgetMenu(false)}>
+          <Button type='button' onClick={onForgetMenu}>
             {t('authCommons.signIn')}
           </Button>
         </>

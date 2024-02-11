@@ -12,6 +12,10 @@ export type InteractionType = 'call' | 'email' | 'sms' | 'socialNetwork';
 export type PurchaseOrderStatusType = 'pending' | 'completed' | 'cancelled';
 export type UserRoleType = 'admin' | 'supplier' | 'customer';
 
+export interface ICurrency {
+  code: string,
+  symbol: string,
+}
 export interface IPurchaseOrder {
   _id: string;
   purchaseOrderId: string;
@@ -77,6 +81,7 @@ export interface IProductService {
   images: IProductImage[];
   sections: ISection[];
   price: number;
+  currency: ICurrency;
   stockQuantity: number;
   withStock: boolean;
   categories: string[];
@@ -242,10 +247,13 @@ export interface IAddress {
   _id?: string;
   name: string;
   type: 'billing' | 'shipping';
+  additional?: string;
+  address: string;
   streetNumber: string;
   route: string;
   locality: string;
   country: string;
+  countryCode?: string;
   postalCode: string;
   default?: boolean;
 }
@@ -319,8 +327,48 @@ export interface IWorkshop {
   paymentType?: 'session' | 'subscription',
   subscriptionId?: string;
   price: number,
+  currency: ICurrency;
   preferences?: 'online' | 'person' | 'both' | 'account'
   locationId?: string;
   sessions: ISession[];
   pusblished: boolean;
+}
+
+export interface ICartItem {
+  id: string;
+  productId: string;
+  name: string;
+  description?: string;
+  price: number;
+  currency: ICurrency;
+  quantity: number;
+  imageUrl?: string;
+}
+
+export interface ICart {
+  items: ICartItem[];
+  currency: ICurrency;
+  deliveryCost?: number;
+  contactInformations?: {
+    firstname: string;
+    lastname: string;
+    email: string;
+    address: IAddress
+  }
+  totalItems: number;
+  totalPrice: number;
+  totalPriceAndDelivery: number;
+}
+
+export interface IShippingContract {
+  id: string;
+  name: string;
+  carrier: {
+    code: string;
+    name: string;
+  };
+  client_id: string | null;
+  is_active: boolean;
+  country: string;
+  is_default: boolean;
 }

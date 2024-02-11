@@ -19,6 +19,7 @@ export const useForm = <T extends Record<string, any>>() => {
       [name]: checked
     }));
   }, []);
+
   const onDirectMutation = useCallback(setForm, []);
 
   const onInitForm = useCallback((prevForm: any) => {

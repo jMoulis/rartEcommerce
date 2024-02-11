@@ -35,7 +35,8 @@
     "priceModality": "Prix et modalités",
     "file": "Fichier",
     "image": "Image",
-    "detailedInformation": "Détail"
+    "detailedInformation": "Détail",
+    "required": "requis"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -53,7 +54,12 @@
     "addresses": "Adresses",
     "newAddress": "Nouvelle adresse",
     "createAddress": "Créer une addresse",
-    "selectAddress": "Choisir une adresse"
+    "selectAddress": "Choisir une adresse",
+    "address": "Adresse",
+    "streetNumberStreet": "numéro et rue",
+    "autofillAddress": "Commencez à taper votre adresse",
+    "additional": "Complément d'addresse",
+    "additionalPlaceholder": "Appartement, suite, unité, immeuble, étage, etc."
   },
   "Authform": {
     "email": "E-Mail",
@@ -65,7 +71,8 @@
     "dontHaveAnAccount": "Vous n'avez pas de compte?",
     "orSignWithEmail": "ou connectez-vous avec un email",
     "connectWith": "Connectez-vous avec {provider}",
-    "forgotPassword": "Oublié?"
+    "forgotPassword": "Oublié?",
+    "alreadyHaveAnAccount": "Vous avez déjà un compte?"
   },
 
   "Booking": {
@@ -110,6 +117,24 @@
       "explanation": "Elle ne sera plus disponible"
     }
   },
+  "Cart": {
+    "cart": "Panier",
+    "summary": "Récapitulatif",
+    "item": "Produit/service",
+    "total": "Total",
+    "plusDelivery": "Hors frais de livraison",
+    "securised": "Sécurisé",
+    "payment": "Paiement",
+    "checkout": "Valider mon panier",
+    "newCustomer": "Nouveau client",
+    "existingCustomer": "Déjà client",
+    "shippingCost": "Frais de livraison",
+    "shipping": "Livraison",
+    "validateShipping": "Valider la livraison",
+    "contactInformations": "Information de contact",
+    "shippingAddress": "Information pour la livraison",
+    "confirm": "Confirmer"
+  },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
     "coords": {
@@ -118,6 +143,7 @@
       "phone": "Par téléphone"
     },
     "name": "Nom",
+    "firstname": "Prénom",
     "email": "E-mail",
     "message": "Message",
     "send": "Envoyer",

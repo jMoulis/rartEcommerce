@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { Flexbox } from '../../commons/Flexbox';
 import { Card } from '../home/Card';
 import { Section } from '../commons/layout/Section';
-import { SectionHeader } from '../products/SectionHeader';
+import { SectionHeader } from '../../commons/Layouts/SectionHeader';
 
 interface Props {
   initialWorkshops: IWorkshop[];
@@ -55,6 +55,7 @@ export default function Workshops({ initialWorkshops }: Props) {
               description={workshop.description!}
               id={workshop._id!}
               hrefRoot='workshops'
+              item={workshop}
             />
           ))}
         </Flexbox>

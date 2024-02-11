@@ -24,7 +24,7 @@ const Root = styled(Button)<{
   color: unset;
   font-size: ${({ variant }) => {
     if (variant === 'xs') return '10px';
-    return '20px';
+    return '15px';
   }};
 
   background-color: ${({ backgroundColor }) => backgroundColor};

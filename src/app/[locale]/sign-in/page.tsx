@@ -8,10 +8,7 @@ export default async function SignInPage() {
   if (await isUserAuthenticated()) redirect('/');
   return (
     <Suspense fallback={<span />}>
-      <AuthPage
-        variant={ENUM_AUTH_FORM_VARIANT.SIGNIN}
-        onChangeVariant={() => {}}
-      />
+      <AuthPage variant={ENUM_AUTH_FORM_VARIANT.SIGNIN} />
     </Suspense>
   );
 }

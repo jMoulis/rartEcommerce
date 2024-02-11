@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
 import { GoogleSignIn } from './GoogleSignIn';
 import './providers.css';
 import { ApiPayload } from '@/src/app/contexts/shared/types';
 import styled from '@emotion/styled';
+import { useError } from '../../hooks/useError';
 
 const Root = styled.ul`
   display: flex;
@@ -31,17 +31,20 @@ const providers: ProviderType[] = [
 ];
 
 interface Props {
-  onSuccess?: () => void;
+  onSuccess: (payload: ApiPayload) => void;
 }
 
 export default function SignIn({ onSuccess }: Props) {
-  const router = useRouter();
+  const { onSetError, ErrorComponent } = useError();
 
   const handleSignIn = async (signInFunction: () => Promise<ApiPayload>) => {
     const payload = await signInFunction();
-    onSuccess?.();
+    if (!payload.status && payload.error) {
+      onSetError(payload.error);
+    }
     if (payload.status) {
-      router.refresh();
+      onSuccess(payload);
+      onSetError(null);
     }
   };
   return (
@@ -51,6 +54,7 @@ export default function SignIn({ onSuccess }: Props) {
           {provider.button({ onClick: handleSignIn })}
         </ButtonListItem>
       ))}
+      {ErrorComponent}
     </Root>
   );
 }

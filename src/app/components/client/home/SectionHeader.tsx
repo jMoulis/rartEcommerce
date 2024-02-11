@@ -30,6 +30,7 @@ const ContentWrapper = styled(Flexbox)`
 
 const CustomSection = styled(Section)`
   height: 500px;
+  min-height: 500px;
   @media (max-width: 768px) {
     height: 350px;
   }
@@ -76,7 +77,7 @@ export default function SectionHeader() {
               active={false}
               route={{
                 label: t('Navbar.bookNow'),
-                href: ENUM_ROUTES.SERVICES,
+                href: ENUM_ROUTES.WORKSHOPS,
               }}
             />
             <NavigationLink

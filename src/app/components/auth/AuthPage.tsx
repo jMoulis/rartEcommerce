@@ -8,6 +8,7 @@ import { AuthForm } from './register/AuthForm';
 import SignIn from './sign-in/SignIn';
 import styled from '@emotion/styled';
 import { OrSignWith } from './sign-in/OrSignWith';
+import { ApiPayload } from '../../contexts/shared/types';
 
 const Root = styled.div`
   height: 50vh;
@@ -19,16 +20,30 @@ const Header = styled.header`
 const FormsWrapper = styled.div`
   padding: 20px;
 `;
-
 interface Props {
-  onSuccess?: () => void;
+  onSuccess?: (payload: ApiPayload) => void;
   variant: ENUM_AUTH_FORM_VARIANT;
-  onChangeVariant: React.Dispatch<React.SetStateAction<ENUM_AUTH_FORM_VARIANT>>;
+  onChangeVariant?: React.Dispatch<
+    React.SetStateAction<ENUM_AUTH_FORM_VARIANT>
+  >;
+  onCloseAll?: () => void;
 }
 
-export const AuthPage = ({ onSuccess, variant, onChangeVariant }: Props) => {
+export const AuthPage = ({
+  onSuccess,
+  variant,
+  onChangeVariant,
+  onCloseAll,
+}: Props) => {
   const t = useTranslations();
   const [forgotMenu, setForgotMenu] = useState(false);
+
+  const handleOnSuccess = (payload: ApiPayload) => {
+    onSuccess?.(payload);
+  };
+  const handleClose = () => {
+    onCloseAll?.();
+  };
 
   return (
     <Root>
@@ -38,15 +53,18 @@ export const AuthPage = ({ onSuccess, variant, onChangeVariant }: Props) => {
         })}
       </Header>
       {forgotMenu ? (
-        <ForgetPassword onForgetMenu={setForgotMenu} onCloseAll={onSuccess} />
+        <ForgetPassword
+          onForgetMenu={() => setForgotMenu(true)}
+          onCloseAll={handleClose}
+        />
       ) : (
         <FormsWrapper>
-          <SignIn onSuccess={onSuccess} />
+          <SignIn onSuccess={handleOnSuccess} />
           <OrSignWith />
           {variant === ENUM_AUTH_FORM_VARIANT.SIGNIN ? (
             <>
               <AuthForm
-                onSuccess={onSuccess}
+                onSuccess={handleOnSuccess}
                 variant={ENUM_AUTH_FORM_VARIANT.SIGNIN}
                 onForgetMenu={setForgotMenu}
                 onChangeVariant={onChangeVariant}
@@ -54,7 +72,7 @@ export const AuthPage = ({ onSuccess, variant, onChangeVariant }: Props) => {
             </>
           ) : (
             <AuthForm
-              onSuccess={onSuccess}
+              onSuccess={handleOnSuccess}
               variant={ENUM_AUTH_FORM_VARIANT.REGISTER}
               onForgetMenu={setForgotMenu}
               onChangeVariant={onChangeVariant}

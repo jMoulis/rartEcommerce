@@ -1,5 +1,5 @@
 import About from '../../components/client/about';
 
-export default async function ServicePage() {
+export default async function AboutPage() {
   return <About />;
 }

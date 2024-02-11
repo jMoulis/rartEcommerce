@@ -75,6 +75,7 @@ export default function SectionProducts({ initialProducts }: Props) {
               description={product.description}
               id={product._id!}
               hrefRoot='products'
+              item={product}
             />
           ))}
         </Flexbox>

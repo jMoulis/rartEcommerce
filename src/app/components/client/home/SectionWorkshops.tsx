@@ -52,16 +52,17 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
       <CustomSection>
         <Subtitle>{t('Home.workshops')}</Subtitle>
         <Flexbox flexWrap='wrap'>
-          {workshops.map((booking, imageIndex) => (
+          {workshops.map((workshop, imageIndex) => (
             <Card
               textColor='#fff'
-              src={imageProduct(booking)}
+              src={imageProduct(workshop)}
               key={imageIndex}
-              title={booking.name}
-              description={booking.description ?? ''}
-              price={booking.price}
+              title={workshop.name}
+              description={workshop.description ?? ''}
+              price={workshop.price}
               id='imageIndex'
               hrefRoot='workshops'
+              item={workshop}
             />
           ))}
         </Flexbox>
