@@ -9,7 +9,6 @@ import React, {
   useState,
 } from 'react';
 import { InputGroup } from '../../../commons/form/InputGroup';
-import { useTranslations } from 'next-intl';
 import { v4 } from 'uuid';
 import { Selectbox } from '../../../commons/form/Selectbox';
 import { InputGroupCheckbox } from '../../../commons/form/InputCheckbox';
@@ -18,18 +17,22 @@ import { DeleteConfirmation } from '../../../commons/confirmation/DeleteConfirma
 import { Button } from '../../../commons/Buttons/Button';
 import { Flexbox } from '../../../commons/Flexbox';
 import { CancelButton } from '../../../commons/Buttons/CancelButton';
+import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 
 const Form = styled.form`
   background-color: #fff;
-  padding: 20px;
   border-radius: 8px;
+  padding: 10px;
 `;
 
 const defaultAddress = {
   id: v4(),
   name: '',
-  streetNumber: '',
+  address: '',
   route: '',
+  streetNumber: '',
+  additional: '',
   locality: '',
   country: '',
   postalCode: '',
@@ -37,13 +40,28 @@ const defaultAddress = {
   type: 'shipping' as any,
 };
 
+const Autocomplete = dynamic(async () => import('./Autocomplete'), {
+  ssr: false,
+});
+
 interface Props {
   onUpsertAddress: (address: IAddress, edit?: boolean) => void;
   selectedAddress: IAddress | null;
-  onDeleteAddress: (addressId: string) => void;
-  onCancel: () => void;
+  onDeleteAddress?: (addressId: string) => void;
+  onCancel?: () => void;
   noType?: boolean;
+  children?: any;
   noDefault?: boolean;
+  noLabel?: boolean;
+  submitButton?: {
+    title?: string;
+  };
+  cancelButton?: {
+    title?: string;
+  };
+  deleteButton?: {
+    title?: string;
+  };
 }
 export const AddAddressForm = ({
   selectedAddress,
@@ -52,14 +70,19 @@ export const AddAddressForm = ({
   onCancel,
   noType,
   noDefault,
+  noLabel,
+  cancelButton,
+  submitButton,
+  deleteButton,
+  children,
 }: Props) => {
   const t = useTranslations();
   const actions = useRef([
     {
-      label: t('commons.delete'),
+      label: deleteButton?.title ?? t('commons.delete'),
       callback: async () => {
         if (!selectedAddress?._id) return;
-        onDeleteAddress(selectedAddress._id);
+        onDeleteAddress?.(selectedAddress._id);
       },
     },
   ]);
@@ -98,8 +121,23 @@ export const AddAddressForm = ({
     }
   };
 
+  const handleSelectAddress = (res: any) => {
+    const feature = res.features[0];
+    setForm((prev) => ({
+      ...prev,
+      route: feature.properties.street,
+      locality: feature.properties.address_level2,
+      country: feature.properties.country,
+      countryCode: feature.properties.country_code,
+      postalCode: feature.properties.postcode,
+      streetNumber: feature.properties.address_number,
+    }));
+  };
+
   return (
     <Form onSubmit={handleSubmit}>
+      {children}
+
       {noDefault ? null : (
         <InputGroupCheckbox
           label={t('AddressForm.default')}
@@ -109,19 +147,21 @@ export const AddAddressForm = ({
           onInputChange={handleCheckDefault}
         />
       )}
-      <InputGroup
-        label={t('AddressForm.name')}
-        id='name'
-        name='name'
-        value={form.name}
-        onInputChange={handleInputChange}
-      />
+      {noLabel ? null : (
+        <InputGroup
+          label={t('AddressForm.name')}
+          id='name'
+          name='name'
+          value={form.name || ''}
+          onInputChange={handleInputChange}
+        />
+      )}
       {noType ? null : (
         <Selectbox
           label={t('AddressForm.addressType')}
           id='type'
           name='type'
-          value={form.type}
+          value={form.type || ''}
           onSelectOption={handleInputChange}
           options={[
             {
@@ -135,53 +175,89 @@ export const AddAddressForm = ({
           ]}
         />
       )}
+      <Autocomplete
+        placeholder={`${t('AddressForm.autofillAddress')}`}
+        value={form.address ?? ''}
+        onChange={handleInputChange}
+        onSelectAddress={handleSelectAddress}
+        required
+        name='address'
+        id='address'
+        labelTip={`(${t('AddressForm.streetNumberStreet')})`}
+        label={t('AddressForm.address')}
+      />
       <InputGroup
+        label={t('AddressForm.additional')}
+        id='additional'
+        name='additional'
+        value={form.additional ?? ''}
+        onInputChange={handleInputChange}
+        placeholder={t('AddressForm.additionalPlaceholder')}
+      />
+      <InputGroup
+        styling={{
+          root: {
+            visibility: 'hidden',
+            margin: 0,
+            height: 0,
+          },
+        }}
+        type='hidden'
         label={t('AddressForm.streetNumber')}
         id='streetNumber'
         name='streetNumber'
-        value={form.streetNumber}
+        value={form.streetNumber || ''}
         onInputChange={handleInputChange}
-      />
-      <InputGroup
-        label={t('AddressForm.route')}
-        id='route'
-        name='route'
-        value={form.route}
-        onInputChange={handleInputChange}
+        autoComplete='address-number'
+        required
       />
       <InputGroup
         label={t('AddressForm.postalCode')}
         id='postalCode'
         name='postalCode'
-        value={form.postalCode}
+        value={form.postalCode || ''}
         onInputChange={handleInputChange}
+        autoComplete='postal-code'
+        required
       />
       <InputGroup
         label={t('AddressForm.locality')}
         id='locality'
         name='locality'
-        value={form.locality}
+        value={form.locality || ''}
         onInputChange={handleInputChange}
+        autoComplete='address-level2'
+        required
       />
       <InputGroup
         label={t('AddressForm.country')}
         id='country'
         name='country'
-        value={form.country}
+        value={form.country || ''}
         onInputChange={handleInputChange}
+        autoComplete='country-name'
+        required
       />
       <Flexbox justifyContent='flex-end'>
         <Button type='submit'>
-          {selectedAddress ? t('commons.edit') : t('commons.create')}
+          {submitButton?.title
+            ? submitButton.title
+            : selectedAddress
+            ? t('commons.edit')
+            : t('commons.create')}
         </Button>
-        <DeleteConfirmation
-          withLabel
-          headerTitle={t('AddressForm.deleteAddress')}
-          actions={actions.current}
-        />
-        <CancelButton type='button' onClick={onCancel}>
-          {t('commons.cancel')}
-        </CancelButton>
+        {onDeleteAddress ? (
+          <DeleteConfirmation
+            withLabel
+            headerTitle={t('AddressForm.deleteAddress')}
+            actions={actions.current}
+          />
+        ) : null}
+        {onCancel ? (
+          <CancelButton type='button' onClick={onCancel}>
+            {cancelButton?.title ?? t('commons.cancel')}
+          </CancelButton>
+        ) : null}
       </Flexbox>
     </Form>
   );

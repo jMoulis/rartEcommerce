@@ -7,6 +7,9 @@ import { Logo } from '../navbar/Logo';
 const Root = styled.footer`
   display: flex;
   padding: 40px;
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 interface Props {}
 
@@ -15,8 +18,10 @@ export const Footer = (props: Props) => {
     <Root>
       <Logo
         size={{
-          width: 100,
-          height: 100,
+          width: '100px',
+          height: '100px',
+          responsiveHeight: '50px',
+          responsiveWidth: '50px',
         }}
       />
     </Root>

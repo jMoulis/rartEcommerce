@@ -1,9 +1,11 @@
-'use server';
-
 import { onErrorMessage, onSuccessMessage } from '@/src/app/contexts/shared/response';
 import { ENUM_COLLECTIONS } from '../enums';
 import { db } from '../firebase';
-import { doc, setDoc, collection as firestoreCollection, getDoc, getDocs, deleteDoc } from 'firebase/firestore';
+import { adminDB, auth } from '../firebaseAuth/firebase-admin';
+import { doc, setDoc, collection as firestoreCollection, getDoc, getDocs, deleteDoc, QueryConstraint, where, query } from 'firebase/firestore';
+import { WhereFilterOp } from 'firebase-admin/firestore';
+import { IContactInformations, UserProfile } from '@/src/types/DBTypes';
+import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 
 export const onCreateDocument = async (
   fields: Record<string, any>,
@@ -17,7 +19,26 @@ export const onCreateDocument = async (
     return onErrorMessage(error);
   }
 };
+export const onAdminCreateDocument = async (
+  fields: Record<string, any>,
+  collection: ENUM_COLLECTIONS,
+  documentId?: string
+) => {
+  try {
+    const collectionRef = adminDB.collection(collection);
+    let docRef;
 
+    if (documentId) {
+      docRef = collectionRef.doc(documentId);
+      await docRef.set(fields);
+    } else {
+      docRef = await collectionRef.add(fields);
+    }
+    return onSuccessMessage('create', undefined, { _id: docRef.id });
+  } catch (error) {
+    throw Error(`Error: ${collection} creation`);
+  }
+};
 export const onUpdateDocument = async (
   fields: Record<string, any>,
   collection: ENUM_COLLECTIONS,
@@ -28,6 +49,19 @@ export const onUpdateDocument = async (
     await setDoc(docRef, fields, { merge: true });
     return onSuccessMessage('create', undefined, { _id: docRef.id });
   } catch (error) {
+    return onErrorMessage(error);
+  }
+};
+export const onAdminUpdateDocument = async (
+  updates: Record<string, any>,
+  collection: ENUM_COLLECTIONS,
+  id: string
+) => {
+  try {
+    const docRef = adminDB.collection(collection).doc(id);
+    await docRef.update(updates);
+    return onSuccessMessage('update', undefined, { _id: docRef.id });
+  } catch (error: any) {
     return onErrorMessage(error);
   }
 };
@@ -57,7 +91,28 @@ export const findAll = async (collection: ENUM_COLLECTIONS) => {
     return onErrorMessage(error);
   }
 };
+export const findByQuery = async (collection: ENUM_COLLECTIONS, queryObject: any) => {
+  try {
+    const productsRef = firestoreCollection(db, collection);
+    const queryConstraints: QueryConstraint[] = [];
 
+    for (const [field, value] of Object.entries(queryObject)) {
+      queryConstraints.push(where(field, '==', value));
+    }
+
+    const firebaseQuery = query(productsRef, ...queryConstraints);
+
+    const querySnapshot = await getDocs(firebaseQuery);
+
+    const products = querySnapshot.docs.map(doc => ({
+      ...doc.data() || {},
+      _id: doc.id,
+    }));
+    return products;
+  } catch (error) {
+    return onErrorMessage(error);
+  }
+};
 export const getDocument = async (
   docId: string,
   collection: ENUM_COLLECTIONS
@@ -72,5 +127,65 @@ export const getDocument = async (
     }
   } catch (error) {
     return onErrorMessage(error);
+  }
+};
+export const getAdminDocument = async (
+  docId: string,
+  collection: ENUM_COLLECTIONS
+) => {
+  try {
+    const docRef = adminDB.collection(collection).doc(docId);
+    const docSnap = await docRef.get();
+    if (docSnap.id) {
+      return onSuccessMessage('fetch', undefined, { ...docSnap.data(), _id: docSnap.id });
+    } else {
+      return onErrorMessage({ code: 'not-found' });
+    }
+  } catch (error) {
+    throw new Error(`Error: Fetch ${collection} - ${docId}`);
+  }
+};
+export const onRootFindByQuery = async (collection: ENUM_COLLECTIONS, queryObject: any) => {
+  try {
+    const collectionRef = adminDB.collection(collection);
+    let query: any = collectionRef; // Start with the collection reference
+
+    for (const [field, value] of Object.entries(queryObject)) {
+      query = query.where(field, '==' as WhereFilterOp, value);
+    }
+
+    const querySnapshot = await query.get();
+
+    const results = querySnapshot.docs.map((doc: any) => ({
+      ...doc.data(),
+      _id: doc.id,
+    }));
+
+    return results[0];
+  } catch (error) {
+    return onErrorMessage(error);
+  }
+};
+
+export const onAdminCreateAccount = async (email: string, password: string, contact: IContactInformations) => {
+  try {
+    await auth.createUser({
+      email,
+      password
+    });
+    const profileRef = adminDB.collection(ENUM_COLLECTIONS.PROFILES);
+    const profile: UserProfile = {
+      email,
+      firstname: contact.firstname,
+      lastname: contact.lastname,
+      addresses: contact.address ? [contact.address] : [],
+      verified: false,
+      roles: [ENUM_ROLES.VISITOR],
+      avatar: ''
+    };
+    const createdProfile = await profileRef.add(profile);
+    return createdProfile.id;
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };

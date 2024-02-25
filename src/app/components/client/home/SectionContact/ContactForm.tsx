@@ -1,4 +1,12 @@
-import React, { FormEvent, useCallback } from 'react';
+'use client';
+
+import React, {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from '@emotion/styled';
 import { Flexbox } from '../../../commons/Flexbox';
 import { useTranslations } from 'next-intl';
@@ -6,11 +14,20 @@ import { Subtitle } from '../../commons/typography/Subtitle';
 import { InputGroup } from '../../../commons/form/InputGroup';
 import { TextareaGroup } from '../../../commons/form/TextareaGroup';
 import { Button } from '../../../commons/Buttons/Button';
+import { IContactMail } from '@/src/app/api/contact/type';
+import { APIResponse } from '@/src/types/types';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { DeliveredMessage } from './DeliveredMessage';
+import { Loader } from './Loader';
+import { ErrorMessage } from './ErrorMessage';
 
 const Root = styled(Flexbox)`
   align-items: center;
   justify-content: space-between;
   flex: 1;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const TextWrapper = styled.ul`
@@ -25,6 +42,10 @@ const CustomButton = styled(Button)`
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 12px 16px;
+  @media (max-width: 768px) {
+    margin: 0;
+    margin-top: 10px;
+  }
 `;
 
 const CustomSubtitle = styled(Subtitle)`
@@ -38,11 +59,23 @@ const ListItem = styled.li`
 const Text = styled.p`
   color: #fff;
   margin: 10px;
+  @media (max-width: 768px) {
+    margin: 0;
+  }
 `;
 const Form = styled.form`
+  position: relative;
   width: 50%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
-
+const Wrapper = styled(Flexbox)`
+  width: 50%;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
 const coords = [
   {
     key: 'formContact',
@@ -61,10 +94,12 @@ const coords = [
   },
 ];
 
-const defaultInputStyle = {
+const defaultInputStyle = (sending: boolean) => ({
   root: {
+    transition: 'opacity 150ms ease',
     flex: 1,
     margin: '10px',
+    opacity: sending ? '0.2' : '1',
   },
   label: {
     color: '#fff',
@@ -74,18 +109,70 @@ const defaultInputStyle = {
     border: '1px solid transparent',
     color: '#fff',
   },
-};
+});
 interface Props {}
 
 export const ContactForm = (props: Props) => {
   const t = useTranslations();
+  const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [valid, setValid] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const captchaRef = useRef<any>(null);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    return () => {
+      if (success) {
+        setSuccess(false);
+      }
+    };
+  }, [success]);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const name: string | undefined = (event.target as any).name?.value;
-    // const email: string | undefined = (event.target as any).email?.value;
-    // const message: string | undefined = (event.target as any).message?.value;
+    const formData = new FormData(event.currentTarget);
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const message = formData.get('message') as string;
+    const mailSystem = process.env.NEXT_PUBLIC_MAIL_SYSTEM;
+    const token = captchaRef.current?.getValue();
+    captchaRef.current.reset();
+    if (!name || !email || !message || !mailSystem) return false;
+    const rawFormData: IContactMail = {
+      name,
+      email,
+      message,
+      companyName: 'RartCreation',
+      contactName: 'Rachel',
+      mailSystem,
+      subject: t('Contact.subject', {
+        company: 'RartCreation',
+      }),
+      token,
+    };
+    const payload = {
+      method: 'POST',
+      body: JSON.stringify(rawFormData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      setSending(true);
+      const response = await fetch('/api/contact', payload);
+      const p = (await response.json()) as unknown as APIResponse;
+      if (p.error) throw Error(p.error);
+      setSuccess(p.success);
+      setSending(false);
+      setError(null);
+    } catch (error: any) {
+      setError(error.message);
+      setSending(false);
+      setSuccess(false);
+    }
   };
+
   const renderText = useCallback(
     ({
       type,
@@ -122,76 +209,88 @@ export const ContactForm = (props: Props) => {
     },
     []
   );
+
   return (
-    <Root>
-      <Flexbox
-        style={{
-          width: '50%',
-        }}
-        flex='1'
-        flexDirection='column'
-        justifyContent='flex-start'>
-        <CustomSubtitle>{t('Contact.title')}</CustomSubtitle>
-        <TextWrapper>
-          {coords.map((coord, key) => (
-            <ListItem key={key}>
-              <Flexbox>
-                <Text
-                  style={{
-                    marginRight: '5px',
-                  }}>
-                  {t(`Contact.coords.${coord.key}` as any)}
-                </Text>
-                <Text
-                  style={{
-                    marginLeft: 0,
-                  }}>
-                  {renderText(coord)}
-                </Text>
-              </Flexbox>
-            </ListItem>
-          ))}
-        </TextWrapper>
-      </Flexbox>
-      <Form onSubmit={handleSubmit}>
-        <Flexbox>
-          <InputGroup
-            styling={defaultInputStyle}
-            label={t('Contact.name')}
-            name='name'
-            id='name'
-            required
-          />
-          <InputGroup
-            styling={defaultInputStyle}
-            label={t('Contact.email')}
-            name='email'
-            id='email'
-            required
-            type='email'
-          />
-        </Flexbox>
-        <TextareaGroup
-          label={t('Contact.message')}
-          name='message'
-          id='message'
-          styling={defaultInputStyle}
-          required
-        />
-        <Flexbox
-          alignItems='center'
-          style={{
-            marginTop: '20px',
-            marginRight: '10px',
-            marginLeft: '10px',
-          }}>
-          <Text>
-            This site is protected by reCAPTCHA and the Google Privacy Policy
-            and Terms of Service apply.
-          </Text>
-          <CustomButton type='submit'>{t('Contact.send')}</CustomButton>
-        </Flexbox>
-      </Form>
-    </Root>
+    <>
+      <Root>
+        <Wrapper flex='1' flexDirection='column' justifyContent='flex-start'>
+          <CustomSubtitle>{t('Contact.title')}</CustomSubtitle>
+          <TextWrapper>
+            {coords.map((coord, key) => (
+              <ListItem key={key}>
+                <Flexbox alignItems='center'>
+                  <Text
+                    style={{
+                      marginRight: '5px',
+                    }}>
+                    {t(`Contact.coords.${coord.key}` as any)}
+                  </Text>
+                  <div
+                    style={{
+                      marginLeft: 0,
+                    }}>
+                    {renderText(coord)}
+                  </div>
+                </Flexbox>
+              </ListItem>
+            ))}
+          </TextWrapper>
+        </Wrapper>
+        {success ? (
+          <DeliveredMessage onClick={() => setSuccess(false)} />
+        ) : (
+          <Form onSubmit={handleSubmit}>
+            {error ? <ErrorMessage message={error} /> : null}
+            <Loader sending={sending} />
+            <Flexbox flexWrap='wrap'>
+              <InputGroup
+                styling={defaultInputStyle(sending)}
+                label={t('Contact.name')}
+                name='name'
+                id='name'
+                required
+              />
+              <InputGroup
+                styling={defaultInputStyle(sending)}
+                label={t('Contact.email')}
+                name='email'
+                id='email'
+                required
+                type='email'
+              />
+            </Flexbox>
+            <TextareaGroup
+              label={t('Contact.message')}
+              name='message'
+              id='message'
+              styling={defaultInputStyle(sending)}
+              required
+            />
+            <Flexbox
+              alignItems='center'
+              flexWrap='wrap'
+              justifyContent='space-between'
+              style={{
+                marginTop: '20px',
+                marginRight: '10px',
+                marginLeft: '10px',
+              }}>
+              {!loaded ? <span>{t('Contact.securityLoading')}</span> : null}
+              <ReCAPTCHA
+                asyncScriptOnLoad={() => setLoaded(true)}
+                ref={captchaRef}
+                sitekey={
+                  process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY as unknown as string
+                }
+                onChange={() => setValid(true)}
+              />
+              <CustomButton disabled={!valid} type='submit'>
+                {t('Contact.send')}
+              </CustomButton>
+            </Flexbox>
+          </Form>
+        )}
+      </Root>
+    </>
   );
 };

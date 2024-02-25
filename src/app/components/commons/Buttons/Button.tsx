@@ -7,14 +7,12 @@ export const Button = styled.button`
   background-color: var(--primary-color);
   display: flex;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
   color: #fff;
   align-items: center;
   transition: background-color 150ms ease;
   margin: 0 5px;
-  & * {
-    color: #fff;
-  }
+  color: #fff;
   &:hover {
     background-color: #4eb7f5;
   }

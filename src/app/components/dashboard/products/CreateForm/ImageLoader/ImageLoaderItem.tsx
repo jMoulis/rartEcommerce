@@ -45,6 +45,7 @@ export const ImageLoaderItem = ({
         alt={image.name}
         style={{
           borderRadius: '10px',
+          objectFit: 'cover',
         }}
       />
     </Root>

@@ -1,7 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 import { ENUM_ROLES } from '../app/contexts/auth/enums';
 import { IImageType } from '../app/components/dashboard/products/CreateForm/ImageLoader/types';
-import { Frequency, ByWeekday } from '../app/components/dashboard/bookings/Session/types';
+import { Frequency, ByWeekday } from '../app/components/dashboard/workshops/Session/types';
 
 export type InvoiceStatusType = 'paid' | 'unpaid' | 'overdue';
 export type PaymentMethodType = 'creditCard' | 'bankTransfert' | 'check';
@@ -12,17 +12,9 @@ export type InteractionType = 'call' | 'email' | 'sms' | 'socialNetwork';
 export type PurchaseOrderStatusType = 'pending' | 'completed' | 'cancelled';
 export type UserRoleType = 'admin' | 'supplier' | 'customer';
 
-export interface IPurchaseOrder {
-  _id: string;
-  purchaseOrderId: string;
-  supplierId: string;
-  orderDate: string;
-  expectedDeliveryDate: string;
-  lineItems: ILineItem[]; // Could be similar to ILineItem in IOrder
-  totalAmount: number;
-  status: PurchaseOrderStatusType;
-  createdAt: string;
-  updatedAt: string;
+export interface ICurrency {
+  code: string,
+  symbol: string,
 }
 
 export interface IStockItem {
@@ -77,9 +69,11 @@ export interface IProductService {
   images: IProductImage[];
   sections: ISection[];
   price: number;
+  currency: ICurrency;
   stockQuantity: number;
   withStock: boolean;
   categories: string[];
+  type: 'product' | 'workshop';
   options: {
     refIds: string[];
     published: boolean;
@@ -114,9 +108,9 @@ export interface ITemplate {
 }
 
 export interface ILineItem {
-  _id: string;
+  _id?: string;
   itemId: string;
-  description: string;
+  description?: string;
   quantity: number;
   unitPrice: number;
   total: number;
@@ -160,41 +154,54 @@ export interface IModification {
   updatedAt: string;
 }
 
-export interface IOrder {
-  _id: string;
-  orderId: string;
-  invoiceId?: string;
-  customerId: string;
+export interface IOrderInput {
+  customerId: string | null;
   orderDate: string;
+  customerInformations: IContactInformations;
+  amount: number;
   lineItems: ILineItem[];
   status: OrderStatusType;
   modifications?: IModification[];
+  issueDate?: string;
   createdAt: string;
   updatedAt: string;
   isArchived?: boolean;
+  invoiceId?: string;
+}
+export interface IOrder extends IOrderInput {
+  _id: string;
 }
 
-export interface IInvoice {
-  _id: string;
+export interface IInvoicesId {
+  counter: number;
+}
+export interface IInvoiceInput {
   invoiceId: string;
-  customerId: string;
+  customerId: string | null;
   issueDate: string;
   dueDate: string;
-  totalAmount: number;
+  amount: number;
   status: InvoiceStatusType;
   lineItems: ILineItem[];
   createdAt: string;
   updatedAt: string;
-  orderId?: string;
+  orderId: string;
   isArchived?: boolean;
+  paymentId: string;
+  confirmMailSent: {
+    status: boolean;
+    date?: string;
+  };
+  receiptUrl: string | null
 }
-
+export interface IInvoice extends IInvoiceInput {
+  _id: string;
+}
 export interface IContact {
   type: ContactInfoType,
   label: string;
   value: string;
 }
-
 export interface IUserCommonInfo {
   lastname: string;
   firstname: string;
@@ -202,7 +209,6 @@ export interface IUserCommonInfo {
   address: IAddress[];
   isArchived?: boolean;
 }
-
 export interface IUser {
   _id: string;
   userId: string;
@@ -242,16 +248,19 @@ export interface IAddress {
   _id?: string;
   name: string;
   type: 'billing' | 'shipping';
+  additional?: string;
+  address: string;
   streetNumber: string;
   route: string;
   locality: string;
   country: string;
+  countryCode?: string;
   postalCode: string;
   default?: boolean;
 }
 
 export interface UserProfile {
-  _id: string;
+  _id?: string;
   avatar: string;
   createdAt?: Timestamp;
   email: string;
@@ -260,10 +269,13 @@ export interface UserProfile {
   lastname?: string;
   addresses: IAddress[];
   roles: ENUM_ROLES[];
+  token?: string | null;
+  verified: boolean;
+  verificationDate?: Timestamp;
 }
 
 export interface IRepetition {
-  occurencesJsonUrl?: string;
+  occurrencesJsonUrl?: string;
   frequency?: Frequency;
   days?: ByWeekday[];
   end?: string;
@@ -287,11 +299,13 @@ export interface ISession {
   start: string;
   end?: string;
   duration?: number;
-  people: string[];
+  maxParticipants: number;
   calenderId?: string;
-  location?: string; // Location refId
-  repetition?: IRepetition;
+  locationId?: string | null; // Location refId
+  repetition: IRepetition | null;
+  participants: Array<{ email: string, firstname: string, lastname: string, phoneNumber?: string }>;
 }
+
 export interface ISubscription {
   _id: string;
   name: string;
@@ -301,22 +315,66 @@ export interface ISubscription {
   recurring?: boolean;
   paymentPeriod: 'monthly' | 'weekly' | 'annualy';
   paymentEnding: string;
+  priceId?: string | null;
 }
-export interface IBooking {
+export interface IWorkshop {
   _id?: string;
   categories?: string[];
   image?: IProductImage;
   name: string;
   excerpt?: string;
   description?: string;
-  maxParticipants: number;
   currentParticipantIds: string[];
   status?: 'upcoming' | 'ongoing' | 'completed';
   instructorId?: string;
   paymentType?: 'session' | 'subscription',
+  paymentPreference?: 'online' | 'person' | 'both' | 'account'
   subscriptionId?: string;
   price: number,
-  preferences?: 'online' | 'person' | 'both' | 'account'
-  locationId?: string;
+  currency: ICurrency;
   sessions: ISession[];
+  pusblished: boolean;
+  type: 'product' | 'workshop';
+}
+
+export interface ICartItem {
+  id: string;
+  productId: string;
+  name: string;
+  description?: string;
+  price: number;
+  currency: ICurrency;
+  quantity: number;
+  imageUrl?: string;
+  type: 'workshop' | 'product';
+  sessions?: ISession[]
+}
+
+export interface IContactInformations {
+  firstname: string;
+  lastname: string;
+  email: string;
+  address?: IAddress
+}
+export interface ICart {
+  items: ICartItem[];
+  currency: ICurrency;
+  deliveryCost?: number;
+  contactInformations: IContactInformations
+  totalItems: number;
+  totalPrice: number;
+  totalPriceAndDelivery: number;
+}
+
+export interface IShippingContract {
+  id: string;
+  name: string;
+  carrier: {
+    code: string;
+    name: string;
+  };
+  client_id: string | null;
+  is_active: boolean;
+  country: string;
+  is_default: boolean;
 }

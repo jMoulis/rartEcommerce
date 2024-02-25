@@ -1,4 +1,5 @@
-import { IBooking, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate } from '@/src/types/DBTypes';
+import { DEFAULT_CURRENCY } from '@/src/lib/constants';
+import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 
 export const defaultElement = (): IElement => {
@@ -28,12 +29,15 @@ export const defaultSection: (t: any) => ISection = (t) => {
     published: false,
   });
 };
-export const generateDefaultSession: () => ISession = () => {
+export const generateDefaultSession: (workshop: IWorkshop) => ISession = (workshop) => {
   const _id = v4();
   return ({
     _id,
-    start: '',
-    people: [],
+    start: new Date().toISOString(),
+    participants: [],
+    repetition: null,
+    maxParticipants: 0,
+    duration: 0,
   });
 };
 export const generateDefaultRepetition: (startDate?: string) => IRepetition = (startDate) => {
@@ -47,14 +51,18 @@ export const generateDefaultRepetition: (startDate?: string) => IRepetition = (s
     _id
   });
 };
-export const generateDefaultBooking: () => IBooking = () => {
+export const generateDefaultBooking: () => IWorkshop = () => {
   return ({
     categories: [],
     name: '',
     maxParticipants: 0,
     currentParticipantIds: [],
     price: 0,
-    sessions: []
+    currency: DEFAULT_CURRENCY,
+    sessions: [],
+    pusblished: false,
+    paymentPreference: 'online',
+    type: 'workshop'
   });
 };
 export const buildDefaultTemplate: (t: any) => ITemplate = (t) => {
@@ -76,6 +84,8 @@ export const defaultProduct = (): IProductService => ({
   stockQuantity: 0,
   withStock: false,
   categories: [],
+  currency: DEFAULT_CURRENCY,
+  type: 'product',
   options: {
     refIds: [],
     published: false

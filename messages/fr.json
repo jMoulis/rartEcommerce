@@ -35,7 +35,10 @@
     "priceModality": "Prix et modalités",
     "file": "Fichier",
     "image": "Image",
-    "detailedInformation": "Détail"
+    "detailedInformation": "Détail",
+    "required": "requis",
+    "store": "Boutique",
+    "workshop": "Ateliers"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -53,14 +56,25 @@
     "addresses": "Adresses",
     "newAddress": "Nouvelle adresse",
     "createAddress": "Créer une addresse",
-    "selectAddress": "Choisir une adresse"
+    "selectAddress": "Choisir une adresse",
+    "address": "Adresse",
+    "streetNumberStreet": "numéro et rue",
+    "autofillAddress": "Commencez à taper votre adresse",
+    "additional": "Complément d'addresse",
+    "additionalPlaceholder": "Appartement, suite, unité, immeuble, étage, etc."
   },
   "Authform": {
     "email": "E-Mail",
     "password": "Mot de passe",
     "resetPassword": "Réinitialiser le mot de passe",
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
-    "messageSent": "Le lien vient de vous être envoyé"
+    "messageSent": "Le lien vient de vous être envoyé",
+    "signInTo": "Connectez-vous à {company}",
+    "dontHaveAnAccount": "Vous n'avez pas de compte?",
+    "orSignWithEmail": "ou connectez-vous avec un email",
+    "connectWith": "Connectez-vous avec {provider}",
+    "forgotPassword": "Oublié?",
+    "alreadyHaveAnAccount": "Vous avez déjà un compte?"
   },
 
   "Booking": {
@@ -71,6 +85,7 @@
     "locations": "Lieux",
     "serviceLoaction": "Lieu du service",
     "excerpt": "Phrase de présentation",
+    "register": "S'inscrire",
     "createBooking": "Créer une réservation",
     "editBooking": "Modifier une réservation",
     "deleteBooking": "Supprimer une réservation",
@@ -105,6 +120,25 @@
       "explanation": "Elle ne sera plus disponible"
     }
   },
+  "Cart": {
+    "cart": "Panier",
+    "summary": "Récapitulatif",
+    "item": "Produit/service",
+    "total": "Total",
+    "plusDelivery": "Hors frais de livraison",
+    "securised": "Sécurisé",
+    "payment": "Paiement",
+    "checkout": "Valider mon panier",
+    "newCustomer": "Nouveau client",
+    "existingCustomer": "Déjà client",
+    "shippingCost": "Frais de livraison",
+    "shipping": "Livraison",
+    "validateShipping": "Valider la livraison",
+    "contactInformations": "Information de contact",
+    "shippingAddress": "Information pour la livraison",
+    "confirm": "Confirmer",
+    "addToCart": "Ajouter au panier"
+  },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
     "coords": {
@@ -113,9 +147,14 @@
       "phone": "Par téléphone"
     },
     "name": "Nom",
+    "firstname": "Prénom",
     "email": "E-mail",
     "message": "Message",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "success": "Nous avons reçu votre message",
+    "sendingMessage": "En train d'envoyer votre message aux étoiles de l'art... Un instant, s'il vous plaît.",
+    "subject": "Confirmation de votre demande de contact sur {company}",
+    "securityLoading": "Chargement de securité"
   },
   "Course": {
     "title": "Titre",
@@ -131,6 +170,7 @@
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
     "agenda": "Agenda",
+    "workshops": "Ateliers",
     "inventory": "Inventaires",
     "categories": "Catégories",
     "services": "Services",
@@ -144,12 +184,13 @@
   },
   "Home": {
     "about": "A propos",
+    "products": "Oeuvres d'art",
+    "workshops": "Ateliers",
     "sectionAbout": {
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
     }
   },
-
   "LocaleSwitcher": {
     "label": "Langue",
     "locale": "{locale, select, fr {Français} en {Anglais} other {Inconnu}}"
@@ -163,6 +204,7 @@
     "about": "A propos",
     "services": "Services",
     "products": "Produits",
+    "workshop": "Ateliers",
     "reviews": "Avis clients",
     "contact": "Contact",
     "dashboard": "Tableau de bord",
@@ -243,6 +285,7 @@
     "end": "Fin",
     "until": "Jusqu'à",
     "duration": "Duration",
+    "places": "Places",
     "repetition": {
       "label": "Répétition",
       "addRepetition": "Ajouter une répétition",
@@ -263,7 +306,8 @@
     "weekly": "Hébdomadaire",
     "paymentPeriodLabel": "Période de paiement",
     "paymentPeriod": "{paymentPeriod, select, weekly {Hébdomadaire} monthly {Mensuel} annualy {Annuel} other {Inconnu}}",
-    "subscriptionDetail": "Détails de l'abonnement"
+    "subscriptionDetail": "Détails de l'abonnement",
+    "editSubscription": "Modifier un abonnement"
   },
   "Template": {
     "template": "Modèle",
@@ -274,7 +318,13 @@
     "newTemplate": "Nouveau modèle",
     "templates": "Modèles"
   },
+  "Workshop": {
+    "workshop": "Atelier",
+    "workshops": "Ateliers",
+    "createWorkshop": "Créer un atelier"
+  },
   "ApiSuccess": {
+    "reset-mail": "Réinitialisation Email envoyé",
     "edit-user-address": "Addresse ajouté",
     "setSessionCookie": "Cookie enregistrer",
     "update-user-profile": "Profile mise à jour",
@@ -286,6 +336,7 @@
     "setSessionCookie": "Impossible d'enregistrer le cookie de session",
     "auth/app-deleted": "app-deleted",
     "auth/expired-action-code": "expired-action-code",
+    "auth/quota-exceeded": "Quota dépassé",
     "auth/invalid-action-code": "invalid-action-code",
     "auth/user-disabled": "user-disabled",
     "auth/user-not-found": "user-not-found",

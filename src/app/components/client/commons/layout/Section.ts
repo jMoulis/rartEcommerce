@@ -3,8 +3,9 @@
 import styled from '@emotion/styled';
 
 export const Section = styled.section`
+  label: Section;
   position: relative;
-  padding: 70px 50px;
+  padding: 50px 50px;
   display: flex;
   justify-content: center;
   @media (max-width: 768px) {

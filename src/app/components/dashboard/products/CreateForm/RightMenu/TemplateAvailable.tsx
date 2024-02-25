@@ -1,4 +1,4 @@
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFetchDocsByIdsArray } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { ICategory, ISection, ITemplate } from '@/src/types/DBTypes';
 import React, { useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ import { Button } from '@/src/app/components/commons/Buttons/Button';
 import { useTranslations } from 'next-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/pro-light-svg-icons';
+import { toast } from 'react-toastify';
 
 const Root = styled.ul`
   display: flex;
@@ -31,7 +32,6 @@ export const TemplateAvailable = ({
   category,
   onSelectTemplateSections,
 }: Props) => {
-  const { onFetchDocsByIdsArray } = useFirestore();
   const [templates, setTemplates] = useState<ITemplate[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<ITemplate | null>(
     null
@@ -47,8 +47,7 @@ export const TemplateAvailable = ({
           }
         })
         .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
+          toast.error(error.message);
         });
     }
   }, [category?._id, category?.templates]);

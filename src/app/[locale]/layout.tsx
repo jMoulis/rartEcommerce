@@ -9,6 +9,9 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { getCurrentUser } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { EB_Garamond } from 'next/font/google';
+import { CartProvider } from '../contexts/cart/CartContext';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const garamond = EB_Garamond({
   subsets: ['latin'],
@@ -39,13 +42,14 @@ export default async function RootLayout({ children, params }: Props) {
   unstable_setRequestLocale(params.locale);
 
   let messages;
+
   try {
     messages = (await import(`../../../messages/${params.locale}.json`))
       .default;
   } catch (error) {
     notFound();
   }
-  const current = await getCurrentUser();
+  await getCurrentUser();
 
   return (
     <html lang={params.locale} className={garamond.className}>
@@ -57,8 +61,11 @@ export default async function RootLayout({ children, params }: Props) {
             timeZone='Europe/Paris'
             now={new Date()}>
             <AuthProvider>
-              <Navbar current={current} />
-              {children}
+              <ToastContainer />
+              <CartProvider>
+                <Navbar />
+                {children}
+              </CartProvider>
             </AuthProvider>
           </NextIntlProvider>
         </AppRouterCacheProvider>

@@ -4,11 +4,7 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { IProductService, ISection } from '@/src/types/DBTypes';
 import { ImageLoader } from './ImageLoader/ImageLoader';
-import {
-  onCreateDocument,
-  onUpdateDocument,
-  onDeleteDocument,
-} from '@/src/lib/firebase/firestore/crud';
+
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { IImageType } from './ImageLoader/types';
 import { Section } from './sections/Section';
@@ -22,6 +18,11 @@ import { PriceCard } from './PriceCard';
 import { Flexbox } from '../../../commons/Flexbox';
 import { Menu } from './RightMenu/Menu';
 import { OptionsCard } from './OptionsCard/OptionsCard';
+import {
+  onUpdateDocument,
+  onCreateDocument,
+  onDeleteDocument,
+} from '@/src/app/contexts/firestore/useFirestore';
 
 const LoadingBackdrop = styled.div`
   position: absolute;
@@ -285,6 +286,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
         ...form,
         published: checked,
       };
+
       setForm(updatedForm);
     },
     [form]

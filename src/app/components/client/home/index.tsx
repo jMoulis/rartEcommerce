@@ -3,19 +3,27 @@
 import { Page } from '@/src/app/components/client/commons/layout/Page';
 import SectionHeader from './SectionHeader';
 import SectionAbout from './SectionAbout';
-import SectionServices from './SectionServices';
+import SectionServices from './SectionWorkshops';
 import SectionProducts from './SectionProducts';
 import SectionContact from './SectionContact/SectionContact';
 import SectionTestimonial from './SectionTestimonial';
+import { IWorkshop, IProductService } from '@/src/types/DBTypes';
 
-export default function Home() {
+interface Props {
+  initialProducts: IProductService[];
+  initWorkshops: IWorkshop[];
+}
+export default function Home({ initialProducts, initWorkshops }: Props) {
   return (
-    <Page>
+    <Page
+      style={{
+        paddingTop: 0,
+      }}>
       <SectionHeader />
-      <SectionAbout />
-      <SectionServices />
-      <SectionProducts />
+      <SectionProducts initialProducts={initialProducts} />
+      <SectionServices initWorkshops={initWorkshops} />
       <SectionTestimonial />
+      <SectionAbout />
       <SectionContact />
     </Page>
   );

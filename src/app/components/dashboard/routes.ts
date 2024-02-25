@@ -1,6 +1,13 @@
 import { faBoxesStacked, faCalendarWeek, faCartCircleCheck, faCartCircleExclamation, faFileInvoice, faReceipt, faRotateLeft, faSackDollar, faShelves, faTableLayout, faTags, faUsers } from '@fortawesome/pro-light-svg-icons';
 import { INavigationRoute } from '../navbar/types';
 
+const ROOT = 'dashboard';
+
+export enum ENUM_DASHBOARD_MENU_ROUTES {
+  WORKSHOPS = `/${ROOT}/workshops`,
+  WORKSHOPS_CREATE = `/${ROOT}/workshops/create`,
+}
+
 export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigationRoute[] }> => [{
   label: t('Dashboard.orders'),
   menus: [{
@@ -31,10 +38,10 @@ export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigati
   }]
 
 }, {
-  label: t('Dashboard.bookings'),
+  label: t('Dashboard.workshops'),
   menus: [{
-    label: t('Dashboard.bookings'),
-    href: '/dashboard/bookings',
+    label: t('Dashboard.workshops'),
+    href: '/dashboard/workshops',
     icon: faCalendarWeek
   }]
 

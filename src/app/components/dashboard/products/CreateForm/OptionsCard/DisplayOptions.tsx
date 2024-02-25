@@ -1,4 +1,4 @@
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFetchDocsByIdsArrayWithSnapshot } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { IProductService } from '@/src/types/DBTypes';
 import Image from 'next/image';
@@ -33,7 +33,6 @@ export const DisplayOptions = ({ refIds, onDelete }: Props) => {
   const [selectedProduct, setSelectedProduct] =
     useState<IProductService | null>(null);
 
-  const { onFetchDocsByIdsArrayWithSnapshot } = useFirestore();
   const [products, setProducts] = useState<IProductService[]>([]);
   useEffect(() => {
     const unsubscribe = onFetchDocsByIdsArrayWithSnapshot(

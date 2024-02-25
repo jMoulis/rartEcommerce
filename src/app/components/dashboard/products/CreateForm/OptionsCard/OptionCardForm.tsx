@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import {
+  findAllOnce,
+  onFetchDocsByIdsArray,
+} from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import {
   IProductService,
@@ -32,8 +35,6 @@ interface Props {
 export const OptionCardForm = ({ onAddOption }: Props) => {
   const t = useTranslations();
   const { open, onOpen, onClose } = useToggle();
-
-  const { findAllOnce, onFetchDocsByIdsArray } = useFirestore();
   const [products, setProducts] = useState<IProductServiceWithCategories[]>([]);
   const [loading, setLoading] = useState<'UNSET' | 'LOADING' | 'DONE'>('UNSET');
   const router = useRouter();

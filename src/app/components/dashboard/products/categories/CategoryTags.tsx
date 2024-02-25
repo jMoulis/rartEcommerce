@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { ICategory } from '@/src/types/DBTypes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTag } from '@fortawesome/pro-light-svg-icons';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFetchDocsByIdsArray } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 
 const CategoriesTags = styled.ul`
@@ -49,8 +49,6 @@ interface Props {
 
 export const CategoryTags = ({ categoriesIds, onDeleteCategory }: Props) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const { onFetchDocsByIdsArray } = useFirestore();
-
   const fetchCategories = useCallback(async () => {
     try {
       const payload = await onFetchDocsByIdsArray(

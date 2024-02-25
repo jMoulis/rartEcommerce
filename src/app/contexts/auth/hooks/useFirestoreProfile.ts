@@ -2,27 +2,21 @@
 
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { db, rootAuth } from '@/src/lib/firebase/firebase';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, updateDoc, Unsubscribe } from 'firebase/firestore';
 import { onErrorMessage, onSuccessMessage } from '../../shared/response';
 import { useTranslations } from 'next-intl';
 import { UserProfile } from '@/src/types/DBTypes';
 
-export const useFirestorProfile = () => {
+export const useFirestoreProfile = () => {
   const t = useTranslations();
-  const getAuthProfile = async (uid: string) => {
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const docRef = doc(db, 'profiles', uid); // Assuming 'profiles' is the collection name
-      const docSnap = await getDoc(docRef);
-
+  const getAuthProfile = async (uid: string, callback: (profile: UserProfile) => void) => {
+    const docRef = doc(db, ENUM_COLLECTIONS.PROFILES, uid);
+    const unsubscribe: Unsubscribe | null = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
-        return docSnap.data();
-      } else {
-        return null;
+        callback({ ...docSnap.data(), _id: docSnap.id } as unknown as UserProfile);
       }
-    } catch (error) {
-      throw error;
-    }
+    });
+    return unsubscribe;
   };
   const onUpdateProfile = async (update: UserProfile) => {
     try {

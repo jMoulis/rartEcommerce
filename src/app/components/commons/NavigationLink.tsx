@@ -20,9 +20,7 @@ const Root = styled.div<{ activelink: boolean }>`
   font-size: 17px;
   padding: 3px 10px;
   font-weight: var(--font-weight-body);
-  line-height: 1.75rem;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+padding: 8px 15px;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.15s;

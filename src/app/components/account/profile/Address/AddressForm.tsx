@@ -8,7 +8,7 @@ import { useTranslations } from 'next-intl';
 import { useToggle } from '../../../hooks/useToggle';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { Button } from '../../../commons/Buttons/Button';
-import { useFirestorProfile } from '@/src/app/contexts/auth/hooks/useFirestoreProfile';
+import { useFirestoreProfile } from '@/src/app/contexts/auth/hooks/useFirestoreProfile';
 import styled from '@emotion/styled';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
 
@@ -35,7 +35,7 @@ interface Props {
 export const AddressForm = ({ prevAddresses }: Props) => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null);
-  const { onUpdateAddress } = useFirestorProfile();
+  const { onUpdateAddress } = useFirestoreProfile();
   const t = useTranslations();
   const { open, onOpen, onClose } = useToggle();
 

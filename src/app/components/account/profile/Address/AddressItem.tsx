@@ -14,7 +14,7 @@ const Root = styled.div`
 const Address = styled.address`
   margin-bottom: 10px;
 `;
-const Item = styled.p`
+const Item = styled.div`
   display: flex;
   margin: 5px 0;
 `;

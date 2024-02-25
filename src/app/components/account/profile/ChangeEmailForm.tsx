@@ -70,9 +70,11 @@ export const ChangeEmailForm = ({ email, onChangeEmailValue }: Props) => {
           <InputGroup
             id='auth-email'
             name='auth-email'
+            type='email'
             label={t('ProfileForm.email')}
           />
           <InputGroup
+            type='password'
             id='auth-password'
             name='auth-password'
             label={t('ProfileForm.password')}

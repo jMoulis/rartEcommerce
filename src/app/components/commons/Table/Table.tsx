@@ -48,19 +48,19 @@ export const Table = ({ data, columns }: Props) => {
     <TableContainer>
       <TableStyle>
         <Thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <Tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <Th key={header.id}>{renderHeader(header)}</Th>
+          {table.getHeaderGroups().map((headerGroup, key) => (
+            <Tr key={key}>
+              {headerGroup.headers.map((header, headerGroupKey) => (
+                <Th key={headerGroupKey}>{renderHeader(header)}</Th>
               ))}
             </Tr>
           ))}
         </Thead>
         <Tbody>
-          {table.getRowModel().rows.map((row) => (
-            <Tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <Td key={cell.id}>
+          {table.getRowModel().rows.map((row, rowKeyModal) => (
+            <Tr key={rowKeyModal}>
+              {row.getVisibleCells().map((cell, cellKey) => (
+                <Td key={cellKey}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </Td>
               ))}

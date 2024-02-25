@@ -34,7 +34,10 @@
     "priceModality": "Prix et modalités",
     "price": "Prix",
     "file": "Fichier",
-    "image": "Image"
+    "image": "Image",
+    "required": "required",
+    "store": "Boutique",
+    "workshop": "Workshops"
   },
   "AddressForm": {
     "addresses": "Adresses",
@@ -52,14 +55,25 @@
     "deleteAddress": "Supprimer une adresse",
     "newAddress": "Nouvelle adresse",
     "createAddress": "Créer une addresse",
-    "selectAddress": "Choisir une adresse"
+    "selectAddress": "Choisir une adresse",
+    "address": "Adresse",
+    "streetNumberStreet": "numéro et rue",
+    "autofillAddress": "Start typing your address",
+    "additional": "Complément d'addresse",
+    "additionalPlaceholder": "Apartment, suite, unit, building, floor, etc."
   },
   "Authform": {
     "email": "E-Mail",
     "password": "Mot de passe",
     "resetPassword": "Réinitialiser le mot de passe",
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
-    "messageSent": "Le lien vient de vous être envoyé"
+    "messageSent": "Le lien vient de vous être envoyé",
+    "signInTo": "Connectez-vous à {company}",
+    "dontHaveAnAccount": "Vous n'avez pas de compte?",
+    "orSignWithEmail": "Ou connectez-vous avec un email",
+    "connectWith": "Connectez-vous avec {provider}",
+    "forgotPassword": "Oublié?",
+    "alreadyHaveAnAccount": "Vous avez déjà un compte?"
   },
   "Booking": {
     "bookings": "Réservations",
@@ -72,7 +86,8 @@
     "createBooking": "Créer une réservation",
     "editBooking": "Modifier une réservation",
     "deleteBooking": "Supprimer une réservation",
-    "selectBooking": "Choise une réservation",
+    "selectBooking": "Choisir une réservation",
+    "register": "S'inscrire",
     "category": "{type, select, course {Cours} workshop {Atelier} other {Unknown}}",
     "maxParticipants": "Max. de Participants",
     "currentParticipants": "Participants",
@@ -103,6 +118,25 @@
       "explanation": "Elle ne sera plus disponible"
     }
   },
+  "Cart": {
+    "cart": "Cart",
+    "summary": "Summary",
+    "item": "Produit/Service",
+    "total": "Total",
+    "plusDelivery": "Hors frais de livraison",
+    "securised": "Sécurisé",
+    "payment": "Paiement",
+    "checkout": "Valider mon panier",
+    "newCustomer": "Nouveau client",
+    "existingCustomer": "Déjà client",
+    "shippingCost": "Frais de livraison",
+    "shipping": "Livraison",
+    "validateShipping": "Valider la livraison",
+    "contactInformations": "Information de contact",
+    "shippingAddress": "Information pour la livraison",
+    "confirm": "Confirm",
+    "addToCart": "Ajouter au panier"
+  },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
     "coords": {
@@ -111,9 +145,14 @@
       "phone": "Par téléphone <a href='phone:{number}'"
     },
     "name": "Nom",
+    "firstname": "Prénom",
     "email": "E-mail",
     "message": "Message",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "sendingMessage": "En train d'envoyer votre message aux étoiles de l'art... Un instant, s'il vous plaît.",
+    "success": "Nous avons reçu votre message",
+    "subject": "Confirmation de votre demande de contact sur {company}",
+    "securityLoading": "Chargement de securité"
   },
   "Course": {
     "title": "Titre",
@@ -128,6 +167,7 @@
     "products": "Articles",
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
+    "workshops": "Workshops",
     "agenda": "Agenda",
     "inventory": "Inventaires",
     "categories": "Catégories",
@@ -142,6 +182,8 @@
   },
   "Home": {
     "about": "About",
+    "products": "Oeuvres d'art",
+    "workshops": "Workshops",
     "sectionAbout": {
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
@@ -149,17 +191,18 @@
   },
   "LocaleSwitcher": {
     "label": "Langue",
-    "locale": "{locale, select, fr {Français} en {Anglais} other {Unknown}}"
+    "locale": "{locale, select, fr {French} en {English} other {Unknown}}"
   },
   "Metadata": {
     "title": "Rartcreation",
     "description": "Le monde de la création"
   },
   "Navbar": {
-    "home": "Accueil",
-    "about": "A propos",
+    "home": "Homepage",
+    "about": "About",
     "services": "Services",
-    "products": "Produits",
+    "workshop": "Workshops",
+    "products": "Products",
     "reviews": "Avis clients",
     "contact": "Contact",
     "dashboard": "Tableau de bord",
@@ -240,6 +283,7 @@
     "end": "Fin",
     "until": "Jusqu'à",
     "duration": "Duration",
+    "places": "Places",
     "repetition": {
       "label": "Répétition",
       "addRepetition": "Ajouter une répétition",
@@ -260,7 +304,8 @@
     "createSubscription": "Créer un abonnement",
     "paymentPeriodLabel": "Période de paiement",
     "paymentPeriod": "{paymentPeriod, select, weekly {Hébdomadaire} monthly {Mensuel} annualy {Annuel} other {Unknown}}",
-    "subscriptionDetail": "Détails de l'abonnement"
+    "subscriptionDetail": "Détails de l'abonnement",
+    "editSubscription": "Edit subscription"
   },
   "Template": {
     "template": "Modèle",
@@ -271,8 +316,14 @@
     "newTemplate": "Nouveau modèle",
     "templates": "Modèles"
   },
+  "Workshop": {
+    "workshop": "Workshop",
+    "workshops": "workshops",
+    "createWorkshop": "Créer un atelier"
+  },
   "ApiSuccess": {
     "edit-user-address": "Addresse ajouté",
+    "reset-mail": "Réinitialisation Email envoyé",
     "setSessionCookie": "Cookie enregistrer",
     "update-user-profile": "Profile mise à jour",
     "update-avatar": "Avatar mise à jour",
@@ -286,6 +337,7 @@
     "auth/invalid-action-code": "invalid-action-code",
     "auth/user-disabled": "user-disabled",
     "auth/user-not-found": "user-not-found",
+    "auth/quota-exceeded": "Quota dépassé",
     "auth/user-mismatch": "Inadéquation des utilisateurs",
     "auth/weak-password": "weak-password",
     "auth/email-already-exists": "email-already-exists",

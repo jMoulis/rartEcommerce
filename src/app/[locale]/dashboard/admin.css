@@ -20,7 +20,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  color: var(--default-font-color);
 }
 
 html,
@@ -135,6 +134,7 @@ textarea,
 span {
   display: block;
   font-family: sans-serif;
+  color: var(--default-font-color);
 }
 
 h1,
@@ -183,6 +183,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 
 a {
   color: inherit;

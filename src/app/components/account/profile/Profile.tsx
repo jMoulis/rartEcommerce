@@ -11,10 +11,11 @@ import { ChangeEmailForm } from './ChangeEmailForm';
 import { useTranslations } from 'next-intl';
 import { InputGroup } from '../../commons/form/InputGroup';
 import { AddressForm } from './Address/AddressForm';
-import { useFirestorProfile } from '../../../contexts/auth/hooks/useFirestoreProfile';
+import { useFirestoreProfile } from '../../../contexts/auth/hooks/useFirestoreProfile';
 import AvatarInputFile from './AvatarInputFile';
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 import { Button } from '../../commons/Buttons/Button';
+import { toast } from 'react-toastify';
 
 const Root = styled.main`
   border: 1px solid var(--card-header-border-color);
@@ -46,6 +47,7 @@ export const Profile = () => {
     firstname: '',
     lastname: '',
     roles: [ENUM_ROLES.VISITOR],
+    verified: false,
   });
   const profile = useAuthSelector((state) => state.profile);
 
@@ -56,7 +58,7 @@ export const Profile = () => {
   const authDispatch = useAuthDispatch();
 
   const { onUpdateUserAvatar } = useAuth();
-  const { onUpdateProfile } = useFirestorProfile();
+  const { onUpdateProfile } = useFirestoreProfile();
 
   useEffect(() => {
     if (profile) {
@@ -85,9 +87,8 @@ export const Profile = () => {
       if (payload.data) {
         authDispatch(onUpdateProfileAction(payload.data));
       }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
@@ -102,6 +103,9 @@ export const Profile = () => {
     event.preventDefault();
     await onUpdateProfile(form);
   };
+
+  if (!profile) return null;
+
   return (
     <>
       <Root>
@@ -133,7 +137,7 @@ export const Profile = () => {
           </Form>
         </Content>
       </Root>
-      <AddressForm prevAddresses={form.addresses} />
+      <AddressForm prevAddresses={form.addresses || []} />
     </>
   );
 };
