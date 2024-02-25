@@ -30,7 +30,6 @@ export const useUserSession: any = () => {
       getAuthProfile(user.uid, (p) => authDispatch(onSigninAction(p))).then((unsub) => {
         unsubscribe = unsub;
       });
-      // console.log(await test);
     }
     return () => {
       if (unsubscribe) {

@@ -15,6 +15,7 @@ import { useFirestoreProfile } from '../../../contexts/auth/hooks/useFirestorePr
 import AvatarInputFile from './AvatarInputFile';
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 import { Button } from '../../commons/Buttons/Button';
+import { toast } from 'react-toastify';
 
 const Root = styled.main`
   border: 1px solid var(--card-header-border-color);
@@ -86,9 +87,8 @@ export const Profile = () => {
       if (payload.data) {
         authDispatch(onUpdateProfileAction(payload.data));
       }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 

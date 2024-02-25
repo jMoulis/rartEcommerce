@@ -39,7 +39,7 @@ export const CartMenu = () => {
   const { cart } = useCart();
   return (
     <CustomLink href={ENUM_ROUTES.CHECKOUT_CART}>
-      {cart ? <Counter>{cart.totalItems}</Counter> : null}
+      {cart?.totalItems ? <Counter>{cart.totalItems}</Counter> : null}
       <FontAwesomeIcon icon={faBasketShopping} />
     </CustomLink>
   );

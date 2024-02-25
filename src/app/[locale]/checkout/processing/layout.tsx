@@ -1,5 +1,6 @@
 import { CartSession } from '@/src/app/contexts/cart/CartSession';
 import { Breadcrumb } from '../../../components/client/checkout/processing/commons/Breadcrumb';
+import { CheckoutCartControl } from '@/src/app/components/client/checkout/CheckoutCartControl';
 
 interface Props {
   children: React.ReactNode;
@@ -8,8 +9,10 @@ interface Props {
 export default async function CheckoutLayoutRoot({ children }: Props) {
   return (
     <CartSession>
-      <Breadcrumb />
-      {children}
+      <CheckoutCartControl>
+        <Breadcrumb />
+        {children}
+      </CheckoutCartControl>
     </CartSession>
   );
 }

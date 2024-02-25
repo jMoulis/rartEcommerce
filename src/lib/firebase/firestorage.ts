@@ -1,5 +1,5 @@
 // Import your storage from the Firebase config file
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject, getBlob } from 'firebase/storage';
 import { storage } from './firebase';
 
 /**
@@ -28,6 +28,20 @@ export const getFileDownloadUrl = async (filePath: string) => {
   const storageRef = ref(storage, filePath);
   try {
     const url = await getDownloadURL(storageRef);
+    return url;
+  } catch (error) {
+    throw error;
+  }
+};
+/**
+ * Gets the download URL of a file stored in Firebase Storage.
+ * @param filePath - Path of the file in Firebase Storage.
+ */
+export const getFileContent = async (filePath: string) => {
+  const storageRef = ref(storage, filePath);
+
+  try {
+    const url = await getBlob(storageRef);
     return url;
   } catch (error) {
     throw error;

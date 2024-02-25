@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import * as config from '@/src/app/components/client/checkout/processing/payment/config';
-import getStripe from './utils/getStripe';
+import getStripe from './utils/getStripeLoader';
 import CheckoutForm from './components/CheckoutForm';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
@@ -16,11 +16,13 @@ const CustomSection = styled(Section)`
 `;
 
 const CardWrapper = styled.aside`
+  label: PaymentWrapper;
   min-width: 50%;
 `;
 
 const PaymentIndex = () => {
   const { cart } = useCart();
+
   if (!cart?.totalPrice) return null;
 
   return (

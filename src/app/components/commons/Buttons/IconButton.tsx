@@ -21,7 +21,6 @@ const Root = styled(Button)<{
     if (variant === 'xs') return '20px';
     return '30px';
   }};
-  color: unset;
   font-size: ${({ variant }) => {
     if (variant === 'xs') return '10px';
     return '15px';
@@ -61,7 +60,12 @@ export const IconButton = ({
       className={className}
       variant={variant}
       backgroundColor={backgroundColor}>
-      <FontAwesomeIcon icon={icon} />
+      <FontAwesomeIcon
+        icon={icon}
+        style={{
+          color: `${style?.color} !important`,
+        }}
+      />
     </Root>
   );
 };

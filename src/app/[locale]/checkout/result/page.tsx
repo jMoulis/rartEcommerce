@@ -1,7 +1,9 @@
 import type { Stripe } from 'stripe';
 import { stripe } from '@/src/lib/stripe/stripe';
-import { redirect } from 'next/navigation';
-import { ENUM_ROUTES } from '@/src/app/components/navbar/routes.enums';
+import { getAdminDocument } from '@/src/lib/firebase/firestore/crud';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { IInvoiceInput, IOrder } from '@/src/types/DBTypes';
+import Result from '@/src/app/components/client/checkout/result/Result';
 
 export default async function ResultPage({
   searchParams,
@@ -11,13 +13,27 @@ export default async function ResultPage({
   if (!searchParams.payment_intent) {
     throw new Error('Please provide a valid payment_intent (`pi_...`)');
   }
-
   const paymentIntent: Stripe.PaymentIntent =
     await stripe.paymentIntents.retrieve(searchParams.payment_intent);
 
-  if (paymentIntent.status === 'succeeded') {
-    redirect(`${ENUM_ROUTES.CHECKOUT_SUCCESS}`);
+  const order = (
+    await getAdminDocument(
+      paymentIntent.metadata.orderId,
+      ENUM_COLLECTIONS.ORDERS
+    )
+  ).data as IOrder;
+  let invoice: IInvoiceInput | null = null;
+
+  if (order?.invoiceId) {
+    invoice = (
+      await getAdminDocument(order.invoiceId, ENUM_COLLECTIONS.INVOICES)
+    ).data as IInvoiceInput;
   }
 
-  return <></>;
+  return (
+    <Result
+      invoice={invoice}
+      paymentStatus={paymentIntent.status === 'succeeded'}
+    />
+  );
 }

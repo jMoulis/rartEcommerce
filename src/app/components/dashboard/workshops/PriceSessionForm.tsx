@@ -31,6 +31,7 @@ export const PriceSessionForm = ({ form, onInputChange }: Props) => {
         label={t('Booking.paymentPreference')}
         name='paymentPreference'
         id='paymentPreference'
+        value={form.paymentPreference}
         onSelectOption={onInputChange}
         options={[
           {

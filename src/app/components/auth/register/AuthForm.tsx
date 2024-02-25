@@ -12,6 +12,7 @@ import { Flexbox } from '../../commons/Flexbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/pro-light-svg-icons';
 import { useError } from '../../hooks/useError';
+import { useSearchParams } from 'next/navigation';
 
 const Form = styled.form`
   display: flex;
@@ -39,6 +40,7 @@ export const AuthForm = ({
   onChangeVariant,
 }: Props) => {
   const { onRegister, signInWithEmailPassword } = useAuth();
+  const email = useSearchParams().get('email');
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const { onSetError, ErrorComponent } = useError({
@@ -88,6 +90,7 @@ export const AuthForm = ({
         name='email'
         type='email'
         label={t('Authform.email')}
+        defaultValue={email ?? undefined}
       />
       <InputGroup
         type='password'

@@ -1,8 +1,8 @@
-import 'server-only';
-
 import Stripe from 'stripe';
 
-export const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY_TEST!, {
+const key = process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY_TEST}` : `${process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY_PROD}`;
+
+export const stripe = new Stripe(key, {
   apiVersion: '2023-10-16',
   typescript: true,
   appInfo: {

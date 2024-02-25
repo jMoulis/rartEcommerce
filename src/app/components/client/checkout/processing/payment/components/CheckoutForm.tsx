@@ -8,32 +8,61 @@ import {
   useElements,
   PaymentElement,
 } from '@stripe/react-stripe-js';
-
-import * as config from '@/src/app/components/client/checkout/processing/payment/config';
-import { createPaymentIntent } from '@/src/app/[locale]/actions/stripe';
-
-import { formatAmountForDisplay } from '../utils/stripeHelper';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
+import { ENUM_ROUTES } from '@/src/app/components/navbar/routes.enums';
+import { isValidContact, reserveStock, rollbackReservations } from './utils';
+import { createPaymentIntent } from '@/src/app/[locale]/actions/stripe';
 import { useAuthSelector } from '@/src/app/contexts/auth/hooks/useAuthSelector';
 import { UserProfile } from '@/src/types/DBTypes';
-import { ENUM_ROUTES } from '@/src/app/components/navbar/routes.enums';
 
+type CustomerType = {
+  email: string;
+  name: string;
+  address: {
+    country: string;
+    postal_code: string;
+    city: string;
+    line1: string;
+  };
+} | null;
 function CheckoutForm(): JSX.Element | null {
   const { cart } = useCart();
-  const authProfile: UserProfile = useAuthSelector((state) => state.profile);
+  const authProfile = useAuthSelector((state) => state.profile) as UserProfile;
 
-  const [input, setInput] = React.useState<{
-    customDonation: number;
-    cardholderName: string;
-  }>({
-    customDonation: Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP),
-    cardholderName: '',
-  });
+  const customer: CustomerType = React.useMemo(() => {
+    if (!cart?.contactInformations) return null;
+
+    if (!isValidContact(cart.contactInformations)) {
+      return null;
+    }
+    const { email, lastname, firstname, address } = cart.contactInformations;
+
+    if (!address) return null;
+
+    return {
+      email,
+      name: `${lastname} ${firstname}`,
+      address: {
+        country: address.country,
+        postal_code: address.postalCode,
+        city: address.locality,
+        line1: address.address,
+      },
+    };
+  }, [cart?.contactInformations]);
+
+  const [input, setInput] = React.useState<string>('');
   const [paymentType, setPaymentType] = React.useState<string>('');
   const [payment, setPayment] = React.useState<{
     status: 'initial' | 'processing' | 'error';
   }>({ status: 'initial' });
   const [errorMessage, setErrorMessage] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (cart?.contactInformations) {
+      setInput(cart.contactInformations.lastname);
+    }
+  }, [cart?.contactInformations]);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -65,17 +94,16 @@ function CheckoutForm(): JSX.Element | null {
   };
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setInput({
-      ...input,
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
-
-    elements?.update({ amount: input.customDonation * 100 });
+    setInput(e.currentTarget.value);
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    let globalPreviousValues: any = {};
+
     try {
-      e.preventDefault();
+      if (!customer || !cart) return;
+
       // Abort if form isn't valid
       if (!e.currentTarget.reportValidity()) return;
       if (!elements || !stripe) return;
@@ -87,25 +115,48 @@ function CheckoutForm(): JSX.Element | null {
       if (submitError) {
         setPayment({ status: 'error' });
         setErrorMessage(submitError.message ?? 'An unknown error occurred');
-
         return;
       }
 
-      // Create a PaymentIntent with the specified amount.
+      const products =
+        cart?.items.filter((item) => item.type !== 'workshop') ?? [];
+      const workshops =
+        cart?.items.filter((item) => item.type === 'workshop') ?? [];
+      const previousValues = await reserveStock(products, workshops, customer);
+
+      globalPreviousValues = previousValues;
+
+      const newOrderRequestPayload = {
+        method: 'POST',
+        body: JSON.stringify({ cart, connectedCustomerId: authProfile?._id }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const order = await (
+        await fetch(ENUM_ROUTES.CREATE_ORDER, newOrderRequestPayload)
+      ).json();
+
       const { client_secret: clientSecret } = await createPaymentIntent(
-        new FormData(e.target as HTMLFormElement)
+        new FormData(e.target as HTMLFormElement),
+        customer.email,
+        order.data
       );
 
-      // Use your card Element with other Stripe.js APIs
       const { error: confirmError } = await stripe.confirmPayment({
         elements,
         clientSecret,
         redirect: 'always',
         confirmParams: {
           return_url: `${window.location.origin}/${ENUM_ROUTES.CHECKOUT_RESULT}`,
+          receipt_email: customer.email,
+          expand: ['metadata'],
           payment_method_data: {
             billing_details: {
-              name: input.cardholderName,
+              name: customer.name,
+              email: customer.email,
+              address: customer.address,
             },
           },
         },
@@ -113,23 +164,25 @@ function CheckoutForm(): JSX.Element | null {
 
       if (confirmError) {
         setPayment({ status: 'error' });
+        await rollbackReservations(previousValues);
         setErrorMessage(confirmError.message ?? 'An unknown error occurred');
       }
     } catch (err) {
       const { message } = err as StripeError;
-
+      await rollbackReservations(globalPreviousValues);
       setPayment({ status: 'error' });
       setErrorMessage(message ?? 'An unknown error occurred');
     }
   };
 
-  if (!authProfile) return null;
-  if (!cart) return null;
+  if (!customer || !cart) {
+    return null;
+  }
 
   return (
     <>
       <form onSubmit={handleSubmit}>
-        {/* <StripeTestCards /> */}
+        <button type='submit'>Test</button>
         <fieldset className='elements-style'>
           <legend>Your payment details:</legend>
           {paymentType === 'card' ? (
@@ -139,6 +192,7 @@ function CheckoutForm(): JSX.Element | null {
               type='Text'
               name='cardholderName'
               onChange={handleInputChange}
+              value={input || ''}
               required
             />
           ) : null}
@@ -148,8 +202,9 @@ function CheckoutForm(): JSX.Element | null {
               options={{
                 defaultValues: {
                   billingDetails: {
-                    name: authProfile.lastname,
-                    email: authProfile.email,
+                    name: customer.name,
+                    email: customer.email,
+                    address: customer.address,
                   },
                 },
               }}

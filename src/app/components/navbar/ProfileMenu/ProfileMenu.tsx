@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog, Menu } from '@mui/material';
 import styled from '@emotion/styled';
 import { AuthMenu } from './AuthMenu';
@@ -24,9 +24,17 @@ export const ProfileMenu = () => {
     useState<ENUM_AUTH_FORM_VARIANT>(ENUM_AUTH_FORM_VARIANT.SIGNIN);
   const authProfile = useAuthSelector((state) => state.profile) as UserProfile;
   const prevRoute = useSearchParams().get('from');
+  const action = useSearchParams().get('action');
   const router = useRouter();
 
   const { open, onOpen, onClose: onCloseAuthDialog } = useToggle();
+
+  useEffect(() => {
+    if (action === 'register') {
+      setAuthFormVariant(ENUM_AUTH_FORM_VARIANT.REGISTER);
+      onOpen();
+    }
+  }, [action]);
 
   const handleSelect = async (variant: ENUM_AUTH_FORM_VARIANT) => {
     onOpen();

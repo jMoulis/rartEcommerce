@@ -56,7 +56,7 @@ const HeaderMenu = styled.div`
   flex-direction: column;
 `;
 const ArticleInput = styled.input`
-  width: fit-content;
+  width: 70%;
   margin-left: 20px;
   margin-bottom: 20px;
   background-color: transparent;

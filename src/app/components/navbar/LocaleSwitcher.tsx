@@ -64,14 +64,6 @@ export default function LocaleSwitcher() {
           </li>
         ))}
       </Menu>
-
-      {/* <LocaleSwitcherSelect defaultValue={locale}>
-        {locales.map((cur) => (
-          <option key={cur} value={cur}>
-            {t('locale', { locale: cur })}
-          </option>
-        ))}
-      </LocaleSwitcherSelect> */}
     </>
   );
 }

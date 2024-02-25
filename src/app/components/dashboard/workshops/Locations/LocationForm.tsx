@@ -1,5 +1,8 @@
 import React from 'react';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import {
+  onCreateDocument,
+  onUpdateDocument,
+} from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { IAddress } from '@/src/types/DBTypes';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
@@ -19,7 +22,6 @@ export const LocationForm = ({
   onClose,
   editedLocation,
 }: Props) => {
-  const { onCreateDocument, onUpdateDocument } = useFirestore();
   const t = useTranslations();
 
   const handleUpsertLocation = async (address: IAddress) => {

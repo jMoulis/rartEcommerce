@@ -8,8 +8,10 @@ import { Card } from './Card';
 // import { products } from './products';
 import { IProductImage, IProductService } from '@/src/types/DBTypes';
 import { useCallback, useEffect, useState } from 'react';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { AddToCart } from '../checkout/processing/cart/AddToCart';
+import { toast } from 'react-toastify';
 
 interface Props {
   initialProducts: IProductService[];
@@ -17,7 +19,6 @@ interface Props {
 
 export default function SectionProducts({ initialProducts }: Props) {
   const [products, setProducts] = useState<IProductService[]>(initialProducts);
-  const { onFindAllRealtime } = useFirestore();
 
   useEffect(() => {
     setProducts(initialProducts);
@@ -30,7 +31,7 @@ export default function SectionProducts({ initialProducts }: Props) {
         setProducts(data);
       },
       (error) => {
-        // console.log(error);
+        toast.error(error.message);
       },
       {
         published: true,
@@ -74,9 +75,9 @@ export default function SectionProducts({ initialProducts }: Props) {
               price={product.price}
               description={product.description}
               id={product._id!}
-              hrefRoot='products'
-              item={product}
-            />
+              hrefRoot='products'>
+              <AddToCart item={product} />
+            </Card>
           ))}
         </Flexbox>
       </Section>

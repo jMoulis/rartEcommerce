@@ -17,14 +17,13 @@ import { DeleteConfirmation } from '../../../commons/confirmation/DeleteConfirma
 import { Button } from '../../../commons/Buttons/Button';
 import { Flexbox } from '../../../commons/Flexbox';
 import { CancelButton } from '../../../commons/Buttons/CancelButton';
-// import Autocomplete from './Autocomplete';
-import { useConfirmAddress, config } from '@mapbox/search-js-react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import dynamic from 'next/dynamic';
 
 const Form = styled.form`
   background-color: #fff;
   border-radius: 8px;
+  padding: 10px;
 `;
 
 const defaultAddress = {
@@ -44,6 +43,7 @@ const defaultAddress = {
 const Autocomplete = dynamic(async () => import('./Autocomplete'), {
   ssr: false,
 });
+
 interface Props {
   onUpsertAddress: (address: IAddress, edit?: boolean) => void;
   selectedAddress: IAddress | null;
@@ -76,12 +76,6 @@ export const AddAddressForm = ({
   deleteButton,
   children,
 }: Props) => {
-  const tokenRef = useRef<string>(`${process.env.NEXT_PUBLIC_MAPBOX}`);
-  const locale = useLocale();
-  useEffect(() => {
-    config.accessToken = tokenRef.current;
-  }, []);
-
   const t = useTranslations();
   const actions = useRef([
     {
@@ -119,32 +113,16 @@ export const AddAddressForm = ({
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const result = await showConfirm();
-    if (result.type === 'nochange') {
-      if (selectedAddress) {
-        onUpsertAddress(form, true);
-      } else {
-        onUpsertAddress(form);
-        setForm(defaultAddress);
-      }
+    if (selectedAddress) {
+      onUpsertAddress(form, true);
+    } else {
+      onUpsertAddress(form);
+      setForm(defaultAddress);
     }
   };
 
-  const { formRef, showConfirm } = useConfirmAddress({
-    minimap: true,
-    options: {
-      language: locale,
-    },
-    skipConfirmModal: (feature) => {
-      return ['exact', 'high'].includes(
-        feature.properties.match_code.confidence
-      );
-    },
-  });
-
   const handleSelectAddress = (res: any) => {
     const feature = res.features[0];
-
     setForm((prev) => ({
       ...prev,
       route: feature.properties.street,
@@ -157,20 +135,9 @@ export const AddAddressForm = ({
   };
 
   return (
-    <Form onSubmit={handleSubmit} ref={formRef}>
+    <Form onSubmit={handleSubmit}>
       {children}
-      <Autocomplete
-        token={tokenRef.current}
-        placeholder={`${t('AddressForm.autofillAddress')}`}
-        value={form.address}
-        onChange={handleInputChange}
-        onSelectAddress={handleSelectAddress}
-        required
-        name='address'
-        id='address'
-        labelTip={`(${t('AddressForm.streetNumberStreet')})`}
-        label={t('AddressForm.address')}
-      />
+
       {noDefault ? null : (
         <InputGroupCheckbox
           label={t('AddressForm.default')}
@@ -208,6 +175,17 @@ export const AddAddressForm = ({
           ]}
         />
       )}
+      <Autocomplete
+        placeholder={`${t('AddressForm.autofillAddress')}`}
+        value={form.address ?? ''}
+        onChange={handleInputChange}
+        onSelectAddress={handleSelectAddress}
+        required
+        name='address'
+        id='address'
+        labelTip={`(${t('AddressForm.streetNumberStreet')})`}
+        label={t('AddressForm.address')}
+      />
       <InputGroup
         label={t('AddressForm.additional')}
         id='additional'

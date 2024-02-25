@@ -5,10 +5,11 @@ export const useForm = <T extends Record<string, any>>() => {
   const [form, setForm] = useState<T>({} as any);
 
   const onInputChange = useCallback((event: InputsChangeEvent) => {
-    const { name, value } = event.currentTarget;
+    const { name, value, type } = event.currentTarget;
+    const typedValue = type === 'number' ? parseFloat(value) : value;
     setForm((prev: any) => ({
       ...prev,
-      [name]: value
+      [name]: typedValue
     }));
   }, []);
 

@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { IEmailVerif } from './types';
 import crypto from 'crypto';
 import { templates } from './templates';
-import { onRootUpdateDocument } from '@/src/lib/firebase/firestore/crud';
+import { onAdminUpdateDocument } from '@/src/lib/firebase/firestore/crud';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 
 export async function POST(request: NextRequest) {
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   const domain = process.env.NEXT_DOMAIN;
 
   try {
-    await onRootUpdateDocument({ token, verified: false }, ENUM_COLLECTIONS.PROFILES, userId);
+    await onAdminUpdateDocument({ token, verified: false }, ENUM_COLLECTIONS.PROFILES, userId);
 
     const transporter = nodemailer.createTransport({
       host: 'mail.gandi.net',

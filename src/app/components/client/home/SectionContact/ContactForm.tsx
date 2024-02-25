@@ -14,7 +14,7 @@ import { Subtitle } from '../../commons/typography/Subtitle';
 import { InputGroup } from '../../../commons/form/InputGroup';
 import { TextareaGroup } from '../../../commons/form/TextareaGroup';
 import { Button } from '../../../commons/Buttons/Button';
-import { IContactMail } from '@/src/app/[locale]/api/email/type';
+import { IContactMail } from '@/src/app/api/contact/type';
 import { APIResponse } from '@/src/types/types';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { DeliveredMessage } from './DeliveredMessage';
@@ -160,7 +160,7 @@ export const ContactForm = (props: Props) => {
     };
     try {
       setSending(true);
-      const response = await fetch('/api/email', payload);
+      const response = await fetch('/api/contact', payload);
       const p = (await response.json()) as unknown as APIResponse;
       if (p.error) throw Error(p.error);
       setSuccess(p.success);

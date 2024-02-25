@@ -36,7 +36,9 @@
     "file": "Fichier",
     "image": "Image",
     "detailedInformation": "Détail",
-    "required": "requis"
+    "required": "requis",
+    "store": "Boutique",
+    "workshop": "Ateliers"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -83,6 +85,7 @@
     "locations": "Lieux",
     "serviceLoaction": "Lieu du service",
     "excerpt": "Phrase de présentation",
+    "register": "S'inscrire",
     "createBooking": "Créer une réservation",
     "editBooking": "Modifier une réservation",
     "deleteBooking": "Supprimer une réservation",
@@ -133,7 +136,8 @@
     "validateShipping": "Valider la livraison",
     "contactInformations": "Information de contact",
     "shippingAddress": "Information pour la livraison",
-    "confirm": "Confirmer"
+    "confirm": "Confirmer",
+    "addToCart": "Ajouter au panier"
   },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
@@ -281,6 +285,7 @@
     "end": "Fin",
     "until": "Jusqu'à",
     "duration": "Duration",
+    "places": "Places",
     "repetition": {
       "label": "Répétition",
       "addRepetition": "Ajouter une répétition",
@@ -301,7 +306,8 @@
     "weekly": "Hébdomadaire",
     "paymentPeriodLabel": "Période de paiement",
     "paymentPeriod": "{paymentPeriod, select, weekly {Hébdomadaire} monthly {Mensuel} annualy {Annuel} other {Inconnu}}",
-    "subscriptionDetail": "Détails de l'abonnement"
+    "subscriptionDetail": "Détails de l'abonnement",
+    "editSubscription": "Modifier un abonnement"
   },
   "Template": {
     "template": "Modèle",

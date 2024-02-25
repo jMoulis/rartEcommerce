@@ -1,23 +1,62 @@
 import React, { useCallback, useEffect } from 'react';
 import { Article } from '../../products/CreateForm/Article';
 import { InputGroup } from '../../../commons/form/InputGroup';
-import { ISubscription } from '@/src/types/DBTypes';
+import { ISubscription, IWorkshop } from '@/src/types/DBTypes';
 import { useForm } from '../../../hooks/useForm';
 import { useTranslations } from 'next-intl';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
 import { Flexbox } from '../../../commons/Flexbox';
 import { Selectbox } from '../../../commons/form/Selectbox';
 import { SubmitButton } from '../../products/CreateForm/SubmitButton';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import {
+  onCreateDocument,
+  onUpdateDocument,
+} from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { ImageLoader } from '../../products/CreateForm/ImageLoader/ImageLoader';
 import { IImageType } from '../../products/CreateForm/ImageLoader/types';
+import { stripe } from '@/src/lib/stripe/stripe';
+import { DEFAULT_CURRENCY } from '@/src/lib/constants';
+import Stripe from 'stripe';
+
+interface PriceProps {
+  currency: any;
+  price: number;
+  interval: Stripe.PriceCreateParams.Recurring.Interval;
+  metadata: Stripe.Metadata;
+  productData: {
+    id?: string;
+    name: string;
+  };
+}
+const createPrice = async ({
+  price,
+  interval,
+  metadata,
+  productData,
+}: PriceProps): Promise<string | null> => {
+  try {
+    const payload = await stripe.prices.create({
+      currency: DEFAULT_CURRENCY.code,
+      unit_amount: price,
+      recurring: {
+        interval,
+      },
+      metadata,
+      product_data: productData,
+    });
+    return payload.id;
+  } catch (error) {
+    return null;
+  }
+};
 
 interface Props {
   onSubscriptionChange: (subscriptionId: string) => void;
   open: boolean;
   onClose: VoidFunction;
   editedSubscription?: ISubscription | null;
+  workshop: IWorkshop;
 }
 
 export const SubscriptionForm = ({
@@ -25,9 +64,8 @@ export const SubscriptionForm = ({
   open,
   onClose,
   editedSubscription,
+  workshop,
 }: Props) => {
-  const { onCreateDocument, onUpdateDocument } = useFirestore();
-
   const { onInputChange, form, onClearForm, onDirectMutation, onInitForm } =
     useForm<ISubscription>();
 
@@ -37,24 +75,49 @@ export const SubscriptionForm = ({
     if (editedSubscription) {
       onInitForm(editedSubscription);
     }
-  }, []);
+  }, [editedSubscription]);
 
   const handleSubmitSubscription = async () => {
+    const intervalMap: Record<
+      string,
+      Stripe.PriceCreateParams.Recurring.Interval
+    > = {
+      monthly: 'month',
+      weekly: 'week',
+      annualy: 'year',
+    };
+    const priceId = await createPrice({
+      currency: DEFAULT_CURRENCY.code,
+      price: form.price,
+
+      interval: intervalMap[form.paymentPeriod],
+
+      metadata: {
+        description: workshop.description ?? '',
+      },
+      productData: {
+        id: workshop._id,
+        name: workshop.name,
+      },
+    });
+    form.priceId = priceId;
     if (editedSubscription?._id) {
       await onUpdateDocument(
         form,
         ENUM_COLLECTIONS.SUBSCRIPTIONS,
         editedSubscription._id
       );
-      onSubscriptionChange(editedSubscription._id);
     } else {
-      onCreateDocument(form, ENUM_COLLECTIONS.SUBSCRIPTIONS).then((payload) => {
-        if (payload.data?._id) {
-          onSubscriptionChange(payload.data?._id);
-          onClearForm();
-          onClose();
+      onCreateDocument(form, ENUM_COLLECTIONS.SUBSCRIPTIONS).then(
+        async (payload) => {
+          if (payload.data?._id) {
+            onSubscriptionChange(payload.data?._id);
+            // Create product and price model
+            onClearForm();
+            onClose();
+          }
         }
-      });
+      );
     }
   };
   const handleSelectImage = useCallback((images: IImageType[]) => {
@@ -64,6 +127,7 @@ export const SubscriptionForm = ({
       image: lastImage,
     }));
   }, []);
+
   return (
     <>
       <FullDialog
@@ -75,7 +139,9 @@ export const SubscriptionForm = ({
           keepMounted: false,
         }}
         header={{
-          title: t('Subscription.newSubscription'),
+          title: editedSubscription
+            ? t('Subscription.newSubscription')
+            : t('Subscription.editSubscription'),
         }}>
         <Article headerTitle={t('Subscription.subscriptionDetail')}>
           <Flexbox>
@@ -118,8 +184,8 @@ export const SubscriptionForm = ({
           />
           <Selectbox
             label={t('Subscription.paymentPeriodLabel')}
-            id='paymentPeriode'
-            name='price'
+            id='paymentPeriod'
+            name='paymentPeriod'
             onSelectOption={onInputChange}
             value={form.paymentPeriod}
             options={[

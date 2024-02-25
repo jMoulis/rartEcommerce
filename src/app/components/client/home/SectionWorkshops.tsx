@@ -8,8 +8,9 @@ import { Card } from './Card';
 import styled from '@emotion/styled';
 import { IWorkshop, IProductImage } from '@/src/types/DBTypes';
 import { useCallback, useEffect, useState } from 'react';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { toast } from 'react-toastify';
 
 const CustomSection = styled(Section)`
   min-height: 500px;
@@ -24,7 +25,6 @@ interface Props {
 export default function SectionWorkshops({ initWorkshops }: Props) {
   const t = useTranslations();
   const [workshops, setWorkshops] = useState<IWorkshop[]>(initWorkshops);
-  const { onFindAllRealtime } = useFirestore();
 
   useEffect(() => {
     const unsubscribe = onFindAllRealtime(
@@ -33,7 +33,7 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
         setWorkshops(data);
       },
       (error) => {
-        // console.log(error);
+        toast.error(error.message);
       }
     );
 
@@ -43,10 +43,12 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
       }
     };
   }, []);
+
   const imageProduct = useCallback((booking: IWorkshop) => {
     const defaultImage: IProductImage | undefined = booking.image;
     return defaultImage?.url;
   }, []);
+
   return (
     <>
       <CustomSection>
@@ -61,9 +63,9 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
               description={workshop.description ?? ''}
               price={workshop.price}
               id='imageIndex'
-              hrefRoot='workshops'
-              item={workshop}
-            />
+              hrefRoot='workshops'>
+              S'inscrire
+            </Card>
           ))}
         </Flexbox>
       </CustomSection>

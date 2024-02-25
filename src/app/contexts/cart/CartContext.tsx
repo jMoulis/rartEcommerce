@@ -12,6 +12,7 @@ import {
   ICart,
   ICartItem,
   IProductService,
+  ISession,
   IWorkshop,
 } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
@@ -20,10 +21,14 @@ import { DEFAULT_CURRENCY } from '@/src/lib/constants';
 // Define a type for the context value
 interface CartContextType {
   cart: ICart | null;
-  addToCart: (item: IProductService | IWorkshop) => void;
+  addToCart: (
+    item: IProductService | IWorkshop,
+    type: 'workshop' | 'product'
+  ) => void;
+  onEditCart: (item: ICartItem) => void;
   addDeliveryCost: (cost: number) => void;
+  onDeleteItemFromCart: (itemId: string) => void;
   clearCart: () => void;
-
   addContactInformations: (value: {
     email: string;
     address: IAddress;
@@ -38,12 +43,19 @@ const defaultState = {
   addDeliveryCost: () => {},
   clearCart: () => {},
   addContactInformations: () => {},
+  onEditCart: () => {},
+  onDeleteItemFromCart: () => {},
 };
 const defaultCart: ICart = {
   items: [],
   currency: DEFAULT_CURRENCY,
   totalItems: 0,
   totalPrice: 0,
+  contactInformations: {
+    firstname: '',
+    lastname: '',
+    email: '',
+  },
   totalPriceAndDelivery: 0,
 };
 // Create a context with a default value
@@ -52,17 +64,13 @@ const CartContext = createContext<CartContextType>(defaultState);
 function isProductService(item: any): item is IProductService {
   return (item as IProductService).images !== undefined;
 }
-function isWorkshop(item: any): item is IProductService {
-  return (item as IWorkshop).image !== undefined;
-}
-const getImageUrl = (item: IProductService | IWorkshop) => {
+
+const getImageUrl = (item: IProductService | IWorkshop | ISession) => {
   if (isProductService(item)) {
     const image = item.images.find((prev) => prev.default) ?? item.images[0];
     return image?.url;
   }
-  if (isWorkshop(item)) {
-    return item.image?.url;
-  }
+  return (item as IWorkshop).image?.url;
 };
 // Cart provider component with type for children
 interface CartProviderProps {
@@ -86,31 +94,91 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       (cartItem) => cartItem.productId === item._id
     );
     if (existingItemIndex > -1) {
-      // Item exists, increment quantity
-      updatedCart.items[existingItemIndex].quantity += 1;
+      if (item.type === 'workshop') {
+        const imageUrl = getImageUrl(item);
+        const incomingItem = item as IWorkshop;
+        const newItem: ICartItem = {
+          id: v4(), // Unique identifier for the cart item
+          productId: item._id!,
+          name: incomingItem.name,
+          price: incomingItem.price,
+          quantity: 1,
+          imageUrl,
+          currency: incomingItem.currency || DEFAULT_CURRENCY,
+          description: incomingItem.description,
+          type: item.type,
+          sessions: incomingItem.sessions,
+        };
+        const prevElement = updatedCart.items[existingItemIndex];
+        const updatedElement = {
+          ...prevElement,
+          sessions: [
+            ...(prevElement.sessions ?? []),
+            ...(newItem.sessions ?? []),
+          ],
+        };
+        updatedCart.items[existingItemIndex] = updatedElement;
+      } else {
+        // Item exists, increment quantity
+        updatedCart.items[existingItemIndex].quantity += 1;
+      }
     } else {
       const imageUrl = getImageUrl(item);
-      const newItem: ICartItem = {
-        id: v4(), // Unique identifier for the cart item
-        productId: item._id!,
-        name: item.name,
-        price: item.price,
-        quantity: 1,
-        imageUrl,
-        currency: DEFAULT_CURRENCY,
-        description: item.description,
-      };
-      updatedCart.items.push(newItem);
+      if (item.type === 'product') {
+        const incomingItem = item as IProductService;
+        const newItem: ICartItem = {
+          id: v4(), // Unique identifier for the cart item
+          productId: item._id!,
+          name: incomingItem.name,
+          price: incomingItem.price,
+          quantity: 1,
+          imageUrl,
+          currency: incomingItem.currency || DEFAULT_CURRENCY,
+          description: incomingItem.description,
+          type: item.type,
+        };
+        updatedCart.items.push(newItem);
+      } else {
+        const incomingItem = item as IWorkshop;
+        const newItem: ICartItem = {
+          id: v4(), // Unique identifier for the cart item
+          productId: item._id!,
+          name: incomingItem.name,
+          price: incomingItem.price,
+          quantity: 1,
+          imageUrl,
+          currency: incomingItem.currency || DEFAULT_CURRENCY,
+          description: incomingItem.description,
+          type: item.type,
+          sessions: incomingItem.sessions,
+        };
+        updatedCart.items.push(newItem);
+      }
     }
 
-    updatedCart.totalItems = updatedCart.items.reduce(
-      (total, item) => total + item.quantity,
-      0
-    );
-    updatedCart.totalPrice = updatedCart.items.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+    if (item.type === 'workshop') {
+      updatedCart.totalItems = updatedCart.items.reduce(
+        (total, item) => total + (item.sessions?.length ?? 1),
+        0
+      );
+      updatedCart.totalPrice = updatedCart.items.reduce(
+        (total, item) => total + item.price * (item.sessions?.length ?? 1),
+        0
+      );
+      updatedCart.totalPriceAndDelivery = updatedCart.items.reduce(
+        (total, item) => total + item.price * (item.sessions?.length ?? 1),
+        0
+      );
+    } else {
+      updatedCart.totalItems = updatedCart.items.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+      updatedCart.totalPriceAndDelivery = updatedCart.items.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+    }
 
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     setCart(updatedCart);
@@ -139,9 +207,59 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         ...cart,
         contactInformations: value,
       };
-      setCart(updatedCart);
       localStorage.setItem('cart', JSON.stringify(updatedCart));
+      setCart(updatedCart);
     }
+  };
+
+  const onEditCart = (cartItem: ICartItem) => {
+    if (!cart) return;
+    const updatedCart = {
+      ...cart,
+      items: cart?.items.map((prevItem) =>
+        prevItem.id === cartItem.id ? cartItem : prevItem
+      ),
+    };
+    if (cartItem.type === 'workshop') {
+      updatedCart.totalItems = updatedCart.items.reduce(
+        (total, item) => total + (item.sessions?.length ?? 1),
+        0
+      );
+      updatedCart.totalPrice = updatedCart.items.reduce(
+        (total, item) => total + item.price * (item.sessions?.length ?? 1),
+        0
+      );
+    } else {
+      updatedCart.totalItems = updatedCart.items.reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
+      updatedCart.totalPrice = updatedCart.items.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+      );
+    }
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCart(updatedCart);
+  };
+  const onDeleteItemFromCart = (itemId: string) => {
+    if (!cart) return;
+
+    const updatedCart = {
+      ...cart,
+      items: cart?.items.filter((prevItem) => prevItem.id !== itemId),
+    };
+    updatedCart.totalItems = updatedCart.items.reduce(
+      (total, item) => total - item.quantity,
+      0
+    );
+    updatedCart.totalPrice = updatedCart.items.reduce(
+      (total, item) => total - item.price * item.quantity,
+      0
+    );
+
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCart(updatedCart);
   };
   const clearCart = () => {
     setCart(null);
@@ -155,6 +273,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         addDeliveryCost,
         clearCart,
         addContactInformations,
+        onEditCart,
+        onDeleteItemFromCart,
       }}>
       {children}
     </CartContext.Provider>

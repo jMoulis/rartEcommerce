@@ -10,11 +10,12 @@ import { DialogHeader } from '@/src/app/components/commons/dialog/DialogHeader';
 import { DialogContent } from '@/src/app/components/commons/dialog/DialogContent';
 import { CategoryForm } from './CategoryForm';
 import { ICategory, ISection } from '@/src/types/DBTypes';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { CategoryList } from './CategoryList';
 import { SmallButton } from '@/src/app/components/commons/Buttons/SmallButton';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
 import { sortArrayByAlphabet } from '@/src/lib/utils/main';
+import { toast } from 'react-toastify';
 
 const Root = styled.aside`
   width: 300px;
@@ -37,7 +38,6 @@ export const Menu = ({
   const t = useTranslations();
   const { open, onClose, onOpen } = useToggle();
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const { onFindAllRealtime } = useFirestore();
 
   useEffect(() => {
     const unsubscribe = onFindAllRealtime(
@@ -46,7 +46,7 @@ export const Menu = ({
         setCategories(sortArrayByAlphabet<ICategory>(data, 'name'));
       },
       (error) => {
-        // console.log(error);
+        toast.error(error.message);
       }
     );
 

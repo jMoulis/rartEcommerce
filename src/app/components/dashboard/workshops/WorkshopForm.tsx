@@ -11,9 +11,12 @@ import { TextareaGroup } from '../../commons/form/TextareaGroup';
 import { Article } from '../products/CreateForm/Article';
 import { Selectbox } from '../../commons/form/Selectbox';
 import { PriceSessionForm } from './PriceSessionForm';
-import { Locations } from './Locations/Locations';
 import { Subscriptions } from './Subscription/Subscriptions';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import {
+  onUpdateDocument,
+  onCreateDocument,
+  onDeleteDocument,
+} from '@/src/app/contexts/firestore/useFirestore';
 import { useRouter } from 'next/navigation';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { Flexbox } from '../../commons/Flexbox';
@@ -22,9 +25,10 @@ import { Backdrop } from '../../commons/Backdrop';
 import { CreateFormHeader } from '../products/CreateForm/CreateFormHeader';
 import { ImageLoader } from '../products/CreateForm/ImageLoader/ImageLoader';
 import { IImageType } from '../products/CreateForm/ImageLoader/types';
-import { SessionForm } from './Session/SessionForm';
+import { Session } from './Session/Session';
 import { generateDefaultBooking } from '../products/CreateForm/defaultData';
 import { ENUM_DASHBOARD_MENU_ROUTES } from '../routes';
+import { toast } from 'react-toastify';
 
 const Root = styled.div`
   overflow: auto;
@@ -35,12 +39,31 @@ interface Props {
   prevWorkshop?: IWorkshop;
 }
 
+const paymentTypeChoices = (t: any) => [
+  {
+    label: t('commons.select', {
+      type: 'select',
+    }),
+    value: '',
+  },
+  {
+    label: t('Booking.paymentType', {
+      type: 'session',
+    }),
+    value: 'session',
+  },
+  {
+    label: t('Booking.paymentType', {
+      type: 'subscription',
+    }),
+    value: 'subscription',
+  },
+];
 export const WorkshopForm = ({ prevWorkshop }: Props) => {
   const { form, onInitForm, onInputChange, onDirectMutation } =
     useForm<IWorkshop>();
   const t = useTranslations();
-  const { onUpdateDocument, onCreateDocument, onDeleteDocument } =
-    useFirestore();
+
   const [saving, setSaving] = useState(false);
 
   const router = useRouter();
@@ -57,13 +80,15 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
   const handleSubmit = async () => {
     try {
       setSaving(true);
-
       if (prevWorkshop?._id) {
-        await onUpdateDocument(
+        const { error } = await onUpdateDocument(
           form,
           ENUM_COLLECTIONS.WORKSHOPS,
           prevWorkshop._id
         );
+        if (error) {
+          toast.error(error);
+        }
       } else {
         const payload = await onCreateDocument(
           form,
@@ -78,12 +103,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       setSaving(false);
     }
   };
-  const handleSelectLocation = (locationId?: string) => {
-    onDirectMutation((prev) => ({
-      ...prev,
-      locationId,
-    }));
-  };
+
   const handleSubscription = (subscriptionId: string) => {
     onDirectMutation((prev) => ({
       ...prev,
@@ -105,14 +125,12 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       categories: [categoryId],
     }));
   };
-
   const handleDeleteCategory = useCallback(() => {
     onDirectMutation((prev) => ({
       ...prev,
       categories: [],
     }));
   }, []);
-
   const handleSelectImage = useCallback((images: IImageType[]) => {
     const lastImage = images[images.length - 1];
     onDirectMutation((prev) => ({
@@ -120,23 +138,37 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       image: lastImage,
     }));
   }, []);
-
-  const handleNewSession = useCallback((session: ISession) => {
-    onDirectMutation((prev) => {
-      const previous = prev.sessions.find(
-        (prevSession) => prevSession._id === session._id
-      );
-      if (!previous) {
+  const handleUpsertSession = useCallback(
+    (session: ISession) => {
+      onDirectMutation((prev) => {
+        const previous = prev.sessions.find(
+          (prevSession) => prevSession._id === session._id
+        );
+        if (!previous) {
+          return {
+            ...prev,
+            sessions: [...prev.sessions, session],
+          };
+        }
         return {
           ...prev,
-          sessions: [...prev.sessions, session],
+          sessions: prev.sessions.map((prevSession) =>
+            prevSession._id === session._id ? session : prevSession
+          ),
         };
-      }
+      });
+    },
+    [form]
+  );
+
+  const handleDeleteSession = useCallback((sessionId: string) => {
+    onDirectMutation((prev) => {
+      const updatedSessions = prev.sessions.filter(
+        (prevSession) => prevSession._id !== sessionId
+      );
       return {
         ...prev,
-        sessions: prev.sessions.map((prevSession) =>
-          prevSession._id === session._id ? session : prevSession
-        ),
+        sessions: updatedSessions,
       };
     });
   }, []);
@@ -153,6 +185,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
     },
     [form]
   );
+
   return (
     <Root>
       {saving ? <Backdrop /> : null}
@@ -202,14 +235,6 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
                 id='description'
                 value={form.description ?? ''}
               />
-              <InputGroup
-                onInputChange={onInputChange}
-                type='number'
-                label={t('Booking.maxParticipants')}
-                name='maxParticipants'
-                id='maxParticipants'
-                value={form.maxParticipants ?? ''}
-              />
             </ContentDetailLayout>
           </Article>
           <Article headerTitle={t('Booking.pricePayment')}>
@@ -218,27 +243,9 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
                 label={t('Booking.serviceType')}
                 name='paymentType'
                 id='paymentType'
+                value={form.paymentType}
                 onSelectOption={onInputChange}
-                options={[
-                  {
-                    label: t('commons.select', {
-                      type: 'select',
-                    }),
-                    value: '',
-                  },
-                  {
-                    label: t('Booking.paymentType', {
-                      type: 'session',
-                    }),
-                    value: 'session',
-                  },
-                  {
-                    label: t('Booking.paymentType', {
-                      type: 'subscription',
-                    }),
-                    value: 'subscription',
-                  },
-                ]}
+                options={paymentTypeChoices(t)}
               />
               {form.paymentType === 'session' ? (
                 <PriceSessionForm form={form} onInputChange={onInputChange} />
@@ -252,18 +259,12 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
               ) : null}
             </ContentDetailLayout>
           </Article>
-          <Article headerTitle={t('Booking.locations')}>
-            <ContentDetailLayout>
-              <Locations
-                locationId={form.locationId}
-                onSelectLocation={handleSelectLocation}
-                onDeleteLocation={handleSelectLocation}
-              />
-            </ContentDetailLayout>
-          </Article>
-          <SessionForm
-            onNewSession={handleNewSession}
+
+          <Session
+            onUpsertSession={handleUpsertSession}
             sessions={form.sessions}
+            onDeleteSession={handleDeleteSession}
+            workshop={form}
           />
         </Flexbox>
 

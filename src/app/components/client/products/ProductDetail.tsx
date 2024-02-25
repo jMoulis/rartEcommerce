@@ -9,9 +9,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { ImageNavigation } from './ImageNavigation';
 import { MainImage } from './MainImage';
 import { ProductOptions } from './ProductOptions';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFindSingleRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { Unsubscribe } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 
 const Title = styled.h1`
   z-index: 10;
@@ -33,8 +34,6 @@ interface Props {
 }
 export default function ProductDetail({ initialProduct }: Props) {
   const [product, setProduct] = useState<IProductService>();
-  const { onFindSingleRealtime } = useFirestore();
-
   useEffect(() => {
     setProduct(initialProduct);
   }, [initialProduct]);
@@ -49,7 +48,7 @@ export default function ProductDetail({ initialProduct }: Props) {
           setProduct(data);
         },
         (error) => {
-          // console.log(error);
+          toast.error(error.message);
         }
       );
     }

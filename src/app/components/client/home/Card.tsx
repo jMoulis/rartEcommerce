@@ -2,9 +2,6 @@ import React from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { AddToCart } from '../checkout/processing/cart/AddToCart';
-import { IProductService, IWorkshop } from '@/src/types/DBTypes';
-
 const Root = styled.div``;
 
 const CustomLink = styled(Link)`
@@ -39,7 +36,6 @@ const ImageContent = styled.div`
 `;
 
 const Text = styled.p`
-  display: -webkit-box;
   -webkit-line-clamp: 2;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -66,7 +62,7 @@ interface Props {
   description: string;
   id: string;
   hrefRoot: string;
-  item: IProductService | IWorkshop;
+  children: React.ReactNode;
 }
 
 export const Card = ({
@@ -77,7 +73,7 @@ export const Card = ({
   description,
   id,
   hrefRoot,
-  item,
+  children,
 }: Props) => {
   return (
     <Root>
@@ -109,7 +105,7 @@ export const Card = ({
         </Text>
         <Price>{price}€</Price>
       </CustomLink>
-      <AddToCart item={item} />
+      {children}
     </Root>
   );
 };

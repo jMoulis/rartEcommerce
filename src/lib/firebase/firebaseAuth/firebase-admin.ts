@@ -25,6 +25,7 @@ export const firebaseApp =
   );
 
 export const auth = getAuth(firebaseApp);
+
 export const adminDB = getFirestore(firebaseApp);
 
 async function getSession() {

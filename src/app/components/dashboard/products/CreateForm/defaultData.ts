@@ -29,12 +29,15 @@ export const defaultSection: (t: any) => ISection = (t) => {
     published: false,
   });
 };
-export const generateDefaultSession: () => ISession = () => {
+export const generateDefaultSession: (workshop: IWorkshop) => ISession = (workshop) => {
   const _id = v4();
   return ({
     _id,
     start: new Date().toISOString(),
-    people: [],
+    participants: [],
+    repetition: null,
+    maxParticipants: 0,
+    duration: 0,
   });
 };
 export const generateDefaultRepetition: (startDate?: string) => IRepetition = (startDate) => {
@@ -58,6 +61,8 @@ export const generateDefaultBooking: () => IWorkshop = () => {
     currency: DEFAULT_CURRENCY,
     sessions: [],
     pusblished: false,
+    paymentPreference: 'online',
+    type: 'workshop'
   });
 };
 export const buildDefaultTemplate: (t: any) => ITemplate = (t) => {
@@ -80,6 +85,7 @@ export const defaultProduct = (): IProductService => ({
   withStock: false,
   categories: [],
   currency: DEFAULT_CURRENCY,
+  type: 'product',
   options: {
     refIds: [],
     published: false

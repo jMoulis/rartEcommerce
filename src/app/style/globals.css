@@ -26,6 +26,7 @@
   --title-font-size: 46px;
   --subtile-font-size: 40px;
   --default-font-size: 16px;
+  --list-item-color: rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -149,6 +150,11 @@ span {
   font-family: var(--font-garamond);
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
+}
+
+
+mapbox-search-listbox div[aria-busy] {
+  z-index: 2000 !important;
 }
 
 h1,

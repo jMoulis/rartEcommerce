@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { APIResponse } from '@/src/types/types';
-import { onRootFindByQuery, onRootUpdateDocument } from '@/src/lib/firebase/firestore/crud';
+import { onRootFindByQuery, onAdminUpdateDocument } from '@/src/lib/firebase/firestore/crud';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { UserProfile } from '@/src/types/DBTypes';
 
@@ -21,7 +21,10 @@ export async function POST(request: NextRequest) {
     if (user.token !== token) {
       return NextResponse.json<APIResponse<string>>({ status: 500, error: 'invalid token', success: false, data: null });
     }
-    const updatedResponse = await onRootUpdateDocument({ token: null, verified: true, verificationDate: new Date() }, ENUM_COLLECTIONS.PROFILES, user._id);
+    if (!user._id) {
+      return NextResponse.json<APIResponse<string>>({ status: 500, error: 'Check Auth no user', success: false, data: null });
+    }
+    const updatedResponse = await onAdminUpdateDocument({ token: null, verified: true, verificationDate: new Date() }, ENUM_COLLECTIONS.PROFILES, user._id);
     if (updatedResponse.status) {
       return NextResponse.json<APIResponse<UserProfile>>({ status: 200, error: null, success: true, data: user });
     } else {

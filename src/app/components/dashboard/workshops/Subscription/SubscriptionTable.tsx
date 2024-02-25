@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { ISubscription } from '@/src/types/DBTypes';
+import { ISubscription, IWorkshop } from '@/src/types/DBTypes';
 import { useTranslations } from 'next-intl';
 
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
@@ -13,15 +13,15 @@ import { Flexbox } from '../../../commons/Flexbox';
 const Root = styled.div``;
 
 interface Props {
-  subscriptionId?: string;
   onSubscriptionChange: (subscriptionId: string) => void;
   subscriptions: ISubscription[];
+  workshop: IWorkshop;
 }
 
 export const SubscriptionTable = ({
-  subscriptionId,
   onSubscriptionChange,
   subscriptions,
+  workshop,
 }: Props) => {
   const { open, onClose, onOpen } = useToggle();
   const [editedSubscription, setEditedSubscription] =
@@ -75,6 +75,7 @@ export const SubscriptionTable = ({
         open={open}
         onClose={onClose}
         editedSubscription={editedSubscription}
+        workshop={workshop}
       />
     </Root>
   );

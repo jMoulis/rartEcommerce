@@ -1,7 +1,7 @@
 'use client';
 
 import { Page } from '@/src/app/components/client/commons/layout/Page';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { IProductImage, IProductService } from '@/src/types/DBTypes';
 import { useCallback, useEffect, useState } from 'react';
@@ -9,6 +9,8 @@ import { Flexbox } from '../../commons/Flexbox';
 import { Card } from '../home/Card';
 import { Section } from '../commons/layout/Section';
 import { SectionHeader } from '../../commons/Layouts/SectionHeader';
+import { AddToCart } from '../checkout/processing/cart/AddToCart';
+import { toast } from 'react-toastify';
 
 interface Props {
   initialProducts: IProductService[];
@@ -16,7 +18,6 @@ interface Props {
 
 export default function Products({ initialProducts }: Props) {
   const [products, setProducts] = useState<IProductService[]>(initialProducts);
-  const { onFindAllRealtime } = useFirestore();
 
   useEffect(() => {
     setProducts(initialProducts);
@@ -29,8 +30,7 @@ export default function Products({ initialProducts }: Props) {
         setProducts(data);
       },
       (error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        toast.error(error.message);
       },
       {
         published: true,
@@ -64,9 +64,10 @@ export default function Products({ initialProducts }: Props) {
               price={product.price}
               description={product.description}
               id={product._id!}
-              hrefRoot='products'
-              item={product}
-            />
+              hrefRoot='products'>
+              {' '}
+              <AddToCart item={product} />
+            </Card>
           ))}
         </Flexbox>
       </Section>

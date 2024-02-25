@@ -52,7 +52,9 @@ export async function createCheckoutSession(
 
 export async function createPaymentIntent(
   data: FormData,
-): Promise<{ client_secret: string }> {
+  email: string,
+  orderId: string,
+): Promise<{ client_secret: string, paymentId: string }> {
   const paymentIntent: Stripe.PaymentIntent =
     await stripe.paymentIntents.create({
       amount: formatAmountForStripe(
@@ -61,9 +63,13 @@ export async function createPaymentIntent(
       ),
       automatic_payment_methods: { enabled: true },
       currency: CURRENCY,
+      receipt_email: email,
+      metadata: {
+        orderId,
+      }
     }, {
       apiKey: `${process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY_TEST}`
     });
 
-  return { client_secret: paymentIntent.client_secret! };
+  return { client_secret: paymentIntent.client_secret!, paymentId: paymentIntent.id };
 }

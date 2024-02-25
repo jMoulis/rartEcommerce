@@ -15,7 +15,7 @@ import { onSigninAction } from '../actions';
 import { useAuthSelector } from './useAuthSelector';
 import { ENUM_ROLES } from '../enums';
 import { useState } from 'react';
-import { IEmailVerif } from '@/src/app/[locale]/api/auth/send-email-auth/types';
+import { IEmailVerif } from '@/src/app/api/auth/send-email-auth/types';
 
 interface SignEmailPasswordType {
   email: string

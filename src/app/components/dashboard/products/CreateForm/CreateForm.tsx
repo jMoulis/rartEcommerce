@@ -18,7 +18,11 @@ import { PriceCard } from './PriceCard';
 import { Flexbox } from '../../../commons/Flexbox';
 import { Menu } from './RightMenu/Menu';
 import { OptionsCard } from './OptionsCard/OptionsCard';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import {
+  onUpdateDocument,
+  onCreateDocument,
+  onDeleteDocument,
+} from '@/src/app/contexts/firestore/useFirestore';
 
 const LoadingBackdrop = styled.div`
   position: absolute;
@@ -60,8 +64,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
   const [saving, setSaving] = useState(false);
   const router = useRouter();
   const t = useTranslations();
-  const { onUpdateDocument, onCreateDocument, onDeleteDocument } =
-    useFirestore();
+
   useEffect(() => {
     if (prevProduct) {
       setForm(prevProduct);

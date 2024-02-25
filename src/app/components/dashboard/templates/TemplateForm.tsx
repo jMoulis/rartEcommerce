@@ -15,9 +15,12 @@ import {
 import { TemplateHeader } from './TemplateHeader';
 import { Menu } from '../products/CreateForm/RightMenu/Menu';
 import { arrayUnion, collection, doc, writeBatch } from 'firebase/firestore';
-
 import { db } from '@/src/lib/firebase/firebase';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import {
+  onUpdateDocument,
+  onCreateDocument,
+  onDeleteDocument,
+} from '@/src/app/contexts/firestore/useFirestore';
 
 const LoadingBackdrop = styled.div`
   position: absolute;
@@ -42,8 +45,6 @@ interface Props {
 export const TemplateForm = ({ prevTemplate }: Props) => {
   const t = useTranslations();
   const defaultTemplate = buildDefaultTemplate(t);
-  const { onUpdateDocument, onCreateDocument, onDeleteDocument } =
-    useFirestore();
   const [form, setForm] = useState<ITemplate>(defaultTemplate);
   const [saving, setSaving] = useState(false);
   const router = useRouter();

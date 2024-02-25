@@ -1,7 +1,7 @@
 'use client';
 
 import { SectionPage } from '../../../../commons/Layouts/SectionPage';
-import Securised from './Securised';
+
 import CartSummary from '../commons/CartSummary';
 import { useTranslations } from 'next-intl';
 import { ENUM_ROUTES } from '@/src/app/components/navbar/routes.enums';
@@ -23,7 +23,6 @@ export default function Cart() {
         }
         editable
       />
-      <Securised />
     </SectionPage>
   );
 }

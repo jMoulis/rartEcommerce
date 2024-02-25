@@ -17,6 +17,7 @@ import { SwitchGroup } from '../../../commons/form/SwitchGroup';
 import { v4 } from 'uuid';
 import { Button } from '../../../commons/Buttons/Button';
 import { uploadFile } from '@/src/lib/firebase/firestorage';
+import { toast } from 'react-toastify';
 
 declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,9 +26,9 @@ declare module '@tanstack/react-table' {
   }
 }
 interface Props {
-  occurences: IOccurence[];
+  occurrences: IOccurence[];
   sessionId: string;
-  onSaveOccurences: (jsonUrl: string) => void;
+  onSaveOccurrences: (jsonUrl: string) => void;
 }
 
 const columnHelper = createColumnHelper<IOccurence>();
@@ -36,33 +37,32 @@ const columns = [
   columnHelper.accessor((row) => row.dayString, {
     id: 'dayString',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>dayString</span>,
+    header: () => <span>Jour</span>,
   }),
   columnHelper.accessor((row) => row.dayNumber, {
     id: 'dayNumber',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>dayNumber</span>,
+    header: () => <span>Numéro</span>,
   }),
   columnHelper.accessor((row) => row.monthString, {
     id: 'monthString',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>monthString</span>,
+    header: () => <span>Mois</span>,
   }),
   columnHelper.accessor((row) => row.yearString, {
     id: 'yearString',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>yearString</span>,
+    header: () => <span>Année</span>,
   }),
   columnHelper.accessor((row) => row.time24, {
     id: 'time24',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>time24</span>,
+    header: () => <span>Heure</span>,
   }),
   columnHelper.accessor((row, index) => row.available, {
     id: 'available',
     cell: ({ getValue, row: { index }, column: { id }, table }) => {
       const initialValue = getValue();
-
       const [value, setValue] = React.useState(initialValue);
 
       React.useEffect(() => {
@@ -82,35 +82,33 @@ const columns = [
         />
       );
     },
-    header: () => <span>available</span>,
+    header: () => <span></span>,
   }),
 ];
 
-export const Occurences = ({
-  occurences,
+export const Occurrences = ({
+  occurrences,
   sessionId,
-  onSaveOccurences,
+  onSaveOccurrences,
 }: Props) => {
-  const [editableOccurences, setEditableOccurences] = useState<IOccurence[]>(
+  const [editableOccurrences, setEditableOccurrences] = useState<IOccurence[]>(
     []
   );
+
   const { open, onOpen, onClose } = useToggle();
   const t = useTranslations();
-  // const [autoResetPageIndex, skipAutoResetPageIndex] = useSkipper();
 
   useEffect(() => {
-    setEditableOccurences(occurences);
-  }, [occurences]);
+    setEditableOccurrences(occurrences);
+  }, [occurrences]);
 
   const table = useReactTable({
-    data: editableOccurences,
+    data: editableOccurrences,
     columns,
     getCoreRowModel: getCoreRowModel(),
     meta: {
       updateData: (rowIndex, columnId, value) => {
-        // // Skip page index reset until after next rerender
-        // skipAutoResetPageIndex();
-        setEditableOccurences((old) => {
+        setEditableOccurrences((old) => {
           return old.map((row, index) => {
             if (index === rowIndex) {
               return {
@@ -124,19 +122,19 @@ export const Occurences = ({
       },
     },
   });
-  const handleSubmitUpdatedOccurences = async () => {
+
+  const handleSubmitUpdatedOccurrences = async () => {
     try {
       const url = await uploadFile(
         JSON.stringify(
-          editableOccurences.map((occurence) => ({ ...occurence, sessionId }))
+          editableOccurrences.map((occurence) => ({ ...occurence, sessionId }))
         ),
-        `occurences/${sessionId}`
+        `occurrences/${sessionId}`
       );
-      onSaveOccurences(url);
+      onSaveOccurrences(url);
       onClose();
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
   return (
@@ -147,7 +145,7 @@ export const Occurences = ({
         open={open}
         header={{
           title: t('Session.generatedDates', {
-            count: occurences.length,
+            count: occurrences.length,
           }),
         }}>
         <DialogContent>
@@ -201,7 +199,7 @@ export const Occurences = ({
               </tfoot>
             </table>
           </div>
-          <Button onClick={handleSubmitUpdatedOccurences}>
+          <Button onClick={handleSubmitUpdatedOccurrences}>
             {t('commons.add')}
           </Button>
         </DialogContent>

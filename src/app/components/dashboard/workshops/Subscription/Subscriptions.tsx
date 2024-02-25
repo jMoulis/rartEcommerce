@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { IWorkshop, ISubscription } from '@/src/types/DBTypes';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { useTranslations } from 'next-intl';
@@ -28,7 +28,6 @@ export const Subscriptions = ({
   onInputChange,
 }: Props) => {
   const { open, onClose, onOpen } = useToggle();
-  const { onFindAllRealtime } = useFirestore();
   const [subscriptions, setSubscriptions] = useState<ISubscription[]>([]);
   const t = useTranslations();
 
@@ -79,6 +78,7 @@ export const Subscriptions = ({
           <SubscriptionTable
             subscriptions={subscriptions}
             onSubscriptionChange={handleSelect}
+            workshop={form}
           />
         ) : null}
       </FullDialog>

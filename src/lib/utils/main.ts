@@ -38,3 +38,14 @@ export const sortArrayByAlphabet = <T extends Record<string, any>>(array: T[], k
     }
   });
 };
+export const removeKeysFromObject = (item: Record<string, any>, keys: string[]) => {
+  return Object.keys(item).reduce((acc: Record<string, any>, key: string) => {
+    if (!keys.includes(key)) {
+      return {
+        ...acc,
+        [key]: item[key]
+      };
+    }
+    return acc;
+  }, {});
+};

@@ -6,5 +6,9 @@ export enum ENUM_COLLECTIONS {
   TEMPLATES = 'templates',
   WORKSHOPS = 'workshops',
   LOCATIONS = 'locations',
-  SUBSCRIPTIONS = 'subscriptions'
+  SUBSCRIPTIONS = 'subscriptions',
+  INVOICES = 'invoices',
+  ORDERS = 'orders',
+  BOOKINGS = 'bookings',
+  INVOICESIDS = 'invoicesIds'
 }

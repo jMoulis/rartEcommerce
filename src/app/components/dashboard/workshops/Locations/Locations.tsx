@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
 import { useToggle } from '../../../hooks/useToggle';
 import { LocationsTable } from './LocationsTable';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { IAddress } from '@/src/types/DBTypes';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { SelectedLocation } from '../SelectedLocation';
@@ -12,18 +12,14 @@ import { useTranslations } from 'next-intl';
 const Root = styled.div``;
 
 interface Props {
-  locationId?: string;
+  locationId?: string | null;
   onSelectLocation: (locationId: string) => void;
   onDeleteLocation: () => void;
 }
 
-export const Locations = ({
-  locationId,
-  onSelectLocation,
-  onDeleteLocation,
-}: Props) => {
+export const Locations = ({ locationId, onSelectLocation }: Props) => {
   const { open, onClose, onOpen } = useToggle();
-  const { onFindAllRealtime } = useFirestore();
+
   const [locations, setLocations] = useState<IAddress[]>([]);
   const t = useTranslations();
 

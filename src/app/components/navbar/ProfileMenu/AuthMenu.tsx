@@ -16,7 +16,6 @@ interface Props {
 
 export const AuthMenu = ({ onClick }: Props) => {
   const t = useTranslations();
-
   return (
     <Root>
       <li>

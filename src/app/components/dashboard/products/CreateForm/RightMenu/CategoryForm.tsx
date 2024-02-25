@@ -7,7 +7,11 @@ import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { ICategory } from '@/src/types/DBTypes';
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
+import {
+  onCreateDocument,
+  onUpdateDocument,
+  onDeleteDocument,
+} from '@/src/app/contexts/firestore/useFirestore';
 import { DeleteConfirmation } from '@/src/app/components/commons/confirmation/DeleteConfirmation';
 import { IAction } from '@/src/app/components/commons/confirmation/types';
 
@@ -19,8 +23,6 @@ interface Props {
 export const CategoryForm = ({ editedCategory, onClose }: Props) => {
   const t = useTranslations();
   const { onInputChange, form, onInitForm } = useForm<ICategory>();
-  const { onCreateDocument, onUpdateDocument, onDeleteDocument } =
-    useFirestore();
 
   useEffect(() => {
     if (editedCategory) {

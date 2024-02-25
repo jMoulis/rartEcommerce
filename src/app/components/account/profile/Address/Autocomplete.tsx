@@ -1,7 +1,6 @@
 'use client';
-
-import React, { ChangeEvent } from 'react';
-import { AddressAutofill } from '@mapbox/search-js-react';
+import React, { ChangeEvent, useEffect, useRef } from 'react';
+import { AddressAutofill, config } from '@mapbox/search-js-react';
 import { InputGroup } from '../../../commons/form/InputGroup';
 
 interface Props {
@@ -14,7 +13,6 @@ interface Props {
   label?: string;
   labelTip?: string;
   placeholder?: string;
-  token?: string;
 }
 
 const AddressAutofillUntyped: any = AddressAutofill;
@@ -29,27 +27,42 @@ const Autocomplete = ({
   label,
   labelTip,
   placeholder,
-  token,
 }: Props) => {
+  const tokenRef = useRef<string>(`${process.env.NEXT_PUBLIC_MAPBOX}`);
+
+  useEffect(() => {
+    config.accessToken = tokenRef.current;
+  }, []);
+
+  // const { formRef, showConfirm } = useConfirmAddress({
+  //   minimap: true,
+  //   options: {
+  //     language: locale,
+  //   },
+  //   skipConfirmModal: (feature) => {
+  //     return ['exact', 'high'].includes(
+  //       feature.properties.match_code.confidence
+  //     );
+  //   },
+  // });
+
   return (
-    <>
-      <AddressAutofillUntyped
-        onRetrieve={onSelectAddress}
-        accessToken={token ?? `${process.env.NEXT_PUBLIC_MAPBOX}`}>
-        <InputGroup
-          id={id}
-          name={name}
-          label={label}
-          placeholder={placeholder}
-          type='text'
-          autoComplete='address-line1'
-          value={value}
-          required={required}
-          onInputChange={onChange}
-          labelTip={labelTip}
-        />
-      </AddressAutofillUntyped>
-    </>
+    <AddressAutofillUntyped
+      onRetrieve={onSelectAddress}
+      accessToken={tokenRef.current ?? `${process.env.NEXT_PUBLIC_MAPBOX}`}>
+      <InputGroup
+        id={id}
+        name={name}
+        label={label}
+        placeholder={placeholder}
+        type='text'
+        autoComplete='address-line1'
+        value={value}
+        required={required}
+        onInputChange={onChange}
+        labelTip={labelTip}
+      />
+    </AddressAutofillUntyped>
   );
 };
 

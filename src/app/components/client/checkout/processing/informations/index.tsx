@@ -53,66 +53,43 @@ const InformationIndex = () => {
   }, [authProfile?.addresses]);
 
   const handleUpsertAddress = (address: IAddress) => {
-    if (!selectedAddress) {
-      onDirectMutation((prev) => ({
-        ...prev,
-        address,
-      }));
-      addContactInformations({
-        ...(form as any),
-        address,
-      });
-    }
+    const useAddress = selectedAddress || address;
+
+    onDirectMutation((prev) => ({
+      ...prev,
+      address: useAddress,
+    }));
+    addContactInformations({
+      ...(form as any),
+      address: useAddress,
+    });
+
     router.push(ENUM_ROUTES.CHECKOUT_DELIVERY);
   };
 
   useEffect(() => {
-    if (cart?.contactInformations) {
-      onDirectMutation((prev) => ({
-        ...prev,
-        ...cart.contactInformations,
-      }));
-    } else if (authProfile) {
-      onDirectMutation((prev) => ({
-        ...prev,
-        address: selectedAddress,
-        firstname: authProfile.firstname,
-        lastname: authProfile.lastname,
-        email: authProfile.email,
-      }));
-    }
+    const getContactInformation = {
+      address: selectedAddress,
+      firstname: cart?.contactInformations.firstname
+        ? cart?.contactInformations.firstname
+        : authProfile?.firstname ?? '',
+      lastname: cart?.contactInformations.lastname
+        ? cart?.contactInformations.lastname
+        : authProfile?.lastname ?? '',
+      email: cart?.contactInformations.email
+        ? cart?.contactInformations.email
+        : authProfile?.email ?? '',
+    };
+
+    onDirectMutation((prev) => ({
+      ...prev,
+      ...getContactInformation,
+    }));
   }, [authProfile, cart?.contactInformations]);
 
   return (
     <CustomSection>
       <Flexbox flexDirection='column' flex='1'>
-        {/* {cart.contactInformations ? (
-          <Flexbox alignItems='center'>
-            <Flexbox flexDirection='column'>
-              <h2>{t('Cart.shippingAddress')}</h2>
-              <Flexbox>
-                {cart.contactInformations.firstname}
-                {cart.contactInformations.lastname}
-              </Flexbox>
-              {cart.contactInformations.email}
-              <address>
-                <span>{cart.contactInformations.address?.address}</span>
-                <Flexbox>
-                  <span>{cart.contactInformations.address?.postalCode}</span>
-                  <span>{cart.contactInformations.address?.locality}</span>
-                  <span>{cart.contactInformations.address?.country}</span>
-                </Flexbox>
-              </address>
-            </Flexbox>
-            <Flexbox>
-              <Button type='button' onClick={onToggle}>
-                <FontAwesomeIcon icon={faEdit} />
-              </Button>
-            </Flexbox>
-          </Flexbox>
-        ) : null} */}
-        {/* <Collapse in={open}> */}
-
         <AddAddressForm
           noDefault
           noLabel
@@ -142,18 +119,18 @@ const InformationIndex = () => {
           />
           <Flexbox>
             <InputGroup
-              label={t('Contact.name')}
-              id='lastname'
-              name='lastname'
-              value={form.lastname ?? ''}
-              onInputChange={onInputChange}
-              required
-            />
-            <InputGroup
               label={t('Contact.firstname')}
               id='firstname'
               name='firstname'
               value={form.firstname ?? ''}
+              onInputChange={onInputChange}
+              required
+            />
+            <InputGroup
+              label={t('Contact.name')}
+              id='lastname'
+              name='lastname'
+              value={form.lastname ?? ''}
               onInputChange={onInputChange}
               required
             />

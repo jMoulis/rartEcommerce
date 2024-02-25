@@ -35,7 +35,9 @@
     "price": "Prix",
     "file": "Fichier",
     "image": "Image",
-    "required": "required"
+    "required": "required",
+    "store": "Boutique",
+    "workshop": "Workshops"
   },
   "AddressForm": {
     "addresses": "Adresses",
@@ -84,7 +86,8 @@
     "createBooking": "Créer une réservation",
     "editBooking": "Modifier une réservation",
     "deleteBooking": "Supprimer une réservation",
-    "selectBooking": "Choise une réservation",
+    "selectBooking": "Choisir une réservation",
+    "register": "S'inscrire",
     "category": "{type, select, course {Cours} workshop {Atelier} other {Unknown}}",
     "maxParticipants": "Max. de Participants",
     "currentParticipants": "Participants",
@@ -131,7 +134,8 @@
     "validateShipping": "Valider la livraison",
     "contactInformations": "Information de contact",
     "shippingAddress": "Information pour la livraison",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "addToCart": "Ajouter au panier"
   },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
@@ -163,7 +167,7 @@
     "products": "Articles",
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
-    "workshops": "Ateliers",
+    "workshops": "Workshops",
     "agenda": "Agenda",
     "inventory": "Inventaires",
     "categories": "Catégories",
@@ -179,7 +183,7 @@
   "Home": {
     "about": "About",
     "products": "Oeuvres d'art",
-    "workshops": "Ateliers",
+    "workshops": "Workshops",
     "sectionAbout": {
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
@@ -194,11 +198,11 @@
     "description": "Le monde de la création"
   },
   "Navbar": {
-    "home": "Accueil",
-    "about": "A propos",
+    "home": "Homepage",
+    "about": "About",
     "services": "Services",
-    "workshop": "Ateliers",
-    "products": "Produits",
+    "workshop": "Workshops",
+    "products": "Products",
     "reviews": "Avis clients",
     "contact": "Contact",
     "dashboard": "Tableau de bord",
@@ -279,6 +283,7 @@
     "end": "Fin",
     "until": "Jusqu'à",
     "duration": "Duration",
+    "places": "Places",
     "repetition": {
       "label": "Répétition",
       "addRepetition": "Ajouter une répétition",
@@ -299,7 +304,8 @@
     "createSubscription": "Créer un abonnement",
     "paymentPeriodLabel": "Période de paiement",
     "paymentPeriod": "{paymentPeriod, select, weekly {Hébdomadaire} monthly {Mensuel} annualy {Annuel} other {Unknown}}",
-    "subscriptionDetail": "Détails de l'abonnement"
+    "subscriptionDetail": "Détails de l'abonnement",
+    "editSubscription": "Edit subscription"
   },
   "Template": {
     "template": "Modèle",

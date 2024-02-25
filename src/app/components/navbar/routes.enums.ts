@@ -8,5 +8,8 @@ export enum ENUM_ROUTES {
   CHECKOUT_PAYMENT = '/checkout/processing/payment',
   CHECKOUT_RESULT = '/checkout/result',
   CHECKOUT_SUCCESS = '/checkout/success',
-  CHECKOUT_INFORMATIONS = '/checkout/processing/informations'
+  CHECKOUT_FAILED = '/checkout/failed',
+  CHECKOUT_INFORMATIONS = '/checkout/processing/informations',
+  CREATE_INVOICE = '/api/invoices/create',
+  CREATE_ORDER = '/api/orders/create',
 }
