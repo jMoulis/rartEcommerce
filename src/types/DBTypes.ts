@@ -159,6 +159,8 @@ export interface IOrderInput {
   orderDate: string;
   customerInformations: IContactInformations;
   amount: number;
+  ht: number;
+  taxes: number;
   lineItems: ILineItem[];
   status: OrderStatusType;
   modifications?: IModification[];
@@ -181,6 +183,8 @@ export interface IInvoiceInput {
   issueDate: string;
   dueDate: string;
   amount: number;
+  ht: number;
+  taxes: number;
   status: InvoiceStatusType;
   lineItems: ILineItem[];
   createdAt: string;
@@ -188,9 +192,11 @@ export interface IInvoiceInput {
   orderId: string;
   isArchived?: boolean;
   paymentId: string;
+  customerInformations: IContactInformations;
   confirmMailSent: {
     status: boolean;
     date?: string;
+    messageId?: string
   };
   receiptUrl: string | null
 }
@@ -346,8 +352,9 @@ export interface ICartItem {
   currency: ICurrency;
   quantity: number;
   imageUrl?: string;
+  stock: number | null;
   type: 'workshop' | 'product';
-  sessions?: ISession[]
+  sessions?: ISession[],
 }
 
 export interface IContactInformations {
@@ -359,11 +366,10 @@ export interface IContactInformations {
 export interface ICart {
   items: ICartItem[];
   currency: ICurrency;
-  deliveryCost?: number;
+  deliveryCost: number;
   contactInformations: IContactInformations
   totalItems: number;
   totalPrice: number;
-  totalPriceAndDelivery: number;
 }
 
 export interface IShippingContract {

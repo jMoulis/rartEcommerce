@@ -11,6 +11,7 @@ import { millisecondsToMins } from '../../../dashboard/workshops/Session/duratio
 import { AddToCart } from '../../checkout/processing/cart/AddToCart';
 import { Button } from '../../../commons/Buttons/Button';
 import { toast } from 'react-toastify';
+import { useCart } from '@/src/app/contexts/cart/CartContext';
 
 const Root = styled.li`
   padding: 10px;
@@ -37,6 +38,7 @@ interface Props {
 export const SessionListItem = ({ session, workshop }: Props) => {
   const t = useTranslations();
   const [location, setLocation] = useState<IAddress | null>(null);
+  const { cart, onEditCart } = useCart();
 
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
@@ -61,10 +63,8 @@ export const SessionListItem = ({ session, workshop }: Props) => {
   }, [session?.locationId]);
 
   const placeleft = useMemo(() => {
-    if (isNaN(session.maxParticipants - session.participants?.length ?? 0)) {
-      return session.maxParticipants;
-    }
-    return session.maxParticipants - session.participants?.length ?? 0;
+    if (session.maxParticipants - session.participants?.length <= 0) return 0;
+    return session.maxParticipants - session.participants?.length;
   }, [session.maxParticipants, session.participants]);
 
   const workshopSessioned: IWorkshop = useMemo(() => {
@@ -75,13 +75,50 @@ export const SessionListItem = ({ session, workshop }: Props) => {
       ),
     };
   }, []);
+
+  const selectedCartSessionIds = useMemo(() => {
+    if (!cart?.items) return [];
+
+    const sessionIds = cart.items.reduce((acc: string[], item) => {
+      if (!item.sessions) return acc;
+      return [...acc, ...item.sessions.map((session) => session._id)];
+    }, []);
+    return sessionIds;
+  }, [cart]);
+
+  const handleDeleteSession = (sessionId: string) => {
+    const prevItem = cart?.items.find(
+      (prev) => prev.productId === workshop._id
+    );
+
+    if (!prevItem) return;
+    const updatedItem = {
+      ...prevItem,
+      sessions: prevItem.sessions?.filter((prev) => prev._id !== sessionId),
+    };
+    onEditCart(updatedItem);
+  };
+
+  const getFormatedDate = useMemo(() => {
+    try {
+      const startDate = format(session.start, 'dd/mm/yyyy');
+      const startTime = format(session.start, 'hh:mm');
+      return {
+        startDate,
+        startTime,
+      };
+    } catch (error) {
+      return null;
+    }
+  }, [session.start]);
+
   return (
     <Root>
       <Flexbox>
         <MetaWrapper>
           <MetaLabel>{t('Session.start')}</MetaLabel>
-          <MetaValue>{format(session.start, 'dd/mm/yyyy')}</MetaValue>
-          <MetaValue>{format(session.start, 'hh:mm')}</MetaValue>
+          <MetaValue>{getFormatedDate?.startDate}</MetaValue>
+          <MetaValue>{getFormatedDate?.startTime}</MetaValue>
           {session.duration ? (
             <MetaValue>{`${millisecondsToMins(
               session.duration
@@ -102,13 +139,39 @@ export const SessionListItem = ({ session, workshop }: Props) => {
           <MetaLabel>{t('Session.places')}</MetaLabel>
           <MetaValue>{placeleft}</MetaValue>
         </MetaWrapper>
-        <MetaWrapper>
-          {placeleft ? (
-            <AddToCart item={workshopSessioned} label={t('Booking.register')} />
-          ) : (
-            <Button>Tenez moi informer</Button>
-          )}
-        </MetaWrapper>
+        {selectedCartSessionIds.includes(session._id) ? (
+          <MetaWrapper>
+            <Button
+              onClick={() => handleDeleteSession(session._id)}
+              style={{
+                background: 'rgba(255,0,0,0.4)',
+              }}>
+              {t('Booking.unSubscribe')}
+            </Button>
+          </MetaWrapper>
+        ) : (
+          <MetaWrapper>
+            {placeleft ? (
+              <AddToCart
+                item={workshopSessioned}
+                label={t('Booking.register')}
+              />
+            ) : (
+              <Button
+                style={{
+                  background: 'rgba(0,0,255,0.4)',
+                }}>
+                {t('Booking.keepMeInform')}
+              </Button>
+            )}
+            <Button
+              style={{
+                background: 'rgba(0,0,255,0.4)',
+              }}>
+              {t('commons.share')}
+            </Button>
+          </MetaWrapper>
+        )}
       </Flexbox>
 
       {/* {session.repetition ? (

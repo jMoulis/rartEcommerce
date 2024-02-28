@@ -63,8 +63,8 @@ export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigati
     href: '/dashboard/financial/estimates',
     icon: faReceipt
   }, {
-    label: t('Dashboard.billings'),
-    href: '/dashboard/financial/billings',
+    label: t('Dashboard.invoices'),
+    href: '/dashboard/financial/invoices',
     icon: faFileInvoice
   }, {
     label: t('Dashboard.subscriptions'),

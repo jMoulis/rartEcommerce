@@ -18,20 +18,26 @@ export const createOrder = async (cart: ICart, connectedCustomerId?: string): Pr
             total: item.price,
           });
         });
+      } else {
+        acc.push({
+          itemId: item.id,
+          description: item.description,
+          quantity: item.quantity,
+          unitPrice: item.price,
+          total: item.price
+        });
       }
-      return ([...acc, {
-        itemId: item.id,
-        description: item.description,
-        quantity: item.quantity,
-        unitPrice: item.price,
-        total: item.price
-      }]);
+      return acc;
     }, []);
 
+    const ht = cart.totalPrice / (1 + 0.2);
+    const taxes = cart.totalPrice - ht;
     const orderInput: IOrderInput = {
       customerId: connectedCustomerId ?? null,
       orderDate: date,
-      amount: cart.totalPriceAndDelivery || cart.totalPrice,
+      amount: cart.totalPrice,
+      taxes,
+      ht,
       status: 'pending',
       createdAt: date,
       updatedAt: date,

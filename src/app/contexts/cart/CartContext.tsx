@@ -56,7 +56,7 @@ const defaultCart: ICart = {
     lastname: '',
     email: '',
   },
-  totalPriceAndDelivery: 0,
+  deliveryCost: 0,
 };
 // Create a context with a default value
 const CartContext = createContext<CartContextType>(defaultState);
@@ -89,7 +89,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
   const addToCart = (item: IProductService | IWorkshop) => {
     const updatedCart: ICart = cart ? { ...cart } : defaultCart;
-
     const existingItemIndex = updatedCart.items.findIndex(
       (cartItem) => cartItem.productId === item._id
     );
@@ -108,6 +107,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           description: incomingItem.description,
           type: item.type,
           sessions: incomingItem.sessions,
+          stock: null,
         };
         const prevElement = updatedCart.items[existingItemIndex];
         const updatedElement = {
@@ -124,62 +124,48 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       }
     } else {
       const imageUrl = getImageUrl(item);
-      if (item.type === 'product') {
-        const incomingItem = item as IProductService;
-        const newItem: ICartItem = {
-          id: v4(), // Unique identifier for the cart item
-          productId: item._id!,
-          name: incomingItem.name,
-          price: incomingItem.price,
-          quantity: 1,
-          imageUrl,
-          currency: incomingItem.currency || DEFAULT_CURRENCY,
-          description: incomingItem.description,
-          type: item.type,
-        };
-        updatedCart.items.push(newItem);
-      } else {
-        const incomingItem = item as IWorkshop;
-        const newItem: ICartItem = {
-          id: v4(), // Unique identifier for the cart item
-          productId: item._id!,
-          name: incomingItem.name,
-          price: incomingItem.price,
-          quantity: 1,
-          imageUrl,
-          currency: incomingItem.currency || DEFAULT_CURRENCY,
-          description: incomingItem.description,
-          type: item.type,
-          sessions: incomingItem.sessions,
-        };
-        updatedCart.items.push(newItem);
-      }
+
+      const incomingItem = item as IProductService;
+      const newItem: ICartItem = {
+        id: v4(), // Unique identifier for the cart item
+        productId: item._id!,
+        name: incomingItem.name,
+        price: incomingItem.price,
+        quantity: 1,
+        imageUrl,
+        currency: incomingItem.currency || DEFAULT_CURRENCY,
+        description: incomingItem.description,
+        type: item.type,
+        stock: incomingItem.withStock ? incomingItem.stockQuantity : null,
+        sessions: (incomingItem as any).sessions,
+      };
+      updatedCart.items.push(newItem);
     }
 
-    if (item.type === 'workshop') {
-      updatedCart.totalItems = updatedCart.items.reduce(
-        (total, item) => total + (item.sessions?.length ?? 1),
-        0
-      );
-      updatedCart.totalPrice = updatedCart.items.reduce(
-        (total, item) => total + item.price * (item.sessions?.length ?? 1),
-        0
-      );
-      updatedCart.totalPriceAndDelivery = updatedCart.items.reduce(
-        (total, item) => total + item.price * (item.sessions?.length ?? 1),
-        0
-      );
-    } else {
-      updatedCart.totalItems = updatedCart.items.reduce(
-        (total, item) => total + item.quantity,
-        0
-      );
-      updatedCart.totalPriceAndDelivery = updatedCart.items.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      );
-    }
+    const sessionsTotal = updatedCart.items
+      .filter((i) => i.type === 'workshop')
+      .reduce((total, cartItem) => {
+        return total + (cartItem.sessions?.length ?? 1);
+      }, 0);
+    const productTotal = updatedCart.items
+      .filter((i) => i.type === 'product')
+      .reduce((total, cartItem) => total + cartItem.quantity, 0);
 
+    const productTotalPrice = updatedCart.items
+      .filter((i) => i.type === 'product')
+      .reduce(
+        (total, cartItem) => total + cartItem.price * cartItem.quantity,
+        0
+      );
+    const sessionsTotalPrice = updatedCart.items
+      .filter((i) => i.type === 'workshop')
+      .reduce(
+        (total, cartItem) =>
+          total + cartItem.price * (cartItem.sessions?.length ?? 1),
+        0
+      );
+    updatedCart.totalItems = sessionsTotal + productTotal;
+    updatedCart.totalPrice = sessionsTotalPrice + productTotalPrice;
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     setCart(updatedCart);
   };
@@ -190,7 +176,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         ? {
             ...prev,
             deliveryCost: cost,
-            totalPriceAndDelivery: prev.totalPrice + cost,
           }
         : null
     );
@@ -220,28 +205,37 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         prevItem.id === cartItem.id ? cartItem : prevItem
       ),
     };
-    if (cartItem.type === 'workshop') {
-      updatedCart.totalItems = updatedCart.items.reduce(
-        (total, item) => total + (item.sessions?.length ?? 1),
+
+    const productTotal = updatedCart.items
+      .filter((i) => i.type === 'product')
+      .reduce((total, cartItem) => total + cartItem.quantity, 0);
+
+    const sessionsTotal = updatedCart.items
+      .filter((i) => i.type === 'workshop')
+      .reduce((total, cartItem) => {
+        return total + (cartItem.sessions?.length ?? 1);
+      }, 0);
+
+    const productTotalPrice = updatedCart.items
+      .filter((i) => i.type === 'product')
+      .reduce(
+        (total, cartItem) => total + cartItem.price * cartItem.quantity,
         0
       );
-      updatedCart.totalPrice = updatedCart.items.reduce(
-        (total, item) => total + item.price * (item.sessions?.length ?? 1),
+    const sessionsTotalPrice = updatedCart.items
+      .filter((i) => i.type === 'workshop')
+      .reduce(
+        (total, cartItem) =>
+          total + cartItem.price * (cartItem.sessions?.length ?? 1),
         0
       );
-    } else {
-      updatedCart.totalItems = updatedCart.items.reduce(
-        (total, item) => total + item.quantity,
-        0
-      );
-      updatedCart.totalPrice = updatedCart.items.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0
-      );
-    }
+    updatedCart.totalItems = sessionsTotal + productTotal;
+    updatedCart.totalPrice = sessionsTotalPrice + productTotalPrice;
+
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     setCart(updatedCart);
   };
+
   const onDeleteItemFromCart = (itemId: string) => {
     if (!cart) return;
 
@@ -249,18 +243,37 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       ...cart,
       items: cart?.items.filter((prevItem) => prevItem.id !== itemId),
     };
-    updatedCart.totalItems = updatedCart.items.reduce(
-      (total, item) => total - item.quantity,
-      0
-    );
-    updatedCart.totalPrice = updatedCart.items.reduce(
-      (total, item) => total - item.price * item.quantity,
-      0
-    );
+
+    const sessionsTotal = updatedCart.items
+      .filter((i) => i.type === 'workshop')
+      .reduce((total, cartItem) => {
+        return total + (cartItem.sessions?.length ?? 1);
+      }, 0);
+
+    const productTotal = updatedCart.items
+      .filter((i) => i.type === 'product')
+      .reduce((total, cartItem) => total + cartItem.quantity, 0);
+
+    const productTotalPrice = updatedCart.items
+      .filter((i) => i.type === 'product')
+      .reduce(
+        (total, cartItem) => total + cartItem.price * cartItem.quantity,
+        0
+      );
+    const sessionsTotalPrice = updatedCart.items
+      .filter((i) => i.type === 'workshop')
+      .reduce(
+        (total, cartItem) =>
+          total + cartItem.price * (cartItem.sessions?.length ?? 1),
+        0
+      );
+    updatedCart.totalItems = sessionsTotal + productTotal;
+    updatedCart.totalPrice = sessionsTotalPrice + productTotalPrice;
 
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     setCart(updatedCart);
   };
+
   const clearCart = () => {
     setCart(null);
     localStorage.removeItem('cart');

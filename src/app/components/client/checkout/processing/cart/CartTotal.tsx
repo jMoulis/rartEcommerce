@@ -51,7 +51,7 @@ export default function CartTotal({ cart, Action, deliveryFees }: Props) {
               <Total>{t('Cart.total')}</Total>
             </Flexbox>
             <Price>
-              {cart.totalPriceAndDelivery}
+              {cart.totalPrice}
               {cart.currency?.symbol}
             </Price>
           </Flexbox>

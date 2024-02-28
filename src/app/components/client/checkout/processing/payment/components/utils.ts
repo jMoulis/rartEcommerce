@@ -14,23 +14,23 @@ export const getData = async (collection: ENUM_COLLECTIONS, id: string) => {
 };
 
 export const reserveStock = async (
-  products: ICartItem[],
-  workshops: ICartItem[],
+  productCartItems: ICartItem[],
+  workshopCarItems: ICartItem[],
   customer: any
 ) => {
   const batch = writeBatch(db);
   const previousValues: any = {}; // Object to store previous values
 
   // Reserve products
-  for (const product of products) {
-    const { ref, document } = await getData(ENUM_COLLECTIONS.PRODUCTS, product.productId);
+  for (const productCartItem of productCartItems) {
+    const { ref, document } = await getData(ENUM_COLLECTIONS.PRODUCTS, productCartItem.productId);
 
     if (!document) return;
 
     const prevProduct = document as IProductService;
 
     if (prevProduct.withStock) {
-      previousValues[product.productId] = {
+      previousValues[productCartItem.productId] = {
         collection: ENUM_COLLECTIONS.PRODUCTS,
         data: {
           stockQuantity: prevProduct.stockQuantity,
@@ -38,37 +38,35 @@ export const reserveStock = async (
       };
       const prevStock = prevProduct.stockQuantity;
       batch.update(ref, {
-        stockQuantity: prevStock - product.quantity,
+        stockQuantity: prevStock - productCartItem.quantity,
       });
     }
   }
 
   // Reserve workshops
-  for (const workshop of workshops) {
-    const { ref, document } = await getData(ENUM_COLLECTIONS.WORKSHOPS, workshop.productId);
+  for (const workshopCartItem of workshopCarItems) {
+    const { ref, document } = await getData(ENUM_COLLECTIONS.WORKSHOPS, workshopCartItem.productId);
 
     if (!document) return;
 
     const prevWorkshop = document as IWorkshop;
 
-    previousValues[workshop.productId] = {
+    previousValues[workshopCartItem.productId] = {
       collection: ENUM_COLLECTIONS.WORKSHOPS,
       data: {
         sessions: prevWorkshop.sessions,
       },
     };
-    const updatedSessions = (workshop.sessions ?? []).map((session) => {
-      const prevSession = prevWorkshop.sessions.find(
-        (prev: ISession) => prev._id === session._id
-      );
-      if (!prevSession) return null;
 
-      return {
-        ...prevSession,
-        participants: prevSession?.participants
-          ? [...prevSession.participants, customer]
-          : [customer],
-      };
+    const updatedSessions = prevWorkshop.sessions.map(session => {
+      const subscribedSession = (workshopCartItem.sessions ?? []).find(subSession => subSession._id === session._id);
+      if (subscribedSession) {
+        return {
+          ...session,
+          participants: [...session.participants, customer]
+        };
+      }
+      return session;
     });
     batch.update(ref, {
       sessions: updatedSessions,

@@ -59,12 +59,14 @@ export async function POST(req: Request) {
               _id: string
             }
           };
+          console.log(payload);
           console.log('✅ end create invoice');
           const orderRef = adminDB.collection(ENUM_COLLECTIONS.ORDERS).doc(orderId);
           const invoiceRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(payload.data._id);
           const mailService = new MailService();
           console.log('Start send email');
-          await mailService.sendEmail({
+          // const invocePdf = generatePDFInvoice();
+          const mailResponse = await mailService.sendEmail({
             email: orderData.customerInformations.email,
             subject: 'Confirmation de paiement',
             template: {
@@ -75,12 +77,14 @@ export async function POST(req: Request) {
               }
             }
           });
+
           console.log('✅ Email sent');
 
           invoiceRef.set({
             confirmMailSent: {
               status: true,
-              date: new Date().toISOString()
+              date: new Date().toISOString(),
+              messageId: mailResponse.messageId
             }
           }, { merge: true });
           const date = new Date().toISOString();
@@ -113,6 +117,7 @@ export async function POST(req: Request) {
           throw new Error(`Unhandled event: ${event.type}`);
       }
     } catch (error: any) {
+      console.log('ERROR', error.message);
       return NextResponse.json(
         { message: `Webhook handler failed: ${error.message}` },
         { status: 500 },
