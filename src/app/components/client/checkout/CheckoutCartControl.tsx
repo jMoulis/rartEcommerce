@@ -11,7 +11,6 @@ interface Props {
 
 export const CheckoutCartControl = ({ children }: Props) => {
   const { cart } = useCart();
-
   if (!cart?.items.length) {
     return (
       <Section>

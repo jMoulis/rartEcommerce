@@ -10,6 +10,9 @@ import { Card } from '../home/Card';
 import { Section } from '../commons/layout/Section';
 import { SectionHeader } from '../../commons/Layouts/SectionHeader';
 import { toast } from 'react-toastify';
+import { useTranslations } from 'next-intl';
+import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
+import { ENUM_ROUTES } from '../../navbar/routes.enums';
 
 interface Props {
   initialWorkshops: IWorkshop[];
@@ -17,6 +20,7 @@ interface Props {
 
 export default function Workshops({ initialWorkshops }: Props) {
   const [workshops, setWorkshops] = useState<IWorkshop[]>(initialWorkshops);
+  const t = useTranslations();
   useEffect(() => {
     const unsubscribe = onFindAllRealtime(
       ENUM_COLLECTIONS.WORKSHOPS,
@@ -53,7 +57,11 @@ export default function Workshops({ initialWorkshops }: Props) {
               description={workshop.description!}
               id={workshop._id!}
               hrefRoot='workshops'>
-              S'inscrire
+              <Flexbox justifyContent='center'>
+                <ButtonLink href={`${ENUM_ROUTES.WORKSHOPS}/${workshop._id!}`}>
+                  {t('Workshop.detail')}
+                </ButtonLink>
+              </Flexbox>
             </Card>
           ))}
         </Flexbox>

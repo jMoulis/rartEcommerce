@@ -5,6 +5,7 @@ import { onAdminCreateDocument, onAdminCreateAccount } from '@/src/lib/firebase/
 import { IInvoiceInput, IOrder } from '@/src/types/DBTypes';
 import { FieldValue } from 'firebase-admin/firestore';
 import { v4 } from 'uuid';
+import { generatePDFInvoice } from './generate/pdf';
 
 export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl: string | null): Promise<ApiPayload | null> => {
   try {
@@ -45,11 +46,14 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
       issueDate: date,
       dueDate: date,
       amount: order.amount,
+      taxes: order.taxes,
+      ht: order.ht,
       status: 'paid',
       createdAt: date,
       updatedAt: date,
       lineItems: order.lineItems,
       paymentId,
+      customerInformations: order.customerInformations,
       confirmMailSent: {
         status: false,
       },
@@ -57,9 +61,16 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
     };
 
     const invoice = await onAdminCreateDocument(invoiceInput, ENUM_COLLECTIONS.INVOICES);
+    generatePDFInvoice(invoiceInput);
     if (!invoice) {
       throw Error('Unable to create an invoice');
     }
+    const pdf = `
+    <html></
+    `;
+    // generate pdf - store - to storage
+    // updateInvoice with invoiceLink
+    const docRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(invoice.data._id);
     return invoice;
   } catch (error: any) {
     throw Error(`Error while creating Invoice: ${error.message}`);

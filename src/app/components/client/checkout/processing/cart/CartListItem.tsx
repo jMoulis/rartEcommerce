@@ -9,6 +9,7 @@ import { faTrash } from '@fortawesome/pro-light-svg-icons';
 import { IconButton } from '../../../../commons/Buttons/IconButton';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { SessionListItem } from '@/src/app/components/dashboard/workshops/Session/SessionListItem';
+import { useQuantityOptions } from '../../../products/useQuantityOptions';
 
 const ListItemCart = styled.li`
   display: flex;
@@ -23,22 +24,14 @@ const Description = styled.p`
   max-width: 300px;
 `;
 
-const quantityOptions = [
-  {
-    label: '1',
-    value: 1,
-  },
-  {
-    label: '2',
-    value: 2,
-  },
-];
 interface Props {
   item: ICartItem;
   editable: boolean;
 }
 export default function CartListItem({ item, editable }: Props) {
   const { onDeleteItemFromCart, onEditCart } = useCart();
+
+  const quantityOptions = useQuantityOptions(item.stock ?? 0);
 
   const handleSelectQuantity = (event: ChangeEvent<HTMLSelectElement>) => {
     const { value } = event.currentTarget;
@@ -57,7 +50,11 @@ export default function CartListItem({ item, editable }: Props) {
       ...item,
       sessions: item.sessions?.filter((prev) => prev._id !== sessionId),
     };
-    onEditCart(updateItem);
+    if (updateItem.sessions?.length === 0) {
+      onDeleteItemFromCart(updateItem.id);
+    } else {
+      onEditCart(updateItem);
+    }
   };
 
   return (
@@ -89,7 +86,7 @@ export default function CartListItem({ item, editable }: Props) {
                   },
                 }}
                 label=''
-                id='quantity'
+                id={`${item.id}-quantity`}
                 name='quantity'
                 onSelectOption={handleSelectQuantity}
                 options={quantityOptions}

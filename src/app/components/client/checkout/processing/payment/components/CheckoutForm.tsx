@@ -119,9 +119,10 @@ function CheckoutForm(): JSX.Element | null {
       }
 
       const products =
-        cart?.items.filter((item) => item.type !== 'workshop') ?? [];
+        cart?.items.filter((item) => item.type !== 'product') ?? [];
       const workshops =
         cart?.items.filter((item) => item.type === 'workshop') ?? [];
+
       const previousValues = await reserveStock(products, workshops, customer);
 
       globalPreviousValues = previousValues;

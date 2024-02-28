@@ -43,7 +43,7 @@ const PaymentIndex = () => {
             loader: 'always',
             currency: config.CURRENCY,
             mode: 'payment',
-            amount: cart.totalPriceAndDelivery || cart.totalPrice,
+            amount: cart.totalPrice,
           }}>
           <CheckoutForm />
         </Elements>

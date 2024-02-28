@@ -38,7 +38,9 @@
     "detailedInformation": "Détail",
     "required": "requis",
     "store": "Boutique",
-    "workshop": "Ateliers"
+    "workshop": "Ateliers",
+    "share": "Partager",
+    "createdAt": "Créé"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -106,7 +108,9 @@
     "pricePayment": "Prix et paiement",
     "serviceType": "Type de service",
     "paymentType": "{type, select, session {Par scéance} subscription {Avec abonnement} other {Inconnu}}",
-    "selectPaymentType": "Choisissez comment les clients peuvent payer ce service"
+    "selectPaymentType": "Choisissez comment les clients peuvent payer ce service",
+    "unSubscribe": "Se désinscrire",
+    "keepMeInform": "Tenez moi au courant"
   },
   "Category": {
     "category": "Catégorie",
@@ -137,7 +141,8 @@
     "contactInformations": "Information de contact",
     "shippingAddress": "Information pour la livraison",
     "confirm": "Confirmer",
-    "addToCart": "Ajouter au panier"
+    "addToCart": "Ajouter au panier",
+    "deleteFromCart": "Supprimer du panier"
   },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
@@ -178,7 +183,7 @@
     "payments": "Paiements",
     "financial": "Finances",
     "estimates": "Devis",
-    "billings": "Factures",
+    "invoices": "Factures",
     "subscriptions": "Abonnements",
     "templates": "Modèles"
   },
@@ -190,6 +195,12 @@
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
     }
+  },
+  "Invoice": {
+    "invoices": "Fatures",
+    "invoice": "Facture",
+    "createInvoice": "Créer une facture",
+    "status": "Statut"
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -285,7 +296,7 @@
     "end": "Fin",
     "until": "Jusqu'à",
     "duration": "Duration",
-    "places": "Places",
+    "places": "Places disponibles",
     "repetition": {
       "label": "Répétition",
       "addRepetition": "Ajouter une répétition",
@@ -321,7 +332,8 @@
   "Workshop": {
     "workshop": "Atelier",
     "workshops": "Ateliers",
-    "createWorkshop": "Créer un atelier"
+    "createWorkshop": "Créer un atelier",
+    "detail": "Détail"
   },
   "ApiSuccess": {
     "reset-mail": "Réinitialisation Email envoyé",

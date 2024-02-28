@@ -131,10 +131,11 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
   const handleInputChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { value, name } = event.currentTarget;
+    const { value, name, type } = event.currentTarget;
+    const formattedValue = type === 'number' ? parseFloat(value) : value;
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: formattedValue,
     }));
   };
   const handleAddSection = () => {

@@ -64,7 +64,11 @@ const InformationIndex = () => {
       address: useAddress,
     });
 
-    router.push(ENUM_ROUTES.CHECKOUT_DELIVERY);
+    if (cart?.items.some((item) => item.type === 'product')) {
+      router.push(ENUM_ROUTES.CHECKOUT_DELIVERY);
+    } else {
+      router.push(ENUM_ROUTES.CHECKOUT_PAYMENT);
+    }
   };
 
   useEffect(() => {
@@ -106,7 +110,7 @@ const InformationIndex = () => {
             alignItems='baseline'
             justifyContent='space-between'>
             <h2>{t('Cart.shippingAddress')}</h2>
-            <AlreadyClientLink />
+            {!authProfile ? <AlreadyClientLink /> : null}
           </Flexbox>
           <InputGroup
             label={t('Contact.email')}
