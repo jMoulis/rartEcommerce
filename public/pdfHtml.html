@@ -23,11 +23,13 @@
       }
       html,
       body {
-        height: 100vh;
+        padding-bottom: 0;
       }
       body {
         display: flex;
         flex-direction: column;
+        position: relative;
+        margin: 50px 40px 0 40px;
       }
       p,
       span,
@@ -45,39 +47,42 @@
         padding: 0;
       }
       .table {
-        display: grid;
-        grid-template-columns: 50% repeat(5, 1fr);
+        border-collapse: collapse;
         background-color: rgba(0, 0, 0, 0.03);
         border-radius: 10px;
-        margin: 5px 10px;
         padding-bottom: 10px;
         box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        margin-bottom: 10px;
+        max-height: 300px;
+        overflow: hidden;
       }
       .table-row {
         border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-        overflow: hidden;
-        display: flex;
-        align-items: center;
       }
       .table-cell {
         padding: 5px 10px;
       }
       .table-cell-header {
-        font-weight: bold;
+        display: flex;
+        align-items: center;
         font-family: 'Eb garamond', serif;
         padding-bottom: 5px;
-        padding: 5px 10px;
+        padding: 5px 15px;
         white-space: nowrap;
+        height: 40px;
       }
       .table-footer {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        grid-column: 1 / -1;
+        padding: 10px;
+      }
+      .price-footer {
+        display: grid;
+        grid-template-columns: 70px 50px;
+        justify-content: flex-end;
       }
       .header {
         display: flex;
+        margin-bottom: 30px;
       }
       .customer {
         flex: 1;
@@ -93,15 +98,17 @@
         display: flex;
       }
       .main {
-        margin: 20px 0;
-        flex: 1;
         display: flex;
         flex-direction: column;
-        margin-bottom: 0;
       }
-      .price-footer {
-        display: grid;
-        grid-template-columns: 100px 100px;
+      .conditions {
+        margin-top: 10px;
+      }
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
       }
       .flexbox {
         display: flex;
@@ -118,7 +125,9 @@
   <body>
     <header class="header">
       <div class="company">
-        <img style="height: 50px; width: 50px" />
+        <img
+          src="rartLogo"
+          style="height: 50px; border-radius: 5px; margin-right: 20px" />
         <div>
           <span>RartCreation</span>
           <div>
@@ -130,6 +139,9 @@
               >
             </p>
             <p>
+              <a href="tel:+330616224928">+33 (0)6 16 22 49 28</a>
+            </p>
+            <p>
               <a href="https://www.rartcreation.fr"
                 >https://www.rartcreation.fr</a
               >
@@ -139,7 +151,7 @@
       </div>
       <div class="customer">
         <div>
-          <span class="customer-name">Julien moulis</span>
+          <span class="customer-name">Julien Moulis</span>
           <div>
             <p>2521 route de bonneville</p>
             <p>74800 Arenthon</p>
@@ -149,104 +161,369 @@
       </div>
     </header>
     <main class="main">
-      <div style="margin-left: 40px">
-        <p style="font-size: 20px">Facture: F_12343</p>
-        <p>Date: 12/03/2024</p>
-      </div>
-      <div class="table">
-        <div class="table-row">
-          <p class="table-cell-header">Description</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell-header">quantité</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell-header">prix ht (€)</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell-header">Taux tva</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell-header">TVA (€)</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell-header">prix ttc (€)</p>
-        </div>
-
-        <div class="table-row">
-          <p class="table-cell">
-            Less dynamic: If the verification fails or succeeds, showing
-            real-time feedback to the user might require a page reload or
-            redirect. Can make the rendering process slower, as the server needs
-            to wait for the token verification before rendering the page.
-          </p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">1</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">123</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">20%</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">24.6</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">147.6</p>
-        </div>
-
-        <div class="table-row">
-          <p class="table-cell">
-            Less dynamic: If the verification fails or succeeds, showing
-            real-time feedback to the user might require a page reload or
-            redirect. Can make the rendering process slower, as the server needs
-            to wait for the token verification before rendering the page.
-          </p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">1</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">123</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">20%</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">24.6</p>
-        </div>
-        <div class="table-row">
-          <p class="table-cell">147.6</p>
-        </div>
-
-        <div class="table-footer">
-          <div class="price-footer">
-            <p style="font-weight: bolder">Total HT:</p>
-            <p>40.00€</p>
-          </div>
-          <div class="price-footer">
-            <p style="font-weight: bolder">Total taxes:</p>
-            <p>10.00€</p>
-          </div>
-          <div class="price-footer">
-            <p style="font-weight: bolder">Total TTC:</p>
-            <p>50.00€</p>
-          </div>
-          <div class="price-footer">
-            <p style="font-weight: bolder">Reste dû:</p>
-            <p>0,00€</p>
-          </div>
-        </div>
-      </div>
-    </main>
-    <footer style="margin: 10px 50px">
       <div>
-        <p class="small">Date de règlement: 12/03/2024</p>
-        <p class="small">Date d'exécution de la vente: 12/03/2024</p>
+        <p style="font-size: 20px">Facture: F_2024-53</p>
+        <p>Date: 28/02/2024</p>
       </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="table-row">
+              <p class="table-cell-header">Description</p>
+            </th>
+            <th class="table-row">
+              <p class="table-cell-header">quantité</p>
+            </th>
+            <th class="table-row">
+              <p class="table-cell-header">prix ht (€)</p>
+            </th>
+            <th class="table-row">
+              <p class="table-cell-header">Taux tva</p>
+            </th>
+            <th class="table-row">
+              <p class="table-cell-header">TVA (€)</p>
+            </th>
+            <th class="table-row">
+              <p class="table-cell-header">prix ttc (€)</p>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Peinture à l'acrylique fluide sur toile en coton XXL
+                (140x280cm).
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">4</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">300</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">240</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1440</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Less dynamic: If the verification fails or succeeds, showing
+                real-time feedback to the user might require a page reload or
+                redirect. Can make the rendering process slower, as the server
+                needs to wait for the token verification before rendering the
+                page.
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">123</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">24.6</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">147.6</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Peinture à l'acrylique fluide sur toile en coton XXL
+                (140x280cm).
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">4</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">300</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">240</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1440</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Less dynamic: If the verification fails or succeeds, showing
+                real-time feedback to the user might require a page reload or
+                redirect. Can make the rendering process slower, as the server
+                needs to wait for the token verification before rendering the
+                page.
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">123</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">24.6</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">147.6</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Peinture à l'acrylique fluide sur toile en coton XXL
+                (140x280cm).
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">4</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">300</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">240</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1440</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Less dynamic: If the verification fails or succeeds, showing
+                real-time feedback to the user might require a page reload or
+                redirect. Can make the rendering process slower, as the server
+                needs to wait for the token verification before rendering the
+                page.
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">123</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">24.6</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">147.6</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Peinture à l'acrylique fluide sur toile en coton XXL
+                (140x280cm).
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">4</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">300</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">240</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1440</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Less dynamic: If the verification fails or succeeds, showing
+                real-time feedback to the user might require a page reload or
+                redirect. Can make the rendering process slower, as the server
+                needs to wait for the token verification before rendering the
+                page.
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">123</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">24.6</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">147.6</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Peinture à l'acrylique fluide sur toile en coton XXL
+                (140x280cm).
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">4</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">300</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">240</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1440</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Less dynamic: If the verification fails or succeeds, showing
+                real-time feedback to the user might require a page reload or
+                redirect. Can make the rendering process slower, as the server
+                needs to wait for the token verification before rendering the
+                page.
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">123</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">24.6</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">147.6</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Peinture à l'acrylique fluide sur toile en coton XXL
+                (140x280cm).
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">4</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">300</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">240</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1440</p>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="table-row">
+              <p class="table-cell">
+                Less dynamic: If the verification fails or succeeds, showing
+                real-time feedback to the user might require a page reload or
+                redirect. Can make the rendering process slower, as the server
+                needs to wait for the token verification before rendering the
+                page.
+              </p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">1</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">123</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">20%</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">24.6</p>
+            </td>
+            <td class="table-row">
+              <p class="table-cell">147.6</p>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="table-footer" colspan="6">
+              <div class="price-footer">
+                <p style="font-weight: bolder">Total HT:</p>
+                <p>1102.5€</p>
+              </div>
+              <div class="price-footer">
+                <p style="font-weight: bolder">Total taxes:</p>
+                <p>220.5€</p>
+              </div>
+              <div class="price-footer">
+                <p style="font-weight: bolder">Total TTC:</p>
+                <p>1 323€</p>
+              </div>
+              <div class="price-footer">
+                <p style="font-weight: bolder">Reste dû:</p>
+                <p>0,00€</p>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
       <div>
+        <p class="small">Date de règlement: 28/02/2024</p>
+        <p class="small">Date d'exécution de la vente: 28/02/2024</p>
+      </div>
+      <div class="conditions">
         <p class="x-small">
           En votre aimable règlement par virement ou chèque à l'ordre de la
           Couveuse d'entreprises / Rart Création Nuna Développement THYEZ
@@ -263,31 +540,27 @@
           forfaitaires de 40€ seront appliquées pour frais de recouvrement.
         </p>
       </div>
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-top: 10px;
-        ">
+    </main>
+    <footer class="footer">
+      <div style="display: flex; align-items: center">
         <div style="display: flex; flex-direction: column; align-items: center">
-          <p class="x-small" style="font-weight: bold">
-            Site web : www.rartcreation.fr
-          </p>
-          <p class="x-small">
+          <p style="text-align: center">
             l'entrepreneur Rachel Moulis bénéficie d'un Contrat d'appui au
-            projet d'entreprise du 08/01/2024 au 07/01/2025 avec la couveuse
-            Nuna Développement THYEZ
+            projet d'entreprise du 08/01/2024 au 07/01/2025
           </p>
-          <p class="x-small">
-            Site économique des Lacs 320, rue des Sorbiers 74300 Thyez
+          <p style="text-align: center">
+            avec la couveuse Nuna Développement THYEZ
           </p>
-          <p class="x-small">
-            Siret:53825476400029 Code NAF: RCS: Numéro formation:
-            Email:couveuse@nunadev.com Téléphone:+33450907240
+          <p>Site économique des Lacs 320, rue des Sorbiers 74300 Thyez</p>
+          <p>
+            Siret: 53825476400029 Code NAF: RCS: Numéro formation: Email:<a
+              href="mailto:couveuse@nunadev.com"
+              >couveuse@nunadev.com</a
+            >
+            Téléphone: <a href="tel:+33450907240">+33450907240</a>
           </p>
         </div>
-        <img style="height: 30px; width: 30px" />
+        <img src="nunaLogo" style="width: 30px" />
       </div>
     </footer>
   </body>

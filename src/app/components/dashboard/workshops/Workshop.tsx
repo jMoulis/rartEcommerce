@@ -1,7 +1,7 @@
 'use client';
 
 import { IWorkshop } from '@/src/types/DBTypes';
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FinderLayoutPage } from '../../commons/Layouts/FinderLayoutPage';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
@@ -12,15 +12,35 @@ import { useToggle } from '../../hooks/useToggle';
 import { FullDialog } from '../../commons/dialog/FullDialog';
 import { CalendarApp } from './Calendar';
 import { ENUM_DASHBOARD_MENU_ROUTES } from '../routes';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { toast } from 'react-toastify';
 
 interface Props {
-  workshops?: IWorkshop[];
+  initialWorkshops: IWorkshop[];
 }
 
-export default function Workshops({ workshops }: Props) {
-  const data: IWorkshop[] = useMemo(() => workshops ?? [], []);
+export default function Workshops({ initialWorkshops }: Props) {
+  const [data, setData] = useState(initialWorkshops);
   const t = useTranslations();
   const { open, onOpen, onClose } = useToggle();
+
+  useEffect(() => {
+    const unsubscribe = onFindAllRealtime(
+      ENUM_COLLECTIONS.WORKSHOPS,
+      (payload) => {
+        setData(payload);
+      },
+      (error) => {
+        toast.error(error.message);
+      }
+    );
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, []);
 
   const handleOpenCalendar = () => {
     onOpen();

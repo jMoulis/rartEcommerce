@@ -143,11 +143,11 @@ export const ContactForm = (props: Props) => {
       name,
       email,
       message,
-      companyName: 'RartCreation',
-      contactName: 'Rachel',
+      companyName: process.env.NEXT_COMPANY_NAME!,
+      contactName: process.env.NEXT_CONTACT_NAME!,
       mailSystem,
       subject: t('Contact.subject', {
-        company: 'RartCreation',
+        company: process.env.NEXT_COMPANY_NAME!,
       }),
       token,
     };

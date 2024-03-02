@@ -27,7 +27,9 @@ export const onFindAllRealtime = (
   const queryConstraints: QueryConstraint[] = [];
 
   for (const [field, value] of Object.entries(queryObject)) {
-    queryConstraints.push(where(field, '==', value));
+    if (field && value) {
+      queryConstraints.push(where(field, '==', value));
+    }
   }
 
   return onSnapshot(

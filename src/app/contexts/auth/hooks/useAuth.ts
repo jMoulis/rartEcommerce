@@ -116,8 +116,8 @@ export const useAuth = () => {
       const emailVerifPayload: IEmailVerif = {
         email,
         userId: userCredentials.user.uid,
-        companyName: 'RartCreation',
-        contactName: 'Rachel',
+        contactName: process.env.NEXT_CONTACT_NAME!,
+        companyName: process.env.NEXT_COMPANY_NAME!,
         mailSystem,
         subject: t('Contact.subject', {
           company: 'RartCreation',

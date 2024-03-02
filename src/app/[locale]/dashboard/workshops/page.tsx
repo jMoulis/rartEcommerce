@@ -4,5 +4,5 @@ import { findAll } from '@/src/lib/firebase/firestore/crud';
 
 export default async function WorkshopsPage() {
   const workshops: any = await findAll(ENUM_COLLECTIONS.WORKSHOPS);
-  return <Workshops workshops={workshops} />;
+  return <Workshops initialWorkshops={workshops ?? []} />;
 }

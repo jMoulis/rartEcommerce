@@ -39,7 +39,8 @@
     "store": "Boutique",
     "workshop": "Workshops",
     "share": "Share",
-    "createdAt": "Créé"
+    "createdAt": "Créé",
+    "download": "Download"
   },
   "AddressForm": {
     "addresses": "Adresses",
@@ -198,7 +199,8 @@
     "invoices": "Fatures",
     "invoice": "Facture",
     "createInvoice": "Créer une facture",
-    "status": "Statut"
+    "status": "Statut",
+    "generateInvoice": "Générate"
   },
   "LocaleSwitcher": {
     "label": "Langue",

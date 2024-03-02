@@ -1,6 +1,6 @@
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { db } from '@/src/lib/firebase/firebase';
-import { ICartItem, IContactInformations, IProductService, ISession, IWorkshop } from '@/src/types/DBTypes';
+import { ICartItem, IContactInformations, IProductService, IWorkshop } from '@/src/types/DBTypes';
 import { doc, getDoc, writeBatch } from 'firebase/firestore';
 
 export const getData = async (collection: ENUM_COLLECTIONS, id: string) => {
@@ -20,7 +20,6 @@ export const reserveStock = async (
 ) => {
   const batch = writeBatch(db);
   const previousValues: any = {}; // Object to store previous values
-
   // Reserve products
   for (const productCartItem of productCartItems) {
     const { ref, document } = await getData(ENUM_COLLECTIONS.PRODUCTS, productCartItem.productId);
@@ -46,7 +45,6 @@ export const reserveStock = async (
   // Reserve workshops
   for (const workshopCartItem of workshopCarItems) {
     const { ref, document } = await getData(ENUM_COLLECTIONS.WORKSHOPS, workshopCartItem.productId);
-
     if (!document) return;
 
     const prevWorkshop = document as IWorkshop;

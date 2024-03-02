@@ -198,7 +198,8 @@ export interface IInvoiceInput {
     date?: string;
     messageId?: string
   };
-  receiptUrl: string | null
+  receiptUrl: string | null;
+  invoiceUrl?: string | null;
 }
 export interface IInvoice extends IInvoiceInput {
   _id: string;

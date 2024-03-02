@@ -119,7 +119,6 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         };
         updatedCart.items[existingItemIndex] = updatedElement;
       } else {
-        // Item exists, increment quantity
         updatedCart.items[existingItemIndex].quantity += 1;
       }
     } else {

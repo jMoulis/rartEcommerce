@@ -40,7 +40,8 @@
     "store": "Boutique",
     "workshop": "Ateliers",
     "share": "Partager",
-    "createdAt": "Créé"
+    "createdAt": "Créé",
+    "download": "Télécharger"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -200,7 +201,8 @@
     "invoices": "Fatures",
     "invoice": "Facture",
     "createInvoice": "Créer une facture",
-    "status": "Statut"
+    "status": "Statut",
+    "generateInvoice": "Générer"
   },
   "LocaleSwitcher": {
     "label": "Langue",

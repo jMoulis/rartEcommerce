@@ -1,21 +1,40 @@
 'use client';
 
 import { IProductService } from '@/src/types/DBTypes';
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createColumnHelper } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { FinderLayoutPage } from '../../commons/Layouts/FinderLayoutPage';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { toast } from 'react-toastify';
 
 interface Props {
-  products?: IProductService[];
+  initialProducts: IProductService[];
 }
 
-export const Products = ({ products }: Props) => {
+export const Products = ({ initialProducts }: Props) => {
   const t = useTranslations();
   const tProductForm = useTranslations('ProductForm');
-  const data: IProductService[] = useMemo(() => products ?? [], []);
+  const [data, setData] = useState<IProductService[]>(initialProducts);
 
+  useEffect(() => {
+    const unsubscribe = onFindAllRealtime(
+      ENUM_COLLECTIONS.PRODUCTS,
+      (payload) => {
+        setData(payload);
+      },
+      (error) => {
+        toast.error(error.message);
+      }
+    );
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, []);
   const columnHelper = createColumnHelper<IProductService>() as any;
 
   const columns = [

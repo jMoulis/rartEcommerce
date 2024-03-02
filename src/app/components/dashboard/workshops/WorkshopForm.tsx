@@ -29,6 +29,8 @@ import { Session } from './Session/Session';
 import { generateDefaultBooking } from '../products/CreateForm/defaultData';
 import { ENUM_DASHBOARD_MENU_ROUTES } from '../routes';
 import { toast } from 'react-toastify';
+import QRCode from './QRCode';
+import { ENUM_ROUTES } from '../../navbar/routes.enums';
 
 const Root = styled.div`
   overflow: auto;
@@ -267,11 +269,17 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
             workshop={form}
           />
         </Flexbox>
-
-        <Menu
-          onSelectCategory={handleSelectCategory}
-          previousSelectedCategories={form.categories ?? []}
-        />
+        <Flexbox flexDirection='column'>
+          <Menu
+            onSelectCategory={handleSelectCategory}
+            previousSelectedCategories={form.categories ?? []}
+          />
+          {prevWorkshop?._id ? (
+            <QRCode
+              value={`${window.location.origin}/${ENUM_ROUTES.WORKSHOPS}${prevWorkshop._id}`}
+            />
+          ) : null}
+        </Flexbox>
       </Flexbox>
     </Root>
   );

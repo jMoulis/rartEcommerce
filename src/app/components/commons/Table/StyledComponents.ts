@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 
 export const TableContainer = styled.div`
+  label: TableContainer;
   border: 1px solid var(--card-header-border-color);
   border-radius: 8px;
   margin: 10px;
-  overflow: hidden;
+  overflow: auto;
   background-color: #fff;
+  max-height: 70vh;
 `;
 
 export const Table = styled.table`
