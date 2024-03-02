@@ -54,26 +54,27 @@ export async function POST(req: Request) {
           const orderData = (await getAdminDocument(orderId, ENUM_COLLECTIONS.ORDERS)).data as IOrder;
           console.log('✅ Get order done');
           console.log('Start create invoice');
-          const payload = await createInvoice(orderData, data.id, data.receipt_url) as unknown as {
-            data: {
-              _id: string
-            }
-          };
+          const payload = await createInvoice(orderData, data.id, data.receipt_url);
           console.log(payload);
           console.log('✅ end create invoice');
           const orderRef = adminDB.collection(ENUM_COLLECTIONS.ORDERS).doc(orderId);
-          const invoiceRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(payload.data._id);
+          const invoiceRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(payload?.invoice?.data._id);
           const mailService = new MailService();
           console.log('Start send email');
           // const invocePdf = generatePDFInvoice();
           const mailResponse = await mailService.sendEmail({
+            files: payload?.pdf ? [payload?.pdf] : [],
             email: orderData.customerInformations.email,
             subject: 'Confirmation de paiement',
+
             template: {
               name: 'paymentSuccess',
               props: {
                 customer: orderData.customerInformations,
                 host: process.env.NODE_ENV === 'production' ? `https://${host}` : `http://${host}`,
+                contactName: process.env.NEXT_CONTACT_NAME,
+                companyName: process.env.NEXT_COMPANY_NAME,
+                mailSystem: process.env.NEXT_PUBLIC_MAIL_SYSTEM,
               }
             }
           });
@@ -85,15 +86,16 @@ export async function POST(req: Request) {
               status: true,
               date: new Date().toISOString(),
               messageId: mailResponse.messageId
-            }
+            },
+            invoiceUrl: payload?.pdf?.url ?? null
           }, { merge: true });
           const date = new Date().toISOString();
 
           orderRef.set({
-            invoiceId: payload?.data?._id,
+            invoiceId: payload?.invoice?.data?._id,
             status: 'converted to invoice',
             issueDate: date,
-            updatedAt: date
+            updatedAt: date,
           }, {
             merge: true
           });

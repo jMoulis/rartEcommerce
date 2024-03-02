@@ -29,12 +29,14 @@ export class MailService {
     template: {
       name,
       props
-    }
+    },
+    files
   }: {
     email: string, subject: string, template: {
       name: 'successContactForm' | 'contactMail' | 'paymentSuccess';
       props: any
-    }
+    },
+    files?: Array<{ content: Buffer, contentType: string, filename: string }>
   }) {
     try {
       const payload = await this.transporter.sendMail({
@@ -42,6 +44,7 @@ export class MailService {
         to: email,
         subject,
         html: templates[name]?.(props),
+        attachments: files
       });
       return payload;
     } catch (error: any) {

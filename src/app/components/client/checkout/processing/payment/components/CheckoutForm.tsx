@@ -118,15 +118,6 @@ function CheckoutForm(): JSX.Element | null {
         return;
       }
 
-      const products =
-        cart?.items.filter((item) => item.type !== 'product') ?? [];
-      const workshops =
-        cart?.items.filter((item) => item.type === 'workshop') ?? [];
-
-      const previousValues = await reserveStock(products, workshops, customer);
-
-      globalPreviousValues = previousValues;
-
       const newOrderRequestPayload = {
         method: 'POST',
         body: JSON.stringify({ cart, connectedCustomerId: authProfile?._id }),
@@ -138,6 +129,15 @@ function CheckoutForm(): JSX.Element | null {
       const order = await (
         await fetch(ENUM_ROUTES.CREATE_ORDER, newOrderRequestPayload)
       ).json();
+
+      const products =
+        cart?.items.filter((item) => item.type === 'product') ?? [];
+      const workshops =
+        cart?.items.filter((item) => item.type === 'workshop') ?? [];
+
+      const previousValues = await reserveStock(products, workshops, customer);
+
+      globalPreviousValues = previousValues;
 
       const { client_secret: clientSecret } = await createPaymentIntent(
         new FormData(e.target as HTMLFormElement),

@@ -1,13 +1,13 @@
 import { ApiPayload } from '@/src/app/contexts/shared/types';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
-import { adminDB, } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
+import { adminDB } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { onAdminCreateDocument, onAdminCreateAccount } from '@/src/lib/firebase/firestore/crud';
 import { IInvoiceInput, IOrder } from '@/src/types/DBTypes';
 import { FieldValue } from 'firebase-admin/firestore';
 import { v4 } from 'uuid';
 import { generatePDFInvoice } from './generate/pdf';
 
-export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl: string | null): Promise<ApiPayload | null> => {
+export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl: string | null): Promise<{ invoice: ApiPayload, pdf: { content: Buffer, filename: string; contentType: string, url: string } } | null> => {
   try {
     const invoiceCounterRef = adminDB.collection(ENUM_COLLECTIONS.INVOICESIDS).doc('invoiceCounter');
     await invoiceCounterRef.update({
@@ -61,17 +61,13 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
     };
 
     const invoice = await onAdminCreateDocument(invoiceInput, ENUM_COLLECTIONS.INVOICES);
-    generatePDFInvoice(invoiceInput);
+
+    const pdf = await generatePDFInvoice({ ...invoiceInput, _id: invoice.data?._id });
+
     if (!invoice) {
       throw Error('Unable to create an invoice');
     }
-    const pdf = `
-    <html></
-    `;
-    // generate pdf - store - to storage
-    // updateInvoice with invoiceLink
-    const docRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(invoice.data._id);
-    return invoice;
+    return { invoice, pdf };
   } catch (error: any) {
     throw Error(`Error while creating Invoice: ${error.message}`);
   }

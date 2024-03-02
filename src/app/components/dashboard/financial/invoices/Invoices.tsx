@@ -1,30 +1,60 @@
 'use client';
 
-import { IInvoiceInput, IProductService } from '@/src/types/DBTypes';
-import React, { useMemo } from 'react';
+import { IInvoiceInput } from '@/src/types/DBTypes';
+import React, { useEffect, useState } from 'react';
 import { FinderLayoutPage } from '../../../commons/Layouts/FinderLayoutPage';
 import { createColumnHelper } from '@tanstack/react-table';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { Button } from '@mui/material';
+import { Button } from '../../../commons/Buttons/Button';
+import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { toast } from 'react-toastify';
+import { Flexbox } from '../../../commons/Flexbox';
+import { ButtonAnchorLink } from '../../../client/checkout/processing/commons/ButtonLink';
 
 interface Props {
-  invoices: IInvoiceInput[];
+  initialInvoices: IInvoiceInput[];
 }
 
-export const Invoices = ({ invoices }: Props) => {
-  const data: IInvoiceInput[] = useMemo(() => invoices ?? [], []);
+export const Invoices = ({ initialInvoices }: Props) => {
+  const [data, setData] = useState<IInvoiceInput[]>(initialInvoices);
   const t = useTranslations();
   const columnHelper = createColumnHelper<IInvoiceInput>() as any;
+  const [generating, setGenerating] = useState(false);
 
-  const handleGenerate = (invoice: IInvoiceInput) => {
-    fetch('/api/invoices/generate', {
-      method: 'post',
-      body: JSON.stringify(invoice),
-      headers: {
-        'Content-type': 'application/json',
+  useEffect(() => {
+    const unsubscribe = onFindAllRealtime(
+      ENUM_COLLECTIONS.INVOICES,
+      (payload) => {
+        setData(payload);
       },
-    });
+      (error) => {
+        toast.error(error.message);
+      }
+    );
+    return () => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    };
+  }, []);
+
+  const handleGenerate = async (invoice: IInvoiceInput) => {
+    try {
+      setGenerating(true);
+      await fetch('/api/invoices/generate', {
+        method: 'post',
+        body: JSON.stringify(invoice),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+      setGenerating(false);
+    } catch (error: any) {
+      toast.error(error.message);
+      setGenerating(false);
+    }
   };
 
   const columns = [
@@ -54,10 +84,28 @@ export const Invoices = ({ invoices }: Props) => {
     columnHelper.display({
       id: 'actions',
       cell: (props: any) => {
+        const invoiceUrl = props.row.original?.invoiceUrl;
+        const invoiceId = props.row.original?.invoiceId;
         return (
-          <Button onClick={() => handleGenerate(props.row.original)}>
-            GeneratePDF
-          </Button>
+          <Flexbox alignItems='center' justifyContent='center'>
+            {invoiceUrl ? (
+              <ButtonAnchorLink
+                style={{
+                  backgroundColor: 'var(--success-color)',
+                }}
+                href={invoiceUrl}
+                target='_blank'
+                download={`${invoiceId}.pdf`}>
+                {t('commons.download')}
+              </ButtonAnchorLink>
+            ) : (
+              <Button
+                disabled={generating}
+                onClick={async () => handleGenerate(props.row.original)}>
+                {t('Invoice.generateInvoice')}
+              </Button>
+            )}
+          </Flexbox>
         );
       },
     }),

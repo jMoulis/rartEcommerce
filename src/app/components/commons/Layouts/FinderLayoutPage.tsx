@@ -24,9 +24,12 @@ import styled from '@emotion/styled';
 import { Flexbox } from '../Flexbox';
 
 const Root = styled.div`
+  label: FinderLayoutRoot;
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;
+  max-height: 80vh;
+  overflow: hidden;
 `;
 
 const CustomLink = styled(Link)`

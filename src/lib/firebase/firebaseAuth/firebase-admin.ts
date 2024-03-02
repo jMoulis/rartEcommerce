@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { User } from 'firebase/auth';
 import { UserProfile } from '@/src/types/DBTypes';
+import { getStorage } from 'firebase-admin/storage';
 
 const serviceAccount: ServiceAccount = {
   projectId: process.env.NEXT_GOOGLE_PROJECT_ID,
@@ -20,6 +21,7 @@ export const firebaseApp =
   initializeApp(
     {
       credential: cert(serviceAccount),
+      storageBucket: 'gs://rart-82321.appspot.com'
     },
     'firebase-admin-app'
   );
@@ -27,6 +29,8 @@ export const firebaseApp =
 export const auth = getAuth(firebaseApp);
 
 export const adminDB = getFirestore(firebaseApp);
+
+export const bucket = getStorage(firebaseApp).bucket();
 
 async function getSession() {
   try {
