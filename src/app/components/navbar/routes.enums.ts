@@ -11,5 +11,8 @@ export enum ENUM_ROUTES {
   CHECKOUT_FAILED = '/checkout/failed',
   CHECKOUT_INFORMATIONS = '/checkout/processing/informations',
   CREATE_INVOICE = '/api/invoices/create',
+  INVOICE_DETAIL = '/dashboard/financial/invoices',
   CREATE_ORDER = '/api/orders/create',
+  CUSTOMERS = '/dashboard/customers',
+  CUSTOMERS_CREATE = '/dashboard/customers/create',
 }

@@ -2,7 +2,7 @@
 
 import styled from '@emotion/styled';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { UserProfile } from '@/src/types/DBTypes';
+import { IAddress, UserProfile } from '@/src/types/DBTypes';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useAuthDispatch } from '../../../contexts/auth/hooks/useAuthDispatch';
 import { onUpdateProfileAction } from '../../../contexts/auth/actions';
@@ -16,6 +16,7 @@ import AvatarInputFile from './AvatarInputFile';
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 import { Button } from '../../commons/Buttons/Button';
 import { toast } from 'react-toastify';
+import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 
 const Root = styled.main`
   border: 1px solid var(--card-header-border-color);
@@ -50,7 +51,7 @@ export const Profile = () => {
     verified: false,
   });
   const profile = useAuthSelector((state) => state.profile);
-
+  const { onUpdateAddress } = useFirestoreProfile();
   const tProfileForm = useTranslations('ProfileForm');
   const t = useTranslations();
   const tCommons = useTranslations('commons');
@@ -103,7 +104,12 @@ export const Profile = () => {
     event.preventDefault();
     await onUpdateProfile(form);
   };
-
+  const handleUpdateAddresses = async (updatedAddresses: IAddress[]) => {
+    await onUpdateAddress(
+      { addresses: updatedAddresses },
+      ENUM_COLLECTIONS.PROFILES
+    );
+  };
   if (!profile) return null;
 
   return (
@@ -137,7 +143,10 @@ export const Profile = () => {
           </Form>
         </Content>
       </Root>
-      <AddressForm prevAddresses={form.addresses || []} />
+      <AddressForm
+        prevAddresses={form.addresses || []}
+        onUpdate={handleUpdateAddresses}
+      />
     </>
   );
 };

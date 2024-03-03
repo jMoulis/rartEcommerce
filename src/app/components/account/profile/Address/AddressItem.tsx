@@ -8,7 +8,10 @@ import styled from '@emotion/styled';
 import { Flexbox } from '../../../commons/Flexbox';
 
 const Root = styled.div`
-  padding: 20px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  margin: 10px;
 `;
 
 const Address = styled.address`
@@ -34,7 +37,6 @@ interface Props {
 export const AddressItem = ({ address, onSelectAddress }: Props) => {
   const tAddress = useTranslations('AddressForm');
   const tCommons = useTranslations('commons');
-
   return (
     <Root>
       <Address>
@@ -60,7 +62,7 @@ export const AddressItem = ({ address, onSelectAddress }: Props) => {
           <Label>{tAddress('addressType')}</Label>
           <Value>
             {tAddress('type', {
-              select: address.type,
+              type: address.type,
             })}
           </Value>
         </Item>

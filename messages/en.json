@@ -40,7 +40,14 @@
     "workshop": "Workshops",
     "share": "Share",
     "createdAt": "Créé",
-    "download": "Download"
+    "download": "Download",
+    "quantity": "quantité",
+    "unitPrice": "Prix unitaire",
+    "total": "Total",
+    "seeMore": "Voir plus",
+    "email": "E-Mail",
+    "firstname": "Prénom",
+    "mobile": "Cell"
   },
   "AddressForm": {
     "addresses": "Adresses",
@@ -164,6 +171,12 @@
     "title": "Titre",
     "courses": "Cours"
   },
+  "Customer": {
+    "customer": "Client",
+    "customers": "Clients",
+    "createCustomer": "Créer un client",
+    "identity": "Identité"
+  },
   "Dashboard": {
     "title": "Tableau de bord",
     "orders": "Commandes",
@@ -196,11 +209,17 @@
     }
   },
   "Invoice": {
-    "invoices": "Fatures",
+    "invoices": "Factures",
     "invoice": "Facture",
     "createInvoice": "Créer une facture",
     "status": "Statut",
-    "generateInvoice": "Générate"
+    "generateInvoice": "Générate",
+    "informations": "Informations",
+    "details": "Détails",
+    "documents": "Documents",
+    "amount": "Montant",
+    "issueDate": "Date de paiement",
+    "receipt": "Récipissé"
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -297,6 +316,7 @@
     "until": "Jusqu'à",
     "duration": "Duration",
     "places": "Places left",
+    "participants": "Participants",
     "repetition": {
       "label": "Répétition",
       "addRepetition": "Ajouter une répétition",

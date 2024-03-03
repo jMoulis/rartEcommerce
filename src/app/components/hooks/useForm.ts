@@ -1,8 +1,8 @@
 import { InputsChangeEvent } from '@/src/types/types';
 import { ChangeEvent, useCallback, useState } from 'react';
 
-export const useForm = <T extends Record<string, any>>() => {
-  const [form, setForm] = useState<T>({} as any);
+export const useForm = <T extends Record<string, any>>(initialForm?: T) => {
+  const [form, setForm] = useState<T>(initialForm ?? {} as any);
 
   const onInputChange = useCallback((event: InputsChangeEvent) => {
     const { name, value, type } = event.currentTarget;

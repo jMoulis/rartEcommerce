@@ -71,6 +71,8 @@ export default function CartListItem({ item, editable }: Props) {
                   onSelectSession={() => {}}
                   onDeleteSession={handleDeleteSession}
                   key={key}
+                  showParticipant={false}
+                  showAvaialable={false}
                 />
               ))}
             </ul>

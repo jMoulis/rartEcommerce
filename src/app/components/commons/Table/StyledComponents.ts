@@ -34,5 +34,6 @@ export const Tr = styled.tr`
 
 export const Td = styled.td`
   padding: 10px;
+
 `;
 export const Tbody = styled.tbody``;
