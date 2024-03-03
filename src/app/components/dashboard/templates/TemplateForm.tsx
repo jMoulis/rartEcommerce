@@ -239,7 +239,7 @@ export const TemplateForm = ({ prevTemplate }: Props) => {
       />
       <Flexbox>
         <Content>
-          {form.sections.map((section, key) => (
+          {form.sections?.map((section, key) => (
             <Section
               section={section}
               sectionArrayIndex={key}
@@ -257,7 +257,7 @@ export const TemplateForm = ({ prevTemplate }: Props) => {
         </Content>
         <Menu
           onSelectCategory={handleSelectCategory}
-          previousSelectedCategories={form.categories}
+          previousSelectedCategories={form.categories || []}
         />
       </Flexbox>
     </div>

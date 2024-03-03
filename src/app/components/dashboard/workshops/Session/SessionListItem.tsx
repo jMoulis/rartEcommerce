@@ -10,6 +10,9 @@ import { format } from 'date-fns';
 import { IconButton } from '../../../commons/Buttons/IconButton';
 import { faTrash } from '@fortawesome/pro-light-svg-icons';
 import { toast } from 'react-toastify';
+import { useToggle } from '../../../hooks/useToggle';
+import { FullDialog } from '../../../commons/dialog/FullDialog';
+import Participants from './Participants';
 
 const Root = styled.li`
   padding: 10px;
@@ -24,21 +27,29 @@ const Root = styled.li`
 const MetaWrapper = styled.div`
   margin-right: 10px;
 `;
-const MetaLabel = styled.span``;
+const MetaLabel = styled.span`
+  font-weight: bold;
+  margin-bottom: 5px;
+`;
 const MetaValue = styled.span``;
 
 interface Props {
   session: ISession;
   onSelectSession: (session: ISession) => void;
   onDeleteSession?: (sessionId: string) => void;
+  showParticipant: boolean;
+  showAvaialable: boolean;
 }
 
 export const SessionListItem = ({
   session,
   onSelectSession,
   onDeleteSession,
+  showParticipant,
+  showAvaialable,
 }: Props) => {
   const [location, setLocation] = useState<IAddress | null>(null);
+  const { open, onOpen, onClose } = useToggle();
 
   useEffect(() => {
     let unsubscribe: Unsubscribe | null = null;
@@ -63,59 +74,95 @@ export const SessionListItem = ({
   }, [session?.locationId]);
   const t = useTranslations();
   return (
-    <Root onClick={() => onSelectSession(session)}>
-      <Flexbox>
-        <MetaWrapper>
-          <MetaLabel>{t('Session.start')}</MetaLabel>
-          <MetaValue>{format(session.start, 'dd/mm/yyyy')}</MetaValue>
-          <MetaValue>{format(session.start, 'hh:mm')}</MetaValue>
-        </MetaWrapper>
-        {session.end ? (
+    <>
+      <Root onClick={() => onSelectSession(session)}>
+        <Flexbox>
           <MetaWrapper>
-            <MetaLabel>{t('Session.end')}</MetaLabel>
-            <MetaValue>{session.end}</MetaValue>
+            <MetaLabel>{t('Session.start')}</MetaLabel>
+            <Flexbox>
+              <MetaValue>{format(session.start, 'dd/mm/yyyy')}</MetaValue>
+              <MetaValue>{format(session.start, 'hh:mm')}</MetaValue>
+            </Flexbox>
+          </MetaWrapper>
+          {session.end ? (
+            <MetaWrapper>
+              <MetaLabel>{t('Session.end')}</MetaLabel>
+              <MetaValue>{session.end}</MetaValue>
+            </MetaWrapper>
+          ) : null}
+          <MetaWrapper>
+            <MetaLabel>{t('Booking.location')}</MetaLabel>
+            <MetaValue>{location?.name}</MetaValue>
+          </MetaWrapper>
+          {showAvaialable ? (
+            <MetaWrapper>
+              <MetaLabel>{t('Session.places')}</MetaLabel>
+              <MetaValue>{session?.maxParticipants}</MetaValue>
+            </MetaWrapper>
+          ) : null}
+          {showParticipant ? (
+            <MetaWrapper>
+              <MetaLabel>{t('Session.participants')}</MetaLabel>
+              <Flexbox>
+                <MetaValue>{session?.participants?.length}</MetaValue>
+                <MetaValue
+                  style={{
+                    textDecoration: 'underline',
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onOpen();
+                  }}>
+                  {t('commons.seeMore')}
+                </MetaValue>
+              </Flexbox>
+            </MetaWrapper>
+          ) : null}
+        </Flexbox>
+        {session.repetition ? (
+          <MetaWrapper>
+            <MetaLabel>{t('Session.repetition.label')}</MetaLabel>
+            <Flexbox>
+              <MetaLabel>{t('Session.repetition.frequencyLabel')}</MetaLabel>
+              <MetaValue>
+                {t('Session.repetition.frequency', {
+                  frequency: session.repetition?.frequency?.toLocaleLowerCase(),
+                })}
+              </MetaValue>
+            </Flexbox>
+            <Flexbox>
+              <MetaLabel>{t('Session.repetition.days')}</MetaLabel>
+              <MetaValue>
+                {session.repetition?.days?.map((day, key) => (
+                  <span key={key}>
+                    {t('Session.repetition.day', {
+                      day,
+                    })}
+                  </span>
+                ))}
+              </MetaValue>
+            </Flexbox>
           </MetaWrapper>
         ) : null}
-        <MetaWrapper>
-          <MetaLabel>{t('Booking.location')}</MetaLabel>
-          <MetaValue>{location?.name}</MetaValue>
-        </MetaWrapper>
-        <MetaWrapper>
-          <MetaLabel>{t('Session.places')}</MetaLabel>
-          <MetaValue>{session?.maxParticipants}</MetaValue>
-        </MetaWrapper>
-      </Flexbox>
-      {session.repetition ? (
-        <MetaWrapper>
-          <MetaLabel>{t('Session.repetition.label')}</MetaLabel>
-          <Flexbox>
-            <MetaLabel>{t('Session.repetition.frequencyLabel')}</MetaLabel>
-            <MetaValue>
-              {t('Session.repetition.frequency', {
-                frequency: session.repetition?.frequency?.toLocaleLowerCase(),
-              })}
-            </MetaValue>
-          </Flexbox>
-          <Flexbox>
-            <MetaLabel>{t('Session.repetition.days')}</MetaLabel>
-            <MetaValue>
-              {session.repetition?.days?.map((day, key) => (
-                <span key={key}>
-                  {t('Session.repetition.day', {
-                    day,
-                  })}
-                </span>
-              ))}
-            </MetaValue>
-          </Flexbox>
-        </MetaWrapper>
-      ) : null}
-      {onDeleteSession ? (
-        <IconButton
-          onClick={() => onDeleteSession(session._id)}
-          icon={faTrash}
-        />
-      ) : null}
-    </Root>
+        {onDeleteSession ? (
+          <IconButton
+            onClick={() => onDeleteSession(session._id)}
+            icon={faTrash}
+          />
+        ) : null}
+      </Root>
+      <FullDialog
+        dialog={{
+          fullWidth: true,
+          maxWidth: 'sm',
+        }}
+        header={{
+          title: t('Session.participants'),
+        }}
+        open={open}
+        onClose={onClose}>
+        <Participants participants={session.participants} />
+      </FullDialog>
+    </>
   );
 };

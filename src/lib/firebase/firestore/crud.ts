@@ -174,6 +174,7 @@ export const onAdminCreateAccount = async (email: string, password: string, cont
       password
     });
     const profileRef = adminDB.collection(ENUM_COLLECTIONS.PROFILES);
+    const customerRef = adminDB.collection(ENUM_COLLECTIONS.CUSTOMERS);
     const profile: UserProfile = {
       email,
       firstname: contact.firstname,
@@ -184,7 +185,8 @@ export const onAdminCreateAccount = async (email: string, password: string, cont
       avatar: ''
     };
     const createdProfile = await profileRef.add(profile);
-    return createdProfile.id;
+    const customer = await customerRef.add({ ...profile, profileId: createdProfile.id });
+    return customer.id;
   } catch (error: any) {
     throw new Error(error.message);
   }

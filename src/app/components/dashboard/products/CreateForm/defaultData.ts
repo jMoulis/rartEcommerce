@@ -1,5 +1,6 @@
+import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 import { DEFAULT_CURRENCY } from '@/src/lib/constants';
-import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate } from '@/src/types/DBTypes';
+import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate, ICustomer } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 
 export const defaultElement = (): IElement => {
@@ -63,6 +64,19 @@ export const generateDefaultBooking: () => IWorkshop = () => {
     pusblished: false,
     paymentPreference: 'online',
     type: 'workshop'
+  });
+};
+export const generateDefaultCustomer: () => ICustomer = () => {
+  return ({
+    firstname: '',
+    lastname: '',
+    email: '',
+    roles: [ENUM_ROLES.VISITOR],
+    sections: [],
+    addresses: [],
+    verified: false,
+    invoices: [],
+    categories: []
   });
 };
 export const buildDefaultTemplate: (t: any) => ITemplate = (t) => {

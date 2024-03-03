@@ -12,27 +12,21 @@ import { useFirestoreProfile } from '@/src/app/contexts/auth/hooks/useFirestoreP
 import styled from '@emotion/styled';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
 
-const Root = styled.main`
-  border: 1px solid var(--card-header-border-color);
-  border-radius: 5px;
-  margin: 20px;
-`;
+const Root = styled.main``;
 const List = styled.ul``;
 
 const Header = styled.header`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px 20px;
-  border-bottom: 1px solid var(--card-header-border-color);
+  justify-content: flex-end;
 `;
 const Content = styled.div``;
 
 interface Props {
   prevAddresses: IAddress[];
+  onUpdate: (updatedAddresses: IAddress[]) => void;
 }
 
-export const AddressForm = ({ prevAddresses }: Props) => {
+export const AddressForm = ({ prevAddresses, onUpdate }: Props) => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null);
   const { onUpdateAddress } = useFirestoreProfile();
@@ -60,11 +54,7 @@ export const AddressForm = ({ prevAddresses }: Props) => {
         updatedAddresses = [...updatedAddresses, newAddress];
       }
       setAddresses(updatedAddresses);
-
-      await onUpdateAddress(
-        { addresses: updatedAddresses },
-        ENUM_COLLECTIONS.PROFILES
-      );
+      onUpdate(updatedAddresses);
 
       handleCloseDialog();
     },
@@ -92,7 +82,6 @@ export const AddressForm = ({ prevAddresses }: Props) => {
   return (
     <Root>
       <Header>
-        <h1>{t('AddressForm.addresses')}</h1>
         <Button type='button' onClick={onOpen}>
           {t('commons.add')}
         </Button>

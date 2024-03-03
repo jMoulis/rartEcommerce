@@ -6,6 +6,7 @@ const ROOT = 'dashboard';
 export enum ENUM_DASHBOARD_MENU_ROUTES {
   WORKSHOPS = `/${ROOT}/workshops`,
   WORKSHOPS_CREATE = `/${ROOT}/workshops/create`,
+  CUSTOMER_CREATE = `/${ROOT}/workshops/create`,
 }
 
 export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigationRoute[] }> => [{

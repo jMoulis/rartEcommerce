@@ -268,7 +268,7 @@ export interface IAddress {
 
 export interface UserProfile {
   _id?: string;
-  avatar: string;
+  avatar?: string;
   createdAt?: Timestamp;
   email: string;
   lastConnexion?: Timestamp;
@@ -279,8 +279,14 @@ export interface UserProfile {
   token?: string | null;
   verified: boolean;
   verificationDate?: Timestamp;
+  mobile?: string;
 }
-
+export interface ICustomer extends UserProfile {
+  profileId?: string;
+  invoices: string[];
+  sections: ISection[];
+  categories?: string[]
+}
 export interface IRepetition {
   occurrencesJsonUrl?: string;
   frequency?: Frequency;
@@ -301,6 +307,7 @@ export interface IOccurence {
   available: boolean;
   sessionId: string;
 }
+export interface ISessionParticipant { customerId?: string, email: string, name: string, phoneNumber?: string }
 export interface ISession {
   _id: string; // client generated
   start: string;
@@ -310,7 +317,7 @@ export interface ISession {
   calenderId?: string;
   locationId?: string | null; // Location refId
   repetition: IRepetition | null;
-  participants: Array<{ email: string, firstname: string, lastname: string, phoneNumber?: string }>;
+  participants: ISessionParticipant[];
 }
 
 export interface ISubscription {

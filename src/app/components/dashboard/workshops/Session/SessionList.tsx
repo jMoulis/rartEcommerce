@@ -15,6 +15,8 @@ export const SessionList = ({ sessions, onSelectSession }: Props) => {
           key={key}
           session={session}
           onSelectSession={onSelectSession}
+          showParticipant
+          showAvaialable
         />
       ))}
     </ul>

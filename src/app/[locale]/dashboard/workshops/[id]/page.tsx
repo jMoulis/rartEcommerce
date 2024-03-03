@@ -6,7 +6,6 @@ import { notFound } from 'next/navigation';
 
 export default async function WorkshopDetailPage({ params }: any) {
   const payload = await getDocument(params.id, ENUM_COLLECTIONS.WORKSHOPS);
-
   if (payload.error) notFound();
   return <WorkshopForm prevWorkshop={payload.data as IWorkshop} />;
 }

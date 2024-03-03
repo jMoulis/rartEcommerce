@@ -30,6 +30,7 @@ const QRCode = ({ value }: Props) => {
           size={256}
           style={{ height: '100px', width: '100px', marginBottom: '20px' }}
           value={value}
+          level='H'
         />
         <Button onClick={handleDownload}>{t('commons.download')}</Button>
       </Flexbox>

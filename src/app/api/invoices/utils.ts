@@ -17,7 +17,7 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
     const updatedDoc = await invoiceCounterRef.get();
     const updatedCount = updatedDoc.data()?.count ?? 1;
 
-    const invoiceId = `F_${new Date().getFullYear()}-${updatedCount}`;
+    const invoiceId = `F-${new Date().getFullYear()}-${updatedCount}`;
     const invoiceConnexionId = v4(); //  temp password to access invoices
     const date = new Date().toISOString();
 
@@ -26,15 +26,15 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
     if (order?.customerId) {
       customerId = order.customerId;
     } else {
-      const newCustomer = await onAdminCreateAccount(order.customerInformations.email, invoiceConnexionId, order.customerInformations)
+      const newCustomerAuth = await onAdminCreateAccount(order.customerInformations.email, invoiceConnexionId, order.customerInformations)
         .catch((error: any) => {
           // eslint-disable-next-line no-console
           console.error(`Error while creating new customer: ${error.message}`);
           return null;
         });
 
-      if (newCustomer) {
-        customerId = newCustomer;
+      if (newCustomerAuth) {
+        customerId = newCustomerAuth;
       } else {
         customerId = order.customerInformations.email;
       }
@@ -61,7 +61,11 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
     };
 
     const invoice = await onAdminCreateDocument(invoiceInput, ENUM_COLLECTIONS.INVOICES);
+    const customerRef = adminDB.collection(ENUM_COLLECTIONS.CUSTOMERS).doc(customerId);
 
+    customerRef.update({
+      invoices: FieldValue.arrayUnion(invoice.data?._id)
+    });
     const pdf = await generatePDFInvoice({ ...invoiceInput, _id: invoice.data?._id });
 
     if (!invoice) {

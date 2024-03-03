@@ -274,7 +274,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
             onSelectCategory={handleSelectCategory}
             previousSelectedCategories={form.categories ?? []}
           />
-          {prevWorkshop?._id ? (
+          {prevWorkshop?._id && typeof window !== 'undefined' ? (
             <QRCode
               value={`${window.location.origin}/${ENUM_ROUTES.WORKSHOPS}${prevWorkshop._id}`}
             />

@@ -4,5 +4,5 @@ import { findAll } from '@/src/lib/firebase/firestore/crud';
 
 export default async function BillingPage() {
   const invoices: any = await findAll(ENUM_COLLECTIONS.INVOICES);
-  return <Invoices initialInvoices={invoices} />;
+  return <Invoices initialInvoices={invoices} shouldSubscribe />;
 }

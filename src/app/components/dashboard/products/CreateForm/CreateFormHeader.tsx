@@ -10,7 +10,12 @@ import styled from '@emotion/styled';
 import { SubmitButton } from './SubmitButton';
 import { useTranslations } from 'next-intl';
 import { Menu } from '@mui/material';
-import { IWorkshop, IProductService } from '@/src/types/DBTypes';
+import {
+  IWorkshop,
+  IProductService,
+  IInvoice,
+  UserProfile,
+} from '@/src/types/DBTypes';
 import {
   faArchive,
   faEllipsisV,
@@ -81,20 +86,21 @@ const Header = styled.header`
 `;
 
 interface Props {
-  saving: boolean;
-  onSubmit: VoidFunction;
+  saving?: boolean;
+  onSubmit?: VoidFunction;
   onAddSection?: VoidFunction;
-  form: IProductService | IWorkshop;
-  onDelete: (itemId?: string) => void;
+  form: IProductService | IWorkshop | IInvoice | UserProfile;
+  onDelete?: (itemId?: string) => void;
   onArchive?: (itemId?: string) => void;
   onPublish?: (
     event: ChangeEvent<HTMLInputElement>,
     productId?: string
   ) => void;
-  onNameChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onNameChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   backgroundImage?: IImageType;
   headerTitle: string;
   onDeleteCategory?: (categoryId: string) => void;
+  InputHeader?: React.ReactNode;
 }
 
 export const CreateFormHeader = ({
@@ -109,6 +115,7 @@ export const CreateFormHeader = ({
   backgroundImage,
   headerTitle,
   onDeleteCategory,
+  InputHeader,
 }: Props) => {
   const t = useTranslations('ProductForm');
   const tCommons = useTranslations('commons');
@@ -129,9 +136,9 @@ export const CreateFormHeader = ({
     setAnchorEl(null);
   };
 
-  const handleSelectMenu = (callback: (props: any) => void) => {
+  const handleSelectMenu = (callback?: (props: any) => void) => {
     setAnchorEl(null);
-    callback(form._id);
+    callback?.(form._id);
   };
 
   const actions: IAction[] = useMemo(
@@ -161,7 +168,7 @@ export const CreateFormHeader = ({
             toolbar.style.left = isMobileDevice ? '0' : '200px';
             toolbar.style.zIndex = '300';
             toolbar.style.backgroundColor = '#fff';
-            toolbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)'; // Discreet box shadow
+            toolbar.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)'; // Discreat box shadow
           } else {
             toolbar.style.position = 'relative';
             toolbar.style.top = '';
@@ -190,23 +197,29 @@ export const CreateFormHeader = ({
       }
     };
   }, []);
+
   return (
     <>
       <TopHeader ref={headerRef}>
         <BackgroundImage backgroundImage={backgroundImage?.url} />
         <HeaderMenu>
-          <ArticleInput
-            name='name'
-            value={form.name || ''}
-            onChange={onNameChange}
-          />
+          {InputHeader ?? (
+            <ArticleInput
+              name='name'
+              value={(form as any).name || ''}
+              disabled={!onNameChange}
+              onChange={onNameChange}
+            />
+          )}
           <Header ref={toolbarRef}>
             <Flexbox alignItems='center'>
-              <SubmitButton
-                disabled={saving || (form as any).isArchived}
-                saving={saving}
-                onClick={onSubmit}
-              />
+              {onSubmit ? (
+                <SubmitButton
+                  disabled={saving ?? (form as any).isArchived}
+                  saving={saving}
+                  onClick={onSubmit}
+                />
+              ) : null}
               {onPublish ? (
                 <SwitchGroup
                   id='published'
@@ -230,7 +243,7 @@ export const CreateFormHeader = ({
                   style={{
                     whiteSpace: 'nowrap',
                   }}
-                  disabled={saving || (form as any).isArchived}
+                  disabled={saving ?? (form as any).isArchived}
                   onClick={onAddSection}>
                   {t('addSection')}
                 </Button>
@@ -261,7 +274,9 @@ export const CreateFormHeader = ({
           className='button-icon'
           actions={actions}
           headerTitle={headerTitle}>
-          <p>{t('deleteProductMessage.title', { product: form.name })}</p>
+          <p>
+            {t('deleteProductMessage.title', { product: (form as any).name })}
+          </p>
           <p>{t('deleteProductMessage.explanation')}</p>
         </DeleteConfirmation>
       </Menu>

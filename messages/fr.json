@@ -41,7 +41,14 @@
     "workshop": "Ateliers",
     "share": "Partager",
     "createdAt": "Créé",
-    "download": "Télécharger"
+    "download": "Télécharger",
+    "quantity": "quantité",
+    "unitPrice": "Prix unitaire",
+    "total": "Total",
+    "seeMore": "Voir plus",
+    "email": "E-Mail",
+    "firstname": "Prénom",
+    "mobile": "Mobile"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -51,7 +58,7 @@
     "country": "Pays",
     "default": "Défault",
     "addressType": "Type d'adresse",
-    "type": "{type, select, shipping {Livraison} billing {Facturation} other {Inconnu}}",
+    "type": "{type, select, shipping {Livraison} billing {Facturation} other {Unknown}}",
     "shipping": "Livraison",
     "billing": "Facturation",
     "postalCode": "Code postal",
@@ -166,6 +173,12 @@
     "title": "Titre",
     "courses": "Cours"
   },
+  "Customer": {
+    "createCustomer": "Créer un client",
+    "customer": "Client",
+    "customers": "Clients",
+    "identity": "Identité"
+  },
   "Dashboard": {
     "title": "Tableau de bord",
     "orders": "Commandes",
@@ -202,7 +215,13 @@
     "invoice": "Facture",
     "createInvoice": "Créer une facture",
     "status": "Statut",
-    "generateInvoice": "Générer"
+    "generateInvoice": "Générer",
+    "informations": "Informations",
+    "details": "Détails",
+    "documents": "Documents",
+    "amount": "Montant",
+    "issueDate": "Date de paiement",
+    "receipt": "Récipissé"
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -299,6 +318,7 @@
     "until": "Jusqu'à",
     "duration": "Duration",
     "places": "Places disponibles",
+    "participants": "Participants",
     "repetition": {
       "label": "Répétition",
       "addRepetition": "Ajouter une répétition",
