@@ -31,7 +31,7 @@ const Root = styled.header<{ isScrolled: boolean }>`
   top: 0;
   right: 0;
   z-index: 300;
-  padding: 20px 20px;
+  padding: 10px;
   padding-right: 30px;
   @media (max-width: 768px) {
     padding: 20px;

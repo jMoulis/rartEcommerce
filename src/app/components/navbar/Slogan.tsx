@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 const Root = styled.h3`
   color: #fff;
   padding-bottom: 5px;
+  margin-left: 10px;
 `;
 
 const Slogan = () => {

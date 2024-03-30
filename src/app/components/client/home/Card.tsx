@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+// import { useTranslations } from 'next-intl';
 import { Flexbox } from '../../commons/Flexbox';
 
 const Root = styled.li<{ boxShadow: string }>`
@@ -43,6 +43,14 @@ const ImageContent = styled.div`
   position: relative;
   height: 250px;
   margin-bottom: 5px;
+  overflow: hidden;
+  border-radius: 5px 5px 0 0;
+  &:hover {
+    img {
+      transition: transform ease 1s;
+      transform: scale(1.3);
+    }
+  }
   @media (max-width: 768px) {
     width: 100%;
     height: 150px;
@@ -66,11 +74,11 @@ const Description = styled(Text)`
     display: none;
   }
 `;
-const PriceLabel = styled(Text)`
-  font-weight: 400;
-  margin-bottom: 0;
-  margin-right: 10px;
-`;
+// const PriceLabel = styled(Text)`
+//   font-weight: 400;
+//   margin-bottom: 0;
+//   margin-right: 10px;
+// `;
 const Price = styled(Text)`
   font-weight: 700;
   margin-bottom: 0;
@@ -122,7 +130,7 @@ export const Card = ({
   children,
   boxShadow,
 }: Props) => {
-  const t = useTranslations();
+  // const t = useTranslations();
 
   return (
     <Root boxShadow={boxShadow}>
@@ -159,7 +167,7 @@ export const Card = ({
       </CustomLink>
       <Footer>
         <Flexbox>
-          <PriceLabel>{t('commons.price')}</PriceLabel>
+          {/* <PriceLabel>{t('commons.price')}</PriceLabel> */}
           <Price>{price}€</Price>
         </Flexbox>
         {children}

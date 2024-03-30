@@ -10,22 +10,23 @@ export const ButtonLink = styled(Link, {
   shouldForwardProp: (props) =>
     propsToForward(props, ['backgroundColor', 'hoverBackgroundColor']),
 })<ButtonLinkProps>`
-  padding: 5px 15px;
-  border-radius: var(--default-button-radius);
+  padding: 0px;
   width: fit-content;
-  background-color: ${({ backgroundColor }) =>
-    backgroundColor ?? 'var(--primary-color)'};
   display: flex;
   cursor: pointer;
   font-size: 16px;
-  color: #fff;
+  border-bottom: 1px solid transparent;
+  color: ${({ backgroundColor }) => backgroundColor ?? 'var(--primary-color)'};
   align-items: center;
-  transition: background-color 150ms ease;
+  transition: all 150ms ease;
   margin: 0 5px;
-  color: #fff;
   &:hover {
-    background-color: ${({ hoverBackgroundColor }) =>
-      hoverBackgroundColor ?? 'var(--primary-accent)'};
+    border-bottom: 1px solid
+      ${({ backgroundColor }) => backgroundColor ?? 'var(--primary-color)'};
+  }
+  & * {
+    color: ${({ backgroundColor }) =>
+      backgroundColor ?? 'var(--primary-color)'};
   }
   &:disabled {
     background-color: rgba(0, 0, 0, 0.3);

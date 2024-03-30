@@ -9,10 +9,14 @@ const Root = styled(Flexbox)`
   display: flex;
   justify-content: center;
   margin-top: 10px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 const CustomLink = styled(Link)`
   margin: 0 5px;
   font-weight: bold;
+  color: #fff;
   &:hover {
     text-decoration: underline;
   }
@@ -21,6 +25,7 @@ const CustomLink = styled(Link)`
   }
 `;
 const CopyRight = styled.span`
+  color: #fff;
   @media (max-width: 768px) {
     font-size: 10px;
   }

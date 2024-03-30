@@ -35,8 +35,8 @@ export default function LocaleSwitcher() {
         <Image
           alt={'cur'}
           src={`/images/locales/${locale}.png`}
-          height={25}
-          width={25}
+          height={30}
+          width={30}
         />
       </Button>
       <Menu open={open} anchorEl={anchorEl} onClose={onCloseModal}>
