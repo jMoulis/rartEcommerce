@@ -5,7 +5,7 @@ import { Footer } from '../../../Footer/Footer';
 import { CSSProperties, ReactNode } from 'react';
 
 const Root = styled.main`
-  height: 100vh;
+  min-height: 100%;
   overflow: auto;
   display: flex;
   flex-direction: column;

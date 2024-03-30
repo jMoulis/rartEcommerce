@@ -15,6 +15,16 @@ import { ENUM_ROUTES } from '../../navbar/routes.enums';
 import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
+import styled from '@emotion/styled';
+
+const CustomSection = styled(Section)`
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 768px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+`;
 
 interface Props {
   initialProducts: IProductService[];
@@ -55,11 +65,7 @@ export default function SectionProducts({ initialProducts }: Props) {
   }, []);
   return (
     <>
-      <Section
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}>
+      <CustomSection>
         <Subtitle
           style={{
             color: 'var(--primary-color)',
@@ -89,7 +95,7 @@ export default function SectionProducts({ initialProducts }: Props) {
             </Card>
           ))}
         </Grid>
-      </Section>
+      </CustomSection>
     </>
   );
 }
