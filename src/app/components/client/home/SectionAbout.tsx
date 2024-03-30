@@ -9,6 +9,7 @@ import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/pro-light-svg-icons';
+import { CallToAction } from '../../commons/Buttons/CallToAction';
 
 const CustomSection = styled(Section)`
   display: flex;
@@ -96,14 +97,24 @@ export default function SectionAbout() {
             />
           </ImageWrapper>
         </Content>
-        <ButtonLink
+        <CallToAction
+          active={false}
+          backgroundColor='var(--primary-color)'
+          hoverBackgroundColor='var(--primary-accent)'
+          icon={faEnvelope}
+          route={{
+            label: t('Contact.title'),
+            href: ENUM_ROUTES.CONTACT,
+          }}
+        />
+        {/* <CallToAction
           style={{
             padding: '10px 20px',
           }}
           href={ENUM_ROUTES.CONTACT}>
           <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '10px' }} />
           {t('Contact.title')}
-        </ButtonLink>
+        </CallToAction> */}
       </CustomSection>
     </>
   );

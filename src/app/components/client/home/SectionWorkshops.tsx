@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
 
 const CustomSection = styled(Section)`
-  background-color: #fff4f8;
+  background-color: rgba(255, 229, 239, 0.3);
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: unset;

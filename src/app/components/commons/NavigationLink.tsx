@@ -2,6 +2,8 @@ import React from 'react';
 import { INavigationRoute } from '../navbar/types';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const Root = styled(Link)<{ activelink: string }>`
   display: flex;
@@ -29,14 +31,23 @@ interface Props {
   route: INavigationRoute;
   className?: string;
   active: boolean;
+  icon?: IconProp;
 }
 
-export const NavigationLink = ({ route, className, active }: Props) => {
+export const NavigationLink = ({ route, className, active, icon }: Props) => {
   return (
     <Root
       activelink={active.toString()}
       href={route.href}
       className={className}>
+      {icon ? (
+        <FontAwesomeIcon
+          style={{
+            marginRight: '10px',
+          }}
+          icon={icon}
+        />
+      ) : null}
       {route.label}
     </Root>
   );

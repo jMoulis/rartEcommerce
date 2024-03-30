@@ -26,13 +26,12 @@ const ImageContent = styled(Flexbox)`
   }
 `;
 const TitleWrapper = styled(Flexbox)`
-  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(23.75px);
   width: 749px;
   align-items: center;
   flex-direction: column;
   padding: 30px;
-  border-radius: 5px;
+  border-radius: 20px;
   margin-bottom: 40px;
   flex-wrap: wrap;
   @media (max-width: 768px) {

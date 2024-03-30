@@ -84,7 +84,6 @@ export default function SectionProducts({ initialProducts }: Props) {
               description={product.description}
               id={product._id!}
               hrefRoot='products'>
-              {/* <AddToCart item={product} /> */}
               <ButtonLink href={`${ENUM_ROUTES.PRODUCTS}/${product._id}`}>
                 {t('commons.detailedInformation')}
                 <FontAwesomeIcon

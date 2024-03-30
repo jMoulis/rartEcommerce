@@ -11,7 +11,7 @@ import { Subtitle } from '../commons/typography/Subtitle';
 import { useTranslations } from 'next-intl';
 
 const CustomSection = styled(Section)`
-  background-color: #ffe5ef;
+  /* background-color: #ffe5ef; */
   display: flex;
   min-height: 400px;
   flex-direction: column;
@@ -25,10 +25,24 @@ const TestimonialWrapper = styled(Flexbox)`
   overflow: auto;
   overflow-y: hidden;
   margin-top: 20px;
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgb(251, 62, 135, 0.2);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--secondary-color); /* Darker grey for the handle */
+    border-radius: 10px; /* Rounded corners for the handle */
+  }
+  /* This styles the scrollbar itself (width, etc.) */
+  ::-webkit-scrollbar {
+    border-radius: 10px;
+    height: 5px; /* Height of the horizontal scrollbar */
+  }
 `;
 
 const Testimonial = styled(Flexbox)`
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 229, 239, 0.3);
   width: 300px;
   min-width: 300px;
   margin: 10px;
@@ -41,7 +55,7 @@ const Testimonial = styled(Flexbox)`
 `;
 
 const Text = styled.p`
-  color: #fb3e87;
+  color: var(--secondary-color);
   font-size: 20px;
   line-height: 27px;
   @media (max-width: 768px) {
@@ -98,7 +112,7 @@ export default function SectionTestimonial() {
           behavior: 'smooth',
         });
       }
-    }, 3000); // Adjust time as needed
+    }, 10000); // Adjust time as needed
 
     // Cleanup on component unmount
     return () => clearInterval(interval);
@@ -108,16 +122,16 @@ export default function SectionTestimonial() {
     <CustomSection>
       <Subtitle
         style={{
-          color: '#fb3e87',
+          color: 'var(--secondary-color)',
           textAlign: 'center',
         }}>
         {t('Home.testimonials')}
       </Subtitle>
-      {loading === 'LOADING' ? <span>Loading...</span> : null}
+      {loading === 'LOADING' ? <span>Chargement...</span> : null}
       <TestimonialWrapper ref={scrollRef}>
         {testimonials.map((testimonial, index) => (
           <Testimonial key={index} flexDirection='column'>
-            <Text className={madre.className}>{testimonial.text}</Text>
+            <Text className={madre.className}>{`"${testimonial.text}"`}</Text>
             <Flexbox justifyContent='flex-end'>
               <Text
                 className={madre.className}

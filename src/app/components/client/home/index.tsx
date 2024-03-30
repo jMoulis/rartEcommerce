@@ -12,6 +12,7 @@ import { Flexbox } from '../../commons/Flexbox';
 import { CallToAction } from '../../commons/Buttons/CallToAction';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
 import { useTranslations } from 'next-intl';
+import SectionParalax from './SectionParalax';
 
 const CallToActionWrapper = styled(Flexbox)`
   margin: 30px;
@@ -62,6 +63,10 @@ export default function Home({ initialProducts, initWorkshops }: Props) {
       </SectionHeader>
       <SectionProducts initialProducts={initialProducts} />
       <SectionServices initWorkshops={initWorkshops} />
+      <SectionParalax
+        text='Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la'
+        image='/images/home/background.jpeg'
+      />
       <SectionAbout />
       {/* <SectionContact /> */}
       <SectionTestimonial />

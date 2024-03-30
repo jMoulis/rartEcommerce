@@ -12,16 +12,23 @@ const ListItem = styled.li`
 `;
 
 const Link = styled.a`
-  background-color: #000;
+  background-color: #cce5ff;
   height: 35px;
   width: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  transition: background-color 150ms ease;
   & * {
-    color: #fff;
+    color: var(--primary-color);
     font-size: 20px;
+  }
+  &:hover {
+    & * {
+      color: #cce5ff;
+    }
+    background-color: var(--primary-color);
   }
 `;
 

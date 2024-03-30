@@ -17,21 +17,20 @@ const Root = styled.footer`
     padding: 20px;
   }
 `;
-interface Props {}
 
-export const Footer = (props: Props) => {
+export const Footer = () => {
   return (
     <Root>
       <Flexbox flex='1' alignItems='center' justifyContent='space-between'>
         <Logo
           size={{
-            width: '70px',
-            height: '70px',
+            width: '35px',
+            height: '35px',
           }}
         />
+        <Legals />
         <SocialNetworks />
       </Flexbox>
-      <Legals />
     </Root>
   );
 };
