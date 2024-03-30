@@ -81,7 +81,12 @@ export default function SectionHeader({
         </BackgroundImageWrapper>
         <ContentWrapper flexDirection='column'>
           <ImageContent>
-            <Image fill alt='Logo' src={logo} />
+            <Image
+              fill
+              alt='Logo'
+              src={logo}
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+            />
           </ImageContent>
           <TitleWrapper>
             <Title

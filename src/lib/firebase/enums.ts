@@ -11,5 +11,6 @@ export enum ENUM_COLLECTIONS {
   ORDERS = 'orders',
   BOOKINGS = 'bookings',
   INVOICESIDS = 'invoicesIds',
-  CUSTOMERS = 'customers'
+  CUSTOMERS = 'customers',
+  TESTIMONIALS = 'testimonials'
 }

@@ -38,7 +38,7 @@ export const Logo = ({ size }: Props) => {
     <CustomLink href={ENUM_ROUTES.HOME} size={size}>
       <Image
         src='/images/logo.png'
-        sizes='100px'
+        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
         alt='Rart-creation'
         fill
         style={{

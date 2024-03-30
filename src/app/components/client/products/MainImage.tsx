@@ -21,9 +21,9 @@ export const MainImage = ({ image }: Props) => {
         <Image
           fill
           priority
-          sizes='1000px'
           alt={image.name}
           src={image.url}
+          sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           style={{
             borderRadius: '8px',
             objectFit: 'cover',

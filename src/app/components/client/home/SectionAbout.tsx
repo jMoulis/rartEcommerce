@@ -87,7 +87,7 @@ export default function SectionAbout() {
               alt='Rachel'
               src='/images/home/rach.png'
               fill
-              sizes='(max-width: 768px) 100vw'
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
               style={{
                 borderRadius: '5px',
                 objectFit: 'cover',
