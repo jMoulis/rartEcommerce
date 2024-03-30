@@ -7,9 +7,9 @@ export const Grid = styled.ul`
   @media (max-width: 768px) {
     display: flex;
     overflow: auto;
-    width: 95vw;
+    max-width: 97vw;
     margin-top: 30px;
-    padding: 0 10px;
+    padding: 10px;
     gap: 15px;
   }
 `;

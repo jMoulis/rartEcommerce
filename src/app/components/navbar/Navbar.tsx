@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import LocaleSwitcher from './LocaleSwitcher';
 import styled from '@emotion/styled';
 import { ProfileMenu } from './ProfileMenu/ProfileMenu';
@@ -19,6 +19,7 @@ import ResponsiveMenu from './ResponsiveMenu/ResponsiveMenu';
 // import GlobalSearch from './GlobalSearch';
 
 const Root = styled.header<{ isScrolled: boolean }>`
+  position: sticky;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,9 +79,10 @@ export const Navbar = () => {
   const t = useTranslations();
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const headerRef = useRef<HTMLHeadElement>(null);
 
-  const handleScroll = (event: any) => {
-    if (event.currentTarget.scrollTop > 0) {
+  const handleScroll = () => {
+    if (window.scrollY > (headerRef?.current as any)?.offsetTop) {
       setIsScrolled(true);
     } else {
       setIsScrolled(false);
@@ -88,21 +90,16 @@ export const Navbar = () => {
   };
 
   useEffect(() => {
-    const mainPage = document.getElementById('page-layout');
-    if (mainPage) {
-      mainPage.addEventListener('scroll', handleScroll);
-    }
+    window.addEventListener('scroll', handleScroll);
     return () => {
-      if (mainPage) {
-        mainPage.removeEventListener('scroll', handleScroll);
-      }
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [pathname]);
 
   const locale = useLocale();
 
   return (
-    <Root isScrolled={isScrolled}>
+    <Root ref={headerRef} isScrolled={isScrolled}>
       <ResponsiveMenu>
         <LogoSloganWrapper alignItems='flex-end'>
           <Logo />
