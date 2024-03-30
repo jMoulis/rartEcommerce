@@ -2,35 +2,50 @@ import React from 'react';
 import Image from 'next/image';
 import styled from '@emotion/styled';
 import Link from 'next/link';
-const Root = styled.div``;
+import { useTranslations } from 'next-intl';
+import { Flexbox } from '../../commons/Flexbox';
+
+const Root = styled.li<{ boxShadow: string }>`
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  min-width: 250px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 5px;
+  box-shadow: ${({ boxShadow }) => `0 0 10px ${boxShadow}`};
+  transition: box-shadow 0.3s;
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+`;
+const TextWrapper = styled.div`
+  label: TextWrapper;
+  padding: 5px;
+`;
 
 const CustomLink = styled(Link)`
   label: Root;
-  max-width: 200px;
+  flex: 1;
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 200px;
-  min-width: 200px;
-  margin: 0 20px;
   cursor: pointer;
   @media (max-width: 768px) {
-    width: 100%;
+    /* width: 100%;
     min-width: 100%;
     height: 300px;
     margin: 30px 0;
-    flex: 1;
+    flex: 1; */
   }
 `;
 const ImageContent = styled.div`
   label: ImageContent;
   position: relative;
-  height: 150px;
+  height: 250px;
   margin-bottom: 5px;
-  min-height: 150px;
   @media (max-width: 768px) {
     width: 100%;
-    height: 250px;
+    height: 150px;
     margin-bottom: 15px;
   }
 `;
@@ -42,15 +57,45 @@ const Text = styled.p`
   white-space: normal;
   -webkit-box-orient: vertical;
   line-height: 18px;
+  text-align: justify;
+  font-size: var(--default-font-size);
+  margin-bottom: 10px;
+`;
+const Description = styled(Text)`
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+const PriceLabel = styled(Text)`
+  font-weight: 400;
+  margin-bottom: 0;
+  margin-right: 10px;
 `;
 const Price = styled(Text)`
   font-weight: 700;
+  margin-bottom: 0;
 `;
+const Footer = styled.footer`
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  display: flex;
+  @media (max-width: 768px) {
+    padding: 5px;
+    flex-direction: column;
+    align-items: unset;
+  }
+`;
+
 const Title = styled.h2`
   color: var(--white);
+  font-size: 24px;
   font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 20px;
   @media (max-width: 768px) {
     margin-bottom: 10px;
+    margin-top: 0;
   }
 `;
 
@@ -63,6 +108,7 @@ interface Props {
   id: string;
   hrefRoot: string;
   children: React.ReactNode;
+  boxShadow: string;
 }
 
 export const Card = ({
@@ -74,9 +120,12 @@ export const Card = ({
   id,
   hrefRoot,
   children,
+  boxShadow,
 }: Props) => {
+  const t = useTranslations();
+
   return (
-    <Root>
+    <Root boxShadow={boxShadow}>
       <CustomLink href={`/${hrefRoot}/${id}`}>
         <ImageContent>
           <Image
@@ -84,28 +133,36 @@ export const Card = ({
             style={{
               objectFit: 'cover',
               objectPosition: 'center',
-              borderRadius: '10px',
+              borderRadius: '5px 5px 0 0',
             }}
-            sizes='500px'
             alt={title}
             src={src ?? ''}
           />
         </ImageContent>
-        <Title
-          style={{
-            color: textColor,
-          }}>
-          {title}
-        </Title>
-        <Text
-          style={{
-            flex: 1,
-          }}>
-          {description}
-        </Text>
-        <Price>{price}€</Price>
+        <TextWrapper>
+          <Title
+            style={{
+              color: textColor,
+              marginBottom: '10px',
+              marginTop: '0',
+            }}>
+            {title}
+          </Title>
+          <Description
+            style={{
+              flex: 1,
+            }}>
+            {description}
+          </Description>
+        </TextWrapper>
       </CustomLink>
-      {children}
+      <Footer>
+        <Flexbox>
+          <PriceLabel>{t('commons.price')}</PriceLabel>
+          <Price>{price}€</Price>
+        </Flexbox>
+        {children}
+      </Footer>
     </Root>
   );
 };

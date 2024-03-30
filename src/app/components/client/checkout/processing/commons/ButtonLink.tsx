@@ -1,11 +1,20 @@
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import { propsToForward } from '@/src/lib/utils/main';
 
-export const ButtonLink = styled(Link)`
+interface ButtonLinkProps {
+  hoverBackgroundColor?: string;
+  backgroundColor?: string;
+}
+export const ButtonLink = styled(Link, {
+  shouldForwardProp: (props) =>
+    propsToForward(props, ['backgroundColor', 'hoverBackgroundColor']),
+})<ButtonLinkProps>`
   padding: 5px 15px;
-  border-radius: 18px;
+  border-radius: var(--default-button-radius);
   width: fit-content;
-  background-color: var(--primary-color);
+  background-color: ${({ backgroundColor }) =>
+    backgroundColor ?? 'var(--primary-color)'};
   display: flex;
   cursor: pointer;
   font-size: 16px;
@@ -15,7 +24,8 @@ export const ButtonLink = styled(Link)`
   margin: 0 5px;
   color: #fff;
   &:hover {
-    background-color: #4eb7f5;
+    background-color: ${({ hoverBackgroundColor }) =>
+      hoverBackgroundColor ?? 'var(--primary-accent)'};
   }
   &:disabled {
     background-color: rgba(0, 0, 0, 0.3);
@@ -23,6 +33,12 @@ export const ButtonLink = styled(Link)`
     cursor: not-allowed;
   }
   white-space: nowrap;
+  @media (max-width: 768px) {
+    margin: 10px 0;
+    width: unset;
+    justify-content: center;
+    padding: 10px 20px;
+  }
 `;
 export const ButtonAnchorLink = styled.a`
   padding: 5px 15px;

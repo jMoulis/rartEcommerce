@@ -4,10 +4,9 @@ import { Section } from '../commons/layout/Section';
 import { Title } from '../commons/typography/Title';
 import Image from 'next/image';
 import { Flexbox } from '../../commons/Flexbox';
-import { NavigationLink } from '../../commons/NavigationLink';
-import { ENUM_ROUTES } from '../../navbar/routes.enums';
-import { useTranslations } from 'next-intl';
 import styled from '@emotion/styled';
+import logo from './logoR.svg';
+import { ReactNode } from 'react';
 
 const BackgroundImageWrapper = styled.div`
   position: absolute;
@@ -15,81 +14,93 @@ const BackgroundImageWrapper = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  filter: contrast(0.5);
+`;
+
+const ImageContent = styled(Flexbox)`
+  position: relative;
+  height: 70px;
+  width: 70px;
+  margin-bottom: 50px;
+  @media (max-width: 768px) {
+    margin-bottom: 30px;
+  }
+`;
+const TitleWrapper = styled(Flexbox)`
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(23.75px);
+  width: 749px;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px;
+  border-radius: 5px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  @media (max-width: 768px) {
+    width: unset;
+    margin-bottom: 30px;
+  }
 `;
 
 const ContentWrapper = styled(Flexbox)`
   z-index: 10;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   padding: 0 30px;
-`;
-
-const CustomSection = styled(Section)`
-  height: 500px;
-  min-height: 500px;
+  padding-top: 70px;
+  align-items: center;
   @media (max-width: 768px) {
-    height: 350px;
+    padding: 0;
+    padding-top: 30px;
   }
 `;
 
-export default function SectionHeader() {
-  const t = useTranslations();
+interface Props {
+  backgroundImage: string;
+  title: string;
+  description: string;
+  children?: ReactNode;
+}
+
+export default function SectionHeader({
+  backgroundImage,
+  title,
+  description,
+  children,
+}: Props) {
   return (
     <>
-      <CustomSection>
+      <Section>
         <BackgroundImageWrapper>
           <Image
-            alt='Wonderful picture'
-            src={'/images/home/background.webp'}
+            alt={title}
+            src={backgroundImage}
             fill
+            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             style={{
               objectFit: 'cover',
             }}
           />
         </BackgroundImageWrapper>
-        <ContentWrapper
-          alignItems='center'
-          flexDirection='column'
-          justifyContent='center'>
-          <Title
-            style={{
-              marginBottom: '20px',
-            }}>
-            Exprimez votre créativité
-          </Title>
-          <p
-            style={{
-              color: 'var(--white)',
-              fontSize: '18px',
-            }}>
-            Découvrez l’univers merveilleux de l'artisanat créatif avec Rart
-            Creation!
-          </p>
-          <Flexbox
-            style={{
-              margin: '30px',
-            }}>
-            <NavigationLink
-              active={false}
-              route={{
-                label: t('Navbar.bookNow'),
-                href: ENUM_ROUTES.WORKSHOPS,
-              }}
-            />
-            <NavigationLink
-              active={false}
-              route={{
-                label: t('Navbar.buyNow'),
-                href: ENUM_ROUTES.PRODUCTS,
-              }}
-            />
-          </Flexbox>
+        <ContentWrapper flexDirection='column'>
+          <ImageContent>
+            <Image fill alt='Logo' src={logo} />
+          </ImageContent>
+          <TitleWrapper>
+            <Title
+              style={{
+                marginBottom: '20px',
+              }}>
+              {title}
+            </Title>
+            <p
+              style={{
+                color: 'var(--white)',
+                fontSize: '18px',
+              }}>
+              {description}
+            </p>
+          </TitleWrapper>
+          {children}
         </ContentWrapper>
-      </CustomSection>
+      </Section>
     </>
   );
 }

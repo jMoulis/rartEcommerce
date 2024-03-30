@@ -1,7 +1,6 @@
 /* eslint-disable n/handle-callback-err */
 'use client';
 import { Section } from '../commons/layout/Section';
-import { Flexbox } from '../../commons/Flexbox';
 import { Subtitle } from '../commons/typography/Subtitle';
 import { useTranslations } from 'next-intl';
 import { Card } from './Card';
@@ -11,13 +10,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { toast } from 'react-toastify';
+import { ENUM_ROUTES } from '../../navbar/routes.enums';
+import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
+import { Grid } from './Grid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
 
 const CustomSection = styled(Section)`
-  min-height: 500px;
-  background: linear-gradient(var(--primary-color), rgb(255, 189, 255));
+  background-color: #fff4f8;
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: unset;
+  align-items: center;
 `;
 interface Props {
   initWorkshops: IWorkshop[];
@@ -52,22 +56,37 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
   return (
     <>
       <CustomSection>
-        <Subtitle>{t('Home.workshops')}</Subtitle>
-        <Flexbox flexWrap='wrap'>
+        <Subtitle
+          style={{
+            color: 'var(--secondary-color)',
+          }}>
+          {t('Home.workshops')}
+        </Subtitle>
+        <Grid>
           {workshops.map((workshop, imageIndex) => (
             <Card
-              textColor='#fff'
+              textColor='var(--secondary-color)'
+              boxShadow='rgba(106, 8, 120, 0.1)'
               src={imageProduct(workshop)}
               key={imageIndex}
               title={workshop.name}
               description={workshop.description ?? ''}
               price={workshop.price}
-              id='imageIndex'
+              id={workshop._id!}
               hrefRoot='workshops'>
-              S'inscrire
+              <ButtonLink
+                href={`${ENUM_ROUTES.WORKSHOPS}/${workshop._id}`}
+                backgroundColor='var(--secondary-color)'
+                hoverBackgroundColor='var(--secondary-accent)'>
+                {t('commons.detailedInformation')}
+                <FontAwesomeIcon
+                  icon={faArrowRight}
+                  style={{ marginLeft: '10px' }}
+                />
+              </ButtonLink>
             </Card>
           ))}
-        </Flexbox>
+        </Grid>
       </CustomSection>
     </>
   );

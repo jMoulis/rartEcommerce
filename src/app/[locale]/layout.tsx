@@ -9,9 +9,11 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import { getCurrentUser } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { EB_Garamond } from 'next/font/google';
+// import { EB_Garamond } from 'next/font/google';
 import { CartProvider } from '../contexts/cart/CartContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import helveticaCondensed from '../style/fonts/helveticaCondensed';
 
 const garamond = EB_Garamond({
   subsets: ['latin'],
@@ -52,7 +54,9 @@ export default async function RootLayout({ children, params }: Props) {
   await getCurrentUser();
 
   return (
-    <html lang={params.locale} className={garamond.className}>
+    <html
+      lang={params.locale}
+      className={`${garamond.className} ${helveticaCondensed.className}`}>
       <body>
         <AppRouterCacheProvider>
           <NextIntlProvider

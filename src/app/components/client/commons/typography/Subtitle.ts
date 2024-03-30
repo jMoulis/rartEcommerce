@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 
 export const Subtitle = styled.h2`
-  color: var(--white);
-  font-size: var(--subtile-font-size);
-  font-weight: 400;
-  text-align: center;
-  margin-bottom: 40px;
+  label: SubTitle;
+  color: #000;
+  font-size: var(--subtitle-font-size);
+  font-weight: 700;
    @media (max-width: 768px) {
-    margin-bottom: 30px;
+    max-width: 100%;
+    font-size: 30px;
   }
 `;

@@ -15,4 +15,6 @@ export enum ENUM_ROUTES {
   CREATE_ORDER = '/api/orders/create',
   CUSTOMERS = '/dashboard/customers',
   CUSTOMERS_CREATE = '/dashboard/customers/create',
+  CONTACT = '/contact',
+  LEGALS = '/legals'
 }

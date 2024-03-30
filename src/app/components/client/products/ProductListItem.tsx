@@ -95,7 +95,8 @@ export const ProductListItem = ({ product }: Props) => {
 
   return (
     <Card
-      textColor='var(--default-font-color)'
+      textColor='var(--primary-color)'
+      boxShadow='rgba(8, 91, 121, 0.1)'
       src={imageProduct}
       title={product.name}
       price={product.price}
