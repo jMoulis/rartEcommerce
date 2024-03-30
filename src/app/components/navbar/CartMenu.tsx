@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import styled from '@emotion/styled';
 import { useCart } from '../../contexts/cart/CartContext';
-import Link from 'next/link';
 import { ENUM_ROUTES } from './routes.enums';
+import { ButtonLink } from '../client/checkout/processing/commons/ButtonLink';
 
 const Counter = styled.span`
   position: absolute;
@@ -21,26 +21,21 @@ const Counter = styled.span`
   font-size: 12px;
 `;
 
-const CustomLink = styled(Link)`
-  position: relative;
-  padding: 10px;
-  border: 1px solid #fff;
-  border-radius: 8px;
-  color: #fff;
-  margin: 0 10px;
-  &:hover {
-    background-color: var(--primary-accent);
-    border: 1px solid transparent;
-    color: var(--default-font-color);
-  }
-`;
-
 export const CartMenu = () => {
   const { cart } = useCart();
   return (
-    <CustomLink href={ENUM_ROUTES.CHECKOUT_CART}>
+    <ButtonLink
+      href={ENUM_ROUTES.CHECKOUT_CART}
+      style={{
+        borderRadius: '100%',
+        minHeight: '30px',
+        minWidth: '30px',
+        padding: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       {cart?.totalItems ? <Counter>{cart.totalItems}</Counter> : null}
       <FontAwesomeIcon icon={faBasketShopping} />
-    </CustomLink>
+    </ButtonLink>
   );
 };

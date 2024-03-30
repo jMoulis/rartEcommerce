@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const Button = styled.button`
   padding: 5px 15px;
-  border-radius: 18px;
+  border-radius: var(--default-button-radius);
   width: fit-content;
   background-color: var(--primary-color);
   display: flex;

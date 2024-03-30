@@ -3,32 +3,26 @@ import { INavigationRoute } from '../navbar/types';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
-const Root = styled.div<{ activelink: boolean }>`
+const Root = styled(Link)<{ activelink: string }>`
   display: flex;
   align-items: center;
-  white-space: nowrap;
-  border-width: 1px;
-  border-style: solid;
-  box-shadow: none;
-  background-color: ${({ activelink }) =>
-    activelink ? 'var(--primary-accent)' : 'transparent'};
-  color: ${({ activelink }) =>
-    activelink ? 'var(--default-font-color)' : 'var(--white)'};
-  border-radius: 8px;
-  border-color: ${({ activelink }) =>
-    activelink ? 'var(--primary-accent)' : 'var(--white)'};);
-  font-size: 17px;
+  background-color: transparent;
+  color: var(--white);
   padding: 3px 10px;
-  font-weight: var(--font-weight-body);
-padding: 8px 15px;
+  padding: 8px 15px;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.15s;
   margin-right: 10px;
+  white-space: nowrap;
+  text-decoration: ${({ activelink }) =>
+    activelink === 'true' ? 'underline' : 'none'};
+  text-underline-offset: 6px; // Add space between underline and text
+  font-weight: var(--font-weight-heading);
+  font-size: var(--default-font-size);
   &:hover {
-    background-color: var(--primary-accent);
-    color: var(--default-font-color);
-    border: 1px solid var(--primary-accent);
+    text-decoration: underline;
+    text-underline-offset: 6px; // Add space between underline and text
   }
 `;
 interface Props {
@@ -39,10 +33,11 @@ interface Props {
 
 export const NavigationLink = ({ route, className, active }: Props) => {
   return (
-    <Root activelink={active}>
-      <Link href={route.href} className={className}>
-        {route.label}
-      </Link>
+    <Root
+      activelink={active.toString()}
+      href={route.href}
+      className={className}>
+      {route.label}
     </Root>
   );
 };

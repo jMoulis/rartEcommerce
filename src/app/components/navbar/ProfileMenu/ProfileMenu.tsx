@@ -67,11 +67,11 @@ export const ProfileMenu = () => {
           <ButtonProfileMenu onClick={handleOpenMenu} type='button'>
             {authProfile?.avatar ? (
               <Image
-                width={40}
-                height={40}
+                width={30}
+                height={30}
                 alt='user'
                 style={{
-                  borderRadius: '5px',
+                  borderRadius: '100%',
                   margin: '0 10px',
                 }}
                 src={authProfile?.avatar}

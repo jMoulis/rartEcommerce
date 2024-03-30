@@ -49,3 +49,8 @@ export const removeKeysFromObject = (item: Record<string, any>, keys: string[]) 
     return acc;
   }, {});
 };
+
+export const propsToForward = (prop: any, fields: string[]) => {
+  if (fields.includes(prop)) return null;
+  return prop;
+};

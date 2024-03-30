@@ -5,24 +5,59 @@ import { Flexbox } from '../../commons/Flexbox';
 import { Subtitle } from '../commons/typography/Subtitle';
 import { useTranslations } from 'next-intl';
 import styled from '@emotion/styled';
+import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
+import { ENUM_ROUTES } from '../../navbar/routes.enums';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from '@fortawesome/pro-light-svg-icons';
 
-const TextWrapper = styled(Flexbox)`
+const CustomSection = styled(Section)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  background-color: #cce5ff;
+`;
+
+const Content = styled(Flexbox)`
   margin-right: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   min-width: 500px;
+  align-items: center;
+  justify-content: center;
   @media (max-width: 768px) {
     width: 100%;
     min-width: unset;
+    flex-direction: column-reverse;
+    margin-right: 0;
+  }
+`;
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 400px;
+  height: 290px;
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+`;
+const TextWrapper = styled.ul`
+  margin: 0 50px;
+  height: 300px;
+  @media (max-width: 768px) {
+    margin: 0;
   }
 `;
 
 const Text = styled.p`
-  color: var(--white);
-  margin: 20px 0;
   font-size: 16px;
   line-height: 24px;
+  max-width: 400px;
   text-align: justify;
   @media (max-width: 768px) {
-    font-size: 20px;
+    max-width: 100%;
   }
 `;
 
@@ -32,44 +67,44 @@ export default function SectionAbout() {
 
   return (
     <>
-      <Section
-        style={{
-          backgroundColor: 'var(--secondary-color)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-        }}>
-        <TextWrapper flex='1' flexDirection='column'>
-          <Subtitle>{t('Home.about')}</Subtitle>
-          <ul>
+      <CustomSection>
+        <Subtitle
+          style={{
+            color: 'var(--primary-color)',
+          }}>
+          {t('Home.about')}
+        </Subtitle>
+        <Content flex='1'>
+          <TextWrapper>
             {keys.map((key) => (
               <li key={key}>
                 <Text>{t(`Home.sectionAbout.${key}`)}</Text>
               </li>
             ))}
-          </ul>
-        </TextWrapper>
-        <Flexbox
-          flex='1'
-          justifyContent='center'
-          alignItems='center'
+          </TextWrapper>
+          <ImageWrapper>
+            <Image
+              alt='Rachel'
+              src='/images/home/rach.png'
+              fill
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+              style={{
+                borderRadius: '5px',
+                objectFit: 'cover',
+                objectPosition: 'center center',
+              }}
+            />
+          </ImageWrapper>
+        </Content>
+        <ButtonLink
           style={{
-            position: 'relative',
-            width: '100%',
-          }}>
-          <Image
-            alt='Rachel'
-            src='/images/home/rachAbout.webp'
-            width='400'
-            height='300'
-            style={{
-              borderRadius: '15px',
-              objectFit: 'cover',
-              objectPosition: 'center center',
-            }}
-          />
-        </Flexbox>
-      </Section>
+            padding: '10px 20px',
+          }}
+          href={ENUM_ROUTES.CONTACT}>
+          <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: '10px' }} />
+          {t('Contact.title')}
+        </ButtonLink>
+      </CustomSection>
     </>
   );
 }

@@ -20,6 +20,9 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { DeliveredMessage } from './DeliveredMessage';
 import { Loader } from './Loader';
 import { ErrorMessage } from './ErrorMessage';
+import { faEnvelope, faPhone } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const Root = styled(Flexbox)`
   align-items: center;
@@ -30,18 +33,25 @@ const Root = styled(Flexbox)`
   }
 `;
 
+const SectionWrapper = styled(Flexbox)`
+  margin: 20px;
+  @media (max-width: 768px) {
+    margin: 0;
+  }
+`;
+
 const TextWrapper = styled.ul`
   list-style-type: disc;
   margin-left: 20px;
   & * {
-    color: #fff;
   }
 `;
 const CustomButton = styled(Button)`
-  border: 1px solid #fff;
-  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 12px 16px;
+  flex: 1;
+  justify-content: center;
+  background-color: var(--action-button-color);
   @media (max-width: 768px) {
     margin: 0;
     margin-top: 10px;
@@ -49,15 +59,16 @@ const CustomButton = styled(Button)`
 `;
 
 const CustomSubtitle = styled(Subtitle)`
-  font-size: 28px;
+  font-size: 20px;
   margin-bottom: 20px;
   text-align: start;
 `;
-const ListItem = styled.li`
+const ListItem = styled.div`
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
 `;
 const Text = styled.p`
-  color: #fff;
   margin: 10px;
   @media (max-width: 768px) {
     margin: 0;
@@ -65,7 +76,6 @@ const Text = styled.p`
 `;
 const Form = styled.form`
   position: relative;
-  width: 50%;
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -78,19 +88,16 @@ const Wrapper = styled(Flexbox)`
 `;
 const coords = [
   {
-    key: 'formContact',
-    params: null,
-    type: 'text',
-  },
-  {
     key: 'email',
     params: 'contact@rartcreation.fr',
     type: 'mailto',
+    icon: faEnvelope,
   },
   {
     key: 'phone',
     params: '+33 (0)6 16 22 49 28',
     type: 'phone',
+    icon: faPhone,
   },
 ];
 
@@ -101,13 +108,10 @@ const defaultInputStyle = (sending: boolean) => ({
     margin: '10px',
     opacity: sending ? '0.2' : '1',
   },
-  label: {
-    color: '#fff',
-  },
+  label: {},
   input: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255,255,255,0.7)',
     border: '1px solid transparent',
-    color: '#fff',
   },
 });
 interface Props {}
@@ -177,10 +181,12 @@ export const ContactForm = (props: Props) => {
     ({
       type,
       params,
+      icon,
     }: {
       key: string;
       params: string | null;
       type: string;
+      icon: IconProp;
     }) => {
       switch (type) {
         case 'mailto':
@@ -188,8 +194,11 @@ export const ContactForm = (props: Props) => {
             <a
               style={{
                 textDecoration: 'underline',
+                display: 'flex',
+                alignItems: 'center',
               }}
               href={`mailto:${params}`}>
+              <FontAwesomeIcon icon={icon} />
               {params}
             </a>
           );
@@ -198,8 +207,11 @@ export const ContactForm = (props: Props) => {
             <a
               style={{
                 textDecoration: 'underline',
+                display: 'flex',
+                alignItems: 'center',
               }}
               href={`tel:${params}`}>
+              <FontAwesomeIcon icon={icon} />
               {params}
             </a>
           );
@@ -213,83 +225,89 @@ export const ContactForm = (props: Props) => {
   return (
     <>
       <Root>
-        <Wrapper flex='1' flexDirection='column' justifyContent='flex-start'>
-          <CustomSubtitle>{t('Contact.title')}</CustomSubtitle>
-          <TextWrapper>
-            {coords.map((coord, key) => (
-              <ListItem key={key}>
-                <Flexbox alignItems='center'>
-                  <Text
-                    style={{
-                      marginRight: '5px',
-                    }}>
-                    {t(`Contact.coords.${coord.key}` as any)}
-                  </Text>
-                  <div
-                    style={{
-                      marginLeft: 0,
-                    }}>
-                    {renderText(coord)}
-                  </div>
+        <Wrapper flex='1' justifyContent='flex-start'>
+          <SectionWrapper flexDirection='column' flex='1'>
+            <CustomSubtitle>{t('Contact.completeForm')}</CustomSubtitle>
+            {success ? (
+              <DeliveredMessage onClick={() => setSuccess(false)} />
+            ) : (
+              <Form onSubmit={handleSubmit}>
+                {error ? <ErrorMessage message={error} /> : null}
+                <Loader sending={sending} />
+                <Flexbox flexWrap='wrap'>
+                  <InputGroup
+                    styling={defaultInputStyle(sending)}
+                    label={t('Contact.name')}
+                    name='name'
+                    id='name'
+                    required
+                  />
+                  <InputGroup
+                    styling={defaultInputStyle(sending)}
+                    label={t('Contact.email')}
+                    name='email'
+                    id='email'
+                    required
+                    type='email'
+                  />
                 </Flexbox>
-              </ListItem>
-            ))}
-          </TextWrapper>
+                <TextareaGroup
+                  label={t('Contact.message')}
+                  name='message'
+                  id='message'
+                  styling={defaultInputStyle(sending)}
+                  required
+                />
+                <Flexbox
+                  alignItems='center'
+                  flexWrap='wrap'
+                  style={{
+                    margin: '10px',
+                  }}
+                  justifyContent='flex-end'>
+                  {!loaded ? <span>{t('Contact.securityLoading')}</span> : null}
+                  <ReCAPTCHA
+                    asyncScriptOnLoad={() => setLoaded(true)}
+                    ref={captchaRef}
+                    sitekey={
+                      process.env
+                        .NEXT_PUBLIC_CAPTCHA_SITE_KEY as unknown as string
+                    }
+                    onChange={() => setValid(true)}
+                  />
+                </Flexbox>
+                <Flexbox>
+                  <CustomButton disabled={!valid} type='submit'>
+                    {t('Contact.send')}
+                  </CustomButton>
+                </Flexbox>
+              </Form>
+            )}
+          </SectionWrapper>
+          <SectionWrapper flexDirection='column' flex='1'>
+            <CustomSubtitle>{t('Contact.completeForm')}</CustomSubtitle>
+            <TextWrapper>
+              {coords.map((coord, key) => (
+                <ListItem key={key}>
+                  <Flexbox alignItems='center'>
+                    {/* <Text
+                      style={{
+                        marginRight: '5px',
+                      }}>
+                      {t(`Contact.coords.${coord.key}` as any)}
+                    </Text> */}
+                    <div
+                      style={{
+                        marginLeft: 0,
+                      }}>
+                      {renderText(coord)}
+                    </div>
+                  </Flexbox>
+                </ListItem>
+              ))}
+            </TextWrapper>
+          </SectionWrapper>
         </Wrapper>
-        {success ? (
-          <DeliveredMessage onClick={() => setSuccess(false)} />
-        ) : (
-          <Form onSubmit={handleSubmit}>
-            {error ? <ErrorMessage message={error} /> : null}
-            <Loader sending={sending} />
-            <Flexbox flexWrap='wrap'>
-              <InputGroup
-                styling={defaultInputStyle(sending)}
-                label={t('Contact.name')}
-                name='name'
-                id='name'
-                required
-              />
-              <InputGroup
-                styling={defaultInputStyle(sending)}
-                label={t('Contact.email')}
-                name='email'
-                id='email'
-                required
-                type='email'
-              />
-            </Flexbox>
-            <TextareaGroup
-              label={t('Contact.message')}
-              name='message'
-              id='message'
-              styling={defaultInputStyle(sending)}
-              required
-            />
-            <Flexbox
-              alignItems='center'
-              flexWrap='wrap'
-              justifyContent='space-between'
-              style={{
-                marginTop: '20px',
-                marginRight: '10px',
-                marginLeft: '10px',
-              }}>
-              {!loaded ? <span>{t('Contact.securityLoading')}</span> : null}
-              <ReCAPTCHA
-                asyncScriptOnLoad={() => setLoaded(true)}
-                ref={captchaRef}
-                sitekey={
-                  process.env.NEXT_PUBLIC_CAPTCHA_SITE_KEY as unknown as string
-                }
-                onChange={() => setValid(true)}
-              />
-              <CustomButton disabled={!valid} type='submit'>
-                {t('Contact.send')}
-              </CustomButton>
-            </Flexbox>
-          </Form>
-        )}
       </Root>
     </>
   );

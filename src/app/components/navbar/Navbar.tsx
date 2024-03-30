@@ -11,9 +11,12 @@ import { navRoutes } from './routes';
 import { useLocale, useTranslations } from 'next-intl';
 import { Flexbox } from '../commons/Flexbox';
 import { NavigationLink } from '../commons/NavigationLink';
-import { Logo } from './Logo';
 import { usePathname } from 'next/navigation';
 import { CartMenu } from './CartMenu';
+import { Logo } from './Logo';
+import Slogan from './Slogan';
+import ResponsiveMenu from './ResponsiveMenu/ResponsiveMenu';
+// import GlobalSearch from './GlobalSearch';
 
 const Root = styled.header<{ isScrolled: boolean }>`
   display: flex;
@@ -30,18 +33,35 @@ const Root = styled.header<{ isScrolled: boolean }>`
   padding: 20px 20px;
   padding-right: 30px;
   @media (max-width: 768px) {
-    padding: 20px 10px 20px 20px;
+    padding: 20px;
+    justify-content: flex-start;
+  }
+`;
+
+const LogoSloganWrapper = styled(Flexbox)`
+  @media (max-width: 768px) {
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 const Nav = styled.nav`
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0;
+  flex: 1;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const ListRoute = styled.ul`
   display: flex;
+  flex: 1;
+  justify-content: flex-end;
   @media (max-width: 768px) {
     display: none;
   }
@@ -77,13 +97,29 @@ export const Navbar = () => {
         mainPage.removeEventListener('scroll', handleScroll);
       }
     };
-  }, []);
+  }, [pathname]);
 
   const locale = useLocale();
 
   return (
     <Root isScrolled={isScrolled}>
-      <Logo />
+      <ResponsiveMenu>
+        <LogoSloganWrapper alignItems='flex-end'>
+          <Logo />
+          <Slogan />
+        </LogoSloganWrapper>
+        <div style={{ width: '40px' }} />
+      </ResponsiveMenu>
+      {isScrolled ? (
+        <>
+          <LogoSloganWrapper alignItems='flex-end'>
+            <Logo />
+            <Slogan />
+          </LogoSloganWrapper>
+          <div style={{ width: '40px' }} />
+        </>
+      ) : null}
+
       <Nav>
         <ListRoute>
           {navRoutes(t).map((route, key) => {
@@ -101,7 +137,7 @@ export const Navbar = () => {
           })}
         </ListRoute>
         <ToolbarWrapper alignItems='center'>
-          <LocaleSwitcher />
+          {/* <GlobalSearch /> */}
           <Suspense
             fallback={
               <i>
@@ -110,6 +146,7 @@ export const Navbar = () => {
             }>
             <ProfileMenu />
           </Suspense>
+          <LocaleSwitcher />
           <CartMenu />
         </ToolbarWrapper>
       </Nav>

@@ -35,7 +35,7 @@
     "priceModality": "Prix et modalités",
     "file": "Fichier",
     "image": "Image",
-    "detailedInformation": "Détail",
+    "detailedInformation": "Découvrir",
     "required": "requis",
     "store": "Boutique",
     "workshop": "Ateliers",
@@ -48,7 +48,9 @@
     "seeMore": "Voir plus",
     "email": "E-Mail",
     "firstname": "Prénom",
-    "mobile": "Mobile"
+    "mobile": "Mobile",
+    "legals": "Mentions légales",
+    "lastUpdate": "Dernière mise à jour: {date}"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -167,7 +169,9 @@
     "success": "Nous avons reçu votre message",
     "sendingMessage": "En train d'envoyer votre message aux étoiles de l'art... Un instant, s'il vous plaît.",
     "subject": "Confirmation de votre demande de contact sur {company}",
-    "securityLoading": "Chargement de securité"
+    "securityLoading": "Chargement de securité",
+    "contactMe": "Contactez-moi",
+    "completeForm": "Complétez le formulaire ci-dessous pour nous contacter"
   },
   "Course": {
     "title": "Titre",
@@ -185,7 +189,7 @@
     "carts": "Paniers",
     "abandonedCarts": "Paniers abandonnés",
     "productsAndServices": "Articles & Services",
-    "products": "Articles",
+    "products": "Oeuvres",
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
     "agenda": "Agenda",
@@ -205,6 +209,8 @@
     "about": "A propos",
     "products": "Oeuvres d'art",
     "workshops": "Ateliers",
+    "slogan": "L'art est dans l'air",
+    "testimonials": "Témoignages",
     "sectionAbout": {
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
@@ -235,7 +241,7 @@
     "home": "Accueil",
     "about": "A propos",
     "services": "Services",
-    "products": "Produits",
+    "products": "Oeuvres",
     "workshop": "Ateliers",
     "reviews": "Avis clients",
     "contact": "Contact",

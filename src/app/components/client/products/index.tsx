@@ -5,11 +5,11 @@ import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { IProductService } from '@/src/types/DBTypes';
 import { useEffect, useState } from 'react';
-import { Flexbox } from '../../commons/Flexbox';
 import { Section } from '../commons/layout/Section';
-import { SectionHeader } from '../../commons/Layouts/SectionHeader';
 import { toast } from 'react-toastify';
 import { ProductListItem } from './ProductListItem';
+import { Grid } from '../home/Grid';
+import SectionHeader from '../home/SectionHeader';
 
 interface Props {
   initialProducts: IProductService[];
@@ -45,13 +45,17 @@ export default function Products({ initialProducts }: Props) {
 
   return (
     <Page>
-      <SectionHeader />
+      <SectionHeader
+        backgroundImage='/images/home/image1.jpeg'
+        title='Embelissez votre vie'
+        description="Découvrez l’univers merveilleux de l'artisanat créatif avec RartCreation!"
+      />
       <Section>
-        <Flexbox flexWrap='wrap'>
+        <Grid>
           {products.map((product, key) => (
             <ProductListItem key={key} product={product} />
           ))}
-        </Flexbox>
+        </Grid>
       </Section>
     </Page>
   );
