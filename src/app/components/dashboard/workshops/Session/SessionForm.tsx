@@ -173,7 +173,7 @@ Props) => {
               },
             }}
             value={`${selectedSession?.duration}` || ''}
-            onSelectOption={handleSelectDuration}
+            onChangeSelectbox={handleSelectDuration}
             options={durations}
           />
         </InputWrapper>

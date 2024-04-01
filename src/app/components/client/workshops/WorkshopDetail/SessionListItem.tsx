@@ -32,15 +32,17 @@ const MetaValue = styled.span``;
 interface Props {
   session: ISession;
   workshop: IWorkshop;
+  preview: boolean;
   // onSelectSession: (session: ISession) => void;
 }
 
-export const SessionListItem = ({ session, workshop }: Props) => {
+export const SessionListItem = ({ session, workshop, preview }: Props) => {
   const t = useTranslations();
   const [location, setLocation] = useState<IAddress | null>(null);
   const { cart, onEditCart } = useCart();
 
   useEffect(() => {
+    if (!session) return;
     let unsubscribe: Unsubscribe | null = null;
     if (session?.locationId) {
       unsubscribe = onFindSingleRealtime(
@@ -142,7 +144,7 @@ export const SessionListItem = ({ session, workshop }: Props) => {
         {selectedCartSessionIds.includes(session._id) ? (
           <MetaWrapper>
             <Button
-              onClick={() => handleDeleteSession(session._id)}
+              onClick={() => !preview && handleDeleteSession(session._id)}
               style={{
                 background: 'rgba(255,0,0,0.4)',
               }}>
@@ -153,7 +155,8 @@ export const SessionListItem = ({ session, workshop }: Props) => {
           <MetaWrapper>
             {placeleft ? (
               <AddToCart
-                item={workshopSessioned}
+                withPreviewCart={false}
+                items={[workshopSessioned]}
                 label={t('Booking.register')}
               />
             ) : (

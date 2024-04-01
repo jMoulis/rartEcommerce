@@ -4,9 +4,15 @@ import styled from '@emotion/styled';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const Button = styled.button<{ backgroundColor?: string }>`
-  margin-bottom: 10px;
-  margin-left: 5px;
   display: none;
+  padding: 5px;
+  border-radius: 100%;
+  border: none;
+  height: 30px;
+  width: 30px;
+  margin: 0 2.5px;
+  align-items: center;
+  justify-content: center;
   background-color: ${({ backgroundColor }) =>
     backgroundColor ?? 'var(--purple-color)'};
   & * {

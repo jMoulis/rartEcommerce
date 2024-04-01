@@ -15,6 +15,8 @@ import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
 import { Grid } from './Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
+import { Flexbox } from '../../commons/Flexbox';
+import { CallToAction } from '../../commons/Buttons/CallToAction';
 
 const CustomSection = styled(Section)`
   background-color: rgba(255, 229, 239, 0.3);
@@ -62,6 +64,20 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
           }}>
           {t('Home.workshops')}
         </Subtitle>
+        <Flexbox
+          style={{
+            marginTop: '20px',
+          }}>
+          <CallToAction
+            active={false}
+            backgroundColor='var(--secondary-color)'
+            hoverBackgroundColor='var(--action-button-color)'
+            route={{
+              label: t('Home.visitShop'),
+              href: ENUM_ROUTES.PRODUCTS,
+            }}
+          />
+        </Flexbox>
         <Grid>
           {workshops.map((workshop, imageIndex) => (
             <Card

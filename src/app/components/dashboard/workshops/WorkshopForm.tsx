@@ -31,6 +31,8 @@ import { ENUM_DASHBOARD_MENU_ROUTES } from '../routes';
 import { toast } from 'react-toastify';
 import QRCode from './QRCode';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
+import Preview from '../products/CreateForm/Preview';
+import WorkshopDetail from '../../client/workshops/WorkshopDetail/WorkshopDetail';
 
 const Root = styled.div`
   overflow: auto;
@@ -65,6 +67,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
   const { form, onInitForm, onInputChange, onDirectMutation } =
     useForm<IWorkshop>();
   const t = useTranslations();
+  const [preview, setPreview] = useState<IWorkshop | null>(null);
 
   const [saving, setSaving] = useState(false);
 
@@ -187,7 +190,9 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
     },
     [form]
   );
-
+  const handlePreview = () => {
+    setPreview(form);
+  };
   return (
     <Root>
       {saving ? <Backdrop /> : null}
@@ -201,6 +206,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
         headerTitle='Title'
         onDeleteCategory={handleDeleteCategory}
         onPublish={handlePublishProduct}
+        onPreview={handlePreview}
       />
       <Flexbox flexWrap='wrap'>
         <Flexbox
@@ -246,7 +252,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
                 name='paymentType'
                 id='paymentType'
                 value={form.paymentType}
-                onSelectOption={onInputChange}
+                onChangeSelectbox={onInputChange}
                 options={paymentTypeChoices(t)}
               />
               {form.paymentType === 'session' ? (
@@ -276,11 +282,17 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
           />
           {prevWorkshop?._id && typeof window !== 'undefined' ? (
             <QRCode
-              value={`${window.location.origin}/${ENUM_ROUTES.WORKSHOPS}${prevWorkshop._id}`}
+              value={`${window.location.origin}/${ENUM_ROUTES.WORKSHOPS}/${prevWorkshop._id}`}
             />
           ) : null}
         </Flexbox>
       </Flexbox>
+      <Preview
+        preview={form}
+        open={Boolean(preview)}
+        onClose={() => setPreview(null)}>
+        <WorkshopDetail initialWorkshop={preview} preview />
+      </Preview>
     </Root>
   );
 };

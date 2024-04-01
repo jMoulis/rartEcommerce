@@ -90,7 +90,7 @@ export default function CartListItem({ item, editable }: Props) {
                 label=''
                 id={`${item.id}-quantity`}
                 name='quantity'
-                onSelectOption={handleSelectQuantity}
+                onChangeSelectbox={handleSelectQuantity}
                 options={quantityOptions}
                 value={String(item.quantity) ?? 0}
               />

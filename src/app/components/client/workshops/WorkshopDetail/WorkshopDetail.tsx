@@ -11,6 +11,7 @@ import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { Unsubscribe } from 'firebase/firestore';
 import { SessionList } from './SessionList';
 import { toast } from 'react-toastify';
+import WrapperSection from '../../commons/layout/WrapperSection';
 
 const Title = styled.h1`
   z-index: 10;
@@ -32,10 +33,11 @@ const BackgroundImageWrapper = styled.div`
 `;
 
 interface Props {
-  initialWorkshop: IWorkshop;
+  initialWorkshop: IWorkshop | null;
+  preview: boolean;
 }
-export default function WorkshopDetail({ initialWorkshop }: Props) {
-  const [workshop, setWorkshop] = useState<IWorkshop>();
+export default function WorkshopDetail({ initialWorkshop, preview }: Props) {
+  const [workshop, setWorkshop] = useState<IWorkshop | null>(null);
 
   useEffect(() => {
     setWorkshop(initialWorkshop);
@@ -102,26 +104,32 @@ export default function WorkshopDetail({ initialWorkshop }: Props) {
           />
         </BackgroundImageWrapper>
       </Section>
-      <Section
-        style={{
-          justifyContent: 'unset',
-        }}>
-        {selectedImage ? (
-          <Image
-            height={300}
-            width={300}
-            style={{
-              objectFit: 'cover',
-              borderRadius: '10px',
-            }}
-            src={selectedImage.url}
-            alt={selectedImage.name}
+      <WrapperSection>
+        <Section
+          style={{
+            justifyContent: 'unset',
+          }}>
+          {selectedImage ? (
+            <Image
+              height={300}
+              width={300}
+              style={{
+                objectFit: 'cover',
+                borderRadius: '10px',
+              }}
+              src={selectedImage.url}
+              alt={selectedImage.name}
+            />
+          ) : (
+            <Placeholder />
+          )}
+          <SessionList
+            preview={preview}
+            sessions={workshop.sessions}
+            workshop={workshop}
           />
-        ) : (
-          <Placeholder />
-        )}
-        <SessionList sessions={workshop.sessions} workshop={workshop} />
-      </Section>
+        </Section>
+      </WrapperSection>
     </Page>
   );
 }

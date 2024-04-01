@@ -3,8 +3,6 @@
 import { Page } from '@/src/app/components/client/commons/layout/Page';
 import { IProductImage, IProductService } from '@/src/types/DBTypes';
 import { Section } from '../commons/layout/Section';
-import styled from '@emotion/styled';
-import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { ImageNavigation } from './ImageNavigation';
 import { MainImage } from './MainImage';
@@ -13,32 +11,23 @@ import { onFindSingleRealtime } from '@/src/app/contexts/firestore/useFirestore'
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { Unsubscribe } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-
-const Title = styled.h1`
-  z-index: 10;
-  font-size: 60px;
-  color: #fff;
-`;
-
-const BackgroundImageWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  filter: contrast(0.5);
-`;
+import Breadcrumb from './Breadcrumb';
+import WrapperSection from '../commons/layout/WrapperSection';
+import SectionHeader from '../home/SectionHeader';
 
 interface Props {
-  initialProduct: IProductService;
+  initialProduct: IProductService | null;
+  preview: boolean;
 }
-export default function ProductDetail({ initialProduct }: Props) {
-  const [product, setProduct] = useState<IProductService>();
+export default function ProductDetail({ initialProduct, preview }: Props) {
+  const [product, setProduct] = useState<IProductService | null>(null);
+
   useEffect(() => {
     setProduct(initialProduct);
   }, [initialProduct]);
 
   useEffect(() => {
+    if (preview) return;
     let unsubscribe: Unsubscribe | null = null;
     if (product?._id) {
       unsubscribe = onFindSingleRealtime(
@@ -59,14 +48,17 @@ export default function ProductDetail({ initialProduct }: Props) {
       }
     };
   }, [product?._id]);
+
   const [selectedImage, setSelectedImage] = useState<IProductImage | null>(
     null
   );
+
   const defaultImage = useMemo(() => {
     const foundImage: IProductImage | undefined =
       product?.images.find((image) => image.default) ?? product?.images[0];
     return foundImage;
   }, [product?.images]);
+
   useEffect(() => {
     if (!selectedImage && defaultImage) {
       setSelectedImage(defaultImage);
@@ -80,37 +72,35 @@ export default function ProductDetail({ initialProduct }: Props) {
       style={{
         paddingTop: 0,
       }}>
-      <Section
-        style={{
-          height: '300px',
-          alignItems: 'flex-end',
-          justifyContent: 'unset',
-        }}>
-        <Title>{product.name}</Title>
-        <BackgroundImageWrapper>
-          <Image
-            alt={product.name}
-            src={defaultImage?.url ?? ''}
-            fill
-            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+      <SectionHeader
+        backgroundImage={defaultImage?.url ?? ''}
+        title={product.name}
+        description=''
+      />
+
+      <WrapperSection>
+        {!preview ? (
+          <Section
             style={{
-              objectFit: 'cover',
-            }}
+              justifyContent: 'unset',
+              padding: 0,
+            }}>
+            <Breadcrumb text={product.name} capitalizeLinks />
+          </Section>
+        ) : null}
+        <Section
+          style={{
+            justifyContent: 'unset',
+          }}>
+          <ImageNavigation
+            images={product.images}
+            onSelectImage={setSelectedImage}
+            selectedImage={selectedImage}
           />
-        </BackgroundImageWrapper>
-      </Section>
-      <Section
-        style={{
-          justifyContent: 'unset',
-        }}>
-        <ImageNavigation
-          images={product.images}
-          onSelectImage={setSelectedImage}
-          selectedImage={selectedImage}
-        />
-        <MainImage image={selectedImage} />
-        <ProductOptions product={product} />
-      </Section>
+          <MainImage image={selectedImage} />
+          <ProductOptions product={product} preview={preview} />
+        </Section>
+      </WrapperSection>
     </Page>
   );
 }

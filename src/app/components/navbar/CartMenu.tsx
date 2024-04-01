@@ -23,7 +23,7 @@ const Counter = styled.span`
 
 export const CartMenu = () => {
   const { cart } = useCart();
-  if (cart?.items?.length === 0) return null;
+  if (!cart?.items?.length) return null;
   return (
     <ButtonLink
       href={ENUM_ROUTES.CHECKOUT_CART}

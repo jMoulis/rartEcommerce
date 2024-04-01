@@ -20,6 +20,7 @@ import ResponsiveMenu from './ResponsiveMenu/ResponsiveMenu';
 
 const Root = styled.header<{ isScrolled: boolean }>`
   position: sticky;
+  min-height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -69,6 +70,7 @@ const ListRoute = styled.ul`
 `;
 const ToolbarWrapper = styled(Flexbox)`
   display: flex;
+  min-width: 100px;
   @media (max-width: 768px) {
     display: none;
   }
@@ -109,7 +111,7 @@ export const Navbar = () => {
       </ResponsiveMenu>
       {isScrolled ? (
         <>
-          <LogoSloganWrapper alignItems='flex-end'>
+          <LogoSloganWrapper alignItems='center'>
             <Logo />
             <Slogan />
           </LogoSloganWrapper>

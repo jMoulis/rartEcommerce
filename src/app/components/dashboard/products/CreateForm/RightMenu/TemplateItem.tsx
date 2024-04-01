@@ -35,10 +35,16 @@ export const TemplateItem = ({ template }: Props) => {
               <Fragment key={key}>
                 {renderProperties[element.component]({
                   label: element.label,
+                  propertyId: property.id,
                   id: element.id,
                   name: element.technicalName,
                   className: property.align,
                   disabled: true,
+                  options: [],
+                  onSelectOption: () => {},
+                  onInputChange: () => {},
+                  onChangeSelectbox: () => {},
+                  refIds: element.refIds ?? [],
                 })}
               </Fragment>
             );

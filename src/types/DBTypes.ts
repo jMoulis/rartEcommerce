@@ -45,6 +45,8 @@ export interface IElement {
   technicalName: string;
   component: string;
   value?: string | number | boolean;
+  editable?: boolean;
+  refIds?: string[];
 
 }
 export interface IProperty {
@@ -73,6 +75,7 @@ export interface IProductService {
   stockQuantity: number;
   withStock: boolean;
   categories: string[];
+  parentId?: string;
   type: 'product' | 'workshop';
   options: {
     refIds: string[];

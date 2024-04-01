@@ -16,6 +16,8 @@ import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
 import styled from '@emotion/styled';
+import { CallToAction } from '../../commons/Buttons/CallToAction';
+import { Flexbox } from '../../commons/Flexbox';
 
 const CustomSection = styled(Section)`
   flex-direction: column;
@@ -72,6 +74,20 @@ export default function SectionProducts({ initialProducts }: Props) {
           }}>
           {t('Home.products')}
         </Subtitle>
+        <Flexbox
+          style={{
+            marginTop: '20px',
+          }}>
+          <CallToAction
+            active={false}
+            backgroundColor='var(--primary-color)'
+            hoverBackgroundColor='var(--action-button-color)'
+            route={{
+              label: t('Home.visitShop'),
+              href: ENUM_ROUTES.PRODUCTS,
+            }}
+          />
+        </Flexbox>
         <Grid>
           {products.map((product, imageIndex) => (
             <Card

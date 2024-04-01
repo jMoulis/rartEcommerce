@@ -5,9 +5,16 @@ import Image from 'next/image';
 
 const Root = styled.div`
   position: relative;
-  flex: 1;
   height: 40vh;
+  flex: 1;
   margin: 0 10px;
+  width: 50vw;
+  @media (max-width: 768px) {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 40vh;
+    margin: 10px 0;
+  }
 `;
 
 interface Props {

@@ -23,6 +23,8 @@ import {
   onCreateDocument,
   onDeleteDocument,
 } from '@/src/app/contexts/firestore/useFirestore';
+import Preview from './Preview';
+import ProductDetail from '../../../client/products/ProductDetail';
 
 const LoadingBackdrop = styled.div`
   position: absolute;
@@ -54,16 +56,17 @@ const Content = styled.div`
 `;
 
 interface Props {
-  prevProduct?: IProductService;
+  prevProduct?: IProductService | null;
   onSubmit?: (product: IProductService) => void;
 }
 
 export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
   const defaultData = defaultProduct();
-  const [form, setForm] = useState<IProductService>(defaultData);
+  const [form, setForm] = useState<IProductService>(prevProduct ?? defaultData);
   const [saving, setSaving] = useState(false);
   const router = useRouter();
   const t = useTranslations();
+  const [displayPreview, setPreview] = useState<boolean>(false);
 
   useEffect(() => {
     if (prevProduct) {
@@ -313,6 +316,9 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
     }));
   };
 
+  const handlePreview = () => {
+    setPreview(true);
+  };
   return (
     <div
       style={{
@@ -330,6 +336,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
         onArchive={handleArchiveProduct}
         onPublish={handlePublishProduct}
         onNameChange={handleInputChange}
+        onPreview={handlePreview}
       />
       <Flexbox
         style={{
@@ -347,10 +354,15 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
               onStockStatusChange={handleStockStatusChange}
             />
           </Flexbox>
-          <ImageLoader
-            images={form.images ?? []}
-            onSubmitImages={handleSubmitImages}
-          />
+          <Flexbox
+            style={{
+              marginRight: '10px',
+            }}>
+            <ImageLoader
+              images={form.images ?? []}
+              onSubmitImages={handleSubmitImages}
+            />
+          </Flexbox>
 
           {form.sections.map((section, key) => (
             <Section
@@ -373,9 +385,15 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
             onSelectSections={handleSelectSections}
             previousSelectedCategories={form.categories}
           />
-          <OptionsCard form={form} onUpdateSection={setForm as any} />
+          <OptionsCard form={form} onUpdateSection={setForm} />
         </AsideWrapper>
       </Flexbox>
+      <Preview
+        preview={form}
+        open={displayPreview}
+        onClose={() => setPreview(false)}>
+        <ProductDetail initialProduct={form} preview />
+      </Preview>
     </div>
   );
 };

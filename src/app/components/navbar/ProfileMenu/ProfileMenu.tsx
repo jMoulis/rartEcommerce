@@ -16,6 +16,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 const ButtonProfileMenu = styled.button`
   margin-left: 10px;
+  min-width: 40px;
+  min-height: 40px;
 `;
 
 export const ProfileMenu = () => {
@@ -67,8 +69,8 @@ export const ProfileMenu = () => {
           <ButtonProfileMenu onClick={handleOpenMenu} type='button'>
             {authProfile?.avatar ? (
               <Image
-                width={35}
-                height={35}
+                width={30}
+                height={30}
                 alt='user'
                 style={{
                   borderRadius: '100%',

@@ -4,28 +4,40 @@ import { IProductService, IWorkshop } from '@/src/types/DBTypes';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { useTranslations } from 'next-intl';
 import { Bounce, toast } from 'react-toastify';
+import { ButtonLink } from '../commons/ButtonLink';
+import { ENUM_ROUTES } from '@/src/app/components/navbar/routes.enums';
+import styled from '@emotion/styled';
 
-interface Props {
-  item: IProductService | IWorkshop;
-  label?: string;
-}
+const Root = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+`;
 
 const ItemAddConfirmation = ({
-  item,
+  items,
 }: {
-  item: IProductService | IWorkshop;
+  items: IProductService[] | IWorkshop[];
 }) => {
-  return <div>{item.name}</div>;
+  return <div>{items.map((item) => item.name)}</div>;
 };
-export const AddToCart = ({ item, label }: Props) => {
+interface Props {
+  items: IProductService[] | IWorkshop[];
+  label?: string;
+  withPreviewCart: boolean;
+}
+export const AddToCart = ({ items, label, withPreviewCart }: Props) => {
   const t = useTranslations();
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
   const handleAddToCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
-    addToCart(item, item.type);
-    toast(<ItemAddConfirmation item={item} />, {
+    items.forEach((item) => {
+      addToCart(item, item.type);
+    });
+    // addToCart(item, item.type);
+    toast(<ItemAddConfirmation items={items} />, {
       position: 'top-right',
       autoClose: 3000,
       hideProgressBar: true,
@@ -39,6 +51,13 @@ export const AddToCart = ({ item, label }: Props) => {
   };
 
   return (
-    <Button onClick={handleAddToCart}>{label ?? t('Cart.addToCart')}</Button>
+    <Root>
+      <Button onClick={handleAddToCart}>{label ?? t('Cart.addToCart')}</Button>
+      {withPreviewCart && cart?.items?.length ? (
+        <ButtonLink href={ENUM_ROUTES.CHECKOUT_CART}>
+          {label ?? t('Cart.seeCart')}
+        </ButtonLink>
+      ) : null}
+    </Root>
   );
 };

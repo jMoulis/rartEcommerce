@@ -19,6 +19,7 @@ import {
 import {
   faArchive,
   faEllipsisV,
+  faEye,
   faTrash,
 } from '@fortawesome/pro-light-svg-icons';
 import { DeleteConfirmation } from '../../../commons/confirmation/DeleteConfirmation';
@@ -89,6 +90,7 @@ interface Props {
   saving?: boolean;
   onSubmit?: VoidFunction;
   onAddSection?: VoidFunction;
+  onPreview?: VoidFunction;
   form: IProductService | IWorkshop | IInvoice | UserProfile;
   onDelete?: (itemId?: string) => void;
   onArchive?: (itemId?: string) => void;
@@ -116,6 +118,7 @@ export const CreateFormHeader = ({
   headerTitle,
   onDeleteCategory,
   InputHeader,
+  onPreview,
 }: Props) => {
   const t = useTranslations('ProductForm');
   const tCommons = useTranslations('commons');
@@ -247,6 +250,13 @@ export const CreateFormHeader = ({
                   onClick={onAddSection}>
                   {t('addSection')}
                 </Button>
+              ) : null}
+              {onPreview ? (
+                <IconButton
+                  backgroundColor='var(--button-ellipsis-color)'
+                  icon={faEye}
+                  onClick={onPreview}
+                />
               ) : null}
               <IconButton
                 backgroundColor='var(--button-ellipsis-color)'

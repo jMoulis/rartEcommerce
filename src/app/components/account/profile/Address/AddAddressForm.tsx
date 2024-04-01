@@ -162,7 +162,7 @@ export const AddAddressForm = ({
           id='type'
           name='type'
           value={form.type || ''}
-          onSelectOption={handleInputChange}
+          onChangeSelectbox={handleInputChange}
           options={[
             {
               label: t('AddressForm.type', { type: 'shipping' }),

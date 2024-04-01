@@ -7,7 +7,7 @@ import SectionServices from './SectionWorkshops';
 import SectionProducts from './SectionProducts';
 import styled from '@emotion/styled';
 import SectionTestimonial from './SectionTestimonial';
-import { IWorkshop, IProductService } from '@/src/types/DBTypes';
+import { IWorkshop, IProductService, ICategory } from '@/src/types/DBTypes';
 import { Flexbox } from '../../commons/Flexbox';
 import { CallToAction } from '../../commons/Buttons/CallToAction';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
@@ -27,8 +27,13 @@ const CallToActionWrapper = styled(Flexbox)`
 interface Props {
   initialProducts: IProductService[];
   initWorkshops: IWorkshop[];
+  initialCategories: ICategory[];
 }
-export default function Home({ initialProducts, initWorkshops }: Props) {
+export default function Home({
+  initialProducts,
+  initWorkshops,
+  initialCategories,
+}: Props) {
   const t = useTranslations();
   return (
     <Page
@@ -65,7 +70,7 @@ export default function Home({ initialProducts, initWorkshops }: Props) {
       <SectionServices initWorkshops={initWorkshops} />
       <SectionParalax
         text='Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la'
-        image='/images/home/background.jpeg'
+        image='/images/home/patchwork.png'
       />
       <SectionAbout />
       {/* <SectionContact /> */}

@@ -186,7 +186,7 @@ export const SubscriptionForm = ({
             label={t('Subscription.paymentPeriodLabel')}
             id='paymentPeriod'
             name='paymentPeriod'
-            onSelectOption={onInputChange}
+            onChangeSelectbox={onInputChange}
             value={form.paymentPeriod}
             options={[
               {

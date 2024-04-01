@@ -5,9 +5,7 @@ import { Flexbox } from '../../commons/Flexbox';
 import { Subtitle } from '../commons/typography/Subtitle';
 import { useTranslations } from 'next-intl';
 import styled from '@emotion/styled';
-import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/pro-light-svg-icons';
 import { CallToAction } from '../../commons/Buttons/CallToAction';
 

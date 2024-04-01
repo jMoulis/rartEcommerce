@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import Link from 'next/link';
 // import { useTranslations } from 'next-intl';
 import { Flexbox } from '../../commons/Flexbox';
+import { displayPrice } from '@/src/lib/utils/main';
 
 const Root = styled.li<{ boxShadow: string }>`
   display: flex;
@@ -30,13 +31,6 @@ const CustomLink = styled(Link)`
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  @media (max-width: 768px) {
-    /* width: 100%;
-    min-width: 100%;
-    height: 300px;
-    margin: 30px 0;
-    flex: 1; */
-  }
 `;
 const ImageContent = styled.div`
   label: ImageContent;
@@ -95,6 +89,14 @@ const Footer = styled.footer`
   }
 `;
 
+// const Category = styled.span<{ color: string }>`
+//   background-color: ${({ color }) => color};
+//   font-size: 12px;
+//   padding: 3px 5px;
+//   margin-right: 3px;
+//   border-radius: 3px;
+// `;
+
 const Title = styled.h2`
   color: var(--white);
   font-size: 24px;
@@ -130,8 +132,6 @@ export const Card = ({
   children,
   boxShadow,
 }: Props) => {
-  // const t = useTranslations();
-
   return (
     <Root boxShadow={boxShadow}>
       <CustomLink href={`/${hrefRoot}/${id}`}>
@@ -167,8 +167,7 @@ export const Card = ({
       </CustomLink>
       <Footer>
         <Flexbox>
-          {/* <PriceLabel>{t('commons.price')}</PriceLabel> */}
-          <Price>{price}€</Price>
+          <Price>{displayPrice(price)}</Price>
         </Flexbox>
         {children}
       </Footer>

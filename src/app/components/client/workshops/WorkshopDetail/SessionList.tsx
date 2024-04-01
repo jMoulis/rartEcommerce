@@ -8,13 +8,19 @@ const Root = styled.ul``;
 interface Props {
   sessions: ISession[];
   workshop: IWorkshop;
+  preview: boolean;
 }
 
-export const SessionList = ({ workshop, sessions }: Props) => {
+export const SessionList = ({ workshop, sessions, preview }: Props) => {
   return (
     <Root>
       {sessions.map((session, key) => (
-        <SessionListItem key={key} workshop={workshop} session={session} />
+        <SessionListItem
+          key={key}
+          workshop={workshop}
+          preview={preview}
+          session={session}
+        />
       ))}
     </Root>
   );

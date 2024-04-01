@@ -4,8 +4,13 @@
     "signOut": "Déconnexion",
     "register": "S'inscrire"
   },
+  "Breadcrumb": {
+    "products": "Boutique",
+    "workshops": "Ateliers"
+  },
   "commons": {
     "a": "un",
+    "all": "Toutes",
     "ae": "une",
     "create": "Créer",
     "createWith": "Créer {type}",
@@ -15,6 +20,7 @@
     "delete": "Supprimer",
     "edit": "Modifier",
     "save": "Sauvegarder",
+    "filters": "Filtres",
     "dragAndDropFile": "Glissez-déposez les fichiers ici",
     "or": "ou",
     "importFiles": "Importer des fichiers",
@@ -50,7 +56,10 @@
     "firstname": "Prénom",
     "mobile": "Mobile",
     "legals": "Mentions légales",
-    "lastUpdate": "Dernière mise à jour: {date}"
+    "lastUpdate": "Dernière mise à jour: {date}",
+    "duplicate": "Dupliquer",
+    "preview": "Aperçu",
+    "editable": "Éditable"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -152,7 +161,8 @@
     "shippingAddress": "Information pour la livraison",
     "confirm": "Confirmer",
     "addToCart": "Ajouter au panier",
-    "deleteFromCart": "Supprimer du panier"
+    "deleteFromCart": "Supprimer du panier",
+    "seeCart": "Voir le panier"
   },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
@@ -189,7 +199,7 @@
     "carts": "Paniers",
     "abandonedCarts": "Paniers abandonnés",
     "productsAndServices": "Articles & Services",
-    "products": "Oeuvres",
+    "products": "Produits",
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
     "agenda": "Agenda",
@@ -214,7 +224,9 @@
     "sectionAbout": {
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
-    }
+    },
+    "visitShop": "Visiter la boutique",
+    "visitWorkshop": "Visiter l'atelier"
   },
   "Invoice": {
     "invoices": "Fatures",
@@ -241,7 +253,7 @@
     "home": "Accueil",
     "about": "A propos",
     "services": "Services",
-    "products": "Oeuvres",
+    "products": "Boutique",
     "workshop": "Ateliers",
     "reviews": "Avis clients",
     "contact": "Contact",
@@ -253,7 +265,9 @@
     "orders": "Commandes"
   },
   "Product": {
-    "addProduct": "Ajouter un article"
+    "addProduct": "Ajouter un article",
+    "inStock": "En stock",
+    "noStock": "Contactez-nous"
   },
   "ProductForm": {
     "name": "Nom",
