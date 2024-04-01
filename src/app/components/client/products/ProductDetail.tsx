@@ -85,7 +85,7 @@ export default function ProductDetail({ initialProduct, preview }: Props) {
               justifyContent: 'unset',
               padding: 0,
             }}>
-            <Breadcrumb text={product.name} capitalizeLinks />
+            <Breadcrumb text={product.name} />
           </Section>
         ) : null}
         <Section

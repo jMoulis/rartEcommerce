@@ -24,16 +24,10 @@ interface Props {
   containerClasses?: string;
   listClasses?: string;
   activeClasses?: string;
-  capitalizeLinks?: boolean;
   text: string;
 }
 
-const Breadcrumb = ({
-  listClasses,
-  activeClasses,
-  capitalizeLinks,
-  text,
-}: Props) => {
+const Breadcrumb = ({ listClasses, activeClasses, text }: Props) => {
   const paths = usePathname();
   const pathNames = paths.split('/').filter((path) => path);
   const t = useTranslations();
@@ -59,9 +53,7 @@ const Breadcrumb = ({
           const itemClasses =
             paths === href ? `${listClasses} ${activeClasses}` : listClasses;
 
-          const itemLink = capitalizeLinks
-            ? link[0].toUpperCase() + link.slice(1, link.length)
-            : link;
+          const itemLink = link;
           return (
             <React.Fragment key={index}>
               <li className={itemClasses}>

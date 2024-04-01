@@ -3,7 +3,9 @@ import React from 'react';
 import { SessionListItem } from './SessionListItem';
 import styled from '@emotion/styled';
 
-const Root = styled.ul``;
+const Root = styled.ul`
+  flex: 1;
+`;
 
 interface Props {
   sessions: ISession[];

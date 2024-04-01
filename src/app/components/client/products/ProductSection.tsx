@@ -8,9 +8,9 @@ import { CustomChangeEvent } from './type';
 const Root = styled.div`
   margin-top: 10px;
 `;
-const Title = styled.h3`
+const Title = styled.h3<{ color: string }>`
   margin-bottom: 10px;
-  color: var(--primary-color);
+  color: ${({ color }) => color};
 `;
 const ListProperties = styled.ul``;
 const ListPropertiyItem = styled.li``;
@@ -20,6 +20,7 @@ interface Props {
   preview?: boolean;
   onSelectOption: (product: IProductService, propertyId: string) => void;
   selectedProductOptions: Map<string, IProductService>;
+  titleColor?: string;
 }
 
 export const ProductSection = ({
@@ -27,6 +28,7 @@ export const ProductSection = ({
   preview,
   onSelectOption,
   selectedProductOptions,
+  titleColor = 'var(--primary-color)',
 }: Props) => {
   const handlePropertyChange = useCallback(
     (event: CustomChangeEvent, propertyId: string) => {},
@@ -76,7 +78,7 @@ export const ProductSection = ({
   );
   return (
     <Root>
-      <Title>{section.title}</Title>
+      <Title color={titleColor}>{section.title}</Title>
       <ListProperties>
         {section.properties.map((property, key) => (
           <ListPropertiyItem key={key}>

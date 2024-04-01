@@ -12,24 +12,27 @@ import { Unsubscribe } from 'firebase/firestore';
 import { SessionList } from './SessionList';
 import { toast } from 'react-toastify';
 import WrapperSection from '../../commons/layout/WrapperSection';
-
-const Title = styled.h1`
-  z-index: 10;
-  font-size: 60px;
-  color: #fff;
-`;
+import SectionHeader from '../../home/SectionHeader';
+import { Flexbox } from '../../../commons/Flexbox';
+import Breadcrumb from '../../products/Breadcrumb';
+import { ProductSection } from '../../products/ProductSection';
 
 const Placeholder = styled.div`
   height: 300px;
 `;
-
-const BackgroundImageWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  filter: contrast(0.5);
+const ImageContent = styled.div`
+  position: relative;
+  height: 300px;
+  width: 300px;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+`;
+const Description = styled.p``;
+const Title = styled.h2`
+  color: var(--secondary-color);
+  margin-bottom: 10px;
 `;
 
 interface Props {
@@ -38,6 +41,10 @@ interface Props {
 }
 export default function WorkshopDetail({ initialWorkshop, preview }: Props) {
   const [workshop, setWorkshop] = useState<IWorkshop | null>(null);
+
+  const sections = useMemo(() => {
+    return workshop?.sections.filter((section) => section.published) ?? [];
+  }, [workshop?.sections]);
 
   useEffect(() => {
     setWorkshop(initialWorkshop);
@@ -85,44 +92,52 @@ export default function WorkshopDetail({ initialWorkshop, preview }: Props) {
       style={{
         paddingTop: 0,
       }}>
-      <Section
-        style={{
-          height: '300px',
-          alignItems: 'flex-end',
-          justifyContent: 'unset',
-        }}>
-        <Title>{workshop.name}</Title>
-        <BackgroundImageWrapper>
-          <Image
-            alt={workshop.name}
-            src={defaultImage?.url ?? ''}
-            fill
-            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-            style={{
-              objectFit: 'cover',
-            }}
-          />
-        </BackgroundImageWrapper>
-      </Section>
+      <SectionHeader
+        backgroundImage={defaultImage?.url ?? ''}
+        title={workshop.name}
+        description=''
+      />
+      <Breadcrumb text={workshop.name} />
       <WrapperSection>
         <Section
           style={{
             justifyContent: 'unset',
           }}>
           {selectedImage ? (
-            <Image
-              height={300}
-              width={300}
-              style={{
-                objectFit: 'cover',
-                borderRadius: '10px',
-              }}
-              src={selectedImage.url}
-              alt={selectedImage.name}
-            />
+            <ImageContent>
+              <Image
+                fill
+                style={{
+                  objectFit: 'cover',
+                  borderRadius: '10px',
+                }}
+                sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                src={selectedImage.url}
+                alt={selectedImage.name}
+              />
+            </ImageContent>
           ) : (
             <Placeholder />
           )}
+          <Flexbox
+            flexDirection='column'
+            style={{
+              margin: '0 10px',
+              flex: 1,
+            }}>
+            <Title>{workshop.name}</Title>
+            <Description>{workshop.description}</Description>
+            {sections.map((section, key) => (
+              <ProductSection
+                titleColor='var(--secondary-color)'
+                key={key}
+                section={section}
+                preview={preview}
+                onSelectOption={() => {}}
+                selectedProductOptions={new Map()}
+              />
+            ))}
+          </Flexbox>
           <SessionList
             preview={preview}
             sessions={workshop.sessions}

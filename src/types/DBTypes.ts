@@ -351,6 +351,7 @@ export interface IWorkshop {
   currency: ICurrency;
   sessions: ISession[];
   pusblished: boolean;
+  sections: ISection[];
   type: 'product' | 'workshop';
 }
 

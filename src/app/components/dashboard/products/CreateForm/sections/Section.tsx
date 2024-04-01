@@ -318,9 +318,7 @@ export const Section = ({
       <Article
         ref={articleRef}
         styling={{
-          root: {
-            marginRight: '10px',
-          },
+          root: {},
         }}
         Header={
           <SectionToolbar

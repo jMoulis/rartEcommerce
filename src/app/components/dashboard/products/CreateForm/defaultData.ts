@@ -63,7 +63,8 @@ export const generateDefaultBooking: () => IWorkshop = () => {
     sessions: [],
     pusblished: false,
     paymentPreference: 'online',
-    type: 'workshop'
+    type: 'workshop',
+    sections: []
   });
 };
 export const generateDefaultCustomer: () => ICustomer = () => {

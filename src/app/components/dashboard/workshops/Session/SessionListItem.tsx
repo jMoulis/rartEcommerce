@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { useToggle } from '../../../hooks/useToggle';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
 import Participants from './Participants';
+import { fr } from 'date-fns/locale';
 
 const Root = styled.li`
   padding: 10px;
@@ -80,8 +81,13 @@ export const SessionListItem = ({
           <MetaWrapper>
             <MetaLabel>{t('Session.start')}</MetaLabel>
             <Flexbox>
-              <MetaValue>{format(session.start, 'dd/mm/yyyy')}</MetaValue>
-              <MetaValue>{format(session.start, 'hh:mm')}</MetaValue>
+              <MetaValue
+                style={{
+                  marginRight: '5px',
+                }}>
+                {format(session.start, 'dd/mm/yyyy', { locale: fr })}
+              </MetaValue>
+              <MetaValue>{format(session.start, 'HH:mm')}</MetaValue>
             </Flexbox>
           </MetaWrapper>
           {session.end ? (

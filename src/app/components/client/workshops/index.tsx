@@ -18,6 +18,8 @@ import SectionHeader from '../home/SectionHeader';
 import WrapperSection from '../commons/layout/WrapperSection';
 import Categories from '../commons/Categories/Categories';
 import { useCategories } from '../commons/Categories/useCategories';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
 
 interface Props {
   initialWorkshops: IWorkshop[];
@@ -67,13 +69,6 @@ export default function Workshops({
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          {/* <Breadcrumb
-          text={t('Home.products')}
-          activeClasses='text-amber-500'
-          containerClasses='flex py-5 bg-gradient-to-r from-purple-600 to-blue-600'
-          listClasses='hover:underline mx-2 font-bold'
-          capitalizeLinks
-        /> */}
           <Categories
             categories={initialCategories}
             onSelectCategory={onSelectCategory}
@@ -95,8 +90,16 @@ export default function Workshops({
                 hrefRoot='workshops'>
                 <Flexbox justifyContent='center'>
                   <ButtonLink
+                    backgroundColor='var(--secondary-color)'
                     href={`${ENUM_ROUTES.WORKSHOPS}/${workshop._id!}`}>
                     {t('Workshop.detail')}
+                    <FontAwesomeIcon
+                      style={{
+                        marginLeft: '10px',
+                        color: 'var(--secondary-color)',
+                      }}
+                      icon={faArrowRight}
+                    />
                   </ButtonLink>
                 </Flexbox>
               </Card>
