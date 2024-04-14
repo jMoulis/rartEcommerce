@@ -32,8 +32,6 @@ export default function Workshops({
 }: Props) {
   const { onSelectCategory, onUpdateData, filteredData, selectedCategories } =
     useCategories(initialWorkshops);
-
-  // const [workshops, setWorkshops] = useState<IWorkshop[]>(initialWorkshops);
   const t = useTranslations();
   useEffect(() => {
     const unsubscribe = onFindAllRealtime(

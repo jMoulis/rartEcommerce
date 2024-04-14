@@ -46,7 +46,6 @@ const Gallery = ({ artworks }: Props) => {
   }, [artworks]);
 
   const calculateSpan = (index: number) => {
-    // Simple example: Alternate span sizes
     return index % 3 === 0 ? 2 : 1;
   };
 
