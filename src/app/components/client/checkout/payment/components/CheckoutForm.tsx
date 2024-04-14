@@ -79,7 +79,7 @@ function CheckoutForm(): JSX.Element | null {
     }
   }, [cart?.contactInformations]);
 
-  const stripe = useStripe();
+  // const stripe = useStripe();
   const elements = useElements();
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -95,7 +95,7 @@ function CheckoutForm(): JSX.Element | null {
 
       // Abort if form isn't valid
       if (!e.currentTarget.reportValidity()) return;
-      if (!elements || !stripe) return;
+      if (!elements) return;
 
       setPayment({ status: 'processing' });
 
@@ -134,29 +134,29 @@ function CheckoutForm(): JSX.Element | null {
         order.data
       );
 
-      const { error: confirmError } = await stripe.confirmPayment({
-        elements,
-        clientSecret,
-        redirect: 'always',
-        confirmParams: {
-          return_url: `${window.location.origin}/${ENUM_ROUTES.CHECKOUT_RESULT}`,
-          receipt_email: customer.email,
-          expand: ['metadata'],
-          payment_method_data: {
-            billing_details: {
-              name: customer.name,
-              email: customer.email,
-              address: customer.address,
-            },
-          },
-        },
-      });
+      // const { error: confirmError } = await stripe.confirmPayment({
+      //   elements,
+      //   clientSecret,
+      //   redirect: 'always',
+      //   confirmParams: {
+      //     return_url: `${window.location.origin}/${ENUM_ROUTES.CHECKOUT_RESULT}`,
+      //     receipt_email: customer.email,
+      //     expand: ['metadata'],
+      //     payment_method_data: {
+      //       billing_details: {
+      //         name: customer.name,
+      //         email: customer.email,
+      //         address: customer.address,
+      //       },
+      //     },
+      //   },
+      // });
 
-      if (confirmError) {
-        setPayment({ status: 'error' });
-        await rollbackReservations(previousValues);
-        setErrorMessage(confirmError.message ?? 'An unknown error occurred');
-      }
+      // if (confirmError) {
+      //   setPayment({ status: 'error' });
+      //   await rollbackReservations(previousValues);
+      //   setErrorMessage(confirmError.message ?? 'An unknown error occurred');
+      // }
     } catch (err) {
       const { message } = err as StripeError;
       await rollbackReservations(globalPreviousValues);
@@ -190,7 +190,7 @@ function CheckoutForm(): JSX.Element | null {
           ) : null}
           <input type='hidden' name='amount' value={cart.totalPrice} />
           <div>
-            <PaymentElement
+            {/* <PaymentElement
               options={{
                 defaultValues: {
                   billingDetails: {
@@ -203,7 +203,7 @@ function CheckoutForm(): JSX.Element | null {
               onChange={(e) => {
                 setPaymentType(e.value.type);
               }}
-            />
+            /> */}
           </div>
         </fieldset>
         <Flexbox
@@ -219,8 +219,7 @@ function CheckoutForm(): JSX.Element | null {
               fontSize: '20px',
             }}
             disabled={
-              !['initial', 'succeeded', 'error'].includes(payment.status) ||
-              !stripe
+              !['initial', 'succeeded', 'error'].includes(payment.status)
             }>
             <Flexbox>
               <span>{t('Cart.pay')}</span>

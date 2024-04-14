@@ -49,7 +49,7 @@ const PaymentIndex = () => {
               mode: 'payment',
               amount: cart.totalPrice,
             }}>
-            {/* <CheckoutForm /> */}
+            <CheckoutForm />
           </Elements>
         </CardWrapper>
         <CartSummary editable={false} />
