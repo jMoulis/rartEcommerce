@@ -47,20 +47,22 @@ const PaymentIndex = () => {
       <CheckoutHeader />
       <CustomSection>
         <CardWrapper>
-          <Elements
-            stripe={stripePromise}
-            options={{
-              clientSecret,
-              appearance: {
-                variables: {
-                  colorIcon: '#6772e5',
-                  fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+          {clientSecret ? (
+            <Elements
+              stripe={stripePromise}
+              options={{
+                clientSecret,
+                appearance: {
+                  variables: {
+                    colorIcon: '#6772e5',
+                    fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+                  },
                 },
-              },
-              loader: 'always',
-            }}>
-            <CheckoutForm />
-          </Elements>
+                loader: 'always',
+              }}>
+              <CheckoutForm />
+            </Elements>
+          ) : null}
         </CardWrapper>
         <CartSummary editable={false} />
       </CustomSection>
