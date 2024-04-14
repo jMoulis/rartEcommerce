@@ -129,29 +129,31 @@ function CheckoutForm(): JSX.Element | null {
 
       globalPreviousValues = previousValues;
 
+      if (!stripe || !elements) return;
+
       const { client_secret: clientSecret } = await createPaymentIntent(
         new FormData(e.target as HTMLFormElement),
         customer.email,
         order.data
       );
 
-      // const { error: confirmError } = await stripe.confirmPayment({
-      //   elements,
-      //   clientSecret,
-      //   redirect: 'always',
-      //   confirmParams: {
-      //     return_url: `${window.location.origin}/${ENUM_ROUTES.CHECKOUT_RESULT}`,
-      //     receipt_email: customer.email,
-      //     expand: ['metadata'],
-      //     payment_method_data: {
-      //       billing_details: {
-      //         name: customer.name,
-      //         email: customer.email,
-      //         address: customer.address,
-      //       },
-      //     },
-      //   },
-      // });
+      const { error: confirmError } = await stripe.confirmPayment({
+        elements,
+        clientSecret,
+        redirect: 'always',
+        confirmParams: {
+          return_url: `${window.location.origin}/${ENUM_ROUTES.CHECKOUT_RESULT}`,
+          receipt_email: customer.email,
+          expand: ['metadata'],
+          payment_method_data: {
+            billing_details: {
+              name: customer.name,
+              email: customer.email,
+              address: customer.address,
+            },
+          },
+        },
+      });
 
       // if (confirmError) {
       //   setPayment({ status: 'error' });
@@ -191,7 +193,7 @@ function CheckoutForm(): JSX.Element | null {
           ) : null}
           <input type='hidden' name='amount' value={cart.totalPrice} />
           <div>
-            {/* <PaymentElement
+            <PaymentElement
               options={{
                 defaultValues: {
                   billingDetails: {
@@ -204,7 +206,7 @@ function CheckoutForm(): JSX.Element | null {
               onChange={(e) => {
                 setPaymentType(e.value.type);
               }}
-            /> */}
+            />
           </div>
         </fieldset>
         <Flexbox
@@ -231,13 +233,13 @@ function CheckoutForm(): JSX.Element | null {
         </Flexbox>
       </form>
 
-      <PaymentStatus
+      {/* <PaymentStatus
         paymentStatus={payment.status}
         errorMessage={errorMessage}
         onRetry={() => setPayment({ status: 'initial' })}
         onCancel={handleCancel}
         open={!['initial'].includes(payment.status)}
-      />
+      /> */}
     </>
   );
 }
