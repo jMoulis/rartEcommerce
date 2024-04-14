@@ -24,18 +24,19 @@ const CardWrapper = styled.aside`
   min-width: 50%;
 `;
 
+const stripePromise = getStripe();
+
 const PaymentIndex = () => {
   const { cart } = useCart();
 
   if (!cart?.totalPrice) return null;
-
   return (
     <Page>
       <CheckoutHeader />
       <CustomSection>
         <CardWrapper>
           <Elements
-            stripe={getStripe()}
+            stripe={stripePromise}
             options={{
               appearance: {
                 variables: {

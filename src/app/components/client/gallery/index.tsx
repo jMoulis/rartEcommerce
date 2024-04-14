@@ -1,13 +1,13 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Page } from '../client/commons/layout/Page';
-import SectionHeader from '../client/home/SectionHeader';
+import { Page } from '../commons/layout/Page';
+import SectionHeader from '../home/SectionHeader';
 import { IArtwork, ICategory } from '@/src/types/DBTypes';
 import Gallery from './Gallery';
-import { Section } from '../client/commons/layout/Section';
-import Categories from '../client/commons/Categories/Categories';
-import { useCategories } from '../client/commons/Categories/useCategories';
+import { Section } from '../commons/layout/Section';
+import Categories from '../commons/Categories/Categories';
+import { useCategories } from '../commons/Categories/useCategories';
 
 interface Props {
   initialArtworks: IArtwork[];
