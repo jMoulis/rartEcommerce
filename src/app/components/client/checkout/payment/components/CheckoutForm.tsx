@@ -7,6 +7,7 @@ import {
   useStripe,
   useElements,
   PaymentElement,
+  CardElement,
 } from '@stripe/react-stripe-js';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { ENUM_ROUTES } from '@/src/app/components/navbar/routes.enums';
@@ -192,7 +193,7 @@ function CheckoutForm(): JSX.Element | null {
 
           <input type='hidden' name='amount' value={3} />
           <div>
-            <PaymentElement
+            <CardElement
             // options={{
             //   defaultValues: {
             //     billingDetails: {
