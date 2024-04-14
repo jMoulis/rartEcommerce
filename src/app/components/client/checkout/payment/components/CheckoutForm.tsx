@@ -39,32 +39,32 @@ type CustomerType = {
   };
 } | null;
 function CheckoutForm(): JSX.Element | null {
-  const { cart, clearCart } = useCart();
-  const authProfile = useAuthSelector((state) => state.profile) as UserProfile;
-  const t = useTranslations();
-  const router = useRouter();
+  // const { cart, clearCart } = useCart();
+  // const authProfile = useAuthSelector((state) => state.profile) as UserProfile;
+  // const t = useTranslations();
+  // const router = useRouter();
 
-  const customer: CustomerType = React.useMemo(() => {
-    if (!cart?.contactInformations) return null;
+  // const customer: CustomerType = React.useMemo(() => {
+  //   if (!cart?.contactInformations) return null;
 
-    if (!isValidContact(cart.contactInformations)) {
-      return null;
-    }
-    const { email, lastname, firstname, address } = cart.contactInformations;
+  //   if (!isValidContact(cart.contactInformations)) {
+  //     return null;
+  //   }
+  //   const { email, lastname, firstname, address } = cart.contactInformations;
 
-    if (!address) return null;
+  //   if (!address) return null;
 
-    return {
-      email,
-      name: `${lastname} ${firstname}`,
-      address: {
-        country: address.country,
-        postal_code: address.postalCode,
-        city: address.locality,
-        line1: address.address,
-      },
-    };
-  }, [cart?.contactInformations]);
+  //   return {
+  //     email,
+  //     name: `${lastname} ${firstname}`,
+  //     address: {
+  //       country: address.country,
+  //       postal_code: address.postalCode,
+  //       city: address.locality,
+  //       line1: address.address,
+  //     },
+  //   };
+  // }, [cart?.contactInformations]);
 
   const [input, setInput] = React.useState<string>('');
   const [paymentType, setPaymentType] = React.useState<string>('');
@@ -73,143 +73,139 @@ function CheckoutForm(): JSX.Element | null {
   }>({ status: 'initial' });
   const [errorMessage, setErrorMessage] = React.useState<string>('');
 
-  React.useEffect(() => {
-    if (cart?.contactInformations) {
-      setInput(cart.contactInformations.lastname);
-    }
-  }, [cart?.contactInformations]);
+  // React.useEffect(() => {
+  //   if (cart?.contactInformations) {
+  //     setInput(cart.contactInformations.lastname);
+  //   }
+  // }, [cart?.contactInformations]);
 
   const stripe = useStripe();
   console.log(stripe);
   const elements = useElements();
-
+  console.log(elements);
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInput(e.currentTarget.value);
   };
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    let globalPreviousValues: any = {};
+  // const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  //   e.preventDefault();
+  //   let globalPreviousValues: any = {};
 
-    try {
-      if (!customer || !cart) return;
+  //   try {
+  //     if (!customer || !cart) return;
 
-      // Abort if form isn't valid
-      if (!e.currentTarget.reportValidity()) return;
-      if (!elements) return;
+  //     // Abort if form isn't valid
+  //     if (!e.currentTarget.reportValidity()) return;
+  //     if (!elements) return;
 
-      setPayment({ status: 'processing' });
+  //     setPayment({ status: 'processing' });
 
-      const { error: submitError } = await elements.submit();
+  //     const { error: submitError } = await elements.submit();
 
-      if (submitError) {
-        setPayment({ status: 'error' });
-        setErrorMessage(submitError.message ?? 'An unknown error occurred');
-        return;
-      }
+  //     if (submitError) {
+  //       setPayment({ status: 'error' });
+  //       setErrorMessage(submitError.message ?? 'An unknown error occurred');
+  //       return;
+  //     }
 
-      const newOrderRequestPayload = {
-        method: 'POST',
-        body: JSON.stringify({ cart, connectedCustomerId: authProfile?._id }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      };
+  //     const newOrderRequestPayload = {
+  //       method: 'POST',
+  //       body: JSON.stringify({ cart, connectedCustomerId: authProfile?._id }),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     };
 
-      const order = await (
-        await fetch(ENUM_ROUTES.CREATE_ORDER, newOrderRequestPayload)
-      ).json();
+  //     const order = await (
+  //       await fetch(ENUM_ROUTES.CREATE_ORDER, newOrderRequestPayload)
+  //     ).json();
 
-      const products =
-        cart?.items.filter((item) => item.type === 'product') ?? [];
-      const workshops =
-        cart?.items.filter((item) => item.type === 'workshop') ?? [];
+  //     const products =
+  //       cart?.items.filter((item) => item.type === 'product') ?? [];
+  //     const workshops =
+  //       cart?.items.filter((item) => item.type === 'workshop') ?? [];
 
-      const previousValues = await reserveStock(products, workshops, customer);
+  //     const previousValues = await reserveStock(products, workshops, customer);
 
-      globalPreviousValues = previousValues;
+  //     globalPreviousValues = previousValues;
 
-      if (!stripe || !elements) return;
+  //     if (!stripe || !elements) return;
 
-      const { client_secret: clientSecret } = await createPaymentIntent(
-        new FormData(e.target as HTMLFormElement),
-        customer.email,
-        order.data
-      );
+  //     const { client_secret: clientSecret } = await createPaymentIntent(
+  //       new FormData(e.target as HTMLFormElement),
+  //       customer.email,
+  //       order.data
+  //     );
 
-      const { error: confirmError } = await stripe.confirmPayment({
-        elements,
-        clientSecret,
-        redirect: 'always',
-        confirmParams: {
-          return_url: `${window.location.origin}/${ENUM_ROUTES.CHECKOUT_RESULT}`,
-          receipt_email: customer.email,
-          expand: ['metadata'],
-          payment_method_data: {
-            billing_details: {
-              name: customer.name,
-              email: customer.email,
-              address: customer.address,
-            },
-          },
-        },
-      });
+  //     const { error: confirmError } = await stripe.confirmPayment({
+  //       elements,
+  //       clientSecret,
+  //       redirect: 'always',
+  //       confirmParams: {
+  //         return_url: `${window.location.origin}/${ENUM_ROUTES.CHECKOUT_RESULT}`,
+  //         receipt_email: customer.email,
+  //         expand: ['metadata'],
+  //         payment_method_data: {
+  //           billing_details: {
+  //             name: customer.name,
+  //             email: customer.email,
+  //             address: customer.address,
+  //           },
+  //         },
+  //       },
+  //     });
 
-      // if (confirmError) {
-      //   setPayment({ status: 'error' });
-      //   await rollbackReservations(previousValues);
-      //   setErrorMessage(confirmError.message ?? 'An unknown error occurred');
-      // }
-    } catch (err) {
-      const { message } = err as StripeError;
-      await rollbackReservations(globalPreviousValues);
-      setPayment({ status: 'error' });
-      setErrorMessage(message ?? 'An unknown error occurred');
-    }
-  };
+  //     // if (confirmError) {
+  //     //   setPayment({ status: 'error' });
+  //     //   await rollbackReservations(previousValues);
+  //     //   setErrorMessage(confirmError.message ?? 'An unknown error occurred');
+  //     // }
+  //   } catch (err) {
+  //     const { message } = err as StripeError;
+  //     await rollbackReservations(globalPreviousValues);
+  //     setPayment({ status: 'error' });
+  //     setErrorMessage(message ?? 'An unknown error occurred');
+  //   }
+  // };
 
-  const handleCancel = () => {
-    clearCart();
-    router.push(ENUM_ROUTES.HOME);
-  };
+  // const handleCancel = () => {
+  //   clearCart();
+  //   router.push(ENUM_ROUTES.HOME);
+  // };
 
-  if (!customer || !cart) {
-    return null;
-  }
+  // if (!customer || !cart) {
+  //   return null;
+  // }
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={() => {}}>
         <fieldset>
-          {paymentType === 'card' ? (
-            <InputGroup
-              id='cardholderName'
-              name='cardholderName'
-              label={t('Cart.cardholderName')}
-              onInputChange={handleInputChange}
-              value={input}
-              required
-            />
-          ) : null}
-          <input type='hidden' name='amount' value={cart.totalPrice} />
+          {/* <InputGroup
+            id='cardholderName'
+            name='cardholderName'
+            label={t('Cart.cardholderName')}
+            onInputChange={handleInputChange}
+            value={input}
+            required
+          /> */}
+
+          <input type='hidden' name='amount' value={3} />
           <div>
             <PaymentElement
-              options={{
-                defaultValues: {
-                  billingDetails: {
-                    name: customer.name,
-                    email: customer.email,
-                    address: customer.address,
-                  },
-                },
-              }}
-              onChange={(e) => {
-                setPaymentType(e.value.type);
-              }}
+            // options={{
+            //   defaultValues: {
+            //     billingDetails: {
+            //       name: customer.name,
+            //       email: customer.email,
+            //       address: customer.address,
+            //     },
+            //   },
+            // }}
             />
           </div>
         </fieldset>
-        <Flexbox
+        {/* <Flexbox
           style={{
             marginTop: '20px',
           }}>
@@ -230,7 +226,7 @@ function CheckoutForm(): JSX.Element | null {
             </Flexbox>
             <FuckingLaw>{t('Cart.orderPaymentMandatory')}</FuckingLaw>
           </Button>
-        </Flexbox>
+        </Flexbox> */}
       </form>
 
       {/* <PaymentStatus
