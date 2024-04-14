@@ -28,14 +28,14 @@ const stripePromise = getStripe();
 
 const PaymentIndex = () => {
   const { cart } = useCart();
-  console.log(stripePromise);
+
   if (!cart?.totalPrice) return null;
   return (
     <Page>
       <CheckoutHeader />
       <CustomSection>
         <CardWrapper>
-          {/* <Elements
+          <Elements
             stripe={stripePromise}
             options={{
               appearance: {
@@ -49,8 +49,8 @@ const PaymentIndex = () => {
               mode: 'payment',
               amount: cart.totalPrice,
             }}>
-            <CheckoutForm />
-          </Elements> */}
+            {/* <CheckoutForm /> */}
+          </Elements>
         </CardWrapper>
         <CartSummary editable={false} />
       </CustomSection>
@@ -59,3 +59,5 @@ const PaymentIndex = () => {
 };
 
 export default PaymentIndex;
+
+// TypeError: Cannot read properties of undefined (reading 'dispatch')
