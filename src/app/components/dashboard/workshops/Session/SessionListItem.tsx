@@ -25,14 +25,25 @@ const Root = styled.li`
     background-color: var(--input-border-color);
   }
 `;
+const DeleteButtonWrapper = styled(Flexbox)`
+  justify-content: center;
+  padding-top: 10px;
+`;
 const MetaWrapper = styled.div`
   margin-right: 10px;
 `;
 const MetaLabel = styled.span`
   font-weight: bold;
   margin-bottom: 5px;
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
-const MetaValue = styled.span``;
+const MetaValue = styled.span`
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
+`;
 
 interface Props {
   session: ISession;
@@ -151,10 +162,12 @@ export const SessionListItem = ({
           </MetaWrapper>
         ) : null}
         {onDeleteSession ? (
-          <IconButton
-            onClick={() => onDeleteSession(session._id)}
-            icon={faTrash}
-          />
+          <DeleteButtonWrapper>
+            <IconButton
+              onClick={() => onDeleteSession(session._id)}
+              icon={faTrash}
+            />
+          </DeleteButtonWrapper>
         ) : null}
       </Root>
       <FullDialog

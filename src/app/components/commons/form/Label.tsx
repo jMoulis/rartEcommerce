@@ -10,5 +10,6 @@ export const Label = styled.label<{
   position: relative;
   @media (max-width: 768px) {
     margin-bottom: 10px;
+    flex: 1;
   }
 `;

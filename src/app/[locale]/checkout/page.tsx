@@ -1,4 +1,4 @@
-import { Checkout } from '../../components/client/checkout/Checkout';
+import Checkout from '../../components/client/checkout/cart';
 
 export default async function CheckoutPage() {
   return <Checkout />;

@@ -29,7 +29,9 @@ const ImageContent = styled.div`
     margin-bottom: 20px;
   }
 `;
-const Description = styled.p``;
+const Description = styled.p`
+  text-align: justify;
+`;
 const Title = styled.h2`
   color: var(--secondary-color);
   margin-bottom: 10px;

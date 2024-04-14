@@ -1,15 +1,13 @@
-import { Page } from '../../components/client/commons/layout/Page';
-import { SectionHeader } from '../../components/commons/Layouts/SectionHeader';
+import { CartSession } from '@/src/app/contexts/cart/CartSession';
+import { CheckoutCartControl } from '../../components/client/checkout/CheckoutCartControl';
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
-
-export default async function CheckoutLayoutRoot({ children }: Props) {
+export default async function RootLayout({ children }: Props) {
   return (
-    <Page>
-      <SectionHeader />
-      {children}
-    </Page>
+    <CartSession>
+      <CheckoutCartControl>{children}</CheckoutCartControl>
+    </CartSession>
   );
 }

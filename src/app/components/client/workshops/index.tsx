@@ -11,7 +11,7 @@ import { Section } from '../commons/layout/Section';
 
 import { toast } from 'react-toastify';
 import { useTranslations } from 'next-intl';
-import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
+import { ButtonLink } from '../checkout/commons/ButtonLink';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
 import { Grid } from '../home/Grid';
 import SectionHeader from '../home/SectionHeader';
@@ -84,7 +84,7 @@ export default function Workshops({
                 key={imageIndex}
                 src={(workshop as IWorkshop).image?.url}
                 title={workshop.name}
-                price={workshop.price}
+                price={(workshop as any).price}
                 description={workshop.description!}
                 id={workshop._id!}
                 hrefRoot='workshops'>

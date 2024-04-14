@@ -61,12 +61,10 @@ export async function POST(req: Request) {
           const invoiceRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(payload?.invoice?.data._id);
           const mailService = new MailService();
           console.log('Start send email');
-          // const invocePdf = generatePDFInvoice();
           const mailResponse = await mailService.sendEmail({
             files: payload?.pdf ? [payload?.pdf] : [],
             email: orderData.customerInformations.email,
             subject: 'Confirmation de paiement',
-
             template: {
               name: 'paymentSuccess',
               props: {
@@ -75,6 +73,7 @@ export async function POST(req: Request) {
                 contactName: process.env.NEXT_CONTACT_NAME,
                 companyName: process.env.NEXT_COMPANY_NAME,
                 mailSystem: process.env.NEXT_PUBLIC_MAIL_SYSTEM,
+                receiptUrl: data.receipt_url,
               }
             }
           });

@@ -3,13 +3,21 @@ import { Card } from '../home/Card';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { ICartItem, IProductImage, IProductService } from '@/src/types/DBTypes';
 import { Selectbox } from '../../commons/form/Selectbox';
-import { AddToCart } from '../checkout/processing/cart/AddToCart';
+import { AddToCart } from '../checkout/cart/AddToCart';
 import { Button } from '../../commons/Buttons/Button';
 import { useTranslations } from 'next-intl';
 import { useQuantityOptions } from './useQuantityOptions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/pro-light-svg-icons';
-import { Flexbox } from '../../commons/Flexbox';
+import styled from '@emotion/styled';
+
+const FooterWrapper = styled.footer`
+  display: flex;
+  @media (max-width: 768px) {
+    justify-content: center;
+    margin: 5px 0;
+  }
+`;
 
 interface Props {
   product: IProductService;
@@ -106,7 +114,7 @@ export const ProductListItem = ({ product }: Props) => {
       description={product.description}
       id={product._id!}
       hrefRoot='products'>
-      <Flexbox>
+      <FooterWrapper>
         {renderCardFooter()}
         {isIncart ? (
           <Button
@@ -117,7 +125,7 @@ export const ProductListItem = ({ product }: Props) => {
             <FontAwesomeIcon icon={faTrash} />
           </Button>
         ) : null}
-      </Flexbox>
+      </FooterWrapper>
     </Card>
   );
 };

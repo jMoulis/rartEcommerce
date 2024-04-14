@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { Button } from '../../../commons/Buttons/Button';
 import { toast } from 'react-toastify';
 import { Flexbox } from '../../../commons/Flexbox';
-import { ButtonAnchorLink } from '../../../client/checkout/processing/commons/ButtonLink';
+import { ButtonAnchorLink } from '../../../client/checkout/commons/ButtonLink';
 import { format } from 'date-fns';
 import { ENUM_ROUTES } from '../../../navbar/routes.enums';
 

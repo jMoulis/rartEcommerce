@@ -1,10 +1,10 @@
-import { IProductService, IWorkshop } from '@/src/types/DBTypes';
+import { IArtwork, IProductService, IWorkshop } from '@/src/types/DBTypes';
 import { useEffect, useRef, useState } from 'react';
 
-export const useCategories = (initialData: Array<IProductService | IWorkshop>) => {
-  const [filteredData, setFilteredData] = useState<Array<IProductService | IWorkshop>>(initialData);
+export const useCategories = (initialData: Array<IProductService | IWorkshop | IArtwork>) => {
+  const [filteredData, setFilteredData] = useState<Array<IProductService | IWorkshop | IArtwork>>(initialData);
   const [selectedCategories, setCategories] = useState<string[]>(['ALL']);
-  const unfilteredProducts = useRef<Array<IProductService | IWorkshop>>(initialData);
+  const unfilteredProducts = useRef<Array<IProductService | IWorkshop | IArtwork>>(initialData);
 
   useEffect(() => {
     if (selectedCategories.length === 0 || selectedCategories.includes('ALL')) {

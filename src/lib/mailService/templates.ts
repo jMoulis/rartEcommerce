@@ -26,7 +26,9 @@ const css = `
   .register-link {
     background-color: #085B79;
     color: #fff;
-    padding: 10px 0;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     jusitfy-content: center;
@@ -84,12 +86,12 @@ export const templates: Record<string, (params: any) => string> = {
       </ul>
       <p>${message}</p>
     </div>`)),
-  paymentSuccess: ({ customer, host, contactName, companyName, mailSystem }: { customer: IContactInformations, host: string, contactName: string; companyName: string, mailSystem: string }) => html(header({ title: 'Confirmation de paiement' }),
+  paymentSuccess: ({ customer, host, contactName, companyName, mailSystem, receiptUrl }: { customer: IContactInformations, host: string, contactName: string; companyName: string, mailSystem: string, receiptUrl: string }) => html(header({ title: 'Confirmation de paiement' }),
     `<h1>Confirmation de paiement</h1>
     <div class="container">
       <div class="header">Votre achat artistique est confirmé</div>
       <p>Cher(e) ${customer.firstname} ${customer.lastname},</p>
-      <p>Nous sommes ravis de vous annoncer que votre paiement a été reçu avec succès. Un nouveau chapitre s'ajoute à votre parcours artistique, qu'il s'agisse d'une œuvre d'art unique ou d'une expérience enrichissante dans nos ateliers.</p>
+      <p>Nous sommes ravis de vous annoncer que votre paiement a été reçu avec succès (<a download="receipt.pdf" href="${receiptUrl}">voir reçu</a>). Un nouveau chapitre s'ajoute à votre parcours artistique, qu'il s'agisse d'une œuvre d'art unique ou d'une expérience enrichissante dans nos ateliers.</p>
       <p><a href="${host}?action=register&email=${customer.email}" class="register-link">Créez votre compte</a> pour une expérience sur mesure et découvrez plus d'inspirations.</p>
       <p>Votre Facture : Retrouvez votre facture en pièce jointe, symbole de cette belle rencontre entre votre passion et notre art.</p>
       <p>Pour toute question, nous sommes à votre écoute. Bienvenue dans notre communauté artistique.</p>

@@ -1,22 +1,17 @@
 'use client';
 
-import React, { Suspense, useEffect, useRef, useState } from 'react';
-import LocaleSwitcher from './LocaleSwitcher';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { ProfileMenu } from './ProfileMenu/ProfileMenu';
 import { useUserSession } from '../../contexts/auth/hooks/useUserSession';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/pro-light-svg-icons';
 import { navRoutes } from './routes';
 import { useLocale, useTranslations } from 'next-intl';
-import { Flexbox } from '../commons/Flexbox';
 import { NavigationLink } from '../commons/NavigationLink';
 import { usePathname } from 'next/navigation';
 import { CartMenu } from './CartMenu';
-import { Logo } from './Logo';
-import Slogan from './Slogan';
 import ResponsiveMenu from './ResponsiveMenu/ResponsiveMenu';
-// import GlobalSearch from './GlobalSearch';
+import { LanguageProfileMenu } from './LanguageProfileMenu';
+import { MainNavHeader } from './MainNavHeader';
+import { ResponsiveWrapper } from './ResponsiveWrapper';
 
 const Root = styled.header<{ isScrolled: boolean }>`
   position: sticky;
@@ -40,15 +35,6 @@ const Root = styled.header<{ isScrolled: boolean }>`
   }
 `;
 
-const LogoSloganWrapper = styled(Flexbox)`
-  @media (max-width: 768px) {
-    flex-direction: column;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
 const Nav = styled.nav`
   display: flex;
   align-items: center;
@@ -64,13 +50,6 @@ const ListRoute = styled.ul`
   display: flex;
   flex: 1;
   justify-content: flex-end;
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-const ToolbarWrapper = styled(Flexbox)`
-  display: flex;
-  min-width: 100px;
   @media (max-width: 768px) {
     display: none;
   }
@@ -102,20 +81,13 @@ export const Navbar = () => {
 
   return (
     <Root ref={headerRef} isScrolled={isScrolled}>
-      <ResponsiveMenu>
-        <LogoSloganWrapper alignItems='flex-end'>
-          <Logo />
-          <Slogan />
-        </LogoSloganWrapper>
-        <div style={{ width: '40px' }} />
-      </ResponsiveMenu>
+      <ResponsiveMenu isScrolled={isScrolled} />
       {isScrolled ? (
         <>
-          <LogoSloganWrapper alignItems='center'>
-            <Logo />
-            <Slogan />
-          </LogoSloganWrapper>
-          <div style={{ width: '40px' }} />
+          <MainNavHeader />
+          <ResponsiveWrapper>
+            <CartMenu isScrolled={isScrolled} />
+          </ResponsiveWrapper>
         </>
       ) : null}
 
@@ -135,19 +107,7 @@ export const Navbar = () => {
             );
           })}
         </ListRoute>
-        <ToolbarWrapper alignItems='center'>
-          {/* <GlobalSearch /> */}
-          <Suspense
-            fallback={
-              <i>
-                <FontAwesomeIcon icon={faSpinner} className='fa-pulse' />
-              </i>
-            }>
-            <ProfileMenu />
-          </Suspense>
-          <LocaleSwitcher />
-          <CartMenu />
-        </ToolbarWrapper>
+        <LanguageProfileMenu isScrolled={isScrolled} withCart />
       </Nav>
     </Root>
   );

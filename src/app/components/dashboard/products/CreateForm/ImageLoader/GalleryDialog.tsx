@@ -19,12 +19,6 @@ const Header = styled.header`
   padding: 15px;
   border-bottom: 1px solid var(--card-header-border-color);
 `;
-const Footer = styled.footer`
-  display: flex;
-  padding: 10px;
-  justify-content: flex-end;
-`;
-
 interface Props {
   open: boolean;
   onClose: VoidFunction;
@@ -62,6 +56,12 @@ export const GalleryDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth='lg'>
       <Header>
         <h2>{tCommons('selectImages')}</h2>
+        <Button
+          type='button'
+          onClick={handleSubmit}
+          disabled={!selectedImages.length}>
+          {tProduct('addToProduct' as any)}
+        </Button>
         <CloseModalButton onClose={onClose} />
       </Header>
       <Content>
@@ -71,14 +71,6 @@ export const GalleryDialog = ({
           entitySelectedImages={prevImages}
         />
       </Content>
-      <Footer>
-        <Button
-          type='button'
-          onClick={handleSubmit}
-          disabled={!selectedImages.length}>
-          {tProduct('addToProduct' as any)}
-        </Button>
-      </Footer>
     </Dialog>
   );
 };

@@ -25,11 +25,17 @@ interface Props {
   listClasses?: string;
   activeClasses?: string;
   text: string;
+  customPaths?: string[];
 }
 
-const Breadcrumb = ({ listClasses, activeClasses, text }: Props) => {
-  const paths = usePathname();
-  const pathNames = paths.split('/').filter((path) => path);
+const Breadcrumb = ({
+  listClasses,
+  activeClasses,
+  text,
+  customPaths,
+}: Props) => {
+  const pathname = usePathname();
+  const pathNames = customPaths ?? pathname.split('/').filter((path) => path);
   const t = useTranslations();
 
   return (
@@ -51,7 +57,7 @@ const Breadcrumb = ({ listClasses, activeClasses, text }: Props) => {
         {pathNames.map((link, index) => {
           const href = `/${pathNames.slice(0, index + 1).join('/')}`;
           const itemClasses =
-            paths === href ? `${listClasses} ${activeClasses}` : listClasses;
+            pathname === href ? `${listClasses} ${activeClasses}` : listClasses;
 
           const itemLink = link;
           return (

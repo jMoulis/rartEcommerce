@@ -2,8 +2,8 @@
 
 import type { Stripe } from 'stripe';
 import { headers } from 'next/headers';
-import { CURRENCY } from '@/src/app/components/client/checkout/processing/payment/config';
-import { formatAmountForStripe } from '@/src/app/components/client/checkout/processing/payment/utils/stripeHelper';
+import { CURRENCY } from '@/src/app/components/client/checkout/payment/config';
+import { formatAmountForStripe } from '@/src/app/components/client/checkout/payment/utils/stripeHelper';
 import { stripe } from '@/src/lib/stripe/stripe';
 
 export async function createCheckoutSession(

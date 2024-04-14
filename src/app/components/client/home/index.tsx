@@ -7,7 +7,7 @@ import SectionServices from './SectionWorkshops';
 import SectionProducts from './SectionProducts';
 import styled from '@emotion/styled';
 import SectionTestimonial from './SectionTestimonial';
-import { IWorkshop, IProductService, ICategory } from '@/src/types/DBTypes';
+import { IWorkshop, IProductService } from '@/src/types/DBTypes';
 import { Flexbox } from '../../commons/Flexbox';
 import { CallToAction } from '../../commons/Buttons/CallToAction';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
@@ -27,13 +27,8 @@ const CallToActionWrapper = styled(Flexbox)`
 interface Props {
   initialProducts: IProductService[];
   initWorkshops: IWorkshop[];
-  initialCategories: ICategory[];
 }
-export default function Home({
-  initialProducts,
-  initWorkshops,
-  initialCategories,
-}: Props) {
+export default function Home({ initialProducts, initWorkshops }: Props) {
   const t = useTranslations();
   return (
     <Page
@@ -47,7 +42,7 @@ export default function Home({
         <CallToActionWrapper>
           <CallToAction
             active={false}
-            backgroundColor='var(--secondary-color)'
+            color='var(--secondary-color)'
             hoverBackgroundColor='var(--secondary-accent)'
             route={{
               label: t('Navbar.bookNow'),
@@ -57,7 +52,7 @@ export default function Home({
 
           <CallToAction
             active={false}
-            backgroundColor='var(--primary-color)'
+            color='var(--primary-color)'
             hoverBackgroundColor='var(--action-button-color)'
             route={{
               label: t('Navbar.buyNow'),

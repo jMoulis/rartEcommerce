@@ -176,7 +176,18 @@ export interface IOrderInput {
 export interface IOrder extends IOrderInput {
   _id: string;
 }
-
+export interface IArtworkInput {
+  name: string;
+  description: string;
+  sections: ISection[];
+  isArchived: boolean;
+  published: boolean;
+  categories: string[];
+  images: IImageType[]
+}
+export interface IArtwork extends IArtworkInput {
+  _id?: string;
+}
 export interface IInvoicesId {
   counter: number;
 }
@@ -283,6 +294,7 @@ export interface UserProfile {
   verified: boolean;
   verificationDate?: Timestamp;
   mobile?: string;
+  isArchived?: boolean;
 }
 export interface ICustomer extends UserProfile {
   profileId?: string;
@@ -352,6 +364,7 @@ export interface IWorkshop {
   sessions: ISession[];
   pusblished: boolean;
   sections: ISection[];
+  isArchived?: boolean;
   type: 'product' | 'workshop';
 }
 
@@ -374,6 +387,7 @@ export interface IContactInformations {
   lastname: string;
   email: string;
   address?: IAddress
+  shippingAddress?: IAddress
 }
 export interface ICart {
   items: ICartItem[];
@@ -382,6 +396,7 @@ export interface ICart {
   contactInformations: IContactInformations
   totalItems: number;
   totalPrice: number;
+  taxes: number;
 }
 
 export interface IShippingContract {

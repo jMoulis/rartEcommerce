@@ -7,7 +7,7 @@ import { Unsubscribe } from 'firebase/firestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { onFindSingleRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { format, addMilliseconds } from 'date-fns';
-import { AddToCart } from '../../checkout/processing/cart/AddToCart';
+import { AddToCart } from '../../checkout/cart/AddToCart';
 import { Button } from '../../../commons/Buttons/Button';
 import { toast } from 'react-toastify';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
@@ -232,18 +232,23 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
                 <FontAwesomeIcon icon={faChair} />
               </MetaLabel>
               <MetaLabel>{t('Session.places')}</MetaLabel>
-              <MetaValue>{placeleft}</MetaValue>
+              <MetaValue
+                style={{
+                  marginLeft: '5px',
+                }}>
+                {placeleft}
+              </MetaValue>
             </MetaWrapper>
           </Flexbox>
         </Flexbox>
         {selectedCartSessionIds.includes(session._id) ? (
-          <MetaWrapper>
+          <ButtonWrapper>
             <Button
               onClick={() => !preview && handleDeleteSession(session._id)}
               backgroundColor='rgba(255,0,0,0.4)'>
               {t('Booking.unSubscribe')}
             </Button>
-          </MetaWrapper>
+          </ButtonWrapper>
         ) : (
           <ButtonWrapper>
             {placeleft ? (

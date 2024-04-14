@@ -5,6 +5,21 @@ import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../../commons/Buttons/Button';
+import styled from '@emotion/styled';
+
+const ListItem = styled.li`
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: #fff;
+    &:last-child {
+      background-color: transparent;
+    }
+  }
+`;
 
 interface Props {
   onClose: () => void;
@@ -31,20 +46,20 @@ export const LinksMenu = ({ onClose }: Props) => {
     <ul>
       {loading ? ' loading' : ''}
       {isAdmin ? (
-        <li>
+        <ListItem>
           <Link onClick={onClose} href='/dashboard'>
             {t('Navbar.dashboard')}
           </Link>
-        </li>
+        </ListItem>
       ) : null}
-      <li>
+      <ListItem>
         <Link onClick={onClose} href='/account'>
           {t('Navbar.account')}
         </Link>
-      </li>
-      <li>
+      </ListItem>
+      <ListItem>
         <Button onClick={handleSignOut}>{t('authCommons.signOut')}</Button>
-      </li>
+      </ListItem>
     </ul>
   );
 };

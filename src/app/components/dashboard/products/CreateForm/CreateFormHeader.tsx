@@ -15,6 +15,7 @@ import {
   IProductService,
   IInvoice,
   UserProfile,
+  IArtwork,
 } from '@/src/types/DBTypes';
 import {
   faArchive,
@@ -91,7 +92,7 @@ interface Props {
   onSubmit?: VoidFunction;
   onAddSection?: VoidFunction;
   onPreview?: VoidFunction;
-  form: IProductService | IWorkshop | IInvoice | UserProfile;
+  form: IProductService | IWorkshop | IInvoice | UserProfile | IArtwork;
   onDelete?: (itemId?: string) => void;
   onArchive?: (itemId?: string) => void;
   onPublish?: (
@@ -218,7 +219,7 @@ export const CreateFormHeader = ({
             <Flexbox alignItems='center'>
               {onSubmit ? (
                 <SubmitButton
-                  disabled={saving ?? (form as any).isArchived}
+                  disabled={saving ?? form.isArchived}
                   saving={saving}
                   onClick={onSubmit}
                 />
@@ -231,7 +232,7 @@ export const CreateFormHeader = ({
                     (form as any).published ? t('unPublished') : t('published')
                   }
                   value={(form as any).published || false}
-                  onInputChange={(event) => onPublish(event, (form as any)._id)}
+                  onInputChange={(event) => onPublish(event, form._id)}
                 />
               ) : null}
               <CategoryTags
@@ -246,7 +247,7 @@ export const CreateFormHeader = ({
                   style={{
                     whiteSpace: 'nowrap',
                   }}
-                  disabled={saving ?? (form as any).isArchived}
+                  disabled={saving ?? form.isArchived}
                   onClick={onAddSection}>
                   {t('addSection')}
                 </Button>

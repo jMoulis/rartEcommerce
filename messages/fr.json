@@ -6,7 +6,9 @@
   },
   "Breadcrumb": {
     "products": "Boutique",
-    "workshops": "Ateliers"
+    "workshops": "Ateliers",
+    "basket": "Panier",
+    "checkout": "Validation"
   },
   "commons": {
     "a": "un",
@@ -59,7 +61,8 @@
     "lastUpdate": "Dernière mise à jour: {date}",
     "duplicate": "Dupliquer",
     "preview": "Aperçu",
-    "editable": "Éditable"
+    "editable": "Éditable",
+    "product": "Produit"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -97,7 +100,12 @@
     "forgotPassword": "Oublié?",
     "alreadyHaveAnAccount": "Vous avez déjà un compte?"
   },
-
+  "Artwork": {
+    "create": "Créer une oeuvre",
+    "description": "Description",
+    "name": "Nom",
+    "detail": "Détail"
+  },
   "Booking": {
     "bookings": "Réservations",
     "booking": "Réservation",
@@ -145,7 +153,7 @@
   },
   "Cart": {
     "cart": "Panier",
-    "summary": "Récapitulatif",
+    "summary": "Récapitulatif de la commande",
     "item": "Produit/service",
     "total": "Total",
     "plusDelivery": "Hors frais de livraison",
@@ -158,11 +166,30 @@
     "shipping": "Livraison",
     "validateShipping": "Valider la livraison",
     "contactInformations": "Information de contact",
-    "shippingAddress": "Information pour la livraison",
+    "shippingAddress": "Adresse de livraison",
+    "billingAddress": "Adresse de facturation",
     "confirm": "Confirmer",
     "addToCart": "Ajouter au panier",
     "deleteFromCart": "Supprimer du panier",
-    "seeCart": "Voir le panier"
+    "seeCart": "Voir le panier",
+    "taxes": "TVA",
+    "sameAsBilling": "Même que l'adresse de facturation",
+    "pay": "Payer",
+    "cardholderName": "Nom du titulaire",
+    "orderPaymentMandatory": "Commande avec obligation de paiement",
+    "basket": "Panier",
+    "processing": "Traitement de la commande",
+    "authenticating": "Authentification",
+    "paymentSuccess": "Paiement réussi",
+    "paymentError": "Erreur de paiement",
+    "retryPayment": "Réessayer le paiement",
+    "cancelOrder": "Annuler la commande",
+    "cancelOrderMessage": "Annuler la commande, supprimera également votre panier",
+    "emptyCart": "Votre panier est vide",
+    "emptyCartEngagingMessage": "Découvrez nos produits et services"
+  },
+  "Checkout": {
+    "congrat": "Félicitations"
   },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
@@ -213,7 +240,8 @@
     "estimates": "Devis",
     "invoices": "Factures",
     "subscriptions": "Abonnements",
-    "templates": "Modèles"
+    "templates": "Modèles",
+    "artworks": "Oeuvres d'art"
   },
   "Home": {
     "about": "A propos",
@@ -262,7 +290,8 @@
     "personalInfo": "Informations personnelles",
     "bookNow": "Réserver maintenant",
     "buyNow": "Acheter maintenant",
-    "orders": "Commandes"
+    "orders": "Commandes",
+    "gallery": "Gallerie"
   },
   "Product": {
     "addProduct": "Ajouter un article",

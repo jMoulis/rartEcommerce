@@ -9,6 +9,8 @@ import { navRoutes } from '../routes';
 import { useLocale, useTranslations } from 'next-intl';
 import { NavigationLink } from '../../commons/NavigationLink';
 import { usePathname } from 'next/navigation';
+import { LanguageProfileMenu } from '../LanguageProfileMenu';
+import { MainNavHeader } from '../MainNavHeader';
 
 const Root = styled.div`
   display: none;
@@ -47,9 +49,9 @@ const CustomButton = styled(Button)`
 `;
 
 interface Props {
-  children: React.ReactNode;
+  isScrolled: boolean;
 }
-const ResponsiveMenu = ({ children }: Props) => {
+const ResponsiveMenu = ({ isScrolled }: Props) => {
   const { open, onClose, onOpen } = useToggle();
   const t = useTranslations();
   const locale = useLocale();
@@ -71,7 +73,7 @@ const ResponsiveMenu = ({ children }: Props) => {
               <CustomButton onClick={onClose}>
                 <FontAwesomeIcon icon={faXmark} size='2x' />
               </CustomButton>
-              {children}
+              <MainNavHeader />
             </Header>
             <Links>
               {navRoutes(t).map((route, key) => {
@@ -90,6 +92,7 @@ const ResponsiveMenu = ({ children }: Props) => {
                 );
               })}
             </Links>
+            <LanguageProfileMenu withCart={false} isScrolled={isScrolled} />
           </Nav>
         </SwipeableDrawer>
       </Root>

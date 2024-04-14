@@ -6,6 +6,7 @@ import OptionListItem from './OptionListItem';
 const List = styled.ul`
   display: flex;
   align-items: center;
+  margin: 10px 0;
 `;
 
 interface Props {

@@ -10,9 +10,13 @@ const List = styled.ul`
   height: 15px;
   flex: 1;
   justify-content: center;
+  flex-wrap: wrap;
 `;
 const ListItem = styled.li`
   margin-right: 10px;
+  @media (max-width: 768px) {
+    margin-top: 5px;
+  }
 `;
 const Category = styled.button<{ selected: boolean }>`
   margin-right: 10px;

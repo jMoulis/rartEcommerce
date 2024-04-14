@@ -16,10 +16,10 @@ import { Flexbox } from '../../commons/Flexbox';
 import { useTranslations } from 'next-intl';
 import { IconButton } from '../../commons/Buttons/IconButton';
 import { faTrash } from '@fortawesome/pro-light-svg-icons';
-import { AddToCart } from '../checkout/processing/cart/AddToCart';
+import { AddToCart } from '../checkout/cart/AddToCart';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { Button } from '../../commons/Buttons/Button';
-import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
+import { ButtonLink } from '../checkout/commons/ButtonLink';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
 
 const Root = styled.div`
@@ -58,6 +58,7 @@ const EmptySpan = styled.hr`
 `;
 const PriceGridWrapper = styled(Flexbox)`
   margin: 0 10px;
+  flex: 1;
   @media (max-width: 768px) {
     margin: 0;
   }
@@ -65,6 +66,7 @@ const PriceGridWrapper = styled(Flexbox)`
 const PriceGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr auto 30px;
+  gap: 10px;
   grid-auto-rows: 30px;
   margin-bottom: 10px;
   align-content: center;

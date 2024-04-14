@@ -26,5 +26,9 @@ export const navRoutes = (t: any): INavigationRoute[] => [{
   label: t('Navbar.contact'),
   href: '/contact',
   icon: faStore
+}, {
+  label: t('Navbar.gallery'),
+  href: '/gallery',
+  icon: faStore
 },
 ];

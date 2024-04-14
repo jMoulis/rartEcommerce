@@ -12,7 +12,7 @@ import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { toast } from 'react-toastify';
 import { Grid } from './Grid';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
-import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
+import { ButtonLink } from '../checkout/commons/ButtonLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
 import styled from '@emotion/styled';
@@ -76,11 +76,11 @@ export default function SectionProducts({ initialProducts }: Props) {
         </Subtitle>
         <Flexbox
           style={{
-            marginTop: '20px',
+            margin: '20px 0',
           }}>
           <CallToAction
             active={false}
-            backgroundColor='var(--primary-color)'
+            color='var(--primary-color)'
             hoverBackgroundColor='var(--action-button-color)'
             route={{
               label: t('Home.visitShop'),

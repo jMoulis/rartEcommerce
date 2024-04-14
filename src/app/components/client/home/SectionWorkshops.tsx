@@ -11,7 +11,7 @@ import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { toast } from 'react-toastify';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
-import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
+import { ButtonLink } from '../checkout/commons/ButtonLink';
 import { Grid } from './Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
@@ -70,8 +70,8 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
           }}>
           <CallToAction
             active={false}
-            backgroundColor='var(--secondary-color)'
-            hoverBackgroundColor='var(--action-button-color)'
+            color='var(--secondary-color)'
+            hoverBackgroundColor='var(--secondary-accent)'
             route={{
               label: t('Home.visitShop'),
               href: ENUM_ROUTES.PRODUCTS,

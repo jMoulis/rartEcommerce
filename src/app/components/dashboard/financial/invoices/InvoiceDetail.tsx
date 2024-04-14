@@ -9,7 +9,7 @@ import { Article } from '../../products/CreateForm/Article';
 import { Flexbox } from '../../../commons/Flexbox';
 import LineItems from './LineItems';
 import { format } from 'date-fns';
-import { ButtonAnchorLink } from '../../../client/checkout/processing/commons/ButtonLink';
+import { ButtonAnchorLink } from '../../../client/checkout/commons/ButtonLink';
 import Link from 'next/link';
 import { ENUM_ROUTES } from '../../../navbar/routes.enums';
 
