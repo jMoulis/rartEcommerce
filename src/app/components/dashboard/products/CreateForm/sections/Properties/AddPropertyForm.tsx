@@ -1,4 +1,4 @@
-import { IProperty } from '@/src/types/DBTypes';
+import { IProductService, IProperty } from '@/src/types/DBTypes';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslations } from 'next-intl';
@@ -90,12 +90,14 @@ export const AddPropertyForm = ({
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     elementId: string
   ) => {
-    const { name, value } = event.currentTarget;
+    const { name, value, type } = event.currentTarget;
+    const savedValue =
+      type === 'checkbox' ? (event.currentTarget as any).checked : value;
     setProperty((prev) => ({
       ...prev,
       elements: prev.elements.map((prevElement) =>
         prevElement.id === elementId
-          ? { ...prevElement, [name]: value }
+          ? { ...prevElement, [name]: savedValue }
           : prevElement
       ),
     }));
@@ -128,6 +130,35 @@ export const AddPropertyForm = ({
       align,
     }));
   };
+  const handleAddOption = (option: IProductService) => {
+    setProperty((prev) => ({
+      ...prev,
+      elements: prev.elements.map((element) => {
+        if (element.refIds) {
+          if (element.refIds.includes(option._id!)) {
+            // Remove refId if it already exists
+            return {
+              ...element,
+              refIds: element.refIds.filter((id) => id !== option._id!),
+            };
+          } else {
+            // Add refId if it doesn't exist
+            return {
+              ...element,
+              refIds: [...element.refIds, option._id!],
+            };
+          }
+        } else {
+          // Create and add refId if it doesn't exist
+          return {
+            ...element,
+            refIds: [option._id!],
+          };
+        }
+      }),
+    }));
+  };
+
   return (
     <>
       <Flexbox flexDirection='column' flex='1'>
@@ -154,6 +185,7 @@ export const AddPropertyForm = ({
           {property.elements.map((element, key) => (
             <li key={key}>
               <ElementForm
+                onAddOption={handleAddOption}
                 element={element}
                 onBlur={(event) => handleBlur(event, element.id)}
                 onInputChange={(event) => handleInputChange(event, element.id)}

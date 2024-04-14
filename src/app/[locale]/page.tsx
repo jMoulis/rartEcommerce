@@ -18,5 +18,6 @@ export default async function HomePage({ params: { locale } }: Props) {
   const initWorkshops: any = await findByQuery(ENUM_COLLECTIONS.WORKSHOPS, {
     published: true,
   });
+
   return <Home initialProducts={products} initWorkshops={initWorkshops} />;
 }

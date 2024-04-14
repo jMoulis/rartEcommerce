@@ -4,8 +4,15 @@
     "signOut": "Déconnexion",
     "register": "S'inscrire"
   },
+  "Breadcrumb": {
+    "products": "Boutique",
+    "workshops": "Ateliers",
+    "basket": "Panier",
+    "checkout": "Validation"
+  },
   "commons": {
     "a": "un",
+    "all": "Toutes",
     "ae": "une",
     "create": "Créer",
     "createWith": "Créer {type}",
@@ -15,6 +22,7 @@
     "delete": "Supprimer",
     "edit": "Modifier",
     "save": "Sauvegarder",
+    "filters": "Filtres",
     "dragAndDropFile": "Glissez-déposez les fichiers ici",
     "or": "ou",
     "importFiles": "Importer des fichiers",
@@ -50,7 +58,11 @@
     "firstname": "Prénom",
     "mobile": "Mobile",
     "legals": "Mentions légales",
-    "lastUpdate": "Dernière mise à jour: {date}"
+    "lastUpdate": "Dernière mise à jour: {date}",
+    "duplicate": "Dupliquer",
+    "preview": "Aperçu",
+    "editable": "Éditable",
+    "product": "Produit"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -88,7 +100,12 @@
     "forgotPassword": "Oublié?",
     "alreadyHaveAnAccount": "Vous avez déjà un compte?"
   },
-
+  "Artwork": {
+    "create": "Créer une oeuvre",
+    "description": "Description",
+    "name": "Nom",
+    "detail": "Détail"
+  },
   "Booking": {
     "bookings": "Réservations",
     "booking": "Réservation",
@@ -136,7 +153,7 @@
   },
   "Cart": {
     "cart": "Panier",
-    "summary": "Récapitulatif",
+    "summary": "Récapitulatif de la commande",
     "item": "Produit/service",
     "total": "Total",
     "plusDelivery": "Hors frais de livraison",
@@ -149,10 +166,30 @@
     "shipping": "Livraison",
     "validateShipping": "Valider la livraison",
     "contactInformations": "Information de contact",
-    "shippingAddress": "Information pour la livraison",
+    "shippingAddress": "Adresse de livraison",
+    "billingAddress": "Adresse de facturation",
     "confirm": "Confirmer",
     "addToCart": "Ajouter au panier",
-    "deleteFromCart": "Supprimer du panier"
+    "deleteFromCart": "Supprimer du panier",
+    "seeCart": "Voir le panier",
+    "taxes": "TVA",
+    "sameAsBilling": "Même que l'adresse de facturation",
+    "pay": "Payer",
+    "cardholderName": "Nom du titulaire",
+    "orderPaymentMandatory": "Commande avec obligation de paiement",
+    "basket": "Panier",
+    "processing": "Traitement de la commande",
+    "authenticating": "Authentification",
+    "paymentSuccess": "Paiement réussi",
+    "paymentError": "Erreur de paiement",
+    "retryPayment": "Réessayer le paiement",
+    "cancelOrder": "Annuler la commande",
+    "cancelOrderMessage": "Annuler la commande, supprimera également votre panier",
+    "emptyCart": "Votre panier est vide",
+    "emptyCartEngagingMessage": "Découvrez nos produits et services"
+  },
+  "Checkout": {
+    "congrat": "Félicitations"
   },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
@@ -189,7 +226,7 @@
     "carts": "Paniers",
     "abandonedCarts": "Paniers abandonnés",
     "productsAndServices": "Articles & Services",
-    "products": "Oeuvres",
+    "products": "Produits",
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
     "agenda": "Agenda",
@@ -203,7 +240,8 @@
     "estimates": "Devis",
     "invoices": "Factures",
     "subscriptions": "Abonnements",
-    "templates": "Modèles"
+    "templates": "Modèles",
+    "artworks": "Oeuvres d'art"
   },
   "Home": {
     "about": "A propos",
@@ -214,7 +252,9 @@
     "sectionAbout": {
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
-    }
+    },
+    "visitShop": "Visiter la boutique",
+    "visitWorkshop": "Visiter l'atelier"
   },
   "Invoice": {
     "invoices": "Fatures",
@@ -241,7 +281,7 @@
     "home": "Accueil",
     "about": "A propos",
     "services": "Services",
-    "products": "Oeuvres",
+    "products": "Boutique",
     "workshop": "Ateliers",
     "reviews": "Avis clients",
     "contact": "Contact",
@@ -250,10 +290,13 @@
     "personalInfo": "Informations personnelles",
     "bookNow": "Réserver maintenant",
     "buyNow": "Acheter maintenant",
-    "orders": "Commandes"
+    "orders": "Commandes",
+    "gallery": "Gallerie"
   },
   "Product": {
-    "addProduct": "Ajouter un article"
+    "addProduct": "Ajouter un article",
+    "inStock": "En stock",
+    "noStock": "Contactez-nous"
   },
   "ProductForm": {
     "name": "Nom",

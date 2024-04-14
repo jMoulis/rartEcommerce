@@ -35,6 +35,7 @@ const Content = styled.div<{ blur?: boolean }>`
 `;
 
 const PropertyWrapper = styled(Flexbox)`
+  label: PropertyWrapper;
   position: relative;
   &:hover {
     .edit-button {
@@ -43,6 +44,10 @@ const PropertyWrapper = styled(Flexbox)`
   }
 `;
 
+const InputsWrapper = styled(Flexbox)`
+  display: flex;
+  flex-wrap: wrap;
+`;
 type CustomChangeEvent = ChangeEvent<
   HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
 >;
@@ -140,7 +145,7 @@ export const Section = ({
       const propertiesLength = section.properties.length;
       return (
         <PropertyWrapper alignItems='center' key={propertyIndex}>
-          <Flexbox flexDirection={property.align ?? 'column'} flex='1'>
+          <InputsWrapper flexDirection={property.align ?? 'column'} flex='1'>
             {property.elements.map((element, key) => {
               if (!renderProperties[element.component]) return null;
               return (
@@ -148,8 +153,14 @@ export const Section = ({
                   {renderProperties[element.component]({
                     label: element.label,
                     id: element.id,
+                    propertyId: property.id,
                     name: element.technicalName,
                     className: property.align,
+                    onSelectOption: () => {},
+                    onChangeSelectbox: (event: CustomChangeEvent) => {},
+                    options: [],
+                    editable: true,
+                    refIds: element.refIds ?? [],
                     onInputChange: (event: CustomChangeEvent) =>
                       handlePropertyChange(event, property.id),
                     value: element.value ?? '',
@@ -157,7 +168,7 @@ export const Section = ({
                 </Fragment>
               );
             })}
-          </Flexbox>
+          </InputsWrapper>
           <Flexbox style={{ position: 'absolute', right: 0, top: 0 }}>
             <EditButton
               disabled={false}
@@ -307,9 +318,7 @@ export const Section = ({
       <Article
         ref={articleRef}
         styling={{
-          root: {
-            marginRight: '10px',
-          },
+          root: {},
         }}
         Header={
           <SectionToolbar

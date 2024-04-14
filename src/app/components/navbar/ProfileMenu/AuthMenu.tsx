@@ -9,6 +9,8 @@ const Root = styled.ul`
   display: flex;
   align-items: center;
   margin-right: 10px;
+  min-width: 35px;
+  min-height: 35px;
 `;
 const CustomButton = styled(Button)`
   background-color: transparent;

@@ -11,10 +11,12 @@ import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { toast } from 'react-toastify';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
-import { ButtonLink } from '../checkout/processing/commons/ButtonLink';
+import { ButtonLink } from '../checkout/commons/ButtonLink';
 import { Grid } from './Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
+import { Flexbox } from '../../commons/Flexbox';
+import { CallToAction } from '../../commons/Buttons/CallToAction';
 
 const CustomSection = styled(Section)`
   background-color: rgba(255, 229, 239, 0.3);
@@ -62,6 +64,20 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
           }}>
           {t('Home.workshops')}
         </Subtitle>
+        <Flexbox
+          style={{
+            marginTop: '20px',
+          }}>
+          <CallToAction
+            active={false}
+            color='var(--secondary-color)'
+            hoverBackgroundColor='var(--secondary-accent)'
+            route={{
+              label: t('Home.visitShop'),
+              href: ENUM_ROUTES.PRODUCTS,
+            }}
+          />
+        </Flexbox>
         <Grid>
           {workshops.map((workshop, imageIndex) => (
             <Card

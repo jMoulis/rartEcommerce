@@ -170,7 +170,7 @@ export const RepetitionForm = ({
               id='frequency'
               name='frequency'
               value={repetition.frequency}
-              onSelectOption={handleInputChange}
+              onChangeSelectbox={handleInputChange}
               styling={{
                 root: {
                   margin: 0,

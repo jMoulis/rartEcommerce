@@ -1,6 +1,6 @@
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 import { DEFAULT_CURRENCY } from '@/src/lib/constants';
-import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate, ICustomer } from '@/src/types/DBTypes';
+import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate, ICustomer, IArtwork } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 
 export const defaultElement = (): IElement => {
@@ -28,6 +28,17 @@ export const defaultSection: (t: any) => ISection = (t) => {
     title: t('ProductForm.newSection'),
     properties: [],
     published: false,
+  });
+};
+export const defaultArtwork: () => IArtwork = () => {
+  return ({
+    name: '',
+    sections: [],
+    categories: [],
+    images: [],
+    isArchived: false,
+    published: false,
+    description: '',
   });
 };
 export const generateDefaultSession: (workshop: IWorkshop) => ISession = (workshop) => {
@@ -63,7 +74,8 @@ export const generateDefaultBooking: () => IWorkshop = () => {
     sessions: [],
     pusblished: false,
     paymentPreference: 'online',
-    type: 'workshop'
+    type: 'workshop',
+    sections: []
   });
 };
 export const generateDefaultCustomer: () => ICustomer = () => {

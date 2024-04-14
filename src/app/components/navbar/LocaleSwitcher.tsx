@@ -8,7 +8,10 @@ import { useRouter, usePathname } from '@/src/navigation';
 import { useTransition } from 'react';
 import styled from '@emotion/styled';
 
-const Text = styled.span``;
+const Text = styled.span`
+  color: var(--default-font-color);
+  margin-left: 5px;
+`;
 
 export default function LocaleSwitcher() {
   const t = useTranslations('LocaleSwitcher');
@@ -35,8 +38,8 @@ export default function LocaleSwitcher() {
         <Image
           alt={'cur'}
           src={`/images/locales/${locale}.png`}
-          height={30}
-          width={30}
+          height={20}
+          width={20}
         />
       </Button>
       <Menu open={open} anchorEl={anchorEl} onClose={onCloseModal}>

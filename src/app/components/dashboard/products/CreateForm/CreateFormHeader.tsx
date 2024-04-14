@@ -15,10 +15,12 @@ import {
   IProductService,
   IInvoice,
   UserProfile,
+  IArtwork,
 } from '@/src/types/DBTypes';
 import {
   faArchive,
   faEllipsisV,
+  faEye,
   faTrash,
 } from '@fortawesome/pro-light-svg-icons';
 import { DeleteConfirmation } from '../../../commons/confirmation/DeleteConfirmation';
@@ -89,7 +91,8 @@ interface Props {
   saving?: boolean;
   onSubmit?: VoidFunction;
   onAddSection?: VoidFunction;
-  form: IProductService | IWorkshop | IInvoice | UserProfile;
+  onPreview?: VoidFunction;
+  form: IProductService | IWorkshop | IInvoice | UserProfile | IArtwork;
   onDelete?: (itemId?: string) => void;
   onArchive?: (itemId?: string) => void;
   onPublish?: (
@@ -116,6 +119,7 @@ export const CreateFormHeader = ({
   headerTitle,
   onDeleteCategory,
   InputHeader,
+  onPreview,
 }: Props) => {
   const t = useTranslations('ProductForm');
   const tCommons = useTranslations('commons');
@@ -215,7 +219,7 @@ export const CreateFormHeader = ({
             <Flexbox alignItems='center'>
               {onSubmit ? (
                 <SubmitButton
-                  disabled={saving ?? (form as any).isArchived}
+                  disabled={saving ?? form.isArchived}
                   saving={saving}
                   onClick={onSubmit}
                 />
@@ -228,7 +232,7 @@ export const CreateFormHeader = ({
                     (form as any).published ? t('unPublished') : t('published')
                   }
                   value={(form as any).published || false}
-                  onInputChange={(event) => onPublish(event, (form as any)._id)}
+                  onInputChange={(event) => onPublish(event, form._id)}
                 />
               ) : null}
               <CategoryTags
@@ -243,10 +247,17 @@ export const CreateFormHeader = ({
                   style={{
                     whiteSpace: 'nowrap',
                   }}
-                  disabled={saving ?? (form as any).isArchived}
+                  disabled={saving ?? form.isArchived}
                   onClick={onAddSection}>
                   {t('addSection')}
                 </Button>
+              ) : null}
+              {onPreview ? (
+                <IconButton
+                  backgroundColor='var(--button-ellipsis-color)'
+                  icon={faEye}
+                  onClick={onPreview}
+                />
               ) : null}
               <IconButton
                 backgroundColor='var(--button-ellipsis-color)'

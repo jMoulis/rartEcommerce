@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { CSSProperties } from 'react';
 
-const Root = styled(Button)<{
+interface ButtonProps {
   variant?: 'normal' | 'xs';
   backgroundColor?: string;
-}>`
+}
+const Root = styled(Button)<ButtonProps>`
   border-radius: 100px;
   padding: ${({ variant }) => {
     if (variant === 'xs') return '5px';
@@ -25,7 +26,7 @@ const Root = styled(Button)<{
     if (variant === 'xs') return '10px';
     return '15px';
   }};
-
+  margin: 0 3px;
   background-color: ${({ backgroundColor }) => backgroundColor};
   display: flex;
   justify-content: center;

@@ -23,6 +23,7 @@ export const PriceCard = ({
       styling={{
         root: {
           marginRight: '10px',
+          height: 'auto',
         },
         body: {
           flexWrap: 'wrap',

@@ -10,6 +10,6 @@ export const Section = styled.section`
   justify-content: center;
   @media (max-width: 768px) {
     flex-direction: column;
-    padding: 30px 20px;
+    padding: 20px 20px;
   }
 `;

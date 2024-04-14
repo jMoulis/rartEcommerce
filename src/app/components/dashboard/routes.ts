@@ -79,4 +79,11 @@ export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigati
     href: '/dashboard/templates',
     icon: faTableLayout
   }]
+}, {
+  label: t('Dashboard.artworks'),
+  menus: [{
+    label: t('Dashboard.artworks'),
+    href: '/dashboard/artworks',
+    icon: faTableLayout
+  }]
 }];

@@ -2,8 +2,9 @@
 
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import React from 'react';
-import { Section } from '../commons/layout/Section';
-import { EmptyCart } from './processing/cart/EmptyCart';
+import { EmptyCart } from './cart/EmptyCart';
+import { CheckoutHeader } from './CheckoutHeader';
+import { Page } from '../commons/layout/Page';
 
 interface Props {
   children: React.ReactNode;
@@ -13,9 +14,10 @@ export const CheckoutCartControl = ({ children }: Props) => {
   const { cart } = useCart();
   if (!cart?.items.length) {
     return (
-      <Section>
+      <Page>
+        <CheckoutHeader />
         <EmptyCart />
-      </Section>
+      </Page>
     );
   }
   return <>{children}</>;

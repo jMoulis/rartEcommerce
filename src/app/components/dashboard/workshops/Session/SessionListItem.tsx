@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { useToggle } from '../../../hooks/useToggle';
 import { FullDialog } from '../../../commons/dialog/FullDialog';
 import Participants from './Participants';
+import { fr } from 'date-fns/locale';
 
 const Root = styled.li`
   padding: 10px;
@@ -24,14 +25,25 @@ const Root = styled.li`
     background-color: var(--input-border-color);
   }
 `;
+const DeleteButtonWrapper = styled(Flexbox)`
+  justify-content: center;
+  padding-top: 10px;
+`;
 const MetaWrapper = styled.div`
   margin-right: 10px;
 `;
 const MetaLabel = styled.span`
   font-weight: bold;
   margin-bottom: 5px;
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `;
-const MetaValue = styled.span``;
+const MetaValue = styled.span`
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
+`;
 
 interface Props {
   session: ISession;
@@ -80,8 +92,13 @@ export const SessionListItem = ({
           <MetaWrapper>
             <MetaLabel>{t('Session.start')}</MetaLabel>
             <Flexbox>
-              <MetaValue>{format(session.start, 'dd/mm/yyyy')}</MetaValue>
-              <MetaValue>{format(session.start, 'hh:mm')}</MetaValue>
+              <MetaValue
+                style={{
+                  marginRight: '5px',
+                }}>
+                {format(session.start, 'dd/mm/yyyy', { locale: fr })}
+              </MetaValue>
+              <MetaValue>{format(session.start, 'HH:mm')}</MetaValue>
             </Flexbox>
           </MetaWrapper>
           {session.end ? (
@@ -145,10 +162,12 @@ export const SessionListItem = ({
           </MetaWrapper>
         ) : null}
         {onDeleteSession ? (
-          <IconButton
-            onClick={() => onDeleteSession(session._id)}
-            icon={faTrash}
-          />
+          <DeleteButtonWrapper>
+            <IconButton
+              onClick={() => onDeleteSession(session._id)}
+              icon={faTrash}
+            />
+          </DeleteButtonWrapper>
         ) : null}
       </Root>
       <FullDialog

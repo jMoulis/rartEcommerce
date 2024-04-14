@@ -4,13 +4,24 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useCart } from '../../contexts/cart/CartContext';
 import { ENUM_ROUTES } from './routes.enums';
-import { ButtonLink } from '../client/checkout/processing/commons/ButtonLink';
+import { ButtonLink } from '../client/checkout/commons/ButtonLink';
 
+const CustomLink = styled(ButtonLink)<{ isScrolled: boolean }>`
+  background-color: ${({ isScrolled }) =>
+    isScrolled ? '#fff' : 'transparent'};
+  & *:not(span) {
+    color: ${({ isScrolled }) =>
+      isScrolled ? 'var(--primary-color)' : '#fff'};
+  }
+  & span {
+    color: #fff;
+  }
+`;
 const Counter = styled.span`
   position: absolute;
   height: 15px;
   width: 15px;
-  background-color: var(--tertiary-accent-2);
+  background-color: var(--secondary-accent);
   border-radius: 30px;
   color: #fff;
   bottom: -5px;
@@ -20,13 +31,24 @@ const Counter = styled.span`
   justify-content: center;
   font-size: 12px;
 `;
-
-export const CartMenu = () => {
+interface Props {
+  isScrolled: boolean;
+}
+export const CartMenu = ({ isScrolled }: Props) => {
   const { cart } = useCart();
-  if (cart?.items?.length === 0) return null;
+  if (!cart?.items?.length) {
+    return (
+      <div
+        style={{
+          width: '30px',
+        }}
+      />
+    );
+  }
   return (
-    <ButtonLink
-      href={ENUM_ROUTES.CHECKOUT_CART}
+    <CustomLink
+      isScrolled={isScrolled}
+      href={ENUM_ROUTES.CHECKOUT}
       style={{
         borderRadius: '100%',
         minHeight: '30px',
@@ -37,6 +59,6 @@ export const CartMenu = () => {
       }}>
       {cart?.totalItems ? <Counter>{cart.totalItems}</Counter> : null}
       <FontAwesomeIcon icon={faBasketShopping} />
-    </ButtonLink>
+    </CustomLink>
   );
 };

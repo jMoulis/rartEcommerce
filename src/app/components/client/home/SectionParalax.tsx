@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import madre from '@/src/app/style/fonts/madre/madre';
 
 const ParallaxContainer = styled.div`
   position: relative;
-  height: 200px;
+  height: 300px;
   overflow: hidden;
 `;
 
-const ParallaxBackground = styled.div<{ src: string }>`
+const ParallaxBackground = styled.div<{
+  src: string;
+  mouseX: number;
+  mouseY: number;
+}>`
   position: relative;
   height: 100%; /* Height of the parallax section */
   background-image: ${({ src }) => `url('${src}')`};
   background-attachment: fixed;
-  background-position: center;
+  background-position: ${({ mouseX, mouseY }) =>
+    `calc(50% + ${mouseX}px) calc(50% + ${mouseY}px)`}; /* Adjust position based on mouse movement */
+
   background-repeat: no-repeat;
   background-size: cover;
+  transition: background-position 0.2s ease; /* Smooth transition for mouse movement */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,9 +61,31 @@ interface Props {
   image: string;
 }
 const SectionParalax = ({ text, image }: Props) => {
+  const backgroundRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      if (backgroundRef.current) {
+        const rect = backgroundRef.current.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left - rect.width / 2; // Adjust for center alignment
+        const mouseY = event.clientY - rect.top - rect.height / 2; // Adjust for center alignment
+        const maxMovement = 50; // Limit maximum movement
+        const adjustedX = Math.min(Math.max(mouseX, -maxMovement), maxMovement);
+        const adjustedY = Math.min(Math.max(mouseY, -maxMovement), maxMovement);
+        backgroundRef.current.style.backgroundPosition = `calc(50% + ${adjustedX}px) calc(50% + ${adjustedY}px)`;
+      }
+    };
+
+    backgroundRef.current?.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      backgroundRef.current?.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
   return (
     <ParallaxContainer>
-      <ParallaxBackground src={image}>
+      <ParallaxBackground src={image} ref={backgroundRef} mouseX={0} mouseY={0}>
         <Content>
           <p className={madre.className}>{`"${text}"`}</p>
         </Content>

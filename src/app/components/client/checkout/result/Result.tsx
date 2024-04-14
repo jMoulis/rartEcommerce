@@ -1,23 +1,21 @@
 'use client';
 
 import React, { Suspense } from 'react';
-import { IInvoiceInput } from '@/src/types/DBTypes';
-import { SectionPage } from '../../../commons/Layouts/SectionPage';
 import Success from './Success';
 import Failure from './Failure';
+import { Page } from '../../commons/layout/Page';
 
 interface Props {
-  invoice: IInvoiceInput | null;
   paymentStatus: boolean;
 }
 
-const Result = ({ invoice, paymentStatus }: Props) => {
+const Result = ({ paymentStatus }: Props) => {
   return (
-    <SectionPage>
+    <Page>
       <Suspense fallback={<span>Load</span>}>
-        {paymentStatus ? <Success invoice={invoice} /> : <Failure />}
+        {paymentStatus ? <Success /> : <Failure />}
       </Suspense>
-    </SectionPage>
+    </Page>
   );
 };
 

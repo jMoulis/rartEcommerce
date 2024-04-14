@@ -42,7 +42,7 @@ export default function Home({ initialProducts, initWorkshops }: Props) {
         <CallToActionWrapper>
           <CallToAction
             active={false}
-            backgroundColor='var(--secondary-color)'
+            color='var(--secondary-color)'
             hoverBackgroundColor='var(--secondary-accent)'
             route={{
               label: t('Navbar.bookNow'),
@@ -52,7 +52,7 @@ export default function Home({ initialProducts, initWorkshops }: Props) {
 
           <CallToAction
             active={false}
-            backgroundColor='var(--primary-color)'
+            color='var(--primary-color)'
             hoverBackgroundColor='var(--action-button-color)'
             route={{
               label: t('Navbar.buyNow'),
@@ -65,7 +65,7 @@ export default function Home({ initialProducts, initWorkshops }: Props) {
       <SectionServices initWorkshops={initWorkshops} />
       <SectionParalax
         text='Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la'
-        image='/images/home/background.jpeg'
+        image='/images/home/patchwork.png'
       />
       <SectionAbout />
       {/* <SectionContact /> */}

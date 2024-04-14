@@ -7,6 +7,7 @@ import { Flexbox } from '../Flexbox';
 const InputLabelText = styled.span`
   display: inline-block;
   margin-left: 5px;
+  margin-right: 5px;
 `;
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
   onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
   id: string;
   name: string;
-  value?: string | number;
+  value?: string | number | boolean;
   defaultValue?: string | number;
   type?: string;
   className?: string;
@@ -31,6 +32,7 @@ interface Props {
   CustomLabel?: JSX.Element;
   autoComplete?: string;
   labelTip?: string;
+  disabled?: boolean;
 }
 
 export const InputGroup = ({
@@ -49,6 +51,7 @@ export const InputGroup = ({
   autoComplete,
   placeholder,
   labelTip,
+  disabled,
 }: Props) => {
   return (
     <Label
@@ -76,9 +79,10 @@ export const InputGroup = ({
         type={type}
         id={id}
         name={name}
+        disabled={disabled}
         onChange={onInputChange}
         onBlur={onBlur}
-        value={value ?? undefined}
+        value={(value as string) ?? undefined}
         defaultValue={defaultValue}
         required={required}
         autoComplete={autoComplete}

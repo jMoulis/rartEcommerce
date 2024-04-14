@@ -9,6 +9,7 @@ interface Props {
     fullWidth?: boolean;
     maxWidth?: Breakpoint;
     keepMounted?: boolean;
+    fullScreen?: boolean;
   };
   header: {
     title: string;
@@ -42,6 +43,7 @@ export const FullDialog = ({
       style={styling?.root}
       fullWidth={dialog?.fullWidth}
       maxWidth={dialog?.maxWidth}
+      fullScreen={dialog?.fullScreen}
       open={open}
       keepMounted={dialog?.keepMounted}
       onClose={onClose}>

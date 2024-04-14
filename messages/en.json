@@ -4,9 +4,16 @@
     "signOut": "Déconnexion",
     "register": "S'inscrire"
   },
+  "Breadcrumb": {
+    "products": "Oeuvres d'art",
+    "workshops": "Ateliers",
+    "basket": "Panier",
+    "checkout": "Validation"
+  },
   "commons": {
     "a": "un",
     "ae": "une",
+    "all": "Toutes",
     "create": "Créer",
     "createWith": "Créer {type}",
     "cancel": "Annuler",
@@ -17,6 +24,7 @@
     "save": "Sauvegarder",
     "dragAndDropFile": "Glissez-déposez les fichiers ici",
     "or": "ou",
+    "filters": "Filtres",
     "importFiles": "Importer des fichiers",
     "selectImages": "Choisissez des images",
     "select": "Choisir",
@@ -38,7 +46,7 @@
     "detailedInformation": "Découvrir",
     "required": "required",
     "store": "Boutique",
-    "workshop": "Workshops",
+    "workshop": "Workshop",
     "share": "Share",
     "createdAt": "Créé",
     "download": "Download",
@@ -50,7 +58,11 @@
     "firstname": "Prénom",
     "mobile": "Cell",
     "legals": "Legals",
-    "lastUpdate": "Last updated: {date}"
+    "lastUpdate": "Last updated: {date}",
+    "duplicate": "Dupliquer",
+    "preview": "Aperçu",
+    "editable": "Éditable",
+    "product": "Produit"
   },
   "AddressForm": {
     "addresses": "Adresses",
@@ -87,6 +99,12 @@
     "connectWith": "Connectez-vous avec {provider}",
     "forgotPassword": "Oublié?",
     "alreadyHaveAnAccount": "Vous avez déjà un compte?"
+  },
+  "Artwork": {
+    "create": "Créer une oeuvre",
+    "description": "Description",
+    "name": "Nom",
+    "detail": "Détail"
   },
   "Booking": {
     "bookings": "Réservations",
@@ -135,7 +153,7 @@
   },
   "Cart": {
     "cart": "Cart",
-    "summary": "Summary",
+    "summary": "Order Summary",
     "item": "Produit/Service",
     "total": "Total",
     "plusDelivery": "Hors frais de livraison",
@@ -149,9 +167,29 @@
     "validateShipping": "Valider la livraison",
     "contactInformations": "Information de contact",
     "shippingAddress": "Information pour la livraison",
+    "billingAddress": "Information pour la facturation",
     "confirm": "Confirm",
     "addToCart": "Ajouter au panier",
-    "deleteFromCart": "Supprimer du panier"
+    "deleteFromCart": "Supprimer du panier",
+    "seeCart": "Voir le panier",
+    "taxes": "TVA",
+    "sameAsBilling": "Même que l'adresse de facturation",
+    "pay": "Payer",
+    "cardholderName": "Nom du titulaire",
+    "orderPaymentMandatory": "Commande avec obligation de paiement",
+    "basket": "Panier",
+    "processing": "Traitement de la commande",
+    "authenticating": "Authentification",
+    "paymentSuccess": "Paiement réussi",
+    "paymentError": "Erreur de paiement",
+    "retryPayment": "Réessayer le paiement",
+    "cancelOrder": "Annuler la commande",
+    "cancelOrderMessage": "Annuler la commande, supprimera également votre panier",
+    "emptyCart": "Votre panier est vide",
+    "emptyCartEngagingMessage": "Découvrez nos produits et services"
+  },
+  "Checkout": {
+    "congrat": "Félicitations"
   },
   "Contact": {
     "title": "Au plaisir d'échanger avec vous",
@@ -188,7 +226,7 @@
     "carts": "Paniers",
     "abandonedCarts": "Paniers abandonnés",
     "productsAndServices": "Articles & Services",
-    "products": "Oeuvres",
+    "products": "Products",
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
     "workshops": "Workshops",
@@ -202,8 +240,10 @@
     "estimates": "Devis",
     "invoices": "Factures",
     "subscriptions": "Abonnements",
-    "templates": "Modèles"
+    "templates": "Modèles",
+    "artworks": "Oeuvres d'art"
   },
+
   "Home": {
     "about": "About",
     "products": "Oeuvres d'art",
@@ -213,7 +253,9 @@
     "sectionAbout": {
       "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
       "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
-    }
+    },
+    "visitShop": "Visit shop",
+    "visitWorkshop": "Visit workshop"
   },
   "Invoice": {
     "invoices": "Factures",
@@ -241,7 +283,7 @@
     "about": "About",
     "services": "Services",
     "workshop": "Workshops",
-    "products": "Oeuvres",
+    "products": "Boutique",
     "reviews": "Avis clients",
     "contact": "Contact",
     "dashboard": "Tableau de bord",
@@ -249,10 +291,13 @@
     "personalInfo": "Informations personnelles",
     "bookNow": "Réserver maintenant",
     "buyNow": "Acheter maintenant",
-    "orders": "Commandes"
+    "orders": "Commandes",
+    "gallery": "Gallerie"
   },
   "Product": {
-    "addProduct": "Ajouter un article"
+    "addProduct": "Ajouter un article",
+    "inStock": "En stock",
+    "noStock": "Rupture de stock"
   },
   "ProductForm": {
     "name": "Nom",

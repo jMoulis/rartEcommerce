@@ -32,6 +32,7 @@ interface CartContextType {
   addContactInformations: (value: {
     email: string;
     address: IAddress;
+    shippingAddress?: IAddress;
     firstname: string;
     lastname: string;
   }) => void;
@@ -51,6 +52,7 @@ const defaultCart: ICart = {
   currency: DEFAULT_CURRENCY,
   totalItems: 0,
   totalPrice: 0,
+  taxes: 0,
   contactInformations: {
     firstname: '',
     lastname: '',
@@ -165,6 +167,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       );
     updatedCart.totalItems = sessionsTotal + productTotal;
     updatedCart.totalPrice = sessionsTotalPrice + productTotalPrice;
+    const updatedTotalTax = updatedCart.totalPrice / 0.2;
+    updatedCart.taxes += updatedTotalTax;
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     setCart(updatedCart);
   };

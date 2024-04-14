@@ -9,6 +9,7 @@ import { Title } from '../commons/typography/Title';
 import Image from 'next/image';
 import { Flexbox } from '../../commons/Flexbox';
 import { Subtitle } from '../commons/typography/Subtitle';
+import WrapperSection from '../commons/layout/WrapperSection';
 
 const MailToLink = () => (
   <a
@@ -94,100 +95,104 @@ export default function Legals() {
           </TitleWrapper>
         </Flexbox>
       </Section>
-      <CustomSubsection>
-        <Card>
-          <SectionTitle>Informations légales</SectionTitle>
-          <h3
-            style={{
-              marginTop: '10px',
-              marginBottom: '5px',
-            }}>
-            Éditeur du site :
-          </h3>
-          <ul>
-            <li>Nom de l'entreprise ou de l'artiste : RartCreation</li>
-            <li>Adresse : 2521 route de bonneville, 74800 Arenthon</li>
-            <li>
-              Téléphone : <PhoneToLink />
-            </li>
-            <li>
-              E-mail : <MailToLink />
-            </li>
-            <li>SIRET : [Votre numéro SIRET]</li>
-            <li>Responsable de publication : Rachel Moulis</li>
-          </ul>
-          <h3
-            style={{
-              marginTop: '10px',
-              marginBottom: '5px',
-            }}>
-            Hébergement :
-          </h3>
-          <ul>
-            <li>Nom de l’hébergeur : Vercel Inc. </li>
-            <li>Adresse : 340 S Lemon Ave #4133 Walnut, CA 91789 USA</li>
-            <li>Téléphone : (559) 288-7060</li>
-          </ul>
-          <SectionTitle>Contact</SectionTitle>
-          <p>
-            Pour toute question ou demande d’information concernant le site, ou
-            toute déclaration relative à ce site, vous pouvez nous contacter à :
-            <MailToLink />
-          </p>
-        </Card>
-
-        <Card>
-          <SectionTitle>Propriété intellectuelle</SectionTitle>
-          <p>
-            Toutes les œuvres présentes sur le site, incluant sans limitation
-            toutes les créations artistiques et les ateliers, sont protégées par
-            le droit d’auteur et sont la propriété exclusive de Rachel Moulis.
-          </p>
-          <p>
-            Toute reproduction, distribution, ou autre exploitation sans
-            l’autorisation expresse de Rachel Moulis est strictement interdite
-            et susceptible de poursuites judiciaires.
-          </p>
-        </Card>
-        <Card>
-          <SectionTitle>Collecte de données personnelles</SectionTitle>
-          <p>
-            Les informations recueillies sur ce site sont enregistrées dans un
-            fichier informatisé par Rachel Moulis pour la gestion des commandes,
-            des clients et des prospects, ainsi que pour l’envoi occasionnel
-            d’offres promotionnelles.
-          </p>
-          <p>
-            Conformément à la loi « informatique et libertés », vous pouvez
-            exercer votre droit d'accès aux données vous concernant et les faire
-            rectifier en contactant :
-            <MailToLink />
-          </p>
-          <SectionTitle>Cookies</SectionTitle>
-          <p>
-            Notre site utilise des cookies pour améliorer l’expérience
-            utilisateur et analyser le trafic. En naviguant sur notre site, vous
-            acceptez l’utilisation des cookies conformément à notre politique de
-            confidentialité.
-          </p>
-          <SectionTitle>Modification des mentions légales</SectionTitle>
-          <p>
-            Rachel Moulis se réserve le droit de modifier les présentes mentions
-            à tout moment. Les utilisateurs seront informés des modifications
-            via notre site.
-            <span
+      <WrapperSection>
+        <CustomSubsection>
+          <Card>
+            <SectionTitle>Informations légales</SectionTitle>
+            <h3
               style={{
-                fontSize: '13px',
                 marginTop: '10px',
-                color: 'rgba(0, 0, 0, 0.7)',
+                marginBottom: '5px',
               }}>
-              {t('commons.lastUpdate', {
-                date: format(new Date(), 'dd/MM/yyyy'),
-              })}
-            </span>
-          </p>
-        </Card>
-      </CustomSubsection>
+              Éditeur du site :
+            </h3>
+            <ul>
+              <li>Nom de l'entreprise ou de l'artiste : RartCreation</li>
+              <li>Adresse : 2521 route de bonneville, 74800 Arenthon</li>
+              <li>
+                Téléphone : <PhoneToLink />
+              </li>
+              <li>
+                E-mail : <MailToLink />
+              </li>
+              <li>SIRET : [Votre numéro SIRET]</li>
+              <li>Responsable de publication : Rachel Moulis</li>
+            </ul>
+            <h3
+              style={{
+                marginTop: '10px',
+                marginBottom: '5px',
+              }}>
+              Hébergement :
+            </h3>
+            <ul>
+              <li>Nom de l’hébergeur : Vercel Inc. </li>
+              <li>Adresse : 340 S Lemon Ave #4133 Walnut, CA 91789 USA</li>
+              <li>Téléphone : (559) 288-7060</li>
+            </ul>
+            <SectionTitle>Contact</SectionTitle>
+            <p>
+              Pour toute question ou demande d’information concernant le site,
+              ou toute déclaration relative à ce site, vous pouvez nous
+              contacter à :
+              <MailToLink />
+            </p>
+          </Card>
+
+          <Card>
+            <SectionTitle>Propriété intellectuelle</SectionTitle>
+            <p>
+              Toutes les œuvres présentes sur le site, incluant sans limitation
+              toutes les créations artistiques et les ateliers, sont protégées
+              par le droit d’auteur et sont la propriété exclusive de Rachel
+              Moulis.
+            </p>
+            <p>
+              Toute reproduction, distribution, ou autre exploitation sans
+              l’autorisation expresse de Rachel Moulis est strictement interdite
+              et susceptible de poursuites judiciaires.
+            </p>
+          </Card>
+          <Card>
+            <SectionTitle>Collecte de données personnelles</SectionTitle>
+            <p>
+              Les informations recueillies sur ce site sont enregistrées dans un
+              fichier informatisé par Rachel Moulis pour la gestion des
+              commandes, des clients et des prospects, ainsi que pour l’envoi
+              occasionnel d’offres promotionnelles.
+            </p>
+            <p>
+              Conformément à la loi « informatique et libertés », vous pouvez
+              exercer votre droit d'accès aux données vous concernant et les
+              faire rectifier en contactant :
+              <MailToLink />
+            </p>
+            <SectionTitle>Cookies</SectionTitle>
+            <p>
+              Notre site utilise des cookies pour améliorer l’expérience
+              utilisateur et analyser le trafic. En naviguant sur notre site,
+              vous acceptez l’utilisation des cookies conformément à notre
+              politique de confidentialité.
+            </p>
+            <SectionTitle>Modification des mentions légales</SectionTitle>
+            <p>
+              Rachel Moulis se réserve le droit de modifier les présentes
+              mentions à tout moment. Les utilisateurs seront informés des
+              modifications via notre site.
+              <span
+                style={{
+                  fontSize: '13px',
+                  marginTop: '10px',
+                  color: 'rgba(0, 0, 0, 0.7)',
+                }}>
+                {t('commons.lastUpdate', {
+                  date: format(new Date(), 'dd/MM/yyyy'),
+                })}
+              </span>
+            </p>
+          </Card>
+        </CustomSubsection>
+      </WrapperSection>
     </Page>
   );
 }

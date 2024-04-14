@@ -3,7 +3,14 @@ import React, { Dispatch, SetStateAction } from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 
-const Root = styled.ul``;
+const Root = styled.ul`
+  @media (max-width: 768px) {
+    display: flex;
+    max-width: 110vw;
+    overflow: auto;
+  }
+`;
+
 const ListItem = styled.li<{ selected: boolean }>`
   cursor: pointer;
   position: relative;
@@ -21,6 +28,9 @@ const ListItem = styled.li<{ selected: boolean }>`
     &::after {
       background-color: transparent;
     }
+  }
+  @media (max-width: 768px) {
+    margin-right: 10px;
   }
 `;
 

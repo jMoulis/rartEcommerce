@@ -30,13 +30,13 @@ export const OptionsCard = ({ form, onUpdateSection }: Props) => {
       };
     });
   };
-  const handleAddOption = (refId: string) => {
+  const handleAddOption = (option: IProductService) => {
     onUpdateSection((prev) => {
       return {
         ...prev,
         options: {
           ...prev.options,
-          refIds: [...(prev.options?.refIds ?? []), refId],
+          refIds: [...(prev.options?.refIds ?? []), option._id!],
         },
       };
     });
@@ -55,6 +55,7 @@ export const OptionsCard = ({ form, onUpdateSection }: Props) => {
       };
     });
   };
+
   return (
     <>
       <Article
@@ -86,7 +87,9 @@ export const OptionsCard = ({ form, onUpdateSection }: Props) => {
         header={{
           title: t('ProductForm.addOption'),
         }}>
-        {open ? <OptionCardForm onAddOption={handleAddOption} /> : null}
+        {open ? (
+          <OptionCardForm onAddOption={handleAddOption} form={form} />
+        ) : null}
       </FullDialog>
     </>
   );

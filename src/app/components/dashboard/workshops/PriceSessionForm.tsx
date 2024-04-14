@@ -32,7 +32,7 @@ export const PriceSessionForm = ({ form, onInputChange }: Props) => {
         name='paymentPreference'
         id='paymentPreference'
         value={form.paymentPreference}
-        onSelectOption={onInputChange}
+        onChangeSelectbox={onInputChange}
         options={[
           {
             label: t('commons.select', {

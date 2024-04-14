@@ -6,12 +6,18 @@ import { Flexbox } from '../../../commons/Flexbox';
 import { Unsubscribe } from 'firebase/firestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { onFindSingleRealtime } from '@/src/app/contexts/firestore/useFirestore';
-import { format } from 'date-fns';
-import { millisecondsToMins } from '../../../dashboard/workshops/Session/durations';
-import { AddToCart } from '../../checkout/processing/cart/AddToCart';
+import { format, addMilliseconds } from 'date-fns';
+import { AddToCart } from '../../checkout/cart/AddToCart';
 import { Button } from '../../../commons/Buttons/Button';
 import { toast } from 'react-toastify';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
+import { fr } from 'date-fns/locale';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faChair,
+  faClock,
+  faLocationDot,
+} from '@fortawesome/pro-light-svg-icons';
 
 const Root = styled.li`
   padding: 10px;
@@ -23,24 +29,49 @@ const Root = styled.li`
     background-color: var(--input-border-color);
   }
 `;
+const ButtonWrapper = styled.div`
+  margin: 10px;
+  & button {
+    width: 100%;
+    margin: 5px 0;
+  }
+  @media (max-width: 768px) {
+    display: flex;
+    flex: 1;
+    margin-top: 10px;
+    margin-bottom: 0;
+    justify-content: center;
+    & button {
+      margin-right: 10px;
+    }
+  }
+`;
+
 const MetaWrapper = styled.div`
+  display: flex;
   margin-right: 10px;
 `;
-const MetaLabel = styled.span``;
-const MetaValue = styled.span``;
+const MetaLabel = styled.span`
+  white-space: nowrap;
+`;
+const MetaValue = styled.span`
+  white-space: nowrap;
+`;
 
 interface Props {
   session: ISession;
   workshop: IWorkshop;
+  preview: boolean;
   // onSelectSession: (session: ISession) => void;
 }
 
-export const SessionListItem = ({ session, workshop }: Props) => {
+export const SessionListItem = ({ session, workshop, preview }: Props) => {
   const t = useTranslations();
   const [location, setLocation] = useState<IAddress | null>(null);
   const { cart, onEditCart } = useCart();
 
   useEffect(() => {
+    if (!session) return;
     let unsubscribe: Unsubscribe | null = null;
     if (session?.locationId) {
       unsubscribe = onFindSingleRealtime(
@@ -99,78 +130,146 @@ export const SessionListItem = ({ session, workshop }: Props) => {
     onEditCart(updatedItem);
   };
 
-  const getFormatedDate = useMemo(() => {
-    try {
-      const startDate = format(session.start, 'dd/mm/yyyy');
-      const startTime = format(session.start, 'hh:mm');
-      return {
-        startDate,
-        startTime,
-      };
-    } catch (error) {
-      return null;
-    }
-  }, [session.start]);
+  const prepareCardDate = useMemo(() => {
+    const dayNumber = format(session.start, 'dd', { locale: fr });
+    const month = format(session.start, 'MMMM', { locale: fr });
+    const day = format(session.start, 'EEEE', { locale: fr });
+    const duration = session.duration ?? 0;
+    const endDate = addMilliseconds(new Date(session.start), duration);
+    const startTime = format(session.start, 'HH:mm');
+    const endTime = format(endDate, 'HH:mm');
 
+    return {
+      dayNumber,
+      month,
+      day,
+      endTime,
+      startTime,
+    };
+  }, [session.start]);
   return (
     <Root>
-      <Flexbox>
-        <MetaWrapper>
-          <MetaLabel>{t('Session.start')}</MetaLabel>
-          <MetaValue>{getFormatedDate?.startDate}</MetaValue>
-          <MetaValue>{getFormatedDate?.startTime}</MetaValue>
-          {session.duration ? (
-            <MetaValue>{`${millisecondsToMins(
-              session.duration
-            )} mins`}</MetaValue>
-          ) : null}
-        </MetaWrapper>
-        {session.end ? (
+      <Flexbox justifyContent='space-between' flexWrap='wrap'>
+        <Flexbox alignItems='center'>
           <MetaWrapper>
-            <MetaLabel>{t('Session.end')}</MetaLabel>
-            <MetaValue>{session.end}</MetaValue>
+            <Flexbox>
+              <MetaValue
+                style={{
+                  fontSize: '50px',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {prepareCardDate?.dayNumber}
+              </MetaValue>
+              <Flexbox
+                flexDirection='column'
+                justifyContent='center'
+                style={{
+                  marginLeft: '10px',
+                }}>
+                <MetaValue
+                  style={{
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    textTransform: 'capitalize',
+                  }}>
+                  {prepareCardDate?.month}
+                </MetaValue>
+                <MetaValue
+                  style={{
+                    color: 'rgba(0,0,0,0.5)',
+                    textTransform: 'capitalize',
+                    fontSize: '20px',
+                  }}>
+                  {prepareCardDate?.day}
+                </MetaValue>
+              </Flexbox>
+            </Flexbox>
           </MetaWrapper>
-        ) : null}
-        <MetaWrapper>
-          <MetaLabel>{t('Booking.location')}</MetaLabel>
-          <MetaValue>{location?.name}</MetaValue>
-        </MetaWrapper>
-        <MetaWrapper>
-          <MetaLabel>{t('Session.places')}</MetaLabel>
-          <MetaValue>{placeleft}</MetaValue>
-        </MetaWrapper>
-        {selectedCartSessionIds.includes(session._id) ? (
-          <MetaWrapper>
-            <Button
-              onClick={() => handleDeleteSession(session._id)}
+          <Flexbox flexDirection='column'>
+            <MetaWrapper
               style={{
-                background: 'rgba(255,0,0,0.4)',
+                marginBottom: '5px',
               }}>
+              <MetaLabel
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '20px',
+                }}>
+                <FontAwesomeIcon icon={faClock} />
+              </MetaLabel>
+              <MetaLabel>{prepareCardDate?.startTime}</MetaLabel>
+              <MetaLabel>-</MetaLabel>
+              <MetaLabel>{prepareCardDate?.endTime}</MetaLabel>
+            </MetaWrapper>
+            <MetaWrapper
+              style={{
+                marginBottom: '5px',
+              }}>
+              <MetaLabel
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '20px',
+                }}>
+                <FontAwesomeIcon icon={faLocationDot} />
+              </MetaLabel>
+              <MetaValue>{location?.name}</MetaValue>
+            </MetaWrapper>
+            <MetaWrapper>
+              <MetaLabel
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '20px',
+                }}>
+                <FontAwesomeIcon icon={faChair} />
+              </MetaLabel>
+              <MetaLabel>{t('Session.places')}</MetaLabel>
+              <MetaValue
+                style={{
+                  marginLeft: '5px',
+                }}>
+                {placeleft}
+              </MetaValue>
+            </MetaWrapper>
+          </Flexbox>
+        </Flexbox>
+        {selectedCartSessionIds.includes(session._id) ? (
+          <ButtonWrapper>
+            <Button
+              onClick={() => !preview && handleDeleteSession(session._id)}
+              backgroundColor='rgba(255,0,0,0.4)'>
               {t('Booking.unSubscribe')}
             </Button>
-          </MetaWrapper>
+          </ButtonWrapper>
         ) : (
-          <MetaWrapper>
+          <ButtonWrapper>
             {placeleft ? (
               <AddToCart
-                item={workshopSessioned}
+                withPreviewCart={false}
+                items={[workshopSessioned]}
                 label={t('Booking.register')}
               />
             ) : (
-              <Button
-                style={{
-                  background: 'rgba(0,0,255,0.4)',
-                }}>
+              <Button backgroundColor='rgba(0,0,255,0.4)'>
                 {t('Booking.keepMeInform')}
               </Button>
             )}
-            <Button
-              style={{
-                background: 'rgba(0,0,255,0.4)',
-              }}>
-              {t('commons.share')}
-            </Button>
-          </MetaWrapper>
+            <Flexbox>
+              <Button
+                backgroundColor='var(--secondary-color)'
+                hoverBackgroundColor='var(--secondary-accent)'>
+                {t('commons.share')}
+              </Button>
+            </Flexbox>
+          </ButtonWrapper>
         )}
       </Flexbox>
 

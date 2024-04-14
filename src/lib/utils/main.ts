@@ -54,3 +54,10 @@ export const propsToForward = (prop: any, fields: string[]) => {
   if (fields.includes(prop)) return null;
   return prop;
 };
+
+export const displayPrice = (price: number, currencySymbol = '€'): string => {
+  const formattedPrice = price.toFixed(2).replace('.', ',');
+  const [integerPart, decimalPart] = formattedPrice.split(',');
+  const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return `${formattedIntegerPart},${decimalPart} ${currencySymbol}`;
+};
