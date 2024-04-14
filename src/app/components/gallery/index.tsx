@@ -7,7 +7,6 @@ import { IArtwork, ICategory } from '@/src/types/DBTypes';
 import Gallery from './Gallery';
 import { Section } from '../client/commons/layout/Section';
 import Categories from '../client/commons/Categories/Categories';
-import { useState } from 'react';
 import { useCategories } from '../client/commons/Categories/useCategories';
 
 interface Props {
@@ -16,7 +15,7 @@ interface Props {
 }
 const GalleryPage = ({ initialArtworks, initialCategories }: Props) => {
   const t = useTranslations();
-  const { onSelectCategory, onUpdateData, filteredData, selectedCategories } =
+  const { onSelectCategory, filteredData, selectedCategories } =
     useCategories(initialArtworks);
 
   return (
