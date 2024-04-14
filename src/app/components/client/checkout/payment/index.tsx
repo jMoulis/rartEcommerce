@@ -42,6 +42,7 @@ const PaymentIndex = () => {
 
   if (!cart?.totalPrice) return null;
 
+  console.log(clientSecret);
   return (
     <Page>
       <CheckoutHeader />
