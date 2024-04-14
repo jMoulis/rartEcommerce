@@ -33,11 +33,11 @@ const PaymentIndex = () => {
   React.useEffect(() => {
     if (!cart?.totalPrice) return;
     const customerEmail = cart.contactInformations?.email;
-    // Create PaymentIntent as soon as the page loads
+    // // Create PaymentIntent as soon as the page loads
     createPaymentIntent(cart.totalPrice, customerEmail).then((data) => {
       setClientSecret(data.client_secret);
     });
-  }, []);
+  }, [cart]);
 
   if (!cart?.totalPrice) return null;
 
