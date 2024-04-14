@@ -82,8 +82,8 @@ function CheckoutForm(): JSX.Element | null {
 
   const stripe = useStripe();
   console.log(stripe);
-  const elements = useElements();
-  console.log(elements);
+  // const elements = useElements();
+  // console.log(elements);
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInput(e.currentTarget.value);
   };
@@ -193,7 +193,7 @@ function CheckoutForm(): JSX.Element | null {
 
           <input type='hidden' name='amount' value={3} />
           <div>
-            <CardElement
+            <PaymentElement
             // options={{
             //   defaultValues: {
             //     billingDetails: {
