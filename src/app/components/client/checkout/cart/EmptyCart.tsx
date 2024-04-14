@@ -23,10 +23,16 @@ export const EmptyCart = () => {
       style={{
         flex: 1,
         justifyContent: 'flex-start',
+        flexDirection: 'column',
       }}>
       <Title>{t('Cart.emptyCart')}</Title>
       <Description>{t('Cart.emptyCartEngagingMessage')}</Description>
-      <Flexbox flexWrap='wrap'>
+      <Flexbox
+        flexWrap='wrap'
+        justifyContent='center'
+        style={{
+          marginTop: '20px',
+        }}>
         <CallToAction
           styling={{
             margin: '0 5px',

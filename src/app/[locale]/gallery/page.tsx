@@ -1,5 +1,5 @@
 import React from 'react';
-import GalleryPage from '../../components/gallery';
+import GalleryPage from '../../components/client/gallery';
 import { findByQuery } from '@/src/lib/firebase/firestore/crud';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { unstable_setRequestLocale } from 'next-intl/server';

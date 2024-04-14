@@ -67,7 +67,7 @@ function CheckoutForm(): JSX.Element | null {
   }, [cart?.contactInformations]);
 
   const [input, setInput] = React.useState<string>('');
-  const [paymentType, setPaymentType] = React.useState<string>('');
+  // const [paymentType, setPaymentType] = React.useState<string>('');
   const [payment, setPayment] = React.useState<{
     status: 'initial' | 'processing' | 'error';
   }>({ status: 'initial' });
@@ -129,7 +129,7 @@ function CheckoutForm(): JSX.Element | null {
       globalPreviousValues = previousValues;
 
       const { client_secret: clientSecret } = await createPaymentIntent(
-        new FormData(e.target as HTMLFormElement),
+        cart.totalPrice,
         customer.email,
         order.data
       );
@@ -178,16 +178,14 @@ function CheckoutForm(): JSX.Element | null {
     <>
       <form onSubmit={handleSubmit}>
         <fieldset>
-          {paymentType === 'card' ? (
-            <InputGroup
-              id='cardholderName'
-              name='cardholderName'
-              label={t('Cart.cardholderName')}
-              onInputChange={handleInputChange}
-              value={input}
-              required
-            />
-          ) : null}
+          <InputGroup
+            id='cardholderName'
+            name='cardholderName'
+            label={t('Cart.cardholderName')}
+            onInputChange={handleInputChange}
+            value={input}
+            required
+          />
           <input type='hidden' name='amount' value={cart.totalPrice} />
           <div>
             <PaymentElement
@@ -199,9 +197,6 @@ function CheckoutForm(): JSX.Element | null {
                     address: customer.address,
                   },
                 },
-              }}
-              onChange={(e) => {
-                setPaymentType(e.value.type);
               }}
             />
           </div>
