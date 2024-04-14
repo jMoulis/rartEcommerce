@@ -180,9 +180,8 @@ function CheckoutForm(): JSX.Element | null {
 
   return (
     <>
-      <form onSubmit={() => {}}>
-        <fieldset>
-          {/* <InputGroup
+      <form id='payment-form' onSubmit={() => {}}>
+        {/* <InputGroup
             id='cardholderName'
             name='cardholderName'
             label={t('Cart.cardholderName')}
@@ -191,21 +190,21 @@ function CheckoutForm(): JSX.Element | null {
             required
           /> */}
 
-          <input type='hidden' name='amount' value={3} />
-          <div>
-            <PaymentElement
-            // options={{
-            //   defaultValues: {
-            //     billingDetails: {
-            //       name: customer.name,
-            //       email: customer.email,
-            //       address: customer.address,
-            //     },
-            //   },
-            // }}
-            />
-          </div>
-        </fieldset>
+        {/* <input type='hidden' name='amount' value={3} /> */}
+
+        <PaymentElement
+          id='payment-element'
+          // options={{
+          //   defaultValues: {
+          //     billingDetails: {
+          //       name: customer.name,
+          //       email: customer.email,
+          //       address: customer.address,
+          //     },
+          //   },
+          // }}
+        />
+
         {/* <Flexbox
           style={{
             marginTop: '20px',

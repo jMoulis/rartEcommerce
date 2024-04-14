@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import { Section } from '../../commons/layout/Section';
 import { CheckoutHeader } from '../CheckoutHeader';
 import { Page } from '../../commons/layout/Page';
+import { createPaymentIntent } from '@/src/app/[locale]/actions/stripe';
 
 const CustomSection = styled(Section)`
   flex-direction: row;
@@ -28,8 +29,19 @@ const stripePromise = getStripe();
 
 const PaymentIndex = () => {
   const { cart } = useCart();
+  const [clientSecret, setClientSecret] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (!cart?.totalPrice) return;
+    const customerEmail = cart.contactInformations?.email;
+    // Create PaymentIntent as soon as the page loads
+    createPaymentIntent(cart.totalPrice, customerEmail).then((data) => {
+      setClientSecret(data.client_secret);
+    });
+  }, []);
 
   if (!cart?.totalPrice) return null;
+
   return (
     <Page>
       <CheckoutHeader />
@@ -38,6 +50,7 @@ const PaymentIndex = () => {
           <Elements
             stripe={stripePromise}
             options={{
+              clientSecret,
               appearance: {
                 variables: {
                   colorIcon: '#6772e5',
@@ -45,9 +58,6 @@ const PaymentIndex = () => {
                 },
               },
               loader: 'always',
-              currency: config.CURRENCY,
-              mode: 'payment',
-              amount: cart.totalPrice,
             }}>
             <CheckoutForm />
           </Elements>
