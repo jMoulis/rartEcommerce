@@ -79,7 +79,8 @@ function CheckoutForm(): JSX.Element | null {
     }
   }, [cart?.contactInformations]);
 
-  // const stripe = useStripe();
+  const stripe = useStripe();
+  console.log(stripe);
   const elements = useElements();
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
