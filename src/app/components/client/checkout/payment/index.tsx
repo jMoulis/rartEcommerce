@@ -29,41 +29,40 @@ const stripePromise = getStripe();
 
 const PaymentIndex = () => {
   const { cart } = useCart();
-  const [clientSecret, setClientSecret] = React.useState<string>('');
+  // const [clientSecret, setClientSecret] = React.useState<string | null>(null);
 
-  React.useEffect(() => {
-    if (!cart?.totalPrice) return;
-    const customerEmail = cart.contactInformations?.email;
-    // Create PaymentIntent as soon as the page loads
-    createPaymentIntent(cart.totalPrice, customerEmail).then((data) => {
-      setClientSecret(data.client_secret);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   if (!cart?.totalPrice) return;
+  //   const customerEmail = cart.contactInformations?.email;
+  //   // Create PaymentIntent as soon as the page loads
+  //   createPaymentIntent(cart.totalPrice, customerEmail).then((data) => {
+  //     setClientSecret(data.client_secret);
+  //   });
+  // }, []);
 
   if (!cart?.totalPrice) return null;
 
-  console.log(clientSecret);
   return (
     <Page>
       <CheckoutHeader />
       <CustomSection>
         <CardWrapper>
-          {clientSecret ? (
-            <Elements
-              stripe={stripePromise}
-              options={{
-                clientSecret,
-                appearance: {
-                  variables: {
-                    colorIcon: '#6772e5',
-                    fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-                  },
+          <Elements
+            stripe={stripePromise}
+            options={{
+              appearance: {
+                variables: {
+                  colorIcon: '#6772e5',
+                  fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
                 },
-                loader: 'always',
-              }}>
-              <CheckoutForm />
-            </Elements>
-          ) : null}
+              },
+              loader: 'always',
+              currency: config.CURRENCY,
+              mode: 'payment',
+              amount: cart.totalPrice,
+            }}>
+            <CheckoutForm />
+          </Elements>
         </CardWrapper>
         <CartSummary editable={false} />
       </CustomSection>
