@@ -28,14 +28,14 @@ const stripePromise = getStripe();
 
 const PaymentIndex = () => {
   const { cart } = useCart();
-
+  console.log(stripePromise);
   if (!cart?.totalPrice) return null;
   return (
     <Page>
       <CheckoutHeader />
       <CustomSection>
         <CardWrapper>
-          <Elements
+          {/* <Elements
             stripe={stripePromise}
             options={{
               appearance: {
@@ -50,7 +50,7 @@ const PaymentIndex = () => {
               amount: cart.totalPrice,
             }}>
             <CheckoutForm />
-          </Elements>
+          </Elements> */}
         </CardWrapper>
         <CartSummary editable={false} />
       </CustomSection>
