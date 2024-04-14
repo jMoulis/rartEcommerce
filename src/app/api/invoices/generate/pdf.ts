@@ -7,6 +7,7 @@ import { bucket } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 
 export const generatePDFInvoice = async (invoice: IInvoice) => {
   const html = pdfInvoiceTemplate(invoice);
+
   const browser = await puppeteer.launch({
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],

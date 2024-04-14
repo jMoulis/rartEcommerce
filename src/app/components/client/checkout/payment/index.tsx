@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { Elements } from '@stripe/react-stripe-js';
-import * as config from '@/src/app/components/client/checkout/payment/config';
 import getStripe from './utils/getStripeLoader';
 import CheckoutForm from './components/CheckoutForm';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
