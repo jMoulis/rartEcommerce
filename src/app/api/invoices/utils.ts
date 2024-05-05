@@ -68,11 +68,11 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
     //   invoices: FieldValue.arrayUnion(invoice.data?._id)
     // });
     const pdf = await generatePDFInvoice({ ...invoiceInput, _id: invoice.data?._id });
-    console.log(pdf);
+
     if (!invoice) {
       throw Error('Unable to create an invoice');
     }
-    return { invoice, pdf: null };
+    return { invoice, pdf };
   } catch (error: any) {
     throw Error(`Error while creating Invoice: ${error.message}`);
   }
