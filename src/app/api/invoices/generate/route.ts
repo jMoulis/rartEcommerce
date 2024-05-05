@@ -13,6 +13,23 @@ export async function POST(request: NextRequest) {
     invoiceRef.set({
       invoiceUrl: pdf?.url ?? null
     }, { merge: true });
+    // const mailService = new MailService();
+    // const mailResponse = await mailService.sendEmail({
+    //   files: pdf ? [pdf] : [],
+    //   email: 'julien.moulis@moulis.me',
+    //   subject: 'Confirmation de paiement',
+    //   template: {
+    //     name: 'paymentSuccess',
+    //     props: {
+    //       customer: 'Julien',
+    //       host: 'localhost:3000',
+    //       contactName: process.env.NEXT_CONTACT_NAME,
+    //       companyName: process.env.NEXT_COMPANY_NAME,
+    //       mailSystem: process.env.NEXT_PUBLIC_MAIL_SYSTEM,
+    //       // receiptUrl: data.receipt_url,
+    //     }
+    //   }
+    // });
     return NextResponse.json<APIResponse<{ url?: string }>>({ error: null, success: true, data: { url: pdf.url } });
   } catch (error: any) {
     return NextResponse.json<APIResponse<Date[]>>({ success: false, data: null, error }, {

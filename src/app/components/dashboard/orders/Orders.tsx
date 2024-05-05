@@ -17,7 +17,7 @@ interface Props {
 export const Orders = ({ initialOrders, shouldSubscribe }: Props) => {
   const [orders, setOrders] = useState<IOrder[]>(initialOrders ?? []);
   const t = useTranslations();
-  const { columns } = useTableInvoices();
+  const { columns } = useTableInvoices(false);
 
   useEffect(() => {
     if (!shouldSubscribe) return;

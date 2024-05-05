@@ -1,18 +1,60 @@
 import { IInvoice } from '@/src/types/DBTypes';
-import puppeteer, { PDFOptions } from 'puppeteer';
+import fetch from 'node-fetch';
 import { pdfInvoiceTemplate } from './pdfInvoiceTemplate';
-import fs from 'fs';
 import { nunaLogo } from './logos';
 import { bucket } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
+import { PassThrough } from 'stream';
 
+const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options: Record<string, any> }) => new Promise<{ content: any, url: string, filename: string, contentType: string }>((resolve, reject) => {
+  try {
+    fetch(`${process.env.NEXT_PUBLIC_PDF_URL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(pdf),
+    }).then((response) => {
+      if (!response.ok) {
+        reject(new Error(`HTTP error! Status: ${response.status}`));
+        return;
+      }
+      const filename = `${invoiceId}/${Date.now()}.pdf`;
+      const folderName = `invoices/${filename}`;
+      const file = bucket.file(folderName);
+
+      const passThrough = new PassThrough();
+      const chunks: any[] = []; // Store chunks here to convert to Buffer later
+
+      passThrough.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
+      const blobStream = file.createWriteStream({
+        metadata: {
+          contentType: 'application/pdf',
+        },
+      });
+
+      passThrough.pipe(blobStream);
+      response.body?.pipe(passThrough);
+
+      blobStream.on('finish', async () => {
+        const [url] = await file.getSignedUrl({
+          action: 'read',
+          expires: '03-09-2491', // Set an appropriate expiry date
+        });
+        const pdfBuffer = Buffer.concat(chunks);
+        resolve({ content: pdfBuffer, url, filename, contentType: 'application/pdf' });
+      }).on('error', (error) => {
+        throw new Error(`Stream writing error: ${error as any}`);
+      });
+    });
+  } catch (error) {
+    reject(error);
+  }
+});
 export const generatePDFInvoice = async (invoice: IInvoice) => {
   const html = pdfInvoiceTemplate(invoice);
-
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
-  const propsPDF: PDFOptions = {
+  const propsPDF = {
     format: 'A4',
     landscape: false,
     displayHeaderFooter: true,
@@ -46,31 +88,10 @@ export const generatePDFInvoice = async (invoice: IInvoice) => {
       left: '10mm',
     },
   };
-  const page = await browser.newPage();
-
-  await page.setContent(html);
-
-  const pdf = await page.pdf(propsPDF);
-
-  await browser.close();
-
-  const pdfPath = `./uploads/${Date.now()}.pdf`;
-
-  const filename = `${invoice.invoiceId}/${Date.now()}.pdf`;
-  const folderName = `invoices/${filename}`;
-
-  const file = bucket.file(folderName);
-  await file.save(pdf, {
-    metadata: {
-      contentType: 'application/pdf'
-    }
-  });
-  const [url] = await file.getSignedUrl({
-    action: 'read',
-    expires: '03-09-2491', // Set an appropriate expiry date
-  });
-
-  fs.writeFileSync(pdfPath, pdf);
-
-  return { content: pdf, url, filename, contentType: 'application/pdf' };
+  try {
+    const response = await fetchGeneratedPdf(invoice.invoiceId, { html, options: propsPDF });
+    return response;
+  } catch (error) {
+    throw new Error('Error while generating PDF');
+  }
 };
