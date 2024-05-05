@@ -12,7 +12,7 @@ interface Props {
 
 function InvoicesSummary({ invoiceIds }: Props) {
   const [invoices, setInvoices] = useState<IInvoice[]>([]);
-  const { columns } = useTableInvoices();
+  const { columns } = useTableInvoices(true);
   useEffect(() => {
     if (invoiceIds.length) {
       onFetchDocsByIdsArray(invoiceIds, ENUM_COLLECTIONS.INVOICES).then(

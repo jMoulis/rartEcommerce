@@ -17,7 +17,7 @@ interface Props {
 export const Invoices = ({ initialInvoices, shouldSubscribe }: Props) => {
   const [invoices, setInvoices] = useState<IInvoiceInput[]>(initialInvoices);
   const t = useTranslations();
-  const { columns } = useTableInvoices();
+  const { columns } = useTableInvoices(true);
 
   useEffect(() => {
     if (!shouldSubscribe) return;

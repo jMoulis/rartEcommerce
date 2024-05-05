@@ -12,7 +12,7 @@ import { ButtonAnchorLink } from '../../../client/checkout/commons/ButtonLink';
 import { format } from 'date-fns';
 import { ENUM_ROUTES } from '../../../navbar/routes.enums';
 
-export const useTableInvoices = () => {
+export const useTableInvoices = (withPdf: boolean) => {
   const t = useTranslations();
   const [generating, setGenerating] = useState(false);
 
@@ -106,6 +106,7 @@ export const useTableInvoices = () => {
       cell: (props: any) => {
         const invoiceUrl = props.row.original?.invoiceUrl;
         const invoiceId = props.row.original?.invoiceId;
+        if (!withPdf) return <span />;
         return (
           <Flexbox alignItems='center' justifyContent='center'>
             {invoiceUrl ? (
@@ -125,11 +126,6 @@ export const useTableInvoices = () => {
                 {t('Invoice.generateInvoice')}
               </Button>
             )}
-            <Button
-              disabled={generating}
-              onClick={async () => handleGenerate(props.row.original)}>
-              {t('Invoice.generateInvoice')}
-            </Button>
           </Flexbox>
         );
       },
