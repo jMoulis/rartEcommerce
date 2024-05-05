@@ -125,6 +125,11 @@ export const useTableInvoices = () => {
                 {t('Invoice.generateInvoice')}
               </Button>
             )}
+            <Button
+              disabled={generating}
+              onClick={async () => handleGenerate(props.row.original)}>
+              {t('Invoice.generateInvoice')}
+            </Button>
           </Flexbox>
         );
       },

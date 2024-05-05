@@ -1,5 +1,6 @@
 import { IInvoice } from '@/src/types/DBTypes';
-import puppeteer, { PDFOptions } from 'puppeteer';
+import puppeteer, { PDFOptions } from 'puppeteer-core';
+import chrome from 'chrome-aws-lambda';
 import { pdfInvoiceTemplate } from './pdfInvoiceTemplate';
 import fs from 'fs';
 import { nunaLogo } from './logos';
@@ -9,8 +10,11 @@ export const generatePDFInvoice = async (invoice: IInvoice) => {
   const html = pdfInvoiceTemplate(invoice);
 
   const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    headless: chrome.headless,
+    defaultViewport: chrome.defaultViewport,
+    executablePath: await chrome.executablePath,
+    ignoreHTTPSErrors: true,
+    args: [...chrome.args, '--no-sandbox', '--disable-setuid-sandbox', '--hide-scrollbars', '--disable-web-security'],
   });
   const propsPDF: PDFOptions = {
     format: 'A4',
