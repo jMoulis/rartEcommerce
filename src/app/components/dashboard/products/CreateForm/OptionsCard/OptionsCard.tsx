@@ -25,8 +25,8 @@ export const OptionsCard = ({ form, onUpdateSection }: Props) => {
         ...prev,
         options: {
           ...prev.options,
-          published: checked,
-        },
+          published: checked
+        }
       };
     });
   };
@@ -36,8 +36,8 @@ export const OptionsCard = ({ form, onUpdateSection }: Props) => {
         ...prev,
         options: {
           ...prev.options,
-          refIds: [...(prev.options?.refIds ?? []), option._id!],
-        },
+          refIds: [...(prev.options?.refIds ?? []), option._id!]
+        }
       };
     });
   };
@@ -50,8 +50,8 @@ export const OptionsCard = ({ form, onUpdateSection }: Props) => {
           ...prev.options,
           refIds: (prev.options?.refIds ?? []).filter(
             (prefRef) => prefRef !== refId
-          ),
-        },
+          )
+        }
       };
     });
   };
@@ -76,16 +76,16 @@ export const OptionsCard = ({ form, onUpdateSection }: Props) => {
         onClose={onClose}
         dialog={{
           fullWidth: true,
-          maxWidth: 'lg',
+          maxWidth: 'lg'
         }}
         styling={{
           content: {
             height: '20vh',
-            minHeight: '20vh',
-          },
+            minHeight: '20vh'
+          }
         }}
         header={{
-          title: t('ProductForm.addOption'),
+          title: t('ProductForm.addOption')
         }}>
         {open ? (
           <OptionCardForm onAddOption={handleAddOption} form={form} />

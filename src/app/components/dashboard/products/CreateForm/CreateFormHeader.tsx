@@ -3,7 +3,7 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { Flexbox } from '../../../commons/Flexbox';
 import styled from '@emotion/styled';
@@ -15,13 +15,13 @@ import {
   IProductService,
   IInvoice,
   UserProfile,
-  IArtwork,
+  IArtwork
 } from '@/src/types/DBTypes';
 import {
   faArchive,
   faEllipsisV,
   faEye,
-  faTrash,
+  faTrash
 } from '@fortawesome/pro-light-svg-icons';
 import { DeleteConfirmation } from '../../../commons/confirmation/DeleteConfirmation';
 import { IAction } from '../../../commons/confirmation/types';
@@ -119,7 +119,7 @@ export const CreateFormHeader = ({
   headerTitle,
   onDeleteCategory,
   InputHeader,
-  onPreview,
+  onPreview
 }: Props) => {
   const t = useTranslations('ProductForm');
   const tCommons = useTranslations('commons');
@@ -150,10 +150,10 @@ export const CreateFormHeader = ({
       {
         label: tCommons('delete'),
         style: {
-          backgroundColor: 'var(--error-color)',
+          backgroundColor: 'var(--error-color)'
         },
-        callback: async () => handleSelectMenu(onDelete),
-      },
+        callback: async () => handleSelectMenu(onDelete)
+      }
     ],
     [form._id]
   );
@@ -187,7 +187,7 @@ export const CreateFormHeader = ({
       },
       {
         root: null,
-        threshold: 0,
+        threshold: 0
       }
     );
 
@@ -229,7 +229,7 @@ export const CreateFormHeader = ({
                   id='published'
                   name='published'
                   label={
-                    (form as any).published ? t('unPublished') : t('published')
+                    (form as any).published ? t('published') : t('unPublished')
                   }
                   value={(form as any).published || false}
                   onInputChange={(event) => onPublish(event, form._id)}
@@ -245,7 +245,7 @@ export const CreateFormHeader = ({
                 <Button
                   type='button'
                   style={{
-                    whiteSpace: 'nowrap',
+                    whiteSpace: 'nowrap'
                   }}
                   disabled={saving ?? form.isArchived}
                   onClick={onAddSection}>

@@ -16,8 +16,9 @@ interface Props {
 }
 
 const OptionList = ({ products, onSelectProduct, selectedProduct }: Props) => {
-  const filteredProducts = products.filter((section) => section.published);
-
+  const filteredProducts = products.filter(
+    (section) => section.options?.published
+  );
   return (
     <List>
       {filteredProducts.map((product) => (
