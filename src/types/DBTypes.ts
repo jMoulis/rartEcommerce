@@ -300,7 +300,8 @@ export interface ICustomer extends UserProfile {
   profileId?: string;
   invoices: string[];
   sections: ISection[];
-  categories?: string[]
+  categories?: string[];
+  companyName?: string;
 }
 export interface IRepetition {
   occurrencesJsonUrl?: string;

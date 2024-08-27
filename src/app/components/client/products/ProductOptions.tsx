@@ -4,7 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useState,
+  useState
 } from 'react';
 import { ProductSection } from './ProductSection';
 import styled from '@emotion/styled';
@@ -132,6 +132,7 @@ export const ProductOptions = ({ product, preview }: Props) => {
         ?.quantity ?? 0,
     [cart, product]
   );
+
   const totalPrice = useMemo(() => {
     let total = selectedProduct.price;
     Array.from(selectedProductOptions.values()).forEach((product) => {
@@ -145,7 +146,7 @@ export const ProductOptions = ({ product, preview }: Props) => {
       <ContentWrapper flexDirection='column' flex='1'>
         <Title>{product.name}</Title>
         <Description>{selectedProduct.description}</Description>
-        {options.length > 1 && (
+        {product.options?.published && options.length > 1 && (
           <OptionList
             products={options}
             onSelectProduct={handleSelectProduct}
@@ -173,7 +174,6 @@ export const ProductOptions = ({ product, preview }: Props) => {
                 ([propertyId, product], index) => (
                   <Fragment key={index}>
                     <ProductName>{product.name}</ProductName>
-
                     <Price>{displayPrice(product.price)}</Price>
                     <Flexbox alignItems='center'>
                       <IconButton
@@ -192,14 +192,14 @@ export const ProductOptions = ({ product, preview }: Props) => {
             style={{
               fontWeight: 'bold',
               borderTop: '1px solid var(--primary-color)',
-              paddingTop: '5px',
+              paddingTop: '5px'
             }}>
             {t('commons.total')}
           </ProductName>
           <Price
             style={{
               borderTop: '1px solid var(--primary-color)',
-              paddingTop: '5px',
+              paddingTop: '5px'
             }}>
             {displayPrice(totalPrice)}
           </Price>
@@ -209,7 +209,7 @@ export const ProductOptions = ({ product, preview }: Props) => {
           <Flexbox alignItems='center'>
             <Button
               style={{
-                background: 'rgba(255,0,0,0.4)',
+                background: 'rgba(255,0,0,0.4)'
               }}
               onClick={() => onDeleteItemFromCart(product._id!)}>
               {t('Cart.deleteFromCart')}
@@ -223,7 +223,7 @@ export const ProductOptions = ({ product, preview }: Props) => {
             withPreviewCart
             items={[
               selectedProduct,
-              ...Array.from(selectedProductOptions.values()),
+              ...Array.from(selectedProductOptions.values())
             ]}
           />
         )}

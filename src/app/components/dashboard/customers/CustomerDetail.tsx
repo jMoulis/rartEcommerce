@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import {
   onUpdateDocument,
   onCreateDocument,
-  onDeleteDocument,
+  onDeleteDocument
 } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { ENUM_ROUTES } from '../../navbar/routes.enums';
@@ -19,7 +19,7 @@ import { Article } from '../products/CreateForm/Article';
 import { InputGroup } from '../../commons/form/InputGroup';
 import {
   defaultSection,
-  generateDefaultCustomer,
+  generateDefaultCustomer
 } from '../products/CreateForm/defaultData';
 import { sortArrayByAlphabet } from '@/src/lib/utils/main';
 import { Section } from '../products/CreateForm/sections/Section';
@@ -109,7 +109,7 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
       sections: sortArrayByAlphabet(
         [...(prev.sections || []), newSection],
         'title'
-      ),
+      )
     }));
   };
   const handleArchiveSection = (sectionId: string) => {
@@ -124,7 +124,7 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
       );
       return {
         ...prev,
-        sections: updatedSections as ISection[],
+        sections: updatedSections as ISection[]
       };
     });
   };
@@ -136,12 +136,12 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
       if (index > 0) {
         [updatedSections[index], updatedSections[index - 1]] = [
           updatedSections[index - 1],
-          updatedSections[index],
+          updatedSections[index]
         ];
       }
       onDirectMutation((prev) => ({
         ...prev,
-        sections: updatedSections,
+        sections: updatedSections
       }));
     },
     [form.sections]
@@ -153,12 +153,12 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
       if (index < updatedSections.length - 1) {
         [updatedSections[index], updatedSections[index + 1]] = [
           updatedSections[index + 1],
-          updatedSections[index],
+          updatedSections[index]
         ];
       }
       onDirectMutation((prev) => ({
         ...prev,
-        sections: updatedSections,
+        sections: updatedSections
       }));
     },
     [form.sections]
@@ -168,7 +168,7 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
       onDirectMutation((prevForm) => {
         const sectionsClone = prevForm.sections.map((section) => ({
           ...section,
-          properties: [...section.properties], // Deep clone properties
+          properties: [...section.properties] // Deep clone properties
         }));
 
         const currentSection = sectionsClone.find(
@@ -184,10 +184,10 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
         // Swap elements
         [
           currentSection.properties[propertyIndex],
-          currentSection.properties[propertyIndex - 1],
+          currentSection.properties[propertyIndex - 1]
         ] = [
           currentSection.properties[propertyIndex - 1],
-          currentSection.properties[propertyIndex],
+          currentSection.properties[propertyIndex]
         ];
 
         return { ...prevForm, sections: sectionsClone };
@@ -201,7 +201,7 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
         // Deep cloning the sections array and the properties within each section
         const sectionsClone = prevForm.sections.map((section) => ({
           ...section,
-          properties: [...section.properties],
+          properties: [...section.properties]
         }));
 
         // Finding the section that contains the property to be moved
@@ -226,10 +226,10 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
         // Swapping the property with the one below it
         [
           currentSection.properties[propertyIndex],
-          currentSection.properties[propertyIndex + 1],
+          currentSection.properties[propertyIndex + 1]
         ] = [
           currentSection.properties[propertyIndex + 1],
-          currentSection.properties[propertyIndex],
+          currentSection.properties[propertyIndex]
         ];
 
         // Returning the new state with the updated sections
@@ -242,19 +242,19 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
     onDirectMutation((prev) => ({
       ...prev,
       sections: [...prev.sections],
-      categories: [...(prev.categories ?? []), categoryId],
+      categories: [...(prev.categories ?? []), categoryId]
     }));
   };
   const handleSelectSections = (sections: ISection[]) => {
     onDirectMutation((prev) => ({
       ...prev,
-      sections: [...prev.sections, ...sections],
+      sections: [...prev.sections, ...sections]
     }));
   };
   const handleEditAddresses = (updatedAddresses: IAddress[]) => {
     onDirectMutation((prev) => ({
       ...prev,
-      addresses: updatedAddresses,
+      addresses: updatedAddresses
     }));
   };
   return (
@@ -279,9 +279,16 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
           flex='1'
           flexDirection='column'
           style={{
-            marginRight: '10px',
+            marginRight: '10px'
           }}>
           <Article headerTitle={t('Customer.identity')}>
+            <InputGroup
+              onInputChange={onInputChange}
+              label={t('commons.companyName')}
+              name='companyName'
+              id='companyName'
+              value={form.companyName ?? ''}
+            />
             <InputGroup
               onInputChange={onInputChange}
               label={t('commons.firstname')}

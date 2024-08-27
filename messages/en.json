@@ -62,7 +62,8 @@
     "duplicate": "Dupliquer",
     "preview": "Aperçu",
     "editable": "Éditable",
-    "product": "Produit"
+    "product": "Produit",
+    "companyName": "Désignation sociale"
   },
   "AddressForm": {
     "addresses": "Adresses",

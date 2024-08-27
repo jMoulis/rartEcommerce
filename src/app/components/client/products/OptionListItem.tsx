@@ -71,7 +71,7 @@ interface Props {
 const OptionListItem = ({
   product,
   onSelectProduct,
-  selectedProduct,
+  selectedProduct
 }: Props) => {
   const t = useTranslations();
 
@@ -106,7 +106,7 @@ const OptionListItem = ({
         justifyContent='space-between'
         flex='1'
         style={{
-          padding: '5px',
+          padding: '5px'
         }}>
         <OptionPrice>{displayPrice(product.price)}</OptionPrice>
         {product.withStock ? (

@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useState,
+  useState
 } from 'react';
 import styled from '@emotion/styled';
 import { Flexbox } from '../../../commons/Flexbox';
@@ -91,14 +91,14 @@ const coords = [
     key: 'email',
     params: 'contact@rartcreation.fr',
     type: 'mailto',
-    icon: faEnvelope,
+    icon: faEnvelope
   },
   {
     key: 'phone',
     params: '+33 (0)6 16 22 49 28',
     type: 'phone',
-    icon: faPhone,
-  },
+    icon: faPhone
+  }
 ];
 
 const defaultInputStyle = (sending: boolean) => ({
@@ -106,13 +106,13 @@ const defaultInputStyle = (sending: boolean) => ({
     transition: 'opacity 150ms ease',
     flex: 1,
     margin: '10px',
-    opacity: sending ? '0.2' : '1',
+    opacity: sending ? '0.2' : '1'
   },
   label: {},
   input: {
     backgroundColor: 'rgba(255,255,255,0.7)',
-    border: '1px solid transparent',
-  },
+    border: '1px solid transparent'
+  }
 });
 interface Props {}
 
@@ -151,16 +151,16 @@ export const ContactForm = (props: Props) => {
       contactName: process.env.NEXT_CONTACT_NAME! || 'Rachel',
       mailSystem,
       subject: t('Contact.subject', {
-        company: process.env.NEXT_COMPANY_NAME! || 'Rart création',
+        company: process.env.NEXT_COMPANY_NAME! || 'Rart création'
       }),
-      token,
+      token
     };
     const payload = {
       method: 'POST',
       body: JSON.stringify(rawFormData),
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     };
     try {
       setSending(true);
@@ -181,7 +181,7 @@ export const ContactForm = (props: Props) => {
     ({
       type,
       params,
-      icon,
+      icon
     }: {
       key: string;
       params: string | null;
@@ -195,7 +195,7 @@ export const ContactForm = (props: Props) => {
               style={{
                 textDecoration: 'underline',
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'center'
               }}
               href={`mailto:${params}`}>
               <FontAwesomeIcon icon={icon} />
@@ -208,7 +208,7 @@ export const ContactForm = (props: Props) => {
               style={{
                 textDecoration: 'underline',
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: 'center'
               }}
               href={`tel:${params}`}>
               <FontAwesomeIcon icon={icon} />
@@ -262,7 +262,7 @@ export const ContactForm = (props: Props) => {
                   alignItems='center'
                   flexWrap='wrap'
                   style={{
-                    margin: '10px',
+                    margin: '10px'
                   }}
                   justifyContent='flex-end'>
                   {!loaded ? <span>{t('Contact.securityLoading')}</span> : null}
@@ -298,7 +298,7 @@ export const ContactForm = (props: Props) => {
                     </Text> */}
                     <div
                       style={{
-                        marginLeft: 0,
+                        marginLeft: 0
                       }}>
                       {renderText(coord)}
                     </div>

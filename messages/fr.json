@@ -62,7 +62,8 @@
     "duplicate": "Dupliquer",
     "preview": "Aperçu",
     "editable": "Éditable",
-    "product": "Produit"
+    "product": "Produit",
+    "companyName": "Désignation sociale"
   },
   "AddressForm": {
     "name": "Libellé",
@@ -319,8 +320,8 @@
     "addSection": "Ajouter une rubrique",
     "newSection": "Nouvelle rubrique",
     "saveAsTemplate": "Sauvegarder model",
-    "published": "Publier",
-    "unPublished": "Dépublier",
+    "published": "Publié",
+    "unPublished": "Dépublié",
     "withStock": "Stock",
     "categories": "Catégories",
     "deleteSectionMessage": {

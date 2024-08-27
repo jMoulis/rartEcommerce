@@ -22,6 +22,7 @@ import {
   onUpdateDocument,
   onCreateDocument,
   onDeleteDocument,
+  findDocumentById
 } from '@/src/app/contexts/firestore/useFirestore';
 import Preview from './Preview';
 import ProductDetail from '../../../client/products/ProductDetail';
@@ -69,12 +70,16 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
   const [displayPreview, setPreview] = useState<boolean>(false);
 
   useEffect(() => {
-    if (prevProduct) {
-      setForm(prevProduct);
+    if (prevProduct?._id) {
+      findDocumentById(prevProduct._id, ENUM_COLLECTIONS.PRODUCTS).then(
+        (payload) => {
+          setForm(payload.data as IProductService);
+        }
+      );
     } else {
       setForm(defaultData);
     }
-  }, [prevProduct]);
+  }, [prevProduct?._id]);
 
   const handleSubmit = async () => {
     try {
@@ -112,7 +117,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
   const handleSubmitImages = (images: IImageType[]) => {
     setForm((prev) => ({
       ...prev,
-      images,
+      images
     }));
   };
   const handleArchiveSection = (sectionId: string) => {
@@ -127,7 +132,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
       ) as ISection[];
       return {
         ...prev,
-        sections: updatedSections,
+        sections: updatedSections
       };
     });
   };
@@ -138,7 +143,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
     const formattedValue = type === 'number' ? parseFloat(value) : value;
     setForm((prev) => ({
       ...prev,
-      [name]: formattedValue,
+      [name]: formattedValue
     }));
   };
   const handleAddSection = () => {
@@ -148,7 +153,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
       sections: sortArrayByKey(
         [...prev.sections, newSection],
         'archived'
-      ) as ISection[],
+      ) as ISection[]
     }));
   };
   const handleMoveSectionUp = useCallback(
@@ -159,12 +164,12 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
       if (index > 0) {
         [updatedSections[index], updatedSections[index - 1]] = [
           updatedSections[index - 1],
-          updatedSections[index],
+          updatedSections[index]
         ];
       }
       setForm((prev) => ({
         ...prev,
-        sections: updatedSections,
+        sections: updatedSections
       }));
     },
     [form.sections]
@@ -176,12 +181,12 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
       if (index < updatedSections.length - 1) {
         [updatedSections[index], updatedSections[index + 1]] = [
           updatedSections[index + 1],
-          updatedSections[index],
+          updatedSections[index]
         ];
       }
       setForm((prev) => ({
         ...prev,
-        sections: updatedSections,
+        sections: updatedSections
       }));
     },
     [form.sections]
@@ -191,7 +196,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
       setForm((prevForm) => {
         const sectionsClone = prevForm.sections.map((section) => ({
           ...section,
-          properties: [...section.properties], // Deep clone properties
+          properties: [...section.properties] // Deep clone properties
         }));
 
         const currentSection = sectionsClone.find(
@@ -207,10 +212,10 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
         // Swap elements
         [
           currentSection.properties[propertyIndex],
-          currentSection.properties[propertyIndex - 1],
+          currentSection.properties[propertyIndex - 1]
         ] = [
           currentSection.properties[propertyIndex - 1],
-          currentSection.properties[propertyIndex],
+          currentSection.properties[propertyIndex]
         ];
 
         return { ...prevForm, sections: sectionsClone };
@@ -224,7 +229,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
         // Deep cloning the sections array and the properties within each section
         const sectionsClone = prevForm.sections.map((section) => ({
           ...section,
-          properties: [...section.properties],
+          properties: [...section.properties]
         }));
 
         // Finding the section that contains the property to be moved
@@ -249,10 +254,10 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
         // Swapping the property with the one below it
         [
           currentSection.properties[propertyIndex],
-          currentSection.properties[propertyIndex + 1],
+          currentSection.properties[propertyIndex + 1]
         ] = [
           currentSection.properties[propertyIndex + 1],
-          currentSection.properties[propertyIndex],
+          currentSection.properties[propertyIndex]
         ];
 
         // Returning the new state with the updated sections
@@ -266,7 +271,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
       if (!productId) return;
       const updatedForm: IProductService = {
         ...form,
-        isArchived: !form.isArchived,
+        isArchived: !form.isArchived
       };
       setForm(updatedForm);
       try {
@@ -288,7 +293,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
 
       const updatedForm: IProductService = {
         ...form,
-        published: checked,
+        published: checked
       };
 
       setForm(updatedForm);
@@ -299,30 +304,36 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
     const { checked, name } = event.currentTarget;
     setForm((prev) => ({
       ...prev,
-      [name]: checked,
+      [name]: checked
     }));
   };
   const handleSelectCategory = (categoryId: string) => {
     setForm((prev) => ({
       ...prev,
       sections: [...prev.sections],
-      categories: [...(prev.categories || []), categoryId],
+      categories: [...(prev.categories || []), categoryId]
+    }));
+  };
+  const handleRemoveCategory = (categoryId: string) => {
+    setForm((prev) => ({
+      ...prev,
+      categories: prev.categories?.filter((id) => id !== categoryId)
     }));
   };
   const handleSelectSections = (sections: ISection[]) => {
     setForm((prev) => ({
       ...prev,
-      sections: [...prev.sections, ...sections],
+      sections: [...prev.sections, ...sections]
     }));
   };
-
   const handlePreview = () => {
     setPreview(true);
   };
+
   return (
     <div
       style={{
-        overflow: 'auto',
+        overflow: 'auto'
       }}>
       {saving || form.isArchived ? <LoadingBackdrop /> : null}
       <CreateFormHeader
@@ -337,14 +348,15 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
         onPublish={handlePublishProduct}
         onNameChange={handleInputChange}
         onPreview={handlePreview}
+        onDeleteCategory={handleRemoveCategory}
       />
       <Flexbox
         style={{
-          flexWrap: 'wrap',
+          flexWrap: 'wrap'
         }}>
         <Content
           style={{
-            flexWrap: 'wrap',
+            flexWrap: 'wrap'
           }}>
           <Flexbox flexWrap='wrap'>
             <ProductDetailForm form={form} onInputChange={handleInputChange} />
@@ -356,7 +368,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
           </Flexbox>
           <Flexbox
             style={{
-              marginRight: '10px',
+              marginRight: '10px'
             }}>
             <ImageLoader
               images={form.images ?? []}

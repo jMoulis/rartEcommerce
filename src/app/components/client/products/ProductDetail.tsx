@@ -70,7 +70,7 @@ export default function ProductDetail({ initialProduct, preview }: Props) {
   return (
     <Page
       style={{
-        paddingTop: 0,
+        paddingTop: 0
       }}>
       <SectionHeader
         backgroundImage={defaultImage?.url ?? ''}
@@ -83,14 +83,14 @@ export default function ProductDetail({ initialProduct, preview }: Props) {
           <Section
             style={{
               justifyContent: 'unset',
-              padding: 0,
+              padding: 0
             }}>
             <Breadcrumb text={product.name} />
           </Section>
         ) : null}
         <Section
           style={{
-            justifyContent: 'unset',
+            justifyContent: 'unset'
           }}>
           <ImageNavigation
             images={product.images}
