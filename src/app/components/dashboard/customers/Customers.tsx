@@ -18,7 +18,7 @@ interface Props {
 export const Customers = ({ initialCustomers }: Props) => {
   const [customers, setCustomers] = useState<ICustomer[]>(initialCustomers);
   const t = useTranslations();
-  const columnHelper = createColumnHelper<ICustomer>() as any;
+  const columnHelper = createColumnHelper<ICustomer>();
 
   useEffect(() => {
     const unsubscribe = onFindAllRealtime(
@@ -48,15 +48,23 @@ export const Customers = ({ initialCustomers }: Props) => {
           <Link href={`${ENUM_ROUTES.CUSTOMERS}/${id}`}>
             <span
               style={{
-                textDecoration: 'underline',
+                textDecoration: 'underline'
               }}>
               {customerFullName}
             </span>
           </Link>
         );
-      },
+      }
     }),
+    columnHelper.display({
+      id: 'company',
+      header: 'Désignation sociale',
+      cell: ({ row }) => {
+        return <span>{row.original.companyName}</span>;
+      }
+    })
   ];
+
   return (
     <FinderLayoutPage
       sectionTitle={t('Dashboard.customers')}
@@ -64,7 +72,7 @@ export const Customers = ({ initialCustomers }: Props) => {
       columns={columns}
       createLink={{
         href: `${ENUM_ROUTES.CUSTOMERS_CREATE}`,
-        label: t('Customer.createCustomer'),
+        label: t('Customer.createCustomer')
       }}
     />
   );
