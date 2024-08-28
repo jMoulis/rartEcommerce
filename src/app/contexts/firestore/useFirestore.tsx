@@ -12,7 +12,7 @@ import {
   getDoc,
   QueryConstraint,
   where,
-  FirestoreError,
+  FirestoreError
 } from 'firebase/firestore';
 import { ENUM_COLLECTIONS } from '../../../lib/firebase/enums';
 import { onErrorMessage, onSuccessMessage } from '../shared/response';
@@ -37,7 +37,7 @@ export const onFindAllRealtime = (
     (querySnapshot) => {
       const products = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
-        _id: doc.id,
+        _id: doc.id
       }));
       onResult(products);
     },
@@ -56,7 +56,7 @@ export const onCreateDocument = async (
     await setDoc(docRef, fields, { merge: true });
     return onSuccessMessage('create', undefined, {
       _id: docRef.id,
-      ...fields,
+      ...fields
     });
   } catch (error) {
     return onErrorMessage(error);
@@ -97,7 +97,7 @@ export const findAllOnce = async (collection: ENUM_COLLECTIONS) => {
     const querySnapshot = await getDocs(productsRef);
     const products = querySnapshot.docs.map((doc) => ({
       ...doc.data(),
-      _id: doc.id,
+      _id: doc.id
     }));
     return onSuccessMessage('deleted', undefined, products);
   } catch (error) {
@@ -115,7 +115,7 @@ export const findDocumentById = async (
     if (docSnap.exists()) {
       return onSuccessMessage('fetch', undefined, {
         ...docSnap.data(),
-        _id: docSnap.id,
+        _id: docSnap.id
       });
     } else {
       return onErrorMessage({ code: 'not-found' });
@@ -195,7 +195,7 @@ export const onFindSingleRealtime = (
       if (docSnapshot.exists()) {
         const data = {
           ...docSnapshot.data(),
-          _id: docSnapshot.id,
+          _id: docSnapshot.id
         };
         onResult(data);
       } else {

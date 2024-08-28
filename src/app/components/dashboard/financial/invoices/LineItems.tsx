@@ -27,25 +27,27 @@ const LineItems = ({ items }: Props) => {
   const t = useTranslations();
 
   return (
-    <Wrapper>
-      <Header
-        style={{
-          justifyContent: 'flex-start',
-        }}>
-        {t('commons.description')}
-      </Header>
-      <Header>{t('commons.quantity')}</Header>
-      <Header>{t('commons.unitPrice')}</Header>
-      <Header>{t('commons.total')}</Header>
-      {items.map((item, key) => (
-        <Fragment key={key}>
-          <Cell>{item.description}</Cell>
-          <Cell>{item.quantity}</Cell>
-          <Cell>{item.unitPrice}</Cell>
-          <Cell>{item.total}</Cell>
-        </Fragment>
-      ))}
-    </Wrapper>
+    <div>
+      <Wrapper>
+        <Header
+          style={{
+            justifyContent: 'flex-start'
+          }}>
+          {t('commons.description')}
+        </Header>
+        <Header>{t('commons.quantity')}</Header>
+        <Header>{t('commons.unitPrice')}</Header>
+        <Header>{t('commons.total')}</Header>
+        {items.map((item, key) => (
+          <Fragment key={key}>
+            <Cell>{item.description}</Cell>
+            <Cell>{item.quantity}</Cell>
+            <Cell>{item.unitPrice}</Cell>
+            <Cell>{item.total}</Cell>
+          </Fragment>
+        ))}
+      </Wrapper>
+    </div>
   );
 };
 

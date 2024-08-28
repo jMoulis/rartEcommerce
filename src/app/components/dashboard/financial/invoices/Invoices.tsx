@@ -8,6 +8,7 @@ import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { toast } from 'react-toastify';
 import { useTableInvoices } from './useTableInvoices';
+import { ENUM_ROUTES } from '../../../navbar/routes.enums';
 
 interface Props {
   initialInvoices: IInvoiceInput[];
@@ -41,6 +42,10 @@ export const Invoices = ({ initialInvoices, shouldSubscribe }: Props) => {
       sectionTitle={t('Dashboard.invoices')}
       data={invoices}
       columns={columns}
+      createLink={{
+        href: `${ENUM_ROUTES.CREATE_INVOICE}`,
+        label: t('Invoice.createInvoice')
+      }}
     />
   );
 };

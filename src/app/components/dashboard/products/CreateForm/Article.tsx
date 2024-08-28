@@ -40,6 +40,7 @@ interface Props {
   item?: any;
   Header?: any;
   publishedValue?: boolean;
+  actions?: React.ReactNode;
   styling?: {
     root?: React.CSSProperties;
     header?: React.CSSProperties;
@@ -59,16 +60,18 @@ export const Article = forwardRef(
       item,
       publishedValue,
       onPublishSection,
+      actions
     }: Props,
     ref: any
   ) => {
     const { open, onToggle } = useToggle(true);
     const t = useTranslations();
+
     useImperativeHandle(ref, () => ({
       onToggle: () => {
         onToggle();
         return !open;
-      },
+      }
     }));
 
     return (
@@ -90,6 +93,7 @@ export const Article = forwardRef(
                 onInputChange={onPublishSection}
               />
             ) : null}
+            {actions}
           </Header>
         )}
         <Collapse in={open}>

@@ -56,6 +56,7 @@
     "seeMore": "Voir plus",
     "email": "E-Mail",
     "firstname": "Prénom",
+    "lastname": "Nom",
     "mobile": "Cell",
     "legals": "Legals",
     "lastUpdate": "Last updated: {date}",
@@ -269,7 +270,10 @@
     "documents": "Documents",
     "amount": "Montant",
     "issueDate": "Date de paiement",
-    "receipt": "Récipissé"
+    "receipt": "Récipissé",
+    "addProduct": "Ajouter un article",
+    "paid": "Payé",
+    "unpaid": "Impayé"
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -298,7 +302,8 @@
   "Product": {
     "addProduct": "Ajouter un article",
     "inStock": "En stock",
-    "noStock": "Rupture de stock"
+    "noStock": "Rupture de stock",
+    "products": "Produits"
   },
   "ProductForm": {
     "name": "Nom",

@@ -62,11 +62,7 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
     };
 
     const invoice = await onAdminCreateDocument(invoiceInput, ENUM_COLLECTIONS.INVOICES);
-    // const customerRef = adminDB.collection(ENUM_COLLECTIONS.CUSTOMERS).doc(customerId);
 
-    // customerRef.update({
-    //   invoices: FieldValue.arrayUnion(invoice.data?._id)
-    // });
     const pdf = await generatePDFInvoice({ ...invoiceInput, _id: invoice.data?._id });
 
     if (!invoice) {

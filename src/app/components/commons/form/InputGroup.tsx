@@ -51,7 +51,7 @@ export const InputGroup = ({
   autoComplete,
   placeholder,
   labelTip,
-  disabled,
+  disabled
 }: Props) => {
   return (
     <Label
@@ -82,7 +82,7 @@ export const InputGroup = ({
         disabled={disabled}
         onChange={onInputChange}
         onBlur={onBlur}
-        value={(value as string) ?? undefined}
+        value={(value as string) ?? ''}
         defaultValue={defaultValue}
         required={required}
         autoComplete={autoComplete}

@@ -25,8 +25,8 @@ export const useTableInvoices = (withPdf: boolean) => {
         method: 'post',
         body: JSON.stringify(invoice),
         headers: {
-          'Content-type': 'application/json',
-        },
+          'Content-type': 'application/json'
+        }
       });
       setGenerating(false);
     } catch (error: any) {
@@ -45,28 +45,30 @@ export const useTableInvoices = (withPdf: boolean) => {
           <Link href={`${ENUM_ROUTES.INVOICE_DETAIL}/${id}`}>
             <span
               style={{
-                textDecoration: 'underline',
+                textDecoration: 'underline'
               }}>
               {info.row.original.invoiceId}
             </span>
           </Link>
         );
-      },
+      }
     }),
     columnHelper.accessor((row: any) => row.createdAt, {
       id: 'createdAt',
       header: () => <span>{t('commons.createdAt')}</span>,
       cell: (info: any) => {
-        const dateFormatted = format(info.getValue(), 'dd/MM/yyyy');
+        const dateFormatted = info.getValue()
+          ? format(info.getValue(), 'dd/MM/yyyy')
+          : '';
         return (
           <span
             style={{
-              textAlign: 'center',
+              textAlign: 'center'
             }}>
             {dateFormatted}
           </span>
         );
-      },
+      }
     }),
     columnHelper.accessor((row: any) => row.createdAt, {
       id: 'customer',
@@ -81,13 +83,33 @@ export const useTableInvoices = (withPdf: boolean) => {
             <span
               style={{
                 textAlign: 'center',
-                textDecoration: 'underline',
+                textDecoration: 'underline'
               }}>
               {customerFullName}
             </span>
           </Link>
         );
-      },
+      }
+    }),
+    columnHelper.accessor((row: any) => row.createdAt, {
+      id: 'customerName',
+      header: () => <span>{t('Customer.customer')}</span>,
+      cell: (info: any) => {
+        const customer = info.row.original?.customerInformations;
+        const customerId = info.row.original?.customerId;
+
+        return (
+          <Link href={`${ENUM_ROUTES.CUSTOMERS}/${customerId}`}>
+            <span
+              style={{
+                textAlign: 'center',
+                textDecoration: 'underline'
+              }}>
+              {customer?.companyName}
+            </span>
+          </Link>
+        );
+      }
     }),
     columnHelper.accessor('status', {
       id: 'status',
@@ -95,11 +117,11 @@ export const useTableInvoices = (withPdf: boolean) => {
       cell: (info: any) => (
         <span
           style={{
-            textAlign: 'center',
+            textAlign: 'center'
           }}>
           {info.getValue()}
         </span>
-      ),
+      )
     }),
     columnHelper.display({
       id: 'actions',
@@ -112,7 +134,7 @@ export const useTableInvoices = (withPdf: boolean) => {
             {invoiceUrl ? (
               <ButtonAnchorLink
                 style={{
-                  backgroundColor: 'var(--success-color)',
+                  backgroundColor: 'var(--success-color)'
                 }}
                 href={invoiceUrl}
                 target='_blank'
@@ -128,11 +150,11 @@ export const useTableInvoices = (withPdf: boolean) => {
             )}
           </Flexbox>
         );
-      },
-    }),
+      }
+    })
   ];
   return {
     columns,
-    generating,
+    generating
   };
 };

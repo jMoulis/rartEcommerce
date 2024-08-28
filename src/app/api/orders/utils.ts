@@ -5,7 +5,6 @@ import { ICart, ILineItem, IOrderInput } from '@/src/types/DBTypes';
 
 export const createOrder = async (cart: ICart, connectedCustomerId?: string): Promise<ApiPayload | null> => {
   try {
-    //  temp password to access invoices
     const date = new Date().toISOString();
     const lineItems: ILineItem[] = cart.items.reduce((acc: ILineItem[], item) => {
       if (item.sessions) {
