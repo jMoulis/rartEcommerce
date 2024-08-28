@@ -5,7 +5,7 @@ import React, {
   useContext,
   useState,
   useEffect,
-  ReactNode,
+  ReactNode
 } from 'react';
 import {
   IAddress,
@@ -13,7 +13,7 @@ import {
   ICartItem,
   IProductService,
   ISession,
-  IWorkshop,
+  IWorkshop
 } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 import { DEFAULT_CURRENCY } from '@/src/lib/constants';
@@ -30,6 +30,7 @@ interface CartContextType {
   onDeleteItemFromCart: (itemId: string) => void;
   clearCart: () => void;
   addContactInformations: (value: {
+    _id: string;
     email: string;
     address: IAddress;
     shippingAddress?: IAddress;
@@ -45,7 +46,7 @@ const defaultState = {
   clearCart: () => {},
   addContactInformations: () => {},
   onEditCart: () => {},
-  onDeleteItemFromCart: () => {},
+  onDeleteItemFromCart: () => {}
 };
 const defaultCart: ICart = {
   items: [],
@@ -54,11 +55,12 @@ const defaultCart: ICart = {
   totalPrice: 0,
   taxes: 0,
   contactInformations: {
+    _id: '',
     firstname: '',
     lastname: '',
-    email: '',
+    email: ''
   },
-  deliveryCost: 0,
+  deliveryCost: 0
 };
 // Create a context with a default value
 const CartContext = createContext<CartContextType>(defaultState);
@@ -109,15 +111,15 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
           description: incomingItem.description,
           type: item.type,
           sessions: incomingItem.sessions,
-          stock: null,
+          stock: null
         };
         const prevElement = updatedCart.items[existingItemIndex];
         const updatedElement = {
           ...prevElement,
           sessions: [
             ...(prevElement.sessions ?? []),
-            ...(newItem.sessions ?? []),
-          ],
+            ...(newItem.sessions ?? [])
+          ]
         };
         updatedCart.items[existingItemIndex] = updatedElement;
       } else {
@@ -138,7 +140,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         description: incomingItem.description,
         type: item.type,
         stock: incomingItem.withStock ? incomingItem.stockQuantity : null,
-        sessions: (incomingItem as any).sessions,
+        sessions: (incomingItem as any).sessions
       };
       updatedCart.items.push(newItem);
     }
@@ -178,13 +180,14 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       prev
         ? {
             ...prev,
-            deliveryCost: cost,
+            deliveryCost: cost
           }
         : null
     );
   };
 
   const addContactInformations = (value: {
+    _id: string;
     email: string;
     address: IAddress;
     firstname: string;
@@ -193,7 +196,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     if (cart) {
       const updatedCart: ICart = {
         ...cart,
-        contactInformations: value,
+        contactInformations: value
       };
       localStorage.setItem('cart', JSON.stringify(updatedCart));
       setCart(updatedCart);
@@ -206,7 +209,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       ...cart,
       items: cart?.items.map((prevItem) =>
         prevItem.id === cartItem.id ? cartItem : prevItem
-      ),
+      )
     };
 
     const productTotal = updatedCart.items
@@ -244,7 +247,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
 
     const updatedCart = {
       ...cart,
-      items: cart?.items.filter((prevItem) => prevItem.id !== itemId),
+      items: cart?.items.filter((prevItem) => prevItem.id !== itemId)
     };
 
     const sessionsTotal = updatedCart.items
@@ -290,7 +293,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         clearCart,
         addContactInformations,
         onEditCart,
-        onDeleteItemFromCart,
+        onDeleteItemFromCart
       }}>
       {children}
     </CartContext.Provider>

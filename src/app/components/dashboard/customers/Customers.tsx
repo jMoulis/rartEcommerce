@@ -58,9 +58,19 @@ export const Customers = ({ initialCustomers }: Props) => {
     }),
     columnHelper.display({
       id: 'company',
-      header: 'Désignation sociale',
+      header: () => <span>{t('commons.companyName')}</span>,
       cell: ({ row }) => {
-        return <span>{row.original.companyName}</span>;
+        const id = row.original._id;
+        return (
+          <Link href={`${ENUM_ROUTES.CUSTOMERS}/${id}`}>
+            <span
+              style={{
+                textDecoration: 'underline'
+              }}>
+              {row.original.companyName}
+            </span>
+          </Link>
+        );
       }
     })
   ];

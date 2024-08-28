@@ -4,22 +4,22 @@ import { rartLogo } from './logos';
 
 export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
   const {
-    customerInformations: {
-      address,
-      firstname,
-      lastname,
-      email,
-    },
+    customerInformations,
     createdAt,
-    invoiceId
+    invoiceId,
   } = invoice;
-  const date = format(createdAt || new Date(), 'dd/MM/yyyy');
-
+  const date = format(createdAt ?? new Date(), 'dd/MM/yyyy');
+  const firstname = customerInformations?.firstname ?? '';
+  const lastname = customerInformations?.lastname ?? '';
+  const fullName = `${firstname} ${lastname}`;
+  const companyName = customerInformations?.companyName ?? '';
+  const email = customerInformations?.email ?? '';
+  const address = customerInformations?.address ?? null;
   const table = invoice.lineItems.map((item) => {
-    const tvaTaux = 0.20;
-    const tauxTvaString = '20%';
+    const tvaTaux = 0;
+    const tauxTvaString = '0%';
     const priceHt = item.quantity * item.unitPrice;
-    const totalTva = priceHt * tvaTaux;
+    const totalTva = Math.ceil(priceHt * tvaTaux);
     const total = priceHt + totalTva;
     return `
     <tr>
@@ -131,7 +131,7 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
       }
       .price-footer {
         display: grid;
-        grid-template-columns: 70px 50px;
+        grid-template-columns: 150px 50px;
         justify-content: flex-end;
       }
       .header {
@@ -196,7 +196,8 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
       </div>
       <div class="customer">
         <div>
-          <span class="customer-name">${`${firstname} ${lastname}`}</span>
+          <span class="customer-name">${fullName}</span>
+          <span class="customer-name">${companyName}</span>
           <div>
             <p>${address?.address}</p>
             <p>${`${address?.postalCode ?? ''} ${address?.locality ?? ''}`}</p>
@@ -241,15 +242,15 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
          <tr>
          <td class="table-footer" colspan="6">
           <div class="price-footer">
-            <p style="font-weight: bolder">Total HT:</p>
+            <p style="font-weight: bolder; white-space: nowrap">Total HT:</p>
             <p>${invoice.ht}€</p>
           </div>
           <div class="price-footer">
-            <p style="font-weight: bolder">Total taxes:</p>
+            <p style="font-weight: bolder; white-space: nowrap">Total taxes:</p>
             <p>${invoice.taxes}€</p>
           </div>
           <div class="price-footer">
-            <p style="font-weight: bolder">Total TTC:</p>
+            <p style="font-weight: bolder; white-space: nowrap">Total TTC:</p>
             <p>${invoice.amount.toLocaleString()}€</p>
           </div>
           <div class="price-footer">

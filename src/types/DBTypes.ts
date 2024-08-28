@@ -193,26 +193,26 @@ export interface IInvoicesId {
 }
 export interface IInvoiceInput {
   invoiceId: string;
-  customerId: string | null;
-  issueDate: string;
-  dueDate: string;
+  customerId?: string | null;
+  issueDate?: string;
+  dueDate?: string;
   amount: number;
   ht: number;
   taxes: number;
-  status: InvoiceStatusType;
+  status?: InvoiceStatusType;
   lineItems: ILineItem[];
-  createdAt: string;
-  updatedAt: string;
-  orderId: string;
+  createdAt?: string;
+  updatedAt?: string;
+  orderId?: string;
   isArchived?: boolean;
-  paymentId: string;
-  customerInformations: IContactInformations;
-  confirmMailSent: {
+  paymentId?: string;
+  customerInformations?: IContactInformations;
+  confirmMailSent?: {
     status: boolean;
     date?: string;
     messageId?: string
   };
-  receiptUrl: string | null;
+  receiptUrl?: string | null;
   invoiceUrl?: string | null;
 }
 export interface IInvoice extends IInvoiceInput {
@@ -384,6 +384,8 @@ export interface ICartItem {
 }
 
 export interface IContactInformations {
+  _id: string;
+  companyName?: string;
   firstname: string;
   lastname: string;
   email: string;

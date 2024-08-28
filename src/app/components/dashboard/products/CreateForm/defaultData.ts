@@ -1,6 +1,6 @@
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
 import { DEFAULT_CURRENCY } from '@/src/lib/constants';
-import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate, ICustomer, IArtwork } from '@/src/types/DBTypes';
+import { IWorkshop, IElement, IProductService, IProperty, IRepetition, ISection, ISession, ITemplate, ICustomer, IArtwork, IInvoiceInput } from '@/src/types/DBTypes';
 import { v4 } from 'uuid';
 
 export const defaultElement = (): IElement => {
@@ -89,6 +89,18 @@ export const generateDefaultCustomer: () => ICustomer = () => {
     verified: false,
     invoices: [],
     categories: []
+  });
+};
+export const generateDefaultInvoice: () => IInvoiceInput = () => {
+  return ({
+    createdAt: new Date().toISOString(),
+    invoiceId: '',
+    customerId: '',
+    status: 'unpaid',
+    amount: 0,
+    ht: 0,
+    taxes: 0,
+    lineItems: []
   });
 };
 export const buildDefaultTemplate: (t: any) => ITemplate = (t) => {

@@ -8,6 +8,7 @@ export const TableContainer = styled.div`
   overflow: auto;
   background-color: #fff;
   max-height: 70vh;
+  flex: 1;
 `;
 
 export const Table = styled.table`

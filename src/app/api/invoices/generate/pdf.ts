@@ -52,7 +52,12 @@ const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options
     reject(error);
   }
 });
-export const generatePDFInvoice = async (invoice: IInvoice) => {
+export const generatePDFInvoice = async (invoice: IInvoice, callback?: (response: {
+  content: any;
+  url: string;
+  filename: string;
+  contentType: string;
+}) => void) => {
   const html = pdfInvoiceTemplate(invoice);
   const propsPDF = {
     format: 'A4',

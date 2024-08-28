@@ -6,7 +6,7 @@ import {
   Td,
   Th,
   Thead,
-  Tr,
+  Tr
 } from '../Table/StyledComponents';
 import { Table, flexRender, Header } from '@tanstack/react-table';
 interface Props {
@@ -23,13 +23,15 @@ const TableDefault = ({ table }: Props) => {
     <TableContainer>
       <TableStyled>
         <Thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <Tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <Th key={header.id}>{renderHeader(header)}</Th>
-              ))}
-            </Tr>
-          ))}
+          {table.getHeaderGroups().map((headerGroup) => {
+            return (
+              <Tr key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Th key={header.id}>{renderHeader(header)}</Th>
+                ))}
+              </Tr>
+            );
+          })}
         </Thead>
         <Tbody>
           {table.getRowModel().rows.map((row) => (

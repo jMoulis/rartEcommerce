@@ -56,6 +56,7 @@
     "seeMore": "Voir plus",
     "email": "E-Mail",
     "firstname": "Prénom",
+    "lastname": "Nom",
     "mobile": "Mobile",
     "legals": "Mentions légales",
     "lastUpdate": "Dernière mise à jour: {date}",
@@ -135,7 +136,7 @@
     "serviceDetailTitle": "Détail du service",
     "pricePayment": "Prix et paiement",
     "serviceType": "Type de service",
-    "paymentType": "{type, select, session {Par scéance} subscription {Avec abonnement} other {Inconnu}}",
+    "paymentType": "{type, select, session {Par séance} subscription {Avec abonnement} other {Inconnu}}",
     "selectPaymentType": "Choisissez comment les clients peuvent payer ce service",
     "unSubscribe": "Se désinscrire",
     "keepMeInform": "Tenez moi au courant"
@@ -268,7 +269,10 @@
     "documents": "Documents",
     "amount": "Montant",
     "issueDate": "Date de paiement",
-    "receipt": "Récipissé"
+    "receipt": "Récipissé",
+    "addProduct": "Ajouter un article",
+    "paid": "Payé",
+    "unpaid": "Impayé"
   },
   "LocaleSwitcher": {
     "label": "Langue",
@@ -297,7 +301,8 @@
   "Product": {
     "addProduct": "Ajouter un article",
     "inStock": "En stock",
-    "noStock": "Contactez-nous"
+    "noStock": "Contactez-nous",
+    "products": "Produits"
   },
   "ProductForm": {
     "name": "Nom",
