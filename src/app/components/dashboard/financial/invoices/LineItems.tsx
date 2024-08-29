@@ -23,8 +23,8 @@ const Cell = styled(Flexbox)`
 `;
 interface Props {
   items: ILineItem[];
-  onDeleteItem: (id: string) => void;
-  onChangeQuantity: (id: string, quantity: number) => void;
+  onDeleteItem?: (id: string) => void;
+  onChangeQuantity?: (id: string, quantity: number) => void;
 }
 
 const LineItems = ({ items, onDeleteItem, onChangeQuantity }: Props) => {
@@ -48,7 +48,7 @@ const LineItems = ({ items, onDeleteItem, onChangeQuantity }: Props) => {
             <Cell>
               <Input
                 value={item.quantity}
-                onChange={(e) => onChangeQuantity(item._id!, +e.target.value)}
+                onChange={(e) => onChangeQuantity?.(item._id!, +e.target.value)}
                 type='number'
                 style={{
                   width: '100px'
@@ -59,7 +59,7 @@ const LineItems = ({ items, onDeleteItem, onChangeQuantity }: Props) => {
             <Cell>{item.total}</Cell>
             <Cell>
               <Button
-                onClick={() => onDeleteItem(item._id!)}
+                onClick={() => onDeleteItem?.(item._id!)}
                 backgroundColor='var(--error-color)'>
                 {t('commons.delete')}
               </Button>
