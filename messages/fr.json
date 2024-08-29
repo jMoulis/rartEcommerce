@@ -29,6 +29,7 @@
     "selectImages": "Choisissez des images",
     "select": "Choisir",
     "add": "Ajouter",
+    "addClose": "Ajouter et fermer",
     "remove": "Retirer",
     "label": "Libéllé",
     "value": "Valeur",
@@ -220,7 +221,9 @@
     "createCustomer": "Créer un client",
     "customer": "Client",
     "customers": "Clients",
-    "identity": "Identité"
+    "identity": "Identité",
+    "contact": "Contact",
+    "companyName": "Désignation sociale"
   },
   "Dashboard": {
     "title": "Tableau de bord",
@@ -272,7 +275,8 @@
     "receipt": "Récipissé",
     "addProduct": "Ajouter un article",
     "paid": "Payé",
-    "unpaid": "Impayé"
+    "unpaid": "Impayé",
+    "addManual": "Ajout manuel"
   },
   "LocaleSwitcher": {
     "label": "Langue",

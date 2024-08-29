@@ -72,7 +72,7 @@ export const useTableInvoices = (withPdf: boolean) => {
     }),
     columnHelper.accessor((row: any) => row.createdAt, {
       id: 'customer',
-      header: () => <span>{t('Customer.customer')}</span>,
+      header: () => <span>{t('Customer.contact')}</span>,
       cell: (info: any) => {
         const customer = info.row.original?.customerInformations;
         const customerId = info.row.original?.customerId;
@@ -93,7 +93,7 @@ export const useTableInvoices = (withPdf: boolean) => {
     }),
     columnHelper.accessor((row: any) => row.createdAt, {
       id: 'customerName',
-      header: () => <span>{t('Customer.customer')}</span>,
+      header: () => <span>{t('Customer.companyName')}</span>,
       cell: (info: any) => {
         const customer = info.row.original?.customerInformations;
         const customerId = info.row.original?.customerId;

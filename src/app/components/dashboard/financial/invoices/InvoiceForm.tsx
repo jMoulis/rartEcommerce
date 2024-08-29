@@ -5,6 +5,7 @@ import {
   ICustomer,
   IInvoice,
   IInvoiceInput,
+  ILineItem,
   IProductService
 } from '@/src/types/DBTypes';
 import React, { useEffect } from 'react';
@@ -26,6 +27,7 @@ import { format } from 'date-fns';
 import { Selectbox } from '../../../commons/form/Selectbox';
 import SelectItemsModal from './SelectItemsModal';
 import { v4 } from 'uuid';
+import ManualLineItemModal from './ManualLineItemModal';
 
 const Root = styled.div`
   overflow: auto;
@@ -102,6 +104,28 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
       };
     });
   };
+  const handleAddManualLineItem = (item: ILineItem) => {
+    onDirectMutation((prev) => {
+      let updatedLineItems = [...prev.lineItems];
+      // if (remove) {
+      //   updatedLineItems = updatedLineItems.filter(
+      //     (prevItem) => prevItem.itemId !== item.itemId
+      //   );
+      // } else {
+      // }
+      updatedLineItems = [...updatedLineItems, item];
+      const calculateLinesTotal = updatedLineItems.reduce(
+        (acc, current) => acc + current.total,
+        0
+      );
+      return {
+        ...prev,
+        lineItems: updatedLineItems,
+        ht: calculateLinesTotal,
+        amount: calculateLinesTotal
+      };
+    });
+  };
   const handleSelectCustomer = (customer: ICustomer) => {
     const contactInformations: IContactInformations = {
       _id: customer._id!,
@@ -116,6 +140,23 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
       customerId: customer._id,
       customerInformations: contactInformations
     }));
+  };
+  const handleDeleteLineItem = (lineId: string) => {
+    onDirectMutation((prev) => {
+      const updatedLineItems = prev.lineItems.filter(
+        (prevItem) => prevItem._id !== lineId
+      );
+      const calculateLinesTotal = updatedLineItems.reduce(
+        (acc, current) => acc + current.total,
+        0
+      );
+      return {
+        ...prev,
+        lineItems: updatedLineItems,
+        ht: calculateLinesTotal,
+        amount: calculateLinesTotal
+      };
+    });
   };
   const handleSubmit = async () => {
     try {
@@ -141,7 +182,30 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
       setSaving(false);
     }
   };
-
+  const handleChangeListItemQuantity = (id: string, quantity: number) => {
+    onDirectMutation((prev) => {
+      const updatedLineItems = prev.lineItems.map((item) => {
+        if (item._id === id) {
+          return {
+            ...item,
+            quantity,
+            total: item.unitPrice * quantity
+          };
+        }
+        return item;
+      });
+      const calculateLinesTotal = updatedLineItems.reduce(
+        (acc, current) => acc + current.total,
+        0
+      );
+      return {
+        ...prev,
+        lineItems: updatedLineItems,
+        ht: calculateLinesTotal,
+        amount: calculateLinesTotal
+      };
+    });
+  };
   return (
     <Root>
       <CreateFormHeader
@@ -269,12 +333,21 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
           <Article
             headerTitle={t('Invoice.details')}
             actions={
-              <SelectItemsModal
-                onSelectItem={handleSelectLineItem}
-                selectedLineItems={form?.lineItems ?? []}
-              />
+              <Flexbox>
+                <SelectItemsModal
+                  onSelectItem={handleSelectLineItem}
+                  selectedLineItems={form?.lineItems ?? []}
+                />
+                <ManualLineItemModal
+                  onAddManualLineItem={handleAddManualLineItem}
+                />
+              </Flexbox>
             }>
-            <LineItems items={form?.lineItems || []} />
+            <LineItems
+              onChangeQuantity={handleChangeListItemQuantity}
+              items={form?.lineItems || []}
+              onDeleteItem={handleDeleteLineItem}
+            />
           </Article>
         </Flexbox>
         <Article headerTitle={t('Invoice.documents')}>

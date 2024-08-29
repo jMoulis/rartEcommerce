@@ -196,8 +196,7 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
       </div>
       <div class="customer">
         <div>
-          <span class="customer-name">${fullName}</span>
-          <span class="customer-name">${companyName}</span>
+          <span class="customer-name">${companyName || fullName}</span>
           <div>
             <p>${address?.address}</p>
             <p>${`${address?.postalCode ?? ''} ${address?.locality ?? ''}`}</p>
