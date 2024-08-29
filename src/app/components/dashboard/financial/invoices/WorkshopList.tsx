@@ -72,7 +72,11 @@ const WorkshopList = ({
   const t = useTranslations();
 
   const meta: any = useMemo(
-    () => ({ t, onSelect: onSelectItem, selectedData: selectedLineItems }),
+    () => ({
+      t,
+      onSelect: onSelectItem,
+      selectedData: selectedLineItems
+    }),
     [t, selectedLineItems]
   );
   useEffect(() => {
