@@ -28,7 +28,7 @@ interface Props {
 
 export default function Workshops({
   initialWorkshops,
-  initialCategories,
+  initialCategories
 }: Props) {
   const { onSelectCategory, onUpdateData, filteredData, selectedCategories } =
     useCategories(initialWorkshops);
@@ -43,7 +43,7 @@ export default function Workshops({
         toast.error(error.message);
       },
       {
-        published: true,
+        published: true
       }
     );
 
@@ -65,7 +65,7 @@ export default function Workshops({
         <Section
           style={{
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'center'
           }}>
           <Categories
             categories={initialCategories}
@@ -94,7 +94,7 @@ export default function Workshops({
                     <FontAwesomeIcon
                       style={{
                         marginLeft: '10px',
-                        color: 'var(--secondary-color)',
+                        color: 'var(--secondary-color)'
                       }}
                       icon={faArrowRight}
                     />
