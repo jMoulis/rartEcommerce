@@ -37,11 +37,11 @@ export const Artworks = ({ initialArtworks, shouldSubscribe }: Props) => {
             width={30}
             src={image?.url}
             style={{
-              objectFit: 'cover',
+              objectFit: 'cover'
             }}
           />
         );
-      },
+      }
     }),
     columnHelper.accessor((row: any) => row._id, {
       id: '_id',
@@ -52,23 +52,23 @@ export const Artworks = ({ initialArtworks, shouldSubscribe }: Props) => {
           <Link href={`${ENUM_ROUTES.ARTWORKS_DETAIL}/${id}`}>
             <span
               style={{
-                textDecoration: 'underline',
+                textDecoration: 'underline'
               }}>
               {info.row.original.name}
             </span>
           </Link>
         );
-      },
+      }
     }),
 
     columnHelper.accessor((row: any) => row._id, {
-      id: 'pusblished',
+      id: 'published',
       header: () => <span>Published</span>,
       cell: (info: any) => {
         const status = info.row.original.published;
         return <input type='checkbox' disabled checked={status} />;
-      },
-    }),
+      }
+    })
   ];
   useEffect(() => {
     if (!shouldSubscribe) return;
@@ -94,7 +94,7 @@ export const Artworks = ({ initialArtworks, shouldSubscribe }: Props) => {
       columns={columns}
       createLink={{
         label: t('Artwork.create'),
-        href: ENUM_ROUTES.ARTWORKS_CREATE,
+        href: ENUM_ROUTES.ARTWORKS_CREATE
       }}
     />
   );

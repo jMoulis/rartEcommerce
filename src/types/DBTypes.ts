@@ -363,7 +363,7 @@ export interface IWorkshop {
   price: number,
   currency: ICurrency;
   sessions: ISession[];
-  pusblished: boolean;
+  published: boolean;
   sections: ISection[];
   isArchived?: boolean;
   type: 'product' | 'workshop';

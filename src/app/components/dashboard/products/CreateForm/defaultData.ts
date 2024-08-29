@@ -72,7 +72,7 @@ export const generateDefaultBooking: () => IWorkshop = () => {
     price: 0,
     currency: DEFAULT_CURRENCY,
     sessions: [],
-    pusblished: false,
+    published: false,
     paymentPreference: 'online',
     type: 'workshop',
     sections: []
