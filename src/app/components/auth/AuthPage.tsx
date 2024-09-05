@@ -33,7 +33,7 @@ export const AuthPage = ({
   onSuccess,
   variant,
   onChangeVariant,
-  onCloseAll,
+  onCloseAll
 }: Props) => {
   const t = useTranslations();
   const [forgotMenu, setForgotMenu] = useState(false);
@@ -49,7 +49,7 @@ export const AuthPage = ({
     <Root>
       <Header>
         {t('Authform.signInTo', {
-          company: 'Rart Création',
+          company: 'Rart Création'
         })}
       </Header>
       {forgotMenu ? (
@@ -59,7 +59,7 @@ export const AuthPage = ({
         />
       ) : (
         <FormsWrapper>
-          <SignIn onSuccess={handleOnSuccess} />
+          <SignIn onSuccess={handleOnSuccess} />\
           <OrSignWith />
           {variant === ENUM_AUTH_FORM_VARIANT.SIGNIN ? (
             <>
