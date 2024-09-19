@@ -4,7 +4,7 @@ import { IInvoice } from '@/src/types/DBTypes';
 import { generatePDFInvoice } from './pdf';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { adminDB } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
-import { MailService } from '@/src/lib/mailService/MailService';
+// import { MailService } from '@/src/lib/mailService/MailService';
 
 export async function POST(request: NextRequest) {
   try {
