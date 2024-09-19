@@ -32,11 +32,14 @@ export async function POST(request: NextRequest) {
       invoiceId,
       createdAt: date,
     };
-    const newInvoice = await onAdminCreateDocument(completeInvoice, ENUM_COLLECTIONS.INVOICES);
+
+    const newInvoice = await onAdminCreateDocument(completeInvoice, ENUM_COLLECTIONS.INVOICES, invoice?._id);
+
     generatePDFInvoice({ ...completeInvoice, _id: newInvoice.data?._id }).then((pdf) => {
       const invoiceRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(newInvoice.data?._id);
       invoiceRef.update({ invoiceUrl: pdf.url });
     });
+
     if (!invoice) {
       throw Error('Unable to create an invoice');
     }

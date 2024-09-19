@@ -7,6 +7,7 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
     customerInformations,
     createdAt,
     invoiceId,
+    comment
   } = invoice;
   const date = format(createdAt ?? new Date(), 'dd/MM/yyyy');
   const firstname = customerInformations?.firstname ?? '';
@@ -95,6 +96,7 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
         color: #000;
       }
       p {
+        font-family: 'Eb garamond', serif;
         margin: 0;
         padding: 0;
       }
@@ -136,22 +138,34 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
       }
       .header {
         display: flex;
+        flex-direction: column;
         margin-bottom: 30px;
       }
       .customer {
         flex: 1;
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        justify-content: flex-end;
       }
       .customer-name {
         font-weight: bold;
         font-size: 20px;
       }
-      .company {
+       .company {
         display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 50px;
       }
-
+      .company-logo {
+        height: 100px;
+        width: 100px;
+        border-radius: 5px;
+      }
+      .company-name {
+        max-width: 100px;
+        font-weight: bold;
+      }
       .conditions {
         margin-top: 10px;
       }
@@ -176,23 +190,8 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
   <body>
     <header class="header">
       <div class="company">
-        <img src=${rartLogo} style="height: 50px; border-radius: 5px; margin-right: 20px" />
-        <div>
-          <span>RartCreation</span>
-          <div>
-            <p>2521 route de bonneville</p>
-            <p>74800 Arenthon</p>
-            <p>
-              <a href="mailto:contact@rartcreation.fr">contact@rartcreation.fr</a>
-            </p>
-               <p>
-              <a href="tel:+33616224928">+33 (0)6 16 22 49 28</a>
-            </p>
-            <p>
-              <a href="https://www.rartcreation.fr">https://www.rartcreation.fr</a>
-            </p>
-          </div>
-        </div>
+        <img src=${rartLogo} class="company-logo" />
+        <span class="company-name">Rart Création</span>
       </div>
       <div class="customer">
         <div>
@@ -217,19 +216,19 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
               <p class="table-cell-header">Description</p>
             </th>
             <th class="table-row">
-              <p class="table-cell-header">quantité</p>
+              <p class="table-cell-header">Quantité</p>
             </th>
             <th class="table-row">
-              <p class="table-cell-header">prix ht (€)</p>
+              <p class="table-cell-header">Prix HT (€)</p>
             </th>
             <th class="table-row">
-              <p class="table-cell-header">Taux tva</p>
+              <p class="table-cell-header">Taux TVA</p>
             </th>
             <th class="table-row">
               <p class="table-cell-header">TVA (€)</p>
             </th>
             <th class="table-row">
-              <p class="table-cell-header">prix ttc (€)</p>
+              <p class="table-cell-header">Prix TTC (€)</p>
             </th>
           </tr>
         </thead>
@@ -260,25 +259,20 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
         </tr>
         </tfoot>
       </table>
-      <div>
-        <p class="small">Date de règlement: ${date}</p>
-        <p class="small">Date d'exécution de la vente: ${date}</p>
-      </div>
       <div class="conditions">
+        <div style="margin-bottom: 10px">
+        <p  class="x-small">Détails de la facture</p>
+        <p class="x-small">${comment ?? ''}</p>
+        </div>
         <p class="x-small">
-          En votre aimable règlement par virement ou chèque à l'ordre de la
-          Couveuse d'entreprises / Rart Création Nuna Développement THYEZ
+          Paiement à réception de la facture par virement ou chèque
         </p>
         <p class="x-small">
-          Site économique des Lacs 320, rue des Sorbiers 74300 Thyez
+          IBAN : FR32 3000 2060 6500 0000 0512 M03 BIC: CRLYFRPP
         </p>
         <p class="x-small">
-          IBAN : FR76 3000 3036 0503 2200 0820 439 Banque: Société Générale
-        </p>
-        <p class="x-small">Escompte pour paiement anticipé : néant</p>
-        <p class="x-small">
-          En cas de non-paiement à la date de règlement, des pénalités de retard
-          forfaitaires de 40€ seront appliquées pour frais de recouvrement.
+          En cas de retard de paiement, des frais forfaitaires de recouvrement
+          de 40€ seront appliqués.
         </p>
       </div>
     </main>

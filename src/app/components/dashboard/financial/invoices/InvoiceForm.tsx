@@ -28,6 +28,7 @@ import { Selectbox } from '../../../commons/form/Selectbox';
 import SelectItemsModal from './SelectItemsModal';
 import { v4 } from 'uuid';
 import ManualLineItemModal from './ManualLineItemModal';
+import { Textarea } from '../../../commons/form/Textarea';
 
 const Root = styled.div`
   overflow: auto;
@@ -107,12 +108,6 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
   const handleAddManualLineItem = (item: ILineItem) => {
     onDirectMutation((prev) => {
       let updatedLineItems = [...prev.lineItems];
-      // if (remove) {
-      //   updatedLineItems = updatedLineItems.filter(
-      //     (prevItem) => prevItem.itemId !== item.itemId
-      //   );
-      // } else {
-      // }
       updatedLineItems = [...updatedLineItems, item];
       const calculateLinesTotal = updatedLineItems.reduce(
         (acc, current) => acc + current.total,
@@ -161,7 +156,6 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
   const handleSubmit = async () => {
     try {
       setSaving(true);
-
       fetch(ENUM_ROUTES.CREATE_INVOICE_API, {
         method: 'POST',
         headers: {
@@ -176,6 +170,7 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
           throw new Error('Network response was not ok.');
         })
         .then(({ data }) => {
+          setSaving(false);
           router.replace(`${ENUM_ROUTES.INVOICE_DETAIL}/${data?._id}`);
         });
     } catch (error) {
@@ -328,6 +323,18 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
               <Link href={`${ENUM_ROUTES.CUSTOMERS}/${form?.customerId}`}>
                 {t('commons.seeMore')}
               </Link>
+              <Label
+                style={{
+                  marginTop: '10px',
+                  marginBottom: '5px'
+                }}>
+                {t('Invoice.comment')}:
+              </Label>
+              <Textarea
+                name='comment'
+                value={form.comment}
+                onChange={onInputChange}
+              />
             </Article>
           </Flexbox>
           <Article

@@ -30,13 +30,19 @@ export const onAdminCreateDocument = async (
 
     if (documentId) {
       docRef = collectionRef.doc(documentId);
-      await docRef.set(fields);
+      const docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        await docRef.update(fields);
+      } else {
+        throw Error(`Document with ID ${documentId} does not exist.`);
+      }
     } else {
       docRef = await collectionRef.add(fields);
     }
     return onSuccessMessage('create', undefined, { _id: docRef.id });
   } catch (error) {
-    throw Error(`Error: ${collection} creation`);
+    throw Error(`Error: ${collection} creation/update`);
   }
 };
 export const onUpdateDocument = async (

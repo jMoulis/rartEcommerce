@@ -14,13 +14,13 @@ import { ENUM_ROUTES } from '../../../navbar/routes.enums';
 
 export const useTableInvoices = (withPdf: boolean) => {
   const t = useTranslations();
-  const [generating, setGenerating] = useState(false);
+  const [generatingId, setGeneratingId] = useState<string | null>(null);
 
   const columnHelper = createColumnHelper<IInvoiceInput>() as any;
 
   const handleGenerate = async (invoice: IInvoiceInput) => {
     try {
-      setGenerating(true);
+      setGeneratingId(invoice?._id ?? null);
       await fetch('/api/invoices/generate', {
         method: 'post',
         body: JSON.stringify(invoice),
@@ -28,10 +28,10 @@ export const useTableInvoices = (withPdf: boolean) => {
           'Content-type': 'application/json'
         }
       });
-      setGenerating(false);
+      setGeneratingId(null);
     } catch (error: any) {
       toast.error(error.message);
-      setGenerating(false);
+      setGeneratingId(null);
     }
   };
 
@@ -141,20 +141,19 @@ export const useTableInvoices = (withPdf: boolean) => {
                 download={`${invoiceId}.pdf`}>
                 {t('commons.download')}
               </ButtonAnchorLink>
-            ) : (
-              <Button
-                disabled={generating}
-                onClick={async () => handleGenerate(props.row.original)}>
-                {t('Invoice.generateInvoice')}
-              </Button>
-            )}
+            ) : null}
+
+            <Button
+              disabled={generatingId === props.row.original._id}
+              onClick={async () => handleGenerate(props.row.original)}>
+              {t('Invoice.generateInvoice')}
+            </Button>
           </Flexbox>
         );
       }
     })
   ];
   return {
-    columns,
-    generating
+    columns
   };
 };

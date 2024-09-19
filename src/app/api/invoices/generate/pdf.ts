@@ -1,7 +1,6 @@
 import { IInvoice } from '@/src/types/DBTypes';
 import fetch from 'node-fetch';
 import { pdfInvoiceTemplate } from './pdfInvoiceTemplate';
-import { nunaLogo } from './logos';
 import { bucket } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { PassThrough } from 'stream';
 
@@ -59,27 +58,36 @@ export const generatePDFInvoice = async (invoice: IInvoice) => {
     landscape: false,
     displayHeaderFooter: true,
     headerTemplate: '<span></span',
-    footerTemplate: `<div style="display: flex; justify-content: center; align-items:center; margin-left: 100px">
-        <div style="display: flex; flex-direction: column; align-items: center">
-          <p style="text-align: center; font-size: 12px; margin: 0">
-            l'entrepreneur Rachel Moulis bénéficie d'un Contrat d'appui au
-            projet d'entreprise du 08/01/2024 au 07/01/2025
-          </p>
-          <p style="text-align: center; font-size: 12px; margin: 0"> avec la couveuse
-            Nuna Développement THYEZ
-          </p>
-          <p style="text-align: center; font-size: 12px; margin: 0">
-            Site économique des Lacs 320, rue des Sorbiers 74300 Thyez
-          </p>
-          <p style="text-align: center; font-size: 12px; margin: 0">
-            Siret: 53825476400029 Code NAF: RCS: Numéro formation:
-            Email:<a style="text-decoration: none;
-        color: #000;" href="mailto:couveuse@nunadev.com">couveuse@nunadev.com</a> Téléphone: <a style="text-decoration: none;
-        color: #000;" href="tel:+33450907240">+33450907240</a>
+    footerTemplate: ` <div
+
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: 200px;
+      ">
+      <div style="display: flex; flex-direction: column; align-items: center">
+        <p style="text-align: center; font-size: 12px; margin: 0; font-family: serif">
+          Rachel Moulis - 2521 route de Bonneville - 74800 Arenthon
+        </p>
+
+        <div style="text-align: center; font-size: 12px; margin: 0">
+          Téléphone:
+          <a style="text-decoration: none; color: #000; font-family: serif" href="tel:+33616224928"
+            >+33 (0)6 16 22 49 28</a
+          >
+          <span class="text-align: center; font-size: 12px; margin: 0; font-family: serif">-</span>
+          Email:<a
+            style="text-decoration: none; color: #000; margin-left: 5px; font-family: serif"
+            href="mailto:contact@rartcreation.fr"
+            >contact@rartcreation.fr</a
+          >
+          <p style="text-align: center; font-size: 12px; margin: 0; font-family: serif">
+            <a style="font-family: serif" href="http://www.rartcreation.fr">rarcreation.fr</a> - Siren: 750431603 - Code APE: 9003A
           </p>
         </div>
-          <img src=${nunaLogo} style="width: 30px" />
-      </div>`,
+      </div>
+    </div>`,
     pageRanges: '',
     margin: {
       top: '10mm',
