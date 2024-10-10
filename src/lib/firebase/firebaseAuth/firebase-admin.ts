@@ -3,14 +3,16 @@ import 'server-only';
 import { cookies } from 'next/headers';
 import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app';
 import { SessionCookieOptions, getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { User } from 'firebase/auth';
 import { UserProfile } from '@/src/types/DBTypes';
+import { getStorage } from 'firebase-admin/storage';
 
 const serviceAccount: ServiceAccount = {
   projectId: process.env.NEXT_GOOGLE_PROJECT_ID,
-  privateKey: process.env.NEXT_GOOGLE_PRIVATE_KEY,
+  privateKey: process.env.NEXT_GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
   clientEmail: process.env.NEXT_GOOGLE_CLIENT_EMAIL,
 };
 
@@ -19,11 +21,16 @@ export const firebaseApp =
   initializeApp(
     {
       credential: cert(serviceAccount),
+      storageBucket: 'gs://rart-82321.appspot.com'
     },
     'firebase-admin-app'
   );
 
 export const auth = getAuth(firebaseApp);
+
+export const adminDB = getFirestore(firebaseApp);
+
+export const bucket = getStorage(firebaseApp).bucket();
 
 async function getSession() {
   try {
@@ -56,6 +63,7 @@ const getAuthProfile = async (uid: string) => {
       return null;
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching profile: ', error);
     throw error;
   }
@@ -63,7 +71,6 @@ const getAuthProfile = async (uid: string) => {
 
 export async function getCurrentUser(): Promise<{ user: User, profile: UserProfile } | null> {
   const session = await getSession();
-
   if (!(await isUserAuthenticated(session))) {
     return null;
   }

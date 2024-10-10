@@ -1,5 +1,8 @@
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+
 export interface IAction {
-  label: string;
-  className?: string;
+  label?: string;
+  style?: React.CSSProperties;
   callback: () => Promise<any>;
+  icon?: IconProp
 }

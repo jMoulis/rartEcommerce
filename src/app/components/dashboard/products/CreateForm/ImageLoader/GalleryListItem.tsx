@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
 import { useTranslations } from 'next-intl';
 import { IImageType } from './types';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
 
 const Root = styled.div<{ selected: boolean }>`
   width: 160px;
@@ -69,7 +70,6 @@ export const GalleryListItem = ({
           width={150}
           height={150}
           quality={50}
-          loading='lazy'
           style={{
             objectFit: 'contain',
             borderRadius: '5px',
@@ -83,7 +83,7 @@ export const GalleryListItem = ({
         style={{
           marginTop: '10px',
         }}>
-        <button
+        <Button
           onClick={() => onSelectImage(image)}
           className='button'
           style={{
@@ -91,7 +91,7 @@ export const GalleryListItem = ({
             color: selected ? 'var(--default-font-color)' : undefined,
           }}>
           {selected ? t('commons.remove') : t('commons.select')}
-        </button>
+        </Button>
       </Flexbox>
     </Root>
   );

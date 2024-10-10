@@ -6,10 +6,16 @@ import React, { FormEvent } from 'react';
 import { useToggle } from '../../hooks/useToggle';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import { Button } from '../../commons/Buttons/Button';
+import { InputGroup } from '../../commons/form/InputGroup';
+import { useTranslations } from 'next-intl';
+import { Flexbox } from '../../commons/Flexbox';
+import { DialogHeader } from '../../commons/dialog/DialogHeader';
 
 const Form = emotionStyled.form`
   display: flex;
   flex-direction: column;
+  padding: 20px;
 `;
 
 interface Props {
@@ -19,6 +25,7 @@ interface Props {
 
 export const ChangeEmailForm = ({ email, onChangeEmailValue }: Props) => {
   const { open, onOpen, onClose } = useToggle();
+  const t = useTranslations();
   const { onUpdateEmail, onPromptForCredentials, onSignOut } = useAuth();
   const router = useRouter();
   const handleReauthSuccess = async (event: FormEvent<HTMLFormElement>) => {
@@ -45,29 +52,38 @@ export const ChangeEmailForm = ({ email, onChangeEmailValue }: Props) => {
 
   return (
     <>
-      <label htmlFor='email'>
-        Email
-        <input
+      <Flexbox alignItems='center'>
+        <InputGroup
           id='email'
           name='email'
           value={email || ''}
-          onChange={(event) => onChangeEmailValue(event.currentTarget.value)}
+          onInputChange={(event) =>
+            onChangeEmailValue(event.currentTarget.value)
+          }
+          label={t('ProfileForm.email')}
         />
-      </label>
-      <button onClick={onOpen}>Change email</button>
-      <Dialog open={open}>
+        <Button onClick={onOpen}>{t('ProfileForm.editEmail')}</Button>
+      </Flexbox>
+      <Dialog open={open} onClose={onClose}>
+        <DialogHeader title={t('ProfileForm.editEmail')} onClose={onClose} />
         <Form onSubmit={handleReauthSuccess}>
-          <label htmlFor='avatar'>
-            Email
-            <input id='auth-email' name='email' />
-          </label>
-          <label htmlFor='avatar'>
-            Password
-            <input id='auth-password' type='password' name='password' />
-          </label>
-          <button type='submit'>Reauth</button>
+          <InputGroup
+            id='auth-email'
+            name='auth-email'
+            type='email'
+            label={t('ProfileForm.email')}
+          />
+          <InputGroup
+            type='password'
+            id='auth-password'
+            name='auth-password'
+            label={t('ProfileForm.password')}
+          />
+          <Flexbox justifyContent='flex-end'>
+            <Button type='submit'>{t('ProfileForm.connect')}</Button>
+          </Flexbox>
         </Form>
-      </Dialog>{' '}
+      </Dialog>
     </>
   );
 };

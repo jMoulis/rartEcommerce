@@ -4,29 +4,72 @@
     "signOut": "Déconnexion",
     "register": "S'inscrire"
   },
+  "Breadcrumb": {
+    "products": "Boutique",
+    "workshops": "Ateliers",
+    "basket": "Panier",
+    "checkout": "Validation"
+  },
   "commons": {
+    "a": "un",
+    "all": "Toutes",
+    "ae": "une",
     "create": "Créer",
+    "createWith": "Créer {type}",
     "cancel": "Annuler",
     "close": "Fermer",
     "back": "Retour",
     "delete": "Supprimer",
     "edit": "Modifier",
     "save": "Sauvegarder",
+    "filters": "Filtres",
     "dragAndDropFile": "Glissez-déposez les fichiers ici",
     "or": "ou",
     "importFiles": "Importer des fichiers",
     "selectImages": "Choisissez des images",
     "select": "Choisir",
     "add": "Ajouter",
+    "addClose": "Ajouter et fermer",
     "remove": "Retirer",
     "label": "Libéllé",
     "value": "Valeur",
     "archive": "Archiver",
-    "archives": "Archives"
+    "unArchive": "Désarchiver",
+    "archives": "Archives",
+    "color": "Couleur",
+    "name": "Nom",
+    "title": "Titre",
+    "description": "Description",
+    "price": "Prix",
+    "priceModality": "Prix et modalités",
+    "file": "Fichier",
+    "image": "Image",
+    "detailedInformation": "Découvrir",
+    "required": "requis",
+    "store": "Boutique",
+    "workshop": "Ateliers",
+    "share": "Partager",
+    "createdAt": "Créé",
+    "download": "Télécharger",
+    "quantity": "quantité",
+    "unitPrice": "Prix unitaire",
+    "total": "Total",
+    "seeMore": "Voir plus",
+    "email": "E-Mail",
+    "firstname": "Prénom",
+    "lastname": "Nom",
+    "mobile": "Mobile",
+    "legals": "Mentions légales",
+    "lastUpdate": "Dernière mise à jour: {date}",
+    "duplicate": "Dupliquer",
+    "preview": "Aperçu",
+    "editable": "Éditable",
+    "product": "Produit",
+    "companyName": "Désignation sociale"
   },
   "AddressForm": {
     "name": "Libellé",
-    "route": "Addresse",
+    "route": "Adresse",
     "streetNumber": "Numéro",
     "locality": "Ville",
     "country": "Pays",
@@ -36,14 +79,151 @@
     "shipping": "Livraison",
     "billing": "Facturation",
     "postalCode": "Code postal",
-    "deleteAddress": "Supprimer une adresse"
+    "deleteAddress": "Supprimer une adresse",
+    "addresses": "Adresses",
+    "newAddress": "Nouvelle adresse",
+    "createAddress": "Créer une addresse",
+    "selectAddress": "Choisir une adresse",
+    "address": "Adresse",
+    "streetNumberStreet": "numéro et rue",
+    "autofillAddress": "Commencez à taper votre adresse",
+    "additional": "Complément d'addresse",
+    "additionalPlaceholder": "Appartement, suite, unité, immeuble, étage, etc."
   },
   "Authform": {
     "email": "E-Mail",
     "password": "Mot de passe",
     "resetPassword": "Réinitialiser le mot de passe",
     "sendResetPasswordLink": "Envoyer le lien de réinitialisation",
-    "messageSent": "Le lien vient de vous être envoyé"
+    "messageSent": "Le lien vient de vous être envoyé",
+    "signInTo": "Connectez-vous à {company}",
+    "dontHaveAnAccount": "Vous n'avez pas de compte?",
+    "orSignWithEmail": "ou connectez-vous avec un email",
+    "connectWith": "Connectez-vous avec {provider}",
+    "forgotPassword": "Oublié?",
+    "alreadyHaveAnAccount": "Vous avez déjà un compte?"
+  },
+  "Artwork": {
+    "create": "Créer une oeuvre",
+    "description": "Description",
+    "name": "Nom",
+    "detail": "Détail"
+  },
+  "Booking": {
+    "bookings": "Réservations",
+    "booking": "Réservation",
+    "title": "Titre",
+    "location": "Lieu",
+    "locations": "Lieux",
+    "serviceLoaction": "Lieu du service",
+    "excerpt": "Phrase de présentation",
+    "register": "S'inscrire",
+    "createBooking": "Créer une réservation",
+    "editBooking": "Modifier une réservation",
+    "deleteBooking": "Supprimer une réservation",
+    "selectBooking": "Choise une réservation",
+    "category": "{type, select, course {Cours} workshop {Atelier} other {Inconnu}}",
+    "maxParticipants": "Max. de Participants",
+    "currentParticipants": "Participants",
+    "status": "Status",
+    "session": "Séance",
+    "subscription": "Abonnement",
+    "subscriptions": "Abonnements",
+    "sessions": "Séances",
+    "prefrences": "Préférences",
+    "paymentPreference": "Préférences de paiement",
+    "paymentPreferenceSelect": "{type, select, online {En ligne} person {En personne} other {Inconnu}}",
+    "recurrence": "Répétition",
+    "serviceDetailTitle": "Détail du service",
+    "pricePayment": "Prix et paiement",
+    "serviceType": "Type de service",
+    "paymentType": "{type, select, session {Par séance} subscription {Avec abonnement} other {Inconnu}}",
+    "selectPaymentType": "Choisissez comment les clients peuvent payer ce service",
+    "unSubscribe": "Se désinscrire",
+    "keepMeInform": "Tenez moi au courant"
+  },
+  "Category": {
+    "category": "Catégorie",
+    "addCategory": "Ajouter une catégorie",
+    "createCategory": "Créer une catégorie",
+    "editCategory": "Modifier une catégorie",
+    "deleteCategory": "Supprimer une categorie",
+    "selectCategory": "Sélectionner une categorie",
+    "deleteCategoryMessage": {
+      "title": "Voulez-vous supprimer cette catégorie ?",
+      "explanation": "Elle ne sera plus disponible"
+    }
+  },
+  "Cart": {
+    "cart": "Panier",
+    "summary": "Récapitulatif de la commande",
+    "item": "Produit/service",
+    "total": "Total",
+    "plusDelivery": "Hors frais de livraison",
+    "securised": "Sécurisé",
+    "payment": "Paiement",
+    "checkout": "Valider mon panier",
+    "newCustomer": "Nouveau client",
+    "existingCustomer": "Déjà client",
+    "shippingCost": "Frais de livraison",
+    "shipping": "Livraison",
+    "validateShipping": "Valider la livraison",
+    "contactInformations": "Information de contact",
+    "shippingAddress": "Adresse de livraison",
+    "billingAddress": "Adresse de facturation",
+    "confirm": "Confirmer",
+    "addToCart": "Ajouter au panier",
+    "deleteFromCart": "Supprimer du panier",
+    "seeCart": "Voir le panier",
+    "taxes": "TVA",
+    "sameAsBilling": "Même que l'adresse de facturation",
+    "pay": "Payer",
+    "cardholderName": "Nom du titulaire",
+    "orderPaymentMandatory": "Commande avec obligation de paiement",
+    "basket": "Panier",
+    "processing": "Traitement de la commande",
+    "authenticating": "Authentification",
+    "paymentSuccess": "Paiement réussi",
+    "paymentError": "Erreur de paiement",
+    "retryPayment": "Réessayer le paiement",
+    "cancelOrder": "Annuler la commande",
+    "cancelOrderMessage": "Annuler la commande, supprimera également votre panier",
+    "emptyCart": "Votre panier est vide",
+    "emptyCartEngagingMessage": "Découvrez nos produits et services"
+  },
+  "Checkout": {
+    "congrat": "Félicitations"
+  },
+  "Contact": {
+    "title": "Au plaisir d'échanger avec vous",
+    "coords": {
+      "formContact": "En complétant le formulaire de contact",
+      "email": "Par mail à",
+      "phone": "Par téléphone"
+    },
+    "name": "Nom",
+    "firstname": "Prénom",
+    "email": "E-mail",
+    "message": "Message",
+    "send": "Envoyer",
+    "success": "Nous avons reçu votre message",
+    "sendingMessage": "En train d'envoyer votre message aux étoiles de l'art... Un instant, s'il vous plaît.",
+    "subject": "Confirmation de votre demande de contact sur {company}",
+    "securityLoading": "Chargement de securité",
+    "contactMe": "Contactez-moi",
+    "completeForm": "Complétez le formulaire ci-dessous pour nous contacter"
+  },
+  "Course": {
+    "title": "Titre",
+    "courses": "Cours"
+  },
+  "Customer": {
+    "createCustomer": "Créer un client",
+    "customer": "Client",
+    "customers": "Clients",
+    "identity": "Identité",
+    "contact": "Contact",
+    "companyName": "Désignation sociale"
   },
   "Dashboard": {
     "title": "Tableau de bord",
@@ -51,10 +231,11 @@
     "carts": "Paniers",
     "abandonedCarts": "Paniers abandonnés",
     "productsAndServices": "Articles & Services",
-    "products": "Articles",
+    "products": "Produits",
     "shopProducts": "Articles de la boutique",
     "bookings": "Réservations",
     "agenda": "Agenda",
+    "workshops": "Ateliers",
     "inventory": "Inventaires",
     "categories": "Catégories",
     "services": "Services",
@@ -62,26 +243,71 @@
     "payments": "Paiements",
     "financial": "Finances",
     "estimates": "Devis",
-    "billings": "Factures",
-    "subscriptions": "Abonnements"
+    "invoices": "Factures",
+    "subscriptions": "Abonnements",
+    "templates": "Modèles",
+    "artworks": "Oeuvres d'art"
+  },
+  "Home": {
+    "about": "A propos",
+    "products": "Oeuvres d'art",
+    "workshops": "Ateliers",
+    "slogan": "L'art est dans l'aiR!",
+    "testimonials": "Témoignages",
+    "sectionAbout": {
+      "paragraph1": "Bienvenue chez Rart création ! Passionnés par la création de pièces uniques et inspirantes qui embellissent votre quotidien, nous sommes très heureux de vous proposer des ateliers de loisirs créatifs ainsi que la confection d'objets artisanaux uniques et sur demande.",
+      "paragraph2": "Grâce à notre méticuleux savoir-faire polyvalent, nous vous fournissons des produits et services sur mesure. Nous avons à coeur de réveiller et de développer l'étincelle créative chez chacun de manière inclusive et bienveillante en partageant avec vous notre amour pour l'artisanat créatif."
+    },
+    "visitShop": "Visiter la boutique",
+    "visitWorkshop": "Visiter l'atelier"
+  },
+  "Invoice": {
+    "invoices": "Fatures",
+    "invoice": "Facture",
+    "createInvoice": "Créer une facture",
+    "status": "Statut",
+    "generateInvoice": "Générer",
+    "informations": "Informations",
+    "details": "Détails",
+    "documents": "Documents",
+    "amount": "Montant",
+    "issueDate": "Date de paiement",
+    "receipt": "Récipissé",
+    "addProduct": "Ajouter un article",
+    "paid": "Payé",
+    "unpaid": "Impayé",
+    "addManual": "Ajout manuel",
+    "comment": "Commentaire"
   },
   "LocaleSwitcher": {
     "label": "Langue",
-    "locale": "{locale, select, fr {Français} en {Anglais} other {Unknown}}"
+    "locale": "{locale, select, fr {Français} en {Anglais} other {Inconnu}}"
   },
   "Metadata": {
     "title": "Rartcreation",
     "description": "Le monde de la création"
   },
   "Navbar": {
-    "store": "Boutique",
+    "home": "Accueil",
+    "about": "A propos",
+    "services": "Services",
+    "products": "Boutique",
+    "workshop": "Ateliers",
+    "reviews": "Avis clients",
+    "contact": "Contact",
     "dashboard": "Tableau de bord",
     "account": "Compte",
     "personalInfo": "Informations personnelles",
-    "orders": "Commandes"
+    "bookNow": "Réserver maintenant",
+    "buyNow": "Acheter maintenant",
+    "orders": "Commandes",
+    "gallery": "Gallerie"
   },
   "Product": {
-    "addProduct": "Ajouter un article"
+    "addProduct": "Ajouter un article",
+    "inStock": "En stock",
+    "noStock": "Contactez-nous",
+    "products": "Produits"
   },
   "ProductForm": {
     "name": "Nom",
@@ -97,29 +323,102 @@
     "addToProduct": "Ajouter à l'article",
     "default": "Défault",
     "productDetail": "Détails de l'article",
-    "options": "Options",
+    "options": "Déclinaisons",
+    "addOption": "Ajouter une déclinaison",
     "properties": "Propriétés",
     "addProperty": "Ajouter une propriété",
-    "addSection": "Ajouter une section",
-    "newSection": "Nouvelle section",
+    "addSection": "Ajouter une rubrique",
+    "newSection": "Nouvelle rubrique",
+    "saveAsTemplate": "Sauvegarder model",
+    "published": "Publié",
+    "unPublished": "Dépublié",
+    "withStock": "Stock",
+    "categories": "Catégories",
     "deleteSectionMessage": {
       "title": "Voulez-vous supprimer {section} ?",
-      "explanation": "En supprimant la section vous perdrez accès à la donnée"
+      "explanation": "En supprimant la rubrique vous perdrez accès à la donnée"
+    },
+    "deleteProductMessage": {
+      "title": "Voulez-vous supprimer {product} ?",
+      "explanation": "En supprimant le produit vous perdrez accès à la donnée"
     }
   },
   "PropertyForm": {
     "component": "Type de champs",
-    "color": "Couleur"
+    "color": "Couleur",
+    "addField": "Ajouter un champs",
+    "editProperty": "Modifier la propriété",
+    "addProperty": "Ajouter la propriété",
+    "deleteProperty": "Supprimer une propriété",
+    "deletePropertyMessage": {
+      "title": "Voulez-vous supprimer cette propriété ?",
+      "explanation": "En supprimant le propriété vous perdrez accès à la donnée"
+    }
   },
   "ProfileForm": {
     "firstname": "Prénom",
     "lastname": "Nom",
     "email": "E-Mail",
     "password": "Mot de passe",
-    "avatar": "Photo de profile"
+    "avatar": "Photo de profil",
+    "connect": "Connexion",
+    "editEmail": "Modifier email"
   },
-
+  "Service": {
+    "bookings": "Réservations"
+  },
+  "Session": {
+    "addSession": "Ajouter une session",
+    "newSession": "Nouvelle session",
+    "createSession": "Créer une session",
+    "editSession": "Modifier une session",
+    "deleteSession": "Supprimer une session",
+    "start": "Début",
+    "end": "Fin",
+    "until": "Jusqu'à",
+    "duration": "Duration",
+    "places": "Places disponibles",
+    "participants": "Participants",
+    "repetition": {
+      "label": "Répétition",
+      "addRepetition": "Ajouter une répétition",
+      "days": "Jours",
+      "frequencyLabel": "Fréquence",
+      "day": "{day, select, MO {Lundi} TU {Mardi} WE {Mensuel} TH {Jeudi} FR {Vendredi} SA {Samedi} SU {Dimanche} other {Autre}}",
+      "frequency": "{frequency, select, daily {Quotidien} weekly {Hébdomadaire} monthly {Mensuel} yearly {Annuel} other {Inconnu}}"
+    },
+    "generatedDates": "{count, plural, =0 {Aucune date générée} =1 {Date générée} other {Dates générées}}",
+    "generate": "Générer"
+  },
+  "Subscription": {
+    "addSubscription": "Ajouter un abonnement",
+    "newSubscription": "Nouvel abonnement",
+    "createSubscription": "Créer un abonnement",
+    "monthly": "Mensuel",
+    "annualy": "Annuel",
+    "weekly": "Hébdomadaire",
+    "paymentPeriodLabel": "Période de paiement",
+    "paymentPeriod": "{paymentPeriod, select, weekly {Hébdomadaire} monthly {Mensuel} annualy {Annuel} other {Inconnu}}",
+    "subscriptionDetail": "Détails de l'abonnement",
+    "editSubscription": "Modifier un abonnement"
+  },
+  "Template": {
+    "template": "Modèle",
+    "addTemplate": "Ajouter un modèle",
+    "deleteTemplate": "Supprimer un modèle",
+    "createTemplate": "Créer un modèle",
+    "editTemplate": "Modifier un modèle",
+    "newTemplate": "Nouveau modèle",
+    "templates": "Modèles"
+  },
+  "Workshop": {
+    "workshop": "Atelier",
+    "workshops": "Ateliers",
+    "createWorkshop": "Créer un atelier",
+    "detail": "Détail"
+  },
   "ApiSuccess": {
+    "reset-mail": "Réinitialisation Email envoyé",
     "edit-user-address": "Addresse ajouté",
     "setSessionCookie": "Cookie enregistrer",
     "update-user-profile": "Profile mise à jour",
@@ -131,6 +430,7 @@
     "setSessionCookie": "Impossible d'enregistrer le cookie de session",
     "auth/app-deleted": "app-deleted",
     "auth/expired-action-code": "expired-action-code",
+    "auth/quota-exceeded": "Quota dépassé",
     "auth/invalid-action-code": "invalid-action-code",
     "auth/user-disabled": "user-disabled",
     "auth/user-not-found": "user-not-found",

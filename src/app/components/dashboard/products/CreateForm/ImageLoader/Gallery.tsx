@@ -8,6 +8,7 @@ import { getDownloadURL } from 'firebase/storage';
 import { ImageLoaderDialog } from './ImageLoaderDialog';
 import { useToggle } from '@/src/app/components/hooks/useToggle';
 import { IImageType } from './types';
+import { toast } from 'react-toastify';
 
 const Root = styled.div`
   display: flex;
@@ -58,7 +59,8 @@ export const Gallery = ({
         );
         setImages(urls);
       })
-      .catch((error) => console.log(error));
+      // eslint-disable-next-line no-console
+      .catch((error: any) => toast.error(error.message));
   }, []);
 
   const handleAddNewImages = (newImages: IImageType[]) => {

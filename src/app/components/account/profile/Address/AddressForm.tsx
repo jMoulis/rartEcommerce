@@ -4,20 +4,32 @@ import { IAddress } from '@/src/types/DBTypes';
 import React, { useCallback, useEffect, useState } from 'react';
 import { AddressItem } from './AddressItem';
 import { AddAddressForm } from './AddAddressForm';
-import { useFirestore } from '@/src/app/contexts/firestore/useFirestore';
 import { useTranslations } from 'next-intl';
-import { Dialog } from '@mui/material';
 import { useToggle } from '../../../hooks/useToggle';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
+import { Button } from '../../../commons/Buttons/Button';
+import { useFirestoreProfile } from '@/src/app/contexts/auth/hooks/useFirestoreProfile';
+import styled from '@emotion/styled';
+import { FullDialog } from '../../../commons/dialog/FullDialog';
+
+const Root = styled.main``;
+const List = styled.ul``;
+
+const Header = styled.header`
+  display: flex;
+  justify-content: flex-end;
+`;
+const Content = styled.div``;
 
 interface Props {
   prevAddresses: IAddress[];
+  onUpdate: (updatedAddresses: IAddress[]) => void;
 }
 
-export const AddressForm = ({ prevAddresses }: Props) => {
+export const AddressForm = ({ prevAddresses, onUpdate }: Props) => {
   const [addresses, setAddresses] = useState<IAddress[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<IAddress | null>(null);
-  const { onUpsertDoc } = useFirestore();
+  const { onUpdateAddress } = useFirestoreProfile();
   const t = useTranslations();
   const { open, onOpen, onClose } = useToggle();
 
@@ -36,17 +48,13 @@ export const AddressForm = ({ prevAddresses }: Props) => {
 
       if (edit) {
         updatedAddresses = updatedAddresses.map((prev) =>
-          prev.id === newAddress.id ? newAddress : prev
+          prev._id === newAddress._id ? newAddress : prev
         );
       } else {
         updatedAddresses = [...updatedAddresses, newAddress];
       }
       setAddresses(updatedAddresses);
-
-      await onUpsertDoc(
-        { addresses: updatedAddresses },
-        ENUM_COLLECTIONS.PROFILES
-      );
+      onUpdate(updatedAddresses);
 
       handleCloseDialog();
     },
@@ -55,45 +63,58 @@ export const AddressForm = ({ prevAddresses }: Props) => {
 
   const handleDeleteAddress = async (addressId: string) => {
     const updatedAddresses = prevAddresses.filter(
-      (prevAddress) => prevAddress.id !== addressId
+      (prevAddress) => prevAddress._id !== addressId
     );
     setAddresses(updatedAddresses);
-    await onUpsertDoc(
+    await onUpdateAddress(
       { addresses: updatedAddresses },
       ENUM_COLLECTIONS.PROFILES
     );
     handleCloseDialog();
   };
 
-  const handleSelectAddress = (addressId: string) => {
-    const foundAddress = addresses.find((prev) => prev.id === addressId);
+  const handleSelectAddress = (addressId?: string) => {
+    const foundAddress = addresses.find((prev) => prev._id === addressId);
     setSelectedAddress(foundAddress ?? null);
     onOpen();
   };
 
   return (
-    <div>
-      <ul>
-        {addresses.map((address, key) => (
-          <li key={key}>
-            <AddressItem
-              address={address}
-              onSelectAddress={handleSelectAddress}
-            />
-          </li>
-        ))}
-      </ul>
-      <button type='button' onClick={onOpen}>
-        {t('commons.create')}
-      </button>
-      <Dialog open={open} onClose={handleCloseDialog} keepMounted={false}>
+    <Root>
+      <Header>
+        <Button type='button' onClick={onOpen}>
+          {t('commons.add')}
+        </Button>
+      </Header>
+      <Content>
+        <List>
+          {addresses.map((address, key) => (
+            <li key={key}>
+              <AddressItem
+                address={address}
+                onSelectAddress={handleSelectAddress}
+              />
+            </li>
+          ))}
+        </List>
+      </Content>
+      <FullDialog
+        dialog={{
+          fullWidth: true,
+          maxWidth: 'sm',
+        }}
+        header={{
+          title: t('AddressForm.newAddress'),
+        }}
+        open={open}
+        onClose={handleCloseDialog}>
         <AddAddressForm
           selectedAddress={selectedAddress}
           onUpsertAddress={handleUpsertAddress}
           onDeleteAddress={handleDeleteAddress}
           onCancel={handleCloseDialog}
         />
-      </Dialog>
-    </div>
+      </FullDialog>
+    </Root>
   );
 };

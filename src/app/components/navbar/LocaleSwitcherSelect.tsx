@@ -24,7 +24,7 @@ export default function LocaleSwitcherSelect({
   }
 
   return (
-    <label>
+    <label htmlFor='language'>
       <select
         id='language'
         name='language'

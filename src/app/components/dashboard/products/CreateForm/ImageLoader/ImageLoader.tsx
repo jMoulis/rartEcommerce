@@ -1,14 +1,15 @@
 import { IImageType } from './types';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { faAdd, faImages } from '@fortawesome/pro-light-svg-icons';
 import styled from '@emotion/styled';
 import { Flexbox } from '@/src/app/components/commons/Flexbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggle } from '@/src/app/components/hooks/useToggle';
 import { GalleryDialog } from './GalleryDialog';
-
-import Image from 'next/image';
+import { Article } from '../Article';
+import { ImageLoaderItem } from './ImageLoaderItem';
+import './style.css';
 
 const Button = styled.button`
   padding: 20px;
@@ -26,40 +27,65 @@ const Button = styled.button`
 interface Props {
   images: IImageType[];
   onSubmitImages: (images: IImageType[]) => void;
+  single?: boolean;
 }
 
-export const ImageLoader = ({ images, onSubmitImages }: Props) => {
+export const ImageLoader = ({ images, onSubmitImages, single }: Props) => {
   const t = useTranslations('ProductForm');
   const { open, onOpen, onClose } = useToggle();
 
   const handleSubmit = async (incomingImages: IImageType[]) => {
-    console.log(incomingImages);
     onSubmitImages([...images, ...incomingImages]);
     onClose();
   };
 
+  const handleChangeDefault = (
+    event: ChangeEvent<HTMLInputElement>,
+    image: IImageType
+  ) => {
+    const { checked } = event.currentTarget;
+    const updatedImages = images.filter((prev) => prev.url !== image.url);
+
+    if (checked) {
+      updatedImages.unshift({ ...image, default: true });
+    }
+    const finalImages = updatedImages.map((prev) => ({
+      ...prev,
+      default: prev.url === image.url,
+    }));
+    onSubmitImages(finalImages);
+  };
+
+  const handleDeleteImage = (imageUrl: string) => {
+    const updatedImages = images.filter((prev) => prev.url !== imageUrl);
+    onSubmitImages(updatedImages);
+  };
   return (
     <>
-      <article className='card'>
-        <header className='card-header'>
-          <h1>{t('images')}</h1>
-        </header>
-        <div className='card-content'>
-          <ul className='gallery'>
-            {images.map((image, key) => (
-              <li
-                key={key}
-                className={`gallery-item ${key === 0 ? 'gallery-item-1' : ''}`}>
-                <Image
-                  src={image.url}
-                  fill
-                  alt={image.name}
-                  style={{
-                    borderRadius: '10px',
-                  }}
-                />
-              </li>
-            ))}
+      <Article
+        headerTitle={t('images')}
+        styling={{
+          root: {
+            flex: 1,
+          },
+          body: {
+            flexDirection: 'row',
+          },
+        }}>
+        <ul className='gallery'>
+          {images.map((image, key) => (
+            <ImageLoaderItem
+              key={key}
+              index={key}
+              image={image}
+              onChangeDefault={handleChangeDefault}
+              onDeleteImage={handleDeleteImage}
+            />
+          ))}
+
+          {single && images.length ? (
+            <div />
+          ) : (
             <li>
               <Button onClick={onOpen}>
                 {!images?.length ? (
@@ -81,9 +107,9 @@ export const ImageLoader = ({ images, onSubmitImages }: Props) => {
                 )}
               </Button>
             </li>
-          </ul>
-        </div>
-      </article>
+          )}
+        </ul>
+      </Article>
       <GalleryDialog
         open={open}
         onClose={onClose}

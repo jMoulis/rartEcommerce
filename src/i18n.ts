@@ -9,6 +9,7 @@ export default getRequestConfig(async ({ locale }) => {
   return {
     onError(error) {
       if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     },

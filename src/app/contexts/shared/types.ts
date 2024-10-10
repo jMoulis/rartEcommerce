@@ -6,4 +6,4 @@ export interface ApiPayload {
   error: string | null;
   message: string | null;
   data?: UserCredential | any
-};
+}

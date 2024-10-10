@@ -14,10 +14,12 @@ import {
 const Root = styled.li``;
 const OpenCollapseButton = styled.button`
   display: flex;
-  padding: 5px 10px;
+  padding: 10px;
   justify-content: space-between;
+  margin: 0 5px;
+  border-radius: 5px;
   &:hover {
-    background-color: gray;
+    background-color: rgba(57, 237, 205, 0.2);
   }
 `;
 
@@ -25,11 +27,13 @@ const CustomLink = styled(Link)<{ open: boolean }>`
   display: grid;
   grid-template-columns: 30px 1fr;
   align-items: center;
-  margin: 10px 0;
-  padding: 5px;
+  margin: 0;
+  padding: 10px;
   font-size: 15px;
+  border-radius: 5px;
+  text-decoration: none;
   &:hover {
-    background-color: gray;
+    background-color: rgba(57, 237, 205, 0.2);
   }
   & .link-text {
     font-size: 15px;
@@ -38,6 +42,12 @@ const CustomLink = styled(Link)<{ open: boolean }>`
     transition: opacity 150ms ease;
   }
 `;
+const Sublist = styled.ul`
+  margin: 0 5px;
+  border-radius: 5px;
+  background-color: rgba(57, 237, 205, 0.12);
+`;
+
 interface Props {
   label: string;
   routes: INavigationRoute[];
@@ -60,20 +70,17 @@ export const DashboardNavigationLink = ({
         <FontAwesomeIcon icon={collapseOpen ? faChevronDown : faChevronRight} />
       </OpenCollapseButton>
       <Collapse in={collapseOpen}>
-        <ul>
+        <Sublist>
           {routes.map((route, key) => (
             <li key={key}>
               <CustomLink href={route.href} className={className} open={open}>
-                <Flexbox justifyContent='center'>
-                  <FontAwesomeIcon icon={route.icon} />
-                </Flexbox>
                 <Flexbox justifyContent='flex-start'>
                   <p className='link-text'>{route.label}</p>
                 </Flexbox>
               </CustomLink>
             </li>
           ))}
-        </ul>
+        </Sublist>
       </Collapse>
     </Root>
   );

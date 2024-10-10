@@ -1,30 +1,51 @@
 'use client';
 
-import emotionStyled from '@emotion/styled';
+import styled from '@emotion/styled';
 import React, { FormEvent, useState } from 'react';
 import { useAuth } from '../../../contexts/auth/hooks/useAuth';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { ENUM_AUTH_FORM_VARIANT } from '../enums';
 import { useTranslations } from 'next-intl';
-import { UserCredential } from 'firebase/auth';
 import { ApiPayload } from '@/src/app/contexts/shared/types';
+import { Button } from '../../commons/Buttons/Button';
+import { InputGroup } from '../../commons/form/InputGroup';
+import { Flexbox } from '../../commons/Flexbox';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/pro-light-svg-icons';
+import { useError } from '../../hooks/useError';
+import { useSearchParams } from 'next/navigation';
 
-const Form = emotionStyled.form``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+const LabelWithForgot = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 
 interface Props {
-  onSuccess?: (credentials?: UserCredential) => void;
+  onSuccess: (payload: ApiPayload) => void;
   variant: ENUM_AUTH_FORM_VARIANT;
-  onForgetMenu: (state: boolean) => void;
+  onForgetMenu?: (state: boolean) => void;
+  onChangeVariant?: React.Dispatch<
+    React.SetStateAction<ENUM_AUTH_FORM_VARIANT>
+  >;
 }
 
-export const AuthForm = ({ onSuccess, variant, onForgetMenu }: Props) => {
-  const router = useRouter();
+export const AuthForm = ({
+  onSuccess,
+  variant,
+  onForgetMenu,
+  onChangeVariant
+}: Props) => {
   const { onRegister, signInWithEmailPassword } = useAuth();
+  const email = useSearchParams().get('email');
   const t = useTranslations();
-
-  const prevRoute = useSearchParams().get('from');
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const { onSetError, ErrorComponent } = useError({
+    titleContext: ''
+  });
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,47 +55,128 @@ export const AuthForm = ({ onSuccess, variant, onForgetMenu }: Props) => {
     if (!email || !password) return undefined;
 
     try {
+      setLoading(true);
       let payload: ApiPayload = {
         error: null,
         status: false,
         code: '',
-        message: null,
+        message: null
       };
       if (variant === ENUM_AUTH_FORM_VARIANT.REGISTER) {
-        payload = await onRegister({
-          email,
-          password,
-        });
+        payload = await onRegister({ email, password });
       } else if (variant === ENUM_AUTH_FORM_VARIANT.SIGNIN) {
         payload = await signInWithEmailPassword({
           email,
-          password,
+          password
         });
       }
       if (payload.status) {
-        onSuccess?.(payload.data);
-        setErrorMessage(null);
-        router.push(prevRoute ?? '/');
+        onSuccess(payload);
+        onSetError(null);
       } else if (payload.error) {
         throw Error(payload.error);
       }
+      setLoading(false);
     } catch (error: any) {
-      setErrorMessage(error.message as string);
+      setLoading(false);
+      onSetError(error.message as string);
     }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
-      {errorMessage ? <span>{errorMessage}</span> : null}
-      <label htmlFor='email'>
-        <span>{t('Authform.email')}</span>
-        <input id='email' />
-      </label>
-      <label htmlFor='password'>
-        <span>{t('Authform.password')}</span>
-        <input type='password' id='password' />
-      </label>
-      <button type='submit'> {t(`authCommons.${variant}`)}</button>
+      <InputGroup
+        required
+        id={`email-${variant}`}
+        name='email'
+        type='email'
+        label={t('Authform.email')}
+        defaultValue={email ?? undefined}
+      />
+      <InputGroup
+        type='password'
+        id='password'
+        name='password'
+        label={t('Authform.password')}
+        required
+        CustomLabel={
+          variant === ENUM_AUTH_FORM_VARIANT.SIGNIN &&
+          typeof onForgetMenu === 'function' ? (
+            <LabelWithForgot>
+              <span className='input-label'>{t('Authform.password')}</span>
+              <Button
+                style={{
+                  backgroundColor: 'transparent',
+                  color: 'var(--default-font-color)',
+                  padding: '0',
+                  marginBottom: '5px',
+                  textDecoration: 'underline'
+                }}
+                type='button'
+                onClick={() => onForgetMenu(true)}>
+                {t('Authform.forgotPassword')}
+              </Button>
+            </LabelWithForgot>
+          ) : undefined
+        }
+      />
+      <Button
+        style={{
+          width: 'unset',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: '10px',
+          paddingBottom: '10px',
+          borderRadius: '100px',
+          fontWeight: '600',
+          fontSize: '17px',
+          color: '#fff !important'
+        }}
+        disabled={loading}
+        type='submit'>
+        {t(`authCommons.${variant}`)}
+        {loading ? (
+          <FontAwesomeIcon
+            style={{
+              color: '#fff !important'
+            }}
+            icon={faSpinner}
+            className='fa-pulse'
+          />
+        ) : (
+          <span />
+        )}
+      </Button>
+      {variant === ENUM_AUTH_FORM_VARIANT.SIGNIN && onChangeVariant ? (
+        <Flexbox
+          alignItems='center'
+          justifyContent='center'
+          style={{
+            margin: '20px 0'
+          }}>
+          <span
+            style={{
+              display: 'flex',
+              backgroundColor: 'transparent',
+              color: 'var(--default-font-color)',
+              padding: '0'
+            }}>
+            {t('Authform.dontHaveAnAccount')}
+          </span>
+          <Button
+            style={{
+              backgroundColor: 'transparent',
+              color: 'var(--default-font-color)',
+              padding: '0',
+              textDecoration: 'underline'
+            }}
+            onClick={() => onChangeVariant(ENUM_AUTH_FORM_VARIANT.REGISTER)}
+            type='button'>
+            {t('authCommons.register')}
+          </Button>
+        </Flexbox>
+      ) : null}
+      {ErrorComponent}
     </Form>
   );
 };

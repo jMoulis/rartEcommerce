@@ -1,7 +1,7 @@
 'use client';
 
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged as _onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, User, type UserCredential, NextOrObserver, Unsubscribe, sendPasswordResetEmail, reauthenticateWithCredential, signOut, verifyBeforeUpdateEmail, EmailAuthProvider, updateProfile } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { useTranslations } from 'next-intl';
 import { ENUM_AUTH_ROUTES } from './routesEnum';
 import { APIResponse } from '@/src/types/types';
@@ -14,6 +14,8 @@ import { useAuthDispatch } from './useAuthDispatch';
 import { onSigninAction } from '../actions';
 import { useAuthSelector } from './useAuthSelector';
 import { ENUM_ROLES } from '../enums';
+import { useState } from 'react';
+import { IEmailVerif } from '@/src/app/api/auth/send-email-auth/types';
 
 interface SignEmailPasswordType {
   email: string
@@ -22,11 +24,12 @@ interface SignEmailPasswordType {
 interface RegisterProps {
   email: string
   password: string
-};
+}
 
 export const useAuth = () => {
   const t = useTranslations();
   const { onAddFile } = useFirebaseStorage();
+  const [loading, setLoading] = useState(false);
 
   const onAuthStateChanged = (cb: NextOrObserver<User>): Unsubscribe => {
     return _onAuthStateChanged(rootAuth, cb);
@@ -37,7 +40,6 @@ export const useAuth = () => {
   const defaultResponseHeaders = (customHeaders: Record<string, any> = {}): Record<string, any> => ({
     'Content-Type': 'application/json',
     ...customHeaders
-
   });
 
   const onUpdateUser = async (user: User) => {
@@ -47,8 +49,8 @@ export const useAuth = () => {
       const userProfile = {
         email: user.email,
         avatar: user.photoURL,
-        createdAt: serverTimestamp(),
-        lastConnexion: serverTimestamp()
+        createdAt: new Date(),
+        lastConnexion: new Date()
       };
 
       await setDoc(userRef, userProfile, { merge: true });
@@ -89,8 +91,7 @@ export const useAuth = () => {
       const userCredentials = await signInWithPopup(rootAuth, provider);
       await onUpdateUser(userCredentials.user);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      console.info('SignIn', responsePayload);
-      return onSuccessMessage(responsePayload.code, userCredentials);
+      return onSuccessMessage(responsePayload.code, undefined, userCredentials);
     } catch (error: any) {
       return onErrorMessage(error, t);
     }
@@ -101,7 +102,7 @@ export const useAuth = () => {
       const userCredentials = await signInWithEmailAndPassword(rootAuth, email, password);
       await onUpdateUser(userCredentials.user);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return onSuccessMessage(responsePayload.code, userCredentials);
+      return onSuccessMessage(responsePayload.code, undefined, userCredentials);
     } catch (error: any) {
       return onErrorMessage(error, t);
     }
@@ -111,8 +112,27 @@ export const useAuth = () => {
     try {
       const userCredentials = await createUserWithEmailAndPassword(rootAuth, email, password);
       await onUpdateUser(userCredentials.user);
+      const mailSystem = process.env.NEXT_PUBLIC_MAIL_SYSTEM!;
+      const emailVerifPayload: IEmailVerif = {
+        email,
+        userId: userCredentials.user.uid,
+        contactName: process.env.NEXT_CONTACT_NAME!,
+        companyName: process.env.NEXT_COMPANY_NAME!,
+        mailSystem,
+        subject: t('Contact.subject', {
+          company: 'RartCreation',
+        }),
+      };
+      const payload = {
+        method: 'POST',
+        body: JSON.stringify(emailVerifPayload),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+      await fetch('/api/auth/send-email-auth', payload);
       const responsePayload = await onSucessSetSessionCookie(userCredentials);
-      return onSuccessMessage(responsePayload.code, userCredentials);
+      return onSuccessMessage(responsePayload.code, undefined, userCredentials);
     } catch (error: any) {
       return onErrorMessage(error, t);
     }
@@ -120,14 +140,17 @@ export const useAuth = () => {
 
   const onSignOut = async () => {
     try {
+      setLoading(true);
       await signOut(rootAuth);
       const response = await fetch(ENUM_AUTH_ROUTES.SIGN_OUT, {
         headers: defaultResponseHeaders()
       });
       const resBody = (await response.json()) as unknown as APIResponse<string>;
       authDispatch(onSigninAction(null));
+      setLoading(false);
       return buildSetSessionCookieResponse(response, resBody);
     } catch (error: any) {
+      setLoading(false);
       return onErrorMessage(error, t);
     }
   };
@@ -230,6 +253,7 @@ export const useAuth = () => {
     onReauthenticateWithCredential,
     onPromptForCredentials,
     onUpdateUserAvatar,
-    isAdmin
+    isAdmin,
+    loading,
   };
 };

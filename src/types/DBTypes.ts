@@ -1,5 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 import { ENUM_ROLES } from '../app/contexts/auth/enums';
+import { IImageType } from '../app/components/dashboard/products/CreateForm/ImageLoader/types';
+import { Frequency, ByWeekday } from '../app/components/dashboard/workshops/Session/types';
 
 export type InvoiceStatusType = 'paid' | 'unpaid' | 'overdue';
 export type PaymentMethodType = 'creditCard' | 'bankTransfert' | 'check';
@@ -10,17 +12,9 @@ export type InteractionType = 'call' | 'email' | 'sms' | 'socialNetwork';
 export type PurchaseOrderStatusType = 'pending' | 'completed' | 'cancelled';
 export type UserRoleType = 'admin' | 'supplier' | 'customer';
 
-export interface IPurchaseOrder {
-  _id: string;
-  purchaseOrderId: string;
-  supplierId: string;
-  orderDate: string;
-  expectedDeliveryDate: string;
-  lineItems: ILineItem[]; // Could be similar to ILineItem in IOrder
-  totalAmount: number;
-  status: PurchaseOrderStatusType;
-  createdAt: string;
-  updatedAt: string;
+export interface ICurrency {
+  code: string,
+  symbol: string,
 }
 
 export interface IStockItem {
@@ -36,37 +30,90 @@ export interface IStockItem {
 export interface IProductImage {
   url: string;
   name: string;
+  default?: boolean
 }
 export interface ISection {
   id: string;
   title: string;
-  archive?: boolean;
-  properties: IProperty[]
+  isArchived?: boolean;
+  properties: IProperty[];
+  published: boolean;
 }
-
-export interface IProperty {
+export interface IElement {
   id: string;
   label: string;
   technicalName: string;
   component: string;
   value?: string | number | boolean;
+  editable?: boolean;
+  refIds?: string[];
+
+}
+export interface IProperty {
+  id: string;
+  align?: 'row' | 'column';
+  elements: IElement[]
+}
+export interface ICategory {
+  _id?: string;
+  name: string;
+  color?: string;
+  templates: string[]
 }
 export interface IProductService {
-  id?: string;
+  _id?: string;
   name: string;
   description: string;
-  isActive: boolean;
-  isArchived?: boolean;
+  published: boolean;
+  isArchived: boolean;
   createdAt?: string;
   updatedAt?: string;
   images: IProductImage[];
-  sections: ISection[]
+  sections: ISection[];
+  price: number;
+  currency: ICurrency;
+  stockQuantity: number;
+  withStock: boolean;
+  categories: string[];
+  parentId?: string;
+  type: 'product' | 'workshop';
+  options: {
+    refIds: string[];
+    published: boolean;
+  }
+}
+export interface IProductServiceWithCategories {
+  _id?: string;
+  name: string;
+  description: string;
+  published: boolean;
+  isArchived: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  images: IProductImage[];
+  sections: ISection[];
+  price: number;
+  stockQuantity: number;
+  withStock: boolean;
+  options: {
+    refIds: string[];
+    published: boolean;
+  }
+  categories: ICategory[]
+}
+export interface ITemplate {
+  _id?: string;
+  title: string;
+  createdAt?: string;
+  updatedAt?: string;
+  sections: ISection[];
+  categories: string[];
 }
 
 export interface ILineItem {
-  _id: string;
+  _id?: string;
   itemId: string;
-  description: string;
+  description?: string;
   quantity: number;
   unitPrice: number;
   total: number;
@@ -110,41 +157,74 @@ export interface IModification {
   updatedAt: string;
 }
 
-export interface IOrder {
-  _id: string;
-  orderId: string;
-  invoiceId?: string;
-  customerId: string;
+export interface IOrderInput {
+  customerId: string | null;
   orderDate: string;
+  customerInformations: IContactInformations;
+  amount: number;
+  ht: number;
+  taxes: number;
   lineItems: ILineItem[];
   status: OrderStatusType;
   modifications?: IModification[];
+  issueDate?: string;
   createdAt: string;
   updatedAt: string;
   isArchived?: boolean;
+  invoiceId?: string;
 }
-
-export interface IInvoice {
+export interface IOrder extends IOrderInput {
   _id: string;
+}
+export interface IArtworkInput {
+  name: string;
+  description: string;
+  sections: ISection[];
+  isArchived: boolean;
+  published: boolean;
+  categories: string[];
+  images: IImageType[]
+}
+export interface IArtwork extends IArtworkInput {
+  _id?: string;
+}
+export interface IInvoicesId {
+  counter: number;
+}
+export interface IInvoiceInput {
+  _id?: string;
   invoiceId: string;
-  customerId: string;
-  issueDate: string;
-  dueDate: string;
-  totalAmount: number;
-  status: InvoiceStatusType;
+  customerId?: string | null;
+  issueDate?: string;
+  dueDate?: string;
+  amount: number;
+  ht: number;
+  taxes: number;
+  status?: InvoiceStatusType;
   lineItems: ILineItem[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
   orderId?: string;
   isArchived?: boolean;
+  paymentId?: string;
+  customerInformations?: IContactInformations;
+  confirmMailSent?: {
+    status: boolean;
+    date?: string;
+    messageId?: string
+  };
+  comment?: string;
+  receiptUrl?: string | null;
+  invoiceUrl?: string | null;
 }
-
+export interface IInvoice extends IInvoiceInput {
+  _id: string;
+}
 export interface IContact {
   type: ContactInfoType,
   label: string;
   value: string;
 }
-
 export interface IUserCommonInfo {
   lastname: string;
   firstname: string;
@@ -152,7 +232,6 @@ export interface IUserCommonInfo {
   address: IAddress[];
   isArchived?: boolean;
 }
-
 export interface IUser {
   _id: string;
   userId: string;
@@ -189,20 +268,23 @@ export interface IInteraction {
 }
 
 export interface IAddress {
-  id: string;
+  _id?: string;
   name: string;
   type: 'billing' | 'shipping';
+  additional?: string;
+  address: string;
   streetNumber: string;
   route: string;
   locality: string;
   country: string;
+  countryCode?: string;
   postalCode: string;
   default?: boolean;
 }
 
 export interface UserProfile {
-  _id: string;
-  avatar: string;
+  _id?: string;
+  avatar?: string;
   createdAt?: Timestamp;
   email: string;
   lastConnexion?: Timestamp;
@@ -210,4 +292,127 @@ export interface UserProfile {
   lastname?: string;
   addresses: IAddress[];
   roles: ENUM_ROLES[];
+  token?: string | null;
+  verified: boolean;
+  verificationDate?: Timestamp;
+  mobile?: string;
+  isArchived?: boolean;
+}
+export interface ICustomer extends UserProfile {
+  profileId?: string;
+  invoices: string[];
+  sections: ISection[];
+  categories?: string[];
+  companyName?: string;
+}
+export interface IRepetition {
+  occurrencesJsonUrl?: string;
+  frequency?: Frequency;
+  days?: ByWeekday[];
+  end?: string;
+  rule?: string;
+  interval?: number;
+  start?: string;
+  _id?: string;
+}
+export interface IOccurence {
+  dayString: string;
+  dayNumber: string;
+  monthString: string;
+  yearString: string;
+  time24: string;
+  jsDate: Date;
+  available: boolean;
+  sessionId: string;
+}
+export interface ISessionParticipant { customerId?: string, email: string, name: string, phoneNumber?: string }
+export interface ISession {
+  _id: string; // client generated
+  start: string;
+  end?: string;
+  duration?: number;
+  maxParticipants: number;
+  calenderId?: string;
+  locationId?: string | null; // Location refId
+  repetition: IRepetition | null;
+  participants: ISessionParticipant[];
+}
+
+export interface ISubscription {
+  _id: string;
+  name: string;
+  description: string;
+  image?: IImageType;
+  price: number;
+  recurring?: boolean;
+  paymentPeriod: 'monthly' | 'weekly' | 'annualy';
+  paymentEnding: string;
+  priceId?: string | null;
+}
+export interface IWorkshop {
+  _id?: string;
+  categories?: string[];
+  image?: IProductImage;
+  name: string;
+  excerpt?: string;
+  description?: string;
+  currentParticipantIds: string[];
+  status?: 'upcoming' | 'ongoing' | 'completed';
+  instructorId?: string;
+  paymentType?: 'session' | 'subscription',
+  paymentPreference?: 'online' | 'person' | 'both' | 'account'
+  subscriptionId?: string;
+  price: number,
+  currency: ICurrency;
+  sessions: ISession[];
+  published: boolean;
+  sections: ISection[];
+  isArchived?: boolean;
+  type: 'product' | 'workshop';
+}
+
+export interface ICartItem {
+  id: string;
+  productId: string;
+  name: string;
+  description?: string;
+  price: number;
+  currency: ICurrency;
+  quantity: number;
+  imageUrl?: string;
+  stock: number | null;
+  type: 'workshop' | 'product';
+  sessions?: ISession[],
+}
+
+export interface IContactInformations {
+  _id: string;
+  companyName?: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  address?: IAddress
+  shippingAddress?: IAddress
+}
+export interface ICart {
+  items: ICartItem[];
+  currency: ICurrency;
+  deliveryCost: number;
+  contactInformations: IContactInformations
+  totalItems: number;
+  totalPrice: number;
+  taxes: number;
+}
+
+export interface IShippingContract {
+  id: string;
+  name: string;
+  carrier: {
+    code: string;
+    name: string;
+  };
+  client_id: string | null;
+  is_active: boolean;
+  country: string;
+  is_default: boolean;
 }

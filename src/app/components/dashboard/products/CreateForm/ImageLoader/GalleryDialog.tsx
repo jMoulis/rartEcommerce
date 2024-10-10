@@ -2,10 +2,10 @@ import { Dialog } from '@mui/material';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useTranslations } from 'next-intl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/pro-light-svg-icons';
 import { Gallery } from './Gallery';
 import { IImageType } from './types';
+import { Button } from '@/src/app/components/commons/Buttons/Button';
+import { CloseModalButton } from '@/src/app/components/commons/Buttons/CloseModalButton';
 
 const Content = styled.div`
   display: flex;
@@ -19,12 +19,6 @@ const Header = styled.header`
   padding: 15px;
   border-bottom: 1px solid var(--card-header-border-color);
 `;
-const Footer = styled.footer`
-  display: flex;
-  padding: 10px;
-  justify-content: flex-end;
-`;
-
 interface Props {
   open: boolean;
   onClose: VoidFunction;
@@ -62,9 +56,13 @@ export const GalleryDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth='lg'>
       <Header>
         <h2>{tCommons('selectImages')}</h2>
-        <button type='button' onClick={onClose}>
-          <FontAwesomeIcon icon={faXmark} />
-        </button>
+        <Button
+          type='button'
+          onClick={handleSubmit}
+          disabled={!selectedImages.length}>
+          {tProduct('addToProduct' as any)}
+        </Button>
+        <CloseModalButton onClose={onClose} />
       </Header>
       <Content>
         <Gallery
@@ -73,15 +71,6 @@ export const GalleryDialog = ({
           entitySelectedImages={prevImages}
         />
       </Content>
-      <Footer>
-        <button
-          type='button'
-          className='button'
-          onClick={handleSubmit}
-          disabled={!selectedImages.length}>
-          {tProduct('addToProduct' as any)}
-        </button>
-      </Footer>
     </Dialog>
   );
 };
