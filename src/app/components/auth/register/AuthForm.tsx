@@ -37,15 +37,16 @@ export const AuthForm = ({
   onSuccess,
   variant,
   onForgetMenu,
-  onChangeVariant,
+  onChangeVariant
 }: Props) => {
   const { onRegister, signInWithEmailPassword } = useAuth();
   const email = useSearchParams().get('email');
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const { onSetError, ErrorComponent } = useError({
-    titleContext: '',
+    titleContext: ''
   });
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const email: string | undefined = (event.target as any).email?.value;
@@ -59,14 +60,14 @@ export const AuthForm = ({
         error: null,
         status: false,
         code: '',
-        message: null,
+        message: null
       };
       if (variant === ENUM_AUTH_FORM_VARIANT.REGISTER) {
         payload = await onRegister({ email, password });
       } else if (variant === ENUM_AUTH_FORM_VARIANT.SIGNIN) {
         payload = await signInWithEmailPassword({
           email,
-          password,
+          password
         });
       }
       if (payload.status) {
@@ -109,7 +110,7 @@ export const AuthForm = ({
                   color: 'var(--default-font-color)',
                   padding: '0',
                   marginBottom: '5px',
-                  textDecoration: 'underline',
+                  textDecoration: 'underline'
                 }}
                 type='button'
                 onClick={() => onForgetMenu(true)}>
@@ -129,7 +130,7 @@ export const AuthForm = ({
           borderRadius: '100px',
           fontWeight: '600',
           fontSize: '17px',
-          color: '#fff !important',
+          color: '#fff !important'
         }}
         disabled={loading}
         type='submit'>
@@ -137,7 +138,7 @@ export const AuthForm = ({
         {loading ? (
           <FontAwesomeIcon
             style={{
-              color: '#fff !important',
+              color: '#fff !important'
             }}
             icon={faSpinner}
             className='fa-pulse'
@@ -151,14 +152,14 @@ export const AuthForm = ({
           alignItems='center'
           justifyContent='center'
           style={{
-            margin: '20px 0',
+            margin: '20px 0'
           }}>
           <span
             style={{
               display: 'flex',
               backgroundColor: 'transparent',
               color: 'var(--default-font-color)',
-              padding: '0',
+              padding: '0'
             }}>
             {t('Authform.dontHaveAnAccount')}
           </span>
@@ -167,7 +168,7 @@ export const AuthForm = ({
               backgroundColor: 'transparent',
               color: 'var(--default-font-color)',
               padding: '0',
-              textDecoration: 'underline',
+              textDecoration: 'underline'
             }}
             onClick={() => onChangeVariant(ENUM_AUTH_FORM_VARIANT.REGISTER)}
             type='button'>

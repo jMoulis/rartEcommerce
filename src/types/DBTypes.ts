@@ -192,6 +192,7 @@ export interface IInvoicesId {
   counter: number;
 }
 export interface IInvoiceInput {
+  _id?: string;
   invoiceId: string;
   customerId?: string | null;
   issueDate?: string;
@@ -212,6 +213,7 @@ export interface IInvoiceInput {
     date?: string;
     messageId?: string
   };
+  comment?: string;
   receiptUrl?: string | null;
   invoiceUrl?: string | null;
 }

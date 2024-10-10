@@ -276,7 +276,8 @@
     "addProduct": "Ajouter un article",
     "paid": "Payé",
     "unpaid": "Impayé",
-    "addManual": "Ajout manuel"
+    "addManual": "Ajout manuel",
+    "comment": "Commentaire"
   },
   "LocaleSwitcher": {
     "label": "Langue",
