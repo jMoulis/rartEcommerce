@@ -10,7 +10,7 @@ export async function createPaymentIntent(
   email: string,
   orderId?: string,
 ): Promise<{ client_secret: string, paymentId: string }> {
-  const key = process.env.NODE_ENV === 'development' ? `${process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY_TEST}` : `${process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY_PROD}`;
+  const key = process.env.NODE_ENV === 'development' ? `${process.env.STRIPE_SECRET_KEY_TEST}` : `${process.env.STRIPE_SECRET_KEY_PROD}`;
   const paymentIntent: Stripe.PaymentIntent =
     await stripe.paymentIntents.create({
       amount: formatAmountForStripe(
