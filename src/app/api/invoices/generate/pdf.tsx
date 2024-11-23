@@ -1,9 +1,6 @@
 import { IInvoice } from '@/src/types/DBTypes';
-import fetch from 'node-fetch';
 import { pdfInvoiceTemplate } from './pdfInvoiceTemplate';
 import { bucket } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
-
-import path from 'path';
 import chromium from '@sparticuz/chromium-min';
 import puppeteer from 'puppeteer-core';
 export const config = {
@@ -69,14 +66,10 @@ const fetchGeneratedPdf = async (
                   contentType: 'application/pdf'
                 }
               });
-
-              console.log(`File uploaded to ${folderName}`);
-
               const [url] = await file.getSignedUrl({
                 action: 'read',
                 expires: Date.now() + 60 * 60 * 1000 // 1 hour from now
               });
-              console.log(`Generated signed URL: ${url}`);
               resolve({
                 content: buffer,
                 url,
@@ -164,6 +157,7 @@ export const generatePDFInvoice = async (invoice: IInvoice) => {
     });
     return response;
   } catch (error: any) {
+    // eslint-disable-next-line no-console
     console.log('ERROR LOG', error.message);
     throw new Error('Error while generating PDF');
   }

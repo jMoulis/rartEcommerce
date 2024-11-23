@@ -1,7 +1,7 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import {
-  getCurrentUser,
-  isUserAuthenticated,
+  getCurrentUser
+  // isUserAuthenticated
 } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { ENUM_ROLES } from '../../contexts/auth/enums';
 import Menu from '../../components/dashboard/Menu';
@@ -15,7 +15,7 @@ interface Props {
 export default async function DashboardLayout({ children }: Props) {
   const current = await getCurrentUser();
 
-  if (!(await isUserAuthenticated())) redirect('/sign-in?from=dashboard');
+  // if (!(await isUserAuthenticated())) redirect('/sign-in?from=dashboard');
 
   if (!current?.profile?.roles?.includes(ENUM_ROLES.ADMIN)) {
     return notFound();
