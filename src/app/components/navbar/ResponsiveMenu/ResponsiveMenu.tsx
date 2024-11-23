@@ -61,7 +61,7 @@ const ResponsiveMenu = ({ isScrolled }: Props) => {
     <>
       <Root>
         <CustomButton onClick={onOpen}>
-          <FontAwesomeIcon icon={faBars} size='2x' />
+          <FontAwesomeIcon icon={faBars as any} size='2x' />
         </CustomButton>
         <SwipeableDrawer
           keepMounted={false}
@@ -71,7 +71,7 @@ const ResponsiveMenu = ({ isScrolled }: Props) => {
           <Nav>
             <Header>
               <CustomButton onClick={onClose}>
-                <FontAwesomeIcon icon={faXmark} size='2x' />
+                <FontAwesomeIcon icon={faXmark as any} size='2x' />
               </CustomButton>
               <MainNavHeader />
             </Header>

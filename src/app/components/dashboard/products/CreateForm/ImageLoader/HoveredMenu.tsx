@@ -30,7 +30,7 @@ export const HoveredMenu = ({
   id,
   onChangeDefault,
   checked,
-  onDeleteImage,
+  onDeleteImage
 }: Props) => {
   return (
     <Root className='hovered-image-menu'>
@@ -42,8 +42,8 @@ export const HoveredMenu = ({
             label=''
             styling={{
               root: {
-                margin: '10px',
-              },
+                margin: '10px'
+              }
             }}
             value={checked ?? false}
             onInputChange={onChangeDefault}
@@ -57,9 +57,9 @@ export const HoveredMenu = ({
           style={{
             backgroundColor: 'transparent',
             padding: 0,
-            margin: '10px',
+            margin: '10px'
           }}>
-          <FontAwesomeIcon icon={faXmark} />
+          <FontAwesomeIcon icon={faXmark as any} />
         </Button>
       </Flexbox>
     </Root>

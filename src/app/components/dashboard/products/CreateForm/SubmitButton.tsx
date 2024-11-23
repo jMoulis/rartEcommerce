@@ -14,14 +14,14 @@ export const SubmitButton = ({ disabled, saving, onClick }: Props) => {
   return (
     <Button
       style={{
-        backgroundColor: 'var(--success-color)',
+        backgroundColor: 'var(--success-color)'
       }}
       type='button'
       onClick={onClick}
       aria-disabled={disabled ?? saving}
       disabled={disabled ?? saving}>
       {saving ? (
-        <FontAwesomeIcon icon={faSpinner} className='fa-pulse' />
+        <FontAwesomeIcon icon={faSpinner as any} className='fa-pulse' />
       ) : (
         <>{t('commons.save')}</>
       )}

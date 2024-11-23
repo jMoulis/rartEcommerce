@@ -8,7 +8,7 @@ import { Collapse } from '@mui/material';
 import { useToggle } from '../hooks/useToggle';
 import {
   faChevronDown,
-  faChevronRight,
+  faChevronRight
 } from '@fortawesome/pro-light-svg-icons';
 
 const Root = styled.li``;
@@ -59,7 +59,7 @@ export const DashboardNavigationLink = ({
   routes,
   className,
   open,
-  label,
+  label
 }: Props) => {
   const { open: collapseOpen, onToggle } = useToggle();
 
@@ -67,7 +67,9 @@ export const DashboardNavigationLink = ({
     <Root style={{ display: 'flex', flexDirection: 'column' }}>
       <OpenCollapseButton onClick={onToggle} type='button'>
         {label}
-        <FontAwesomeIcon icon={collapseOpen ? faChevronDown : faChevronRight} />
+        <FontAwesomeIcon
+          icon={collapseOpen ? faChevronDown : (faChevronRight as any)}
+        />
       </OpenCollapseButton>
       <Collapse in={collapseOpen}>
         <Sublist>

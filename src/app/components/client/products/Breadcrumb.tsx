@@ -32,7 +32,7 @@ const Breadcrumb = ({
   listClasses,
   activeClasses,
   text,
-  customPaths,
+  customPaths
 }: Props) => {
   const pathname = usePathname();
   const pathNames = customPaths ?? pathname.split('/').filter((path) => path);
@@ -43,13 +43,13 @@ const Breadcrumb = ({
       <List>
         <li>
           <Link href={'/'}>
-            <FontAwesomeIcon icon={faHome} />
+            <FontAwesomeIcon icon={faHome as any} />
           </Link>
         </li>
         {pathNames.length > 0 && (
           <span
             style={{
-              margin: '0 5px',
+              margin: '0 5px'
             }}>
             {'>'}
           </span>
@@ -72,7 +72,7 @@ const Breadcrumb = ({
               {pathNames.length !== index + 1 && (
                 <span
                   style={{
-                    margin: '0 5px',
+                    margin: '0 5px'
                   }}>
                   {'>'}
                 </span>

@@ -52,7 +52,7 @@ const PaymentStatus = ({
   paymentStatus,
   onRetry,
   onCancel,
-  open,
+  open
 }: Props) => {
   const t = useTranslations();
 
@@ -75,9 +75,9 @@ const PaymentStatus = ({
             <h2>{t('Cart.processing')}</h2>
             <FontAwesomeIcon
               style={{
-                marginTop: '30px',
+                marginTop: '30px'
               }}
-              icon={faSpinner}
+              icon={faSpinner as any}
               spin
             />
           </Flexbox>
@@ -98,20 +98,20 @@ const PaymentStatus = ({
             <Flexbox flexDirection='column' alignItems='center'>
               <h2
                 style={{
-                  marginBottom: '10px',
+                  marginBottom: '10px'
                 }}>
                 {t('Cart.paymentError')}
               </h2>
               <p
                 style={{
-                  textAlign: 'center',
+                  textAlign: 'center'
                 }}>
                 {errorMessage}
               </p>
             </Flexbox>
             <Button
               style={{
-                color: '#fff',
+                color: '#fff'
               }}
               onClick={onRetry}>
               {t('Cart.retryPayment')}
@@ -124,7 +124,7 @@ const PaymentStatus = ({
               <Button
                 style={{
                   color: '#fff',
-                  backgroundColor: 'var(--secondary-color)',
+                  backgroundColor: 'var(--secondary-color)'
                 }}
                 onClick={onCancel}>
                 {t('Cart.cancelOrder')}

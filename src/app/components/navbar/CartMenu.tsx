@@ -40,7 +40,7 @@ export const CartMenu = ({ isScrolled }: Props) => {
     return (
       <div
         style={{
-          width: '30px',
+          width: '30px'
         }}
       />
     );
@@ -55,10 +55,10 @@ export const CartMenu = ({ isScrolled }: Props) => {
         minWidth: '30px',
         padding: 0,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
       }}>
       {cart?.totalItems ? <Counter>{cart.totalItems}</Counter> : null}
-      <FontAwesomeIcon icon={faBasketShopping} />
+      <FontAwesomeIcon icon={faBasketShopping as any} />
     </CustomLink>
   );
 };

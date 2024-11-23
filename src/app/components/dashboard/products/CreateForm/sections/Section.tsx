@@ -2,7 +2,7 @@ import {
   IProductService,
   IProperty,
   ISection,
-  ITemplate,
+  ITemplate
 } from '@/src/types/DBTypes';
 import { useTranslations } from 'next-intl';
 import React, {
@@ -10,7 +10,7 @@ import React, {
   Fragment,
   useCallback,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { renderProperties } from './Properties/renderProperties';
 import { Dialog } from '@mui/material';
@@ -77,7 +77,7 @@ export const Section = ({
   onMovePropertyDown,
   sectionArrayIndex,
   sectionsLength,
-  noPublished,
+  noPublished
 }: Props) => {
   const t = useTranslations();
   const { open, onOpen, onClose } = useToggle();
@@ -109,24 +109,24 @@ export const Section = ({
             prevElement.id === id
               ? {
                   ...prevElement,
-                  value,
+                  value
                 }
               : prevElement
-          ),
+          )
         };
 
         const updatedSection = {
           ...prevSection,
           properties: prevSection.properties.map((prev) =>
             prev.id === propertyId ? updatedProperty : prev
-          ),
+          )
         };
 
         return {
           ...prev,
           sections: prev.sections.map((prevSection) =>
             prevSection.id === updatedSection.id ? updatedSection : prevSection
-          ),
+          )
         };
       });
     },
@@ -163,7 +163,7 @@ export const Section = ({
                     refIds: element.refIds ?? [],
                     onInputChange: (event: CustomChangeEvent) =>
                       handlePropertyChange(event, property.id),
-                    value: element.value ?? '',
+                    value: element.value ?? ''
                   })}
                 </Fragment>
               );
@@ -176,13 +176,13 @@ export const Section = ({
               backgroundColor='var(--primary-color)'
             />
             <EditButton
-              icon={faArrowAltUp}
+              icon={faArrowAltUp as any}
               onClick={() => onMovePropertyUp(property.id, section.id)}
               disabled={propertyIndex === 0}
             />
             <EditButton
               disabled={propertyIndex === propertiesLength - 1}
-              icon={faArrowAltDown}
+              icon={faArrowAltDown as any}
               onClick={() => onMovePropertyDown(property.id, section.id)}
             />
           </Flexbox>
@@ -200,13 +200,13 @@ export const Section = ({
 
       const updatedSection = {
         ...prevSection,
-        properties: [...prevSection.properties, property],
+        properties: [...prevSection.properties, property]
       };
       return {
         ...prev,
         sections: prev.sections.map((prevSection) =>
           prevSection.id === updatedSection.id ? updatedSection : prevSection
-        ),
+        )
       };
     });
     setSelectedEditProperty(null);
@@ -222,14 +222,14 @@ export const Section = ({
         ...prevSection,
         properties: prevSection.properties.map((prevProp) =>
           prevProp.id === editProperty.id ? editProperty : prevProp
-        ),
+        )
       };
 
       return {
         ...prev,
         sections: prev.sections.map((prevSection) =>
           prevSection.id === updatedSection.id ? updatedSection : prevSection
-        ),
+        )
       };
     });
     setSelectedEditProperty(null);
@@ -244,13 +244,13 @@ export const Section = ({
 
       const updatedSection = {
         ...prevSection,
-        title: value,
+        title: value
       };
       return {
         ...prev,
         sections: prev.sections.map((prevSection) =>
           prevSection.id === updatedSection.id ? updatedSection : prevSection
-        ),
+        )
       };
     });
   };
@@ -265,14 +265,14 @@ export const Section = ({
         ...prevSection,
         properties: prevSection.properties.filter(
           (prevProp) => prevProp.id !== deletePropertyId
-        ),
+        )
       };
 
       return {
         ...prev,
         sections: prev.sections.map((prevSection) =>
           prevSection.id === updatedSection.id ? updatedSection : prevSection
-        ),
+        )
       };
     });
     setSelectedEditProperty(null);
@@ -283,7 +283,7 @@ export const Section = ({
         ...prev,
         sections: prev.sections.filter(
           (prevSection) => prevSection.id !== sectionId
-        ),
+        )
       };
     });
     setSelectedEditProperty(null);
@@ -297,10 +297,10 @@ export const Section = ({
           prevSection.id === section.id
             ? {
                 ...prevSection,
-                [name]: checked,
+                [name]: checked
               }
             : prevSection
-        ),
+        )
       };
     });
   };
@@ -318,7 +318,7 @@ export const Section = ({
       <Article
         ref={articleRef}
         styling={{
-          root: {},
+          root: {}
         }}
         Header={
           <SectionToolbar
@@ -352,7 +352,7 @@ export const Section = ({
         <DialogContent
           height='50vh'
           style={{
-            overflow: 'hidden',
+            overflow: 'hidden'
           }}>
           <AddPropertyForm
             editProperty={

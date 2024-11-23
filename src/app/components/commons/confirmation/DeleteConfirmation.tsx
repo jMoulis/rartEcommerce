@@ -27,7 +27,7 @@ export const DeleteConfirmation = ({
   withIcon,
   withLabel,
   className,
-  CustomDelete,
+  CustomDelete
 }: Props) => {
   const { open, onOpen, onClose } = useToggle();
   const t = useTranslations('commons');
@@ -41,10 +41,10 @@ export const DeleteConfirmation = ({
           type='button'
           className={`${className ?? ''}`}
           style={{
-            backgroundColor: 'var(--error-color)',
+            backgroundColor: 'var(--error-color)'
           }}
           onClick={onOpen}>
-          {withIcon ? <FontAwesomeIcon icon={faTrash} /> : null}
+          {withIcon ? <FontAwesomeIcon icon={faTrash as any} /> : null}
           {withLabel ? t('delete') : null}
         </Button>
       )}

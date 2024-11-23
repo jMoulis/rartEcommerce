@@ -271,14 +271,14 @@ export const CreateFormHeader = ({
       <Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
         {onArchive ? (
           <MenuListItem
-            icon={faArchive}
+            icon={faArchive as any}
             label={tCommons('archive')}
             onClick={() => handleSelectMenu(onArchive)}
           />
         ) : null}
         <DeleteConfirmation
           CustomDelete={
-            <MenuListItem icon={faTrash} label={tCommons('delete')} />
+            <MenuListItem icon={faTrash as any} label={tCommons('delete')} />
           }
           withLabel={false}
           withIcon

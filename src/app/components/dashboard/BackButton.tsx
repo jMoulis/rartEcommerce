@@ -24,17 +24,17 @@ export const BackButton = () => {
   return (
     <Root
       style={{
-        gridArea: 'breadcrumb',
+        gridArea: 'breadcrumb'
       }}>
       <Button
         style={{
-          fontSize: '20px',
+          fontSize: '20px'
         }}
         onClick={() => router.back()}>
         <FontAwesomeIcon
-          icon={faChevronLeft}
+          icon={faChevronLeft as any}
           style={{
-            marginRight: '10px',
+            marginRight: '10px'
           }}
         />
         <span>{t('commons.back')}</span>

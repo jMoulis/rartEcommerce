@@ -19,13 +19,13 @@ export const RepetitionHeader = ({ onDelete, repetition }: Props) => {
       justifyContent='space-between'
       alignItems='center'
       style={{
-        marginBottom: '10px',
+        marginBottom: '10px'
       }}>
       <Flexbox>
-        <FontAwesomeIcon icon={faRepeat} />
+        <FontAwesomeIcon icon={faRepeat as any} />
         <p
           style={{
-            marginLeft: '10px',
+            marginLeft: '10px'
           }}>
           {t('Session.repetition.label')}
         </p>
@@ -34,7 +34,7 @@ export const RepetitionHeader = ({ onDelete, repetition }: Props) => {
         type='button'
         style={{
           backgroundColor: 'transparent',
-          color: 'var(--header-font-color)',
+          color: 'var(--header-font-color)'
         }}
         onClick={() => onDelete(repetition._id!)}>
         X

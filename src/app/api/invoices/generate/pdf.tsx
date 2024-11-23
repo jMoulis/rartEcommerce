@@ -6,17 +6,34 @@ import { bucket } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import path from 'path';
 import chromium from '@sparticuz/chromium-min';
 import puppeteer from 'puppeteer-core';
+export const config = {
+  maxDuration: 150 // seconds. You'll need a paid plan to increase the duration above 10s as it's likely not enough time to complete the task.
+};
+
+const chromeArgs = [
+  '--font-render-hinting=none', // Improves font-rendering quality and spacing
+  '--no-sandbox',
+  '--disable-setuid-sandbox',
+  '--disable-gpu',
+  '--disable-dev-shm-usage',
+  '--disable-accelerated-2d-canvas',
+  '--disable-animations',
+  '--disable-background-timer-throttling',
+  '--disable-restore-session-state',
+  '--disable-web-security', // Only if necessary, be cautious with security implications
+  '--single-process' // Be cautious as this can affect stability in some environments
+];
 
 async function getBrowser() {
   return puppeteer.launch({
-    args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],
-    defaultViewport: chromium.defaultViewport,
+    args: chromeArgs,
     executablePath: await chromium.executablePath(
-      `https://github.com/Sparticuz/chromium/releases/download/v129.0.0/chromium-v129.0.0-pack.tar`
+      'https://github.com/Sparticuz/chromium/releases/download/v129.0.0/chromium-v129.0.0-pack.tar'
     ),
-    headless: chromium.headless
+    ignoreHTTPSErrors: true,
+    headless: true
     // ignoreHTTPSErrors: true
-  });
+  } as any);
 }
 
 const fetchGeneratedPdf = async (

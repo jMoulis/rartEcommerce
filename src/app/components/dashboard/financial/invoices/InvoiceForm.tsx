@@ -62,8 +62,6 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
 
   const { form, onInitForm, onInputChange, onDirectMutation } =
     useForm<IInvoiceInput>({} as any);
-
-  console.log(form);
   const [saving, setSaving] = React.useState(false);
 
   useEffect(() => {

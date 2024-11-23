@@ -43,7 +43,7 @@ export const ProductListItem = ({ product }: Props) => {
     if (!item) return;
     const updatedItem: ICartItem = {
       ...item,
-      quantity: parseFloat(value),
+      quantity: parseFloat(value)
     };
     if (parseFloat(value) >= 1) {
       onEditCart(updatedItem);
@@ -78,7 +78,7 @@ export const ProductListItem = ({ product }: Props) => {
       return (
         <Button
           style={{
-            background: 'rgba(0,0,255,0.4)',
+            background: 'rgba(0,0,255,0.4)'
           }}>
           {t('Booking.keepMeInform')}
         </Button>
@@ -89,8 +89,8 @@ export const ProductListItem = ({ product }: Props) => {
         <Selectbox
           styling={{
             root: {
-              marginBottom: 0,
-            },
+              marginBottom: 0
+            }
           }}
           label=''
           id={product._id!}
@@ -119,10 +119,10 @@ export const ProductListItem = ({ product }: Props) => {
         {isIncart ? (
           <Button
             style={{
-              background: 'rgba(255,0,0,0.4)',
+              background: 'rgba(255,0,0,0.4)'
             }}
             onClick={() => handleDeleteFromCart(product._id!)}>
-            <FontAwesomeIcon icon={faTrash} />
+            <FontAwesomeIcon icon={faTrash as any} />
           </Button>
         ) : null}
       </FooterWrapper>

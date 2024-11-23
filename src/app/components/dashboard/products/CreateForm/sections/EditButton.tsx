@@ -1,7 +1,6 @@
 import { faEdit } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from '@emotion/styled';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 const Button = styled.button<{ backgroundColor?: string }>`
   display: none;
@@ -25,7 +24,7 @@ const Button = styled.button<{ backgroundColor?: string }>`
 
 interface Props {
   onClick: () => void;
-  icon?: IconProp;
+  icon?: any;
   backgroundColor?: string;
   disabled: boolean;
 }
@@ -33,7 +32,7 @@ export const EditButton = ({
   onClick,
   icon,
   backgroundColor,
-  disabled,
+  disabled
 }: Props) => {
   return (
     <Button
@@ -41,7 +40,7 @@ export const EditButton = ({
       onClick={onClick}
       disabled={disabled}
       className='button-icon edit-button'>
-      <FontAwesomeIcon icon={icon ?? faEdit} />
+      <FontAwesomeIcon icon={icon ?? (faEdit as any)} />
     </Button>
   );
 };
