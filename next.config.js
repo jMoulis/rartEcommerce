@@ -9,15 +9,15 @@ const config = {
       {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
-        port: '',
+        port: ''
       },
       {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
-        port: '',
-      },
-    ],
-  },
+        port: ''
+      }
+    ]
+  }
 };
 
 module.exports = withNextIntl(config);

@@ -2,10 +2,22 @@ import { IInvoice } from '@/src/types/DBTypes';
 import fetch from 'node-fetch';
 import { pdfInvoiceTemplate } from './pdfInvoiceTemplate';
 import { bucket } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
-import { PassThrough } from 'stream';
-import MyDocument from './MyDocument';
-import { renderToBuffer, renderToFile } from '@react-pdf/renderer';
+
 import path from 'path';
+import chromium from '@sparticuz/chromium-min';
+import puppeteer from 'puppeteer-core';
+
+async function getBrowser() {
+  return puppeteer.launch({
+    args: [...chromium.args, '--hide-scrollbars', '--disable-web-security'],
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(
+      `https://github.com/Sparticuz/chromium/releases/download/v129.0.0/chromium-v129.0.0-pack.tar`
+    ),
+    headless: chromium.headless
+    // ignoreHTTPSErrors: true
+  });
+}
 
 const fetchGeneratedPdf = async (
   invoiceId: string,
@@ -18,54 +30,64 @@ const fetchGeneratedPdf = async (
     contentType: string;
   }>((resolve, reject) => {
     try {
-      fetch(`${process.env.NEXT_PUBLIC_PDF_URL}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(pdf)
-      }).then((response) => {
-        if (!response.ok) {
-          reject(new Error(`HTTP error! Status: ${response.status}`));
-          return;
-        }
-        const filename = `${invoiceId}/${Date.now()}.pdf`;
-        const folderName = `invoices/${filename}`;
-        const file = bucket.file(folderName);
+      getBrowser()
+        .then(async (browser) => {
+          const page = await browser.newPage();
+          await page.setContent(pdf.html, { waitUntil: 'networkidle0' });
 
-        const passThrough = new PassThrough();
-        const chunks: any[] = []; // Store chunks here to convert to Buffer later
+          page
+            .pdf({
+              format: 'A4',
+              printBackground: true,
+              margin: { top: '1cm', right: '1cm', bottom: '1cm', left: '1cm' }
+            })
+            .then(async (uint8Array) => {
+              const filename = `${invoiceId}/${Date.now()}.pdf`;
+              const folderName = `invoices/${filename}`;
+              const buffer = Buffer.from(uint8Array);
 
-        passThrough.on('data', (chunk) => {
-          chunks.push(chunk);
-        });
-        const blobStream = file.createWriteStream({
-          metadata: {
-            contentType: 'application/pdf'
-          }
-        });
+              const file = bucket.file(folderName);
+              await file.save(buffer, {
+                metadata: {
+                  contentType: 'application/pdf'
+                }
+              });
 
-        passThrough.pipe(blobStream);
-        response.body?.pipe(passThrough);
+              console.log(`File uploaded to ${folderName}`);
 
-        blobStream
-          .on('finish', async () => {
-            const [url] = await file.getSignedUrl({
-              action: 'read',
-              expires: '03-09-2491' // Set an appropriate expiry date
+              const [url] = await file.getSignedUrl({
+                action: 'read',
+                expires: Date.now() + 60 * 60 * 1000 // 1 hour from now
+              });
+              console.log(`Generated signed URL: ${url}`);
+              resolve({
+                content: buffer,
+                url,
+                filename: `${invoiceId}/${Date.now()}.pdf`,
+                contentType: 'application/pdf'
+              });
             });
-            const pdfBuffer = Buffer.concat(chunks);
-            resolve({
-              content: pdfBuffer,
-              url,
-              filename,
-              contentType: 'application/pdf'
-            });
-          })
-          .on('error', (error) => {
-            throw new Error(`Stream writing error: ${error as any}`);
-          });
-      });
+          await browser.close();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+
+      // fetch(`${process.env.NEXT_PUBLIC_PDF_URL}`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(pdf)
+      // }).then((response) => {
+      //   if (!response.ok) {
+      //     reject(new Error(`HTTP error! Status: ${response.status}`));
+      //     return;
+      //   }
+      //   const filename = `${invoiceId}/${Date.now()}.pdf`;
+      //   const folderName = `invoices/${filename}`;
+      //   const file = bucket.file(folderName);
+      // });
     } catch (error) {
       reject(error);
     }
@@ -116,10 +138,14 @@ export const generatePDFInvoice = async (invoice: IInvoice) => {
     }
   };
   try {
-    const test = await renderToBuffer(<MyDocument />);
-    console.log(test);
-    // const response = await fetchGeneratedPdf(invoice.invoiceId, { html, options: propsPDF });
-    // return response;
+    // const test = await renderToBuffer(<MyDocument />);
+    // console.log(test)
+
+    const response = await fetchGeneratedPdf(invoice.invoiceId, {
+      html,
+      options: propsPDF
+    });
+    return response;
   } catch (error: any) {
     console.log('ERROR LOG', error.message);
     throw new Error('Error while generating PDF');
