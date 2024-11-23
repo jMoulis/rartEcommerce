@@ -14,6 +14,7 @@ interface Props {
 }
 export default async function DashboardLayout({ children }: Props) {
   const current = await getCurrentUser();
+  if (!current) return notFound();
   // console.log(current);
   // // if (!(await isUserAuthenticated())) redirect('/sign-in?from=dashboard');
 
