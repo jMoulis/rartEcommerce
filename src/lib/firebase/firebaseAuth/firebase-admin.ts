@@ -34,7 +34,7 @@ export const bucket = getStorage(firebaseApp).bucket();
 
 async function getSession() {
   try {
-    return cookies().get('__session')?.value;
+    return (await cookies()).get('__session')?.value;
   } catch (error) {
     return undefined;
   }

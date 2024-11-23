@@ -9,11 +9,12 @@ const load = async (searchParams: any) => {
     paymentIntent,
   };
 };
-export default async function PaymentPage({
-  searchParams,
-}: {
-  searchParams: { payment_intent: string };
-}): Promise<JSX.Element> {
+export default async function PaymentPage(
+  props: {
+    searchParams: Promise<{ payment_intent: string }>;
+  }
+): Promise<JSX.Element> {
+  const searchParams = await props.searchParams;
   if (!searchParams.payment_intent) {
     throw new Error('Please provide a valid payment_intent (`pi_...`)');
   }

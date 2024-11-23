@@ -299,7 +299,7 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
                 }}>
                 <Label>{t('commons.companyName')}</Label>:
                 <span>{form.customerInformations?.companyName}</span>
-              </Flexbx>
+              </Flexbox>
               <Flexbox
                 style={{
                   marginBottom: '3px'

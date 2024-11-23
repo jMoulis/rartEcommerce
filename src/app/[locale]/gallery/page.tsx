@@ -6,11 +6,17 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 import { ICategory } from '@/src/types/DBTypes';
 
 interface Props {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
-export default async function HomePage({ params: { locale } }: Props) {
+export default async function HomePage(props: Props) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   unstable_setRequestLocale(locale);
   const initialArtworks: any = await findByQuery(ENUM_COLLECTIONS.ARTWORKS, {
     published: true,

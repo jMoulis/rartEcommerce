@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
   const sessionCookie = await createSessionCookie(idToken, { expiresIn });
 
-  cookies().set('__session', sessionCookie, { maxAge: expiresIn, httpOnly: true, secure: true });
+  (await cookies()).set('__session', sessionCookie, { maxAge: expiresIn, httpOnly: true, secure: true });
 
   return NextResponse.json<APIResponse<string>>({ error: null, success: true, data: 'Signed in successfully.' });
 }

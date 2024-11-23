@@ -1,7 +1,8 @@
 import { NotFoundType } from '@/src/types/types';
 import React from 'react';
 
-export default function NotFound({ params }: NotFoundType) {
+export default async function NotFound(props: NotFoundType) {
+  const params = await props.params;
   return (
     <div>
       Dashboard not-found{' '}
