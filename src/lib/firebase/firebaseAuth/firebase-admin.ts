@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/await-thenable */
 import 'server-only';
 
 import { cookies } from 'next/headers';

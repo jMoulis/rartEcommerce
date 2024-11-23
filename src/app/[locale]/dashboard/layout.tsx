@@ -14,12 +14,12 @@ interface Props {
 }
 export default async function DashboardLayout({ children }: Props) {
   const current = await getCurrentUser();
+  // console.log(current);
+  // // if (!(await isUserAuthenticated())) redirect('/sign-in?from=dashboard');
 
-  // if (!(await isUserAuthenticated())) redirect('/sign-in?from=dashboard');
-
-  if (!current?.profile?.roles?.includes(ENUM_ROLES.ADMIN)) {
-    return notFound();
-  }
+  // if (!current?.profile?.roles?.includes(ENUM_ROLES.ADMIN)) {
+  //   return notFound();
+  // }
 
   return (
     <DashboardPageLayout>
