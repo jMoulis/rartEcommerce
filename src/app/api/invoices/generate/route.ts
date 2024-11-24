@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     // });
     return NextResponse.json<APIResponse<{ url?: string }>>({ error: null, success: true, data: { url: pdf.url } });
   } catch (error: any) {
-    return NextResponse.json<APIResponse<Date[]>>({ success: false, data: null, error }, {
+    return NextResponse.json<APIResponse<Date[]>>({ success: false, data: null, error: error.message }, {
       status: 400
     });
   }

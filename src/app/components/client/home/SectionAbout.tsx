@@ -69,7 +69,7 @@ export default function SectionAbout() {
       <CustomSection>
         <Subtitle
           style={{
-            color: 'var(--primary-color)',
+            color: 'var(--primary-color)'
           }}>
           {t('Home.about')}
         </Subtitle>
@@ -90,7 +90,7 @@ export default function SectionAbout() {
               style={{
                 borderRadius: '5px',
                 objectFit: 'cover',
-                objectPosition: 'center center',
+                objectPosition: 'center center'
               }}
             />
           </ImageWrapper>
@@ -99,10 +99,10 @@ export default function SectionAbout() {
           active={false}
           backgroundColor='var(--primary-color)'
           hoverBackgroundColor='var(--primary-accent)'
-          icon={faEnvelope}
+          icon={faEnvelope as any}
           route={{
             label: t('Contact.title'),
-            href: ENUM_ROUTES.CONTACT,
+            href: ENUM_ROUTES.CONTACT
           }}
         />
         {/* <CallToAction

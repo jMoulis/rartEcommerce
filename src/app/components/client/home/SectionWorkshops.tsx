@@ -60,13 +60,13 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
       <CustomSection>
         <Subtitle
           style={{
-            color: 'var(--secondary-color)',
+            color: 'var(--secondary-color)'
           }}>
           {t('Home.workshops')}
         </Subtitle>
         <Flexbox
           style={{
-            marginTop: '20px',
+            marginTop: '20px'
           }}>
           <CallToAction
             active={false}
@@ -74,7 +74,7 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
             hoverBackgroundColor='var(--secondary-accent)'
             route={{
               label: t('Home.visitShop'),
-              href: ENUM_ROUTES.PRODUCTS,
+              href: ENUM_ROUTES.PRODUCTS
             }}
           />
         </Flexbox>
@@ -96,7 +96,7 @@ export default function SectionWorkshops({ initWorkshops }: Props) {
                 hoverBackgroundColor='var(--secondary-accent)'>
                 {t('commons.detailedInformation')}
                 <FontAwesomeIcon
-                  icon={faArrowRight}
+                  icon={faArrowRight as any}
                   style={{ marginLeft: '10px' }}
                 />
               </ButtonLink>

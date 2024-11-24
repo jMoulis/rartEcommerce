@@ -3,18 +3,33 @@ import fetch from 'node-fetch';
 import { pdfInvoiceTemplate } from './pdfInvoiceTemplate';
 import { bucket } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { PassThrough } from 'stream';
+// btoa and fetch are needed
+global.btoa = (b) => Buffer.from(b).toString('base64');
 
 const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options: Record<string, any> }) => new Promise<{ content: any, url: string, filename: string, contentType: string }>((resolve, reject) => {
   try {
-    fetch(`${process.env.NEXT_PUBLIC_PDF_URL}`, {
+    if (!process.env.PDF_SHIFT_API_URL || !process.env.PDF_SHIFT_SK_API) {
+      reject(new Error('Missing credentials'));
+      return;
+    }
+
+    fetch(process.env.PDF_SHIFT_API_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + btoa(process.env.PDF_SHIFT_SK_API),
+        'Content-type': 'application/json'
       },
-      body: JSON.stringify(pdf),
+      body: JSON.stringify({
+        source: pdf.html,
+        landscape: false,
+        // sandbox: true,
+        footer: { source: pdf.options.footerTemplate },
+        margin: pdf.options.margin,
+        format: pdf.options.format
+      }),
     }).then((response) => {
       if (!response.ok) {
-        reject(new Error(`HTTP error! Status: ${response.status}`));
+        reject(new Error(`${response.statusText} - ${response.status}`));
         return;
       }
       const filename = `${invoiceId}/${Date.now()}.pdf`;
@@ -46,6 +61,8 @@ const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options
       }).on('error', (error) => {
         throw new Error(`Stream writing error: ${error as any}`);
       });
+    }).catch((error) => {
+      reject(error);
     });
   } catch (error) {
     reject(error);
@@ -58,36 +75,45 @@ export const generatePDFInvoice = async (invoice: IInvoice) => {
     landscape: false,
     displayHeaderFooter: true,
     headerTemplate: '<span></span',
-    footerTemplate: ` <div
+    footerTemplate: `<div
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 150px;
+  "
+>
+  <div style="display: flex; flex-direction: column; align-items: center">
+    <p style="text-align: center; font-size: 8px; margin: 0; font-family: serif">
+      Rachel Moulis - 2521 route de Bonneville - 74800 Arenthon
+    </p>
 
-      style="
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 200px;
-      ">
-      <div style="display: flex; flex-direction: column; align-items: center">
-        <p style="text-align: center; font-size: 12px; margin: 0; font-family: serif">
-          Rachel Moulis - 2521 route de Bonneville - 74800 Arenthon
-        </p>
-
-        <div style="text-align: center; font-size: 12px; margin: 0">
-          Téléphone:
-          <a style="text-decoration: none; color: #000; font-family: serif" href="tel:+33616224928"
-            >+33 (0)6 16 22 49 28</a
-          >
-          <span class="text-align: center; font-size: 12px; margin: 0; font-family: serif">-</span>
-          Email:<a
-            style="text-decoration: none; color: #000; margin-left: 5px; font-family: serif"
-            href="mailto:contact@rartcreation.fr"
-            >contact@rartcreation.fr</a
-          >
-          <p style="text-align: center; font-size: 12px; margin: 0; font-family: serif">
-            <a style="font-family: serif" href="http://www.rartcreation.fr">rarcreation.fr</a> - Siret: 75043160300026 - Code APE: 9003A
-          </p>
-        </div>
-      </div>
-    </div>`,
+    <div style="text-align: center; font-size: 8px; margin: 0; font-family: serif">
+      Téléphone:
+      <a
+        style="text-decoration: none; color: #000; font-family: serif"
+        href="tel:+33616224928"
+        >+33 (0)6 16 22 49 28</a
+      >
+      <span style="font-family: serif"> - </span>
+      Email:
+      <a
+        style="text-decoration: none; color: #000; margin-left: 5px; font-family: serif"
+        href="mailto:contact@rartcreation.fr"
+        >contact@rartcreation.fr</a
+      >
+    </div>
+    <p style="text-align: center; font-size: 8px; margin: 0; font-family: serif">
+      <a
+        style="text-decoration: none; color: #000; font-size:8px; font-family: serif"
+        href="http://www.rartcreation.fr"
+        >rartcreation.fr</a
+      >
+      - Siret: 75043160300026 - Code APE: 9003A
+    </p>
+  </div>
+</div>
+`,
     pageRanges: '',
     margin: {
       top: '10mm',
@@ -99,7 +125,7 @@ export const generatePDFInvoice = async (invoice: IInvoice) => {
   try {
     const response = await fetchGeneratedPdf(invoice.invoiceId, { html, options: propsPDF });
     return response;
-  } catch (error) {
-    throw new Error('Error while generating PDF');
+  } catch (error: any) {
+    throw new Error(error);
   }
 };

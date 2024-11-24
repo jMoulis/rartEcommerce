@@ -49,7 +49,7 @@ export default function SectionProducts({ initialProducts }: Props) {
         toast.error(error.message);
       },
       {
-        published: true,
+        published: true
       }
     );
 
@@ -70,13 +70,13 @@ export default function SectionProducts({ initialProducts }: Props) {
       <CustomSection>
         <Subtitle
           style={{
-            color: 'var(--primary-color)',
+            color: 'var(--primary-color)'
           }}>
           {t('Home.products')}
         </Subtitle>
         <Flexbox
           style={{
-            margin: '20px 0',
+            margin: '20px 0'
           }}>
           <CallToAction
             active={false}
@@ -84,7 +84,7 @@ export default function SectionProducts({ initialProducts }: Props) {
             hoverBackgroundColor='var(--action-button-color)'
             route={{
               label: t('Home.visitShop'),
-              href: ENUM_ROUTES.PRODUCTS,
+              href: ENUM_ROUTES.PRODUCTS
             }}
           />
         </Flexbox>
@@ -103,7 +103,7 @@ export default function SectionProducts({ initialProducts }: Props) {
               <ButtonLink href={`${ENUM_ROUTES.PRODUCTS}/${product._id}`}>
                 {t('commons.detailedInformation')}
                 <FontAwesomeIcon
-                  icon={faArrowRight}
+                  icon={faArrowRight as any}
                   style={{ marginLeft: '10px' }}
                 />
               </ButtonLink>

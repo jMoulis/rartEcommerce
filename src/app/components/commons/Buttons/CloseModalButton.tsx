@@ -12,7 +12,7 @@ interface Props {
 export const CloseModalButton = ({ onClose, styling }: Props) => {
   return (
     <button type='button' style={styling?.root} onClick={onClose}>
-      <FontAwesomeIcon style={styling?.icon} icon={faXmark} />
+      <FontAwesomeIcon style={styling?.icon} icon={faXmark as any} />
     </button>
   );
 };

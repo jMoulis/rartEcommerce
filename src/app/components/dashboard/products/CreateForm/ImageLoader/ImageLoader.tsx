@@ -51,7 +51,7 @@ export const ImageLoader = ({ images, onSubmitImages, single }: Props) => {
     }
     const finalImages = updatedImages.map((prev) => ({
       ...prev,
-      default: prev.url === image.url,
+      default: prev.url === image.url
     }));
     onSubmitImages(finalImages);
   };
@@ -66,11 +66,11 @@ export const ImageLoader = ({ images, onSubmitImages, single }: Props) => {
         headerTitle={t('images')}
         styling={{
           root: {
-            flex: 1,
+            flex: 1
           },
           body: {
-            flexDirection: 'row',
-          },
+            flexDirection: 'row'
+          }
         }}>
         <ul className='gallery'>
           {images.map((image, key) => (
@@ -91,19 +91,19 @@ export const ImageLoader = ({ images, onSubmitImages, single }: Props) => {
                 {!images?.length ? (
                   <>
                     <Flexbox flex='1'>
-                      <FontAwesomeIcon icon={faImages} />
+                      <FontAwesomeIcon icon={faImages as any} />
                     </Flexbox>
                     <span
                       style={{
                         display: 'block',
                         flex: '2',
-                        textAlign: 'center',
+                        textAlign: 'center'
                       }}>
                       {t('addImages' as any)}
                     </span>
                   </>
                 ) : (
-                  <FontAwesomeIcon icon={faAdd} />
+                  <FontAwesomeIcon icon={faAdd as any} />
                 )}
               </Button>
             </li>

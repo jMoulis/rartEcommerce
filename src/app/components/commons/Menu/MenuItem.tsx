@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Flexbox } from '../Flexbox';
 
@@ -43,7 +42,7 @@ const Item = styled.button<{
 `;
 
 interface Props {
-  icon?: IconProp;
+  icon?: any;
   label?: string;
   onClick?: (event: any) => void;
   active?: Active;

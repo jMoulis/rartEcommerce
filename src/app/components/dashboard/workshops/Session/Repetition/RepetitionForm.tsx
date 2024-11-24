@@ -21,32 +21,32 @@ const days: Array<{
 }> = [
   {
     label: 'L',
-    value: 'MO',
+    value: 'MO'
   },
   {
     label: 'M',
-    value: 'TU',
+    value: 'TU'
   },
   {
     label: 'M',
-    value: 'WE',
+    value: 'WE'
   },
   {
     label: 'J',
-    value: 'TH',
+    value: 'TH'
   },
   {
     label: 'V',
-    value: 'FR',
+    value: 'FR'
   },
   {
     label: 'S',
-    value: 'SA',
+    value: 'SA'
   },
   {
     label: 'D',
-    value: 'SU',
-  },
+    value: 'SU'
+  }
 ];
 
 const Root = styled(Flexbox)`
@@ -79,7 +79,7 @@ export const RepetitionForm = ({
   repetition,
   selectedSession,
   onChange,
-  onDelete,
+  onDelete
 }: Props) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
@@ -112,7 +112,7 @@ export const RepetitionForm = ({
     const { value, name } = event.currentTarget;
     onChange({
       ...repetition,
-      [name]: value as any,
+      [name]: value as any
     });
   };
 
@@ -128,7 +128,7 @@ export const RepetitionForm = ({
     }
     const updatedRepetition = {
       ...repetition,
-      days: updatedDays,
+      days: updatedDays
     };
     onChange(updatedRepetition);
   };
@@ -137,9 +137,9 @@ export const RepetitionForm = ({
     const payload = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(selectedSession),
+      body: JSON.stringify(selectedSession)
     };
     try {
       setLoading(true);
@@ -157,7 +157,7 @@ export const RepetitionForm = ({
   const handleSaveOccurrences = (occurrencesJsonUrl: string) => {
     onChange({
       ...repetition,
-      occurrencesJsonUrl,
+      occurrencesJsonUrl
     });
   };
   return (
@@ -173,38 +173,38 @@ export const RepetitionForm = ({
               onChangeSelectbox={handleInputChange}
               styling={{
                 root: {
-                  margin: 0,
-                },
+                  margin: 0
+                }
               }}
               options={[
                 {
                   label: t('commons.select'),
-                  value: '',
+                  value: ''
                 },
                 {
                   label: t('Session.repetition.frequency', {
-                    frequency: 'daily',
+                    frequency: 'daily'
                   }),
-                  value: Frequency.DAILY,
+                  value: Frequency.DAILY
                 },
                 {
                   label: t('Session.repetition.frequency', {
-                    frequency: 'weekly',
+                    frequency: 'weekly'
                   }),
-                  value: Frequency.WEEKLY,
+                  value: Frequency.WEEKLY
                 },
                 {
                   label: t('Session.repetition.frequency', {
-                    frequency: 'monthly',
+                    frequency: 'monthly'
                   }),
-                  value: Frequency.MONTHLY,
+                  value: Frequency.MONTHLY
                 },
                 {
                   label: t('Session.repetition.frequency', {
-                    frequency: 'yearly',
+                    frequency: 'yearly'
                   }),
-                  value: Frequency.YEARLY,
-                },
+                  value: Frequency.YEARLY
+                }
               ]}
             />
             <Flexbox>
@@ -220,10 +220,10 @@ export const RepetitionForm = ({
 
             <Flexbox>
               <Flexbox alignItems='center'>
-                <FontAwesomeIcon icon={faCalendarCheck} />
+                <FontAwesomeIcon icon={faCalendarCheck as any} />
                 <p
                   style={{
-                    marginLeft: '10px',
+                    marginLeft: '10px'
                   }}>
                   {t('Session.until')}
                 </p>
@@ -237,32 +237,32 @@ export const RepetitionForm = ({
                   root: {
                     marginBottom: '0',
                     marginRight: '10px',
-                    marginLeft: '10px',
+                    marginLeft: '10px'
                   },
                   input: {
-                    height: '38px',
-                  },
+                    height: '38px'
+                  }
                 }}
                 onInputChange={handleInputChange}
               />
             </Flexbox>
             <Flexbox
               style={{
-                marginTop: '10px',
+                marginTop: '10px'
               }}>
               <Button
                 type='button'
                 onClick={handleGenerate}
                 style={{
-                  color: '#fff',
+                  color: '#fff'
                 }}>
                 {t('Session.generate')}
                 {loading ? (
                   <FontAwesomeIcon
                     style={{
-                      color: '#fff',
+                      color: '#fff'
                     }}
-                    icon={faSpinner}
+                    icon={faSpinner as any}
                     className='fa-pulse'
                   />
                 ) : null}

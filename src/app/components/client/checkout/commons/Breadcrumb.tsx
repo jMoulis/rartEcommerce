@@ -8,7 +8,7 @@ import {
   faBasketShopping,
   faEuroSign,
   faTruck,
-  faUser,
+  faUser
 } from '@fortawesome/pro-light-svg-icons';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { usePathname, useRouter } from 'next/navigation';
@@ -146,7 +146,7 @@ export const Breadcrumb = () => {
             <StepLinkItem
               onClick={() => handleSelectStep(ENUM_ROUTES.CHECKOUT)}
               selected={isRootSelected}>
-              <FontAwesomeIcon icon={faBasketShopping} />
+              <FontAwesomeIcon icon={faBasketShopping as any} />
             </StepLinkItem>
           </ListItem>
           <ListItemSeparator selected={isCartStepValid(cart)} />
@@ -157,7 +157,7 @@ export const Breadcrumb = () => {
                 handleSelectStep(ENUM_ROUTES.CHECKOUT_INFORMATIONS)
               }
               selected={pathname.includes(ENUM_ROUTES.CHECKOUT_INFORMATIONS)}>
-              <FontAwesomeIcon icon={faUser} />
+              <FontAwesomeIcon icon={faUser as any} />
             </StepLinkItem>
           </ListItem>
           <ListItemSeparator selected={isInformationStepValid(cart)} />
@@ -170,7 +170,7 @@ export const Breadcrumb = () => {
                     handleSelectStep(ENUM_ROUTES.CHECKOUT_DELIVERY)
                   }
                   selected={pathname.includes(ENUM_ROUTES.CHECKOUT_DELIVERY)}>
-                  <FontAwesomeIcon icon={faTruck} />
+                  <FontAwesomeIcon icon={faTruck as any} />
                 </StepLinkItem>
               </ListItem>
               <ListItemSeparator
@@ -183,7 +183,7 @@ export const Breadcrumb = () => {
               disabled={!isInformationStepValid(cart)}
               onClick={() => handleSelectStep(ENUM_ROUTES.CHECKOUT_PAYMENT)}
               selected={pathname.includes(ENUM_ROUTES.CHECKOUT_PAYMENT)}>
-              <FontAwesomeIcon icon={faEuroSign} />
+              <FontAwesomeIcon icon={faEuroSign as any} />
             </StepLinkItem>
           </ListItem>
         </List>

@@ -20,7 +20,7 @@ interface Props {}
 const GlobalSearch = (props: Props) => {
   return (
     <Root>
-      <FontAwesomeIcon color='#085D79' icon={faSearch} />
+      <FontAwesomeIcon color='#085D79' icon={faSearch as any} />
     </Root>
   );
 };

@@ -5,7 +5,7 @@ import { Flexbox } from '@/src/app/components/commons/Flexbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCheckCircle,
-  faExclamationCircle,
+  faExclamationCircle
 } from '@fortawesome/pro-light-svg-icons';
 
 const Root = styled.ul`
@@ -30,13 +30,13 @@ interface Props {
 export const ProgressionUploadingFile = ({
   progressList,
   files,
-  errors,
+  errors
 }: Props) => {
   const previews = useMemo(() => {
     if (files) {
       return Array.from(files).map((file) => ({
         name: file.name,
-        url: URL.createObjectURL(file),
+        url: URL.createObjectURL(file)
       }));
     }
     return [];
@@ -58,7 +58,7 @@ export const ProgressionUploadingFile = ({
       if (error) {
         return (
           <FontAwesomeIcon
-            icon={faExclamationCircle}
+            icon={faExclamationCircle as any}
             style={{ color: 'red' }}
           />
         );
@@ -66,7 +66,10 @@ export const ProgressionUploadingFile = ({
       if (typeof progress === 'undefined') return null;
       if (progress === 100) {
         return (
-          <FontAwesomeIcon icon={faCheckCircle} style={{ color: 'blue' }} />
+          <FontAwesomeIcon
+            icon={faCheckCircle as any}
+            style={{ color: 'blue' }}
+          />
         );
       }
       return <span style={{ fontSize: '13px' }}>{progress}%</span>;
@@ -87,12 +90,12 @@ export const ProgressionUploadingFile = ({
               style={{
                 borderRadius: '5px',
                 objectFit: 'cover',
-                marginRight: '10px',
+                marginRight: '10px'
               }}
             />
             <span
               style={{
-                fontSize: '13px',
+                fontSize: '13px'
               }}>
               {preview.name}
             </span>

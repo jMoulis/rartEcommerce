@@ -8,7 +8,7 @@ import { ElementForm } from './ElementForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faDistributeSpacingHorizontal,
-  faDistributeSpacingVertical,
+  faDistributeSpacingVertical
 } from '@fortawesome/pro-light-svg-icons';
 import { AlignButton } from './AlignButton';
 import { RoundedButtonWrapper } from './RoundedButtonWrapper';
@@ -47,7 +47,7 @@ export const AddPropertyForm = ({
   onClose,
   editProperty,
   onEditSubmit,
-  onDeleteProperty,
+  onDeleteProperty
 }: Props) => {
   const defaultProp = defaultProperty();
   const tCommons = useTranslations('commons');
@@ -62,8 +62,8 @@ export const AddPropertyForm = ({
         if (!editProperty) return;
         onClose();
         onDeleteProperty(editProperty.id);
-      },
-    },
+      }
+    }
   ]);
   useEffect(() => {
     if (editProperty) {
@@ -99,7 +99,7 @@ export const AddPropertyForm = ({
         prevElement.id === elementId
           ? { ...prevElement, [name]: savedValue }
           : prevElement
-      ),
+      )
     }));
   };
 
@@ -114,20 +114,20 @@ export const AddPropertyForm = ({
         prevElement.id === elementId
           ? { ...prevElement, technicalName }
           : prevElement
-      ),
+      )
     }));
   };
   const handleAddElement = () => {
     const newElement = defaultElement();
     setProperty((prev) => ({
       ...prev,
-      elements: [...prev.elements, newElement],
+      elements: [...prev.elements, newElement]
     }));
   };
   const handleSwitchAlign = (align: 'row' | 'column') => {
     setProperty((prev) => ({
       ...prev,
-      align,
+      align
     }));
   };
   const handleAddOption = (option: IProductService) => {
@@ -139,23 +139,23 @@ export const AddPropertyForm = ({
             // Remove refId if it already exists
             return {
               ...element,
-              refIds: element.refIds.filter((id) => id !== option._id!),
+              refIds: element.refIds.filter((id) => id !== option._id!)
             };
           } else {
             // Add refId if it doesn't exist
             return {
               ...element,
-              refIds: [...element.refIds, option._id!],
+              refIds: [...element.refIds, option._id!]
             };
           }
         } else {
           // Create and add refId if it doesn't exist
           return {
             ...element,
-            refIds: [option._id!],
+            refIds: [option._id!]
           };
         }
-      }),
+      })
     }));
   };
 
@@ -171,13 +171,13 @@ export const AddPropertyForm = ({
               type='button'
               selected={property.align === 'row'}
               onClick={() => handleSwitchAlign('row')}>
-              <FontAwesomeIcon icon={faDistributeSpacingVertical} />
+              <FontAwesomeIcon icon={faDistributeSpacingVertical as any} />
             </AlignButton>
             <AlignButton
               type='button'
               selected={property.align === 'column'}
               onClick={() => handleSwitchAlign('column')}>
-              <FontAwesomeIcon icon={faDistributeSpacingHorizontal} />
+              <FontAwesomeIcon icon={faDistributeSpacingHorizontal as any} />
             </AlignButton>
           </RoundedButtonWrapper>
         </Flexbox>
@@ -198,7 +198,7 @@ export const AddPropertyForm = ({
       <Flexbox
         justifyContent='flex-end'
         style={{
-          padding: '10px',
+          padding: '10px'
         }}>
         <Button type='button' onClick={handleSubmit}>
           {tCommons(editProperty ? 'edit' : 'create')}

@@ -96,7 +96,7 @@ export default function Workshops({
                         marginLeft: '10px',
                         color: 'var(--secondary-color)'
                       }}
-                      icon={faArrowRight}
+                      icon={faArrowRight as any}
                     />
                   </ButtonLink>
                 </Flexbox>

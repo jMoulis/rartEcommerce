@@ -62,7 +62,6 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
 
   const { form, onInitForm, onInputChange, onDirectMutation } =
     useForm<IInvoiceInput>({} as any);
-
   const [saving, setSaving] = React.useState(false);
 
   useEffect(() => {
@@ -256,6 +255,7 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
                   id='status'
                   onChangeSelectbox={onInputChange}
                   name='status'
+                  value={form.status}
                   options={[
                     {
                       label: t('Invoice.paid'),

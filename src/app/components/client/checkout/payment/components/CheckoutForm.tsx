@@ -6,7 +6,7 @@ import * as React from 'react';
 import {
   useStripe,
   useElements,
-  PaymentElement,
+  PaymentElement
 } from '@stripe/react-stripe-js';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { ENUM_ROUTES } from '@/src/app/components/navbar/routes.enums';
@@ -61,8 +61,8 @@ function CheckoutForm(): JSX.Element | null {
         country: address.country,
         postal_code: address.postalCode,
         city: address.locality,
-        line1: address.address,
-      },
+        line1: address.address
+      }
     };
   }, [cart?.contactInformations]);
 
@@ -111,8 +111,8 @@ function CheckoutForm(): JSX.Element | null {
         method: 'POST',
         body: JSON.stringify({ cart, connectedCustomerId: authProfile?._id }),
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'application/json'
+        }
       };
 
       const order = await (
@@ -146,10 +146,10 @@ function CheckoutForm(): JSX.Element | null {
             billing_details: {
               name: customer.name,
               email: customer.email,
-              address: customer.address,
-            },
-          },
-        },
+              address: customer.address
+            }
+          }
+        }
       });
 
       if (confirmError) {
@@ -194,16 +194,16 @@ function CheckoutForm(): JSX.Element | null {
                   billingDetails: {
                     name: customer.name,
                     email: customer.email,
-                    address: customer.address,
-                  },
-                },
+                    address: customer.address
+                  }
+                }
               }}
             />
           </div>
         </fieldset>
         <Flexbox
           style={{
-            marginTop: '20px',
+            marginTop: '20px'
           }}>
           <Button
             type='submit'
@@ -211,7 +211,7 @@ function CheckoutForm(): JSX.Element | null {
               width: '100%',
               justifyContent: 'center',
               flexDirection: 'column',
-              fontSize: '20px',
+              fontSize: '20px'
             }}
             disabled={
               !['initial', 'succeeded', 'error'].includes(payment.status) ||
@@ -219,7 +219,10 @@ function CheckoutForm(): JSX.Element | null {
             }>
             <Flexbox>
               <span>{t('Cart.pay')}</span>
-              <FontAwesomeIcon icon={faLock} style={{ marginLeft: '10px' }} />
+              <FontAwesomeIcon
+                icon={faLock as any}
+                style={{ marginLeft: '10px' }}
+              />
             </Flexbox>
             <FuckingLaw>{t('Cart.orderPaymentMandatory')}</FuckingLaw>
           </Button>

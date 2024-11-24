@@ -27,7 +27,7 @@ export const LanguageProfileMenu = ({ withCart, isScrolled }: Props) => {
       <Suspense
         fallback={
           <i>
-            <FontAwesomeIcon icon={faSpinner} className='fa-pulse' />
+            <FontAwesomeIcon icon={faSpinner as any} className='fa-pulse' />
           </i>
         }>
         <ProfileMenu />

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/await-thenable */
 import 'server-only';
 
 import { cookies } from 'next/headers';
@@ -34,7 +35,7 @@ export const bucket = getStorage(firebaseApp).bucket();
 
 async function getSession() {
   try {
-    return cookies().get('__session')?.value;
+    return (await cookies()).get('__session')?.value;
   } catch (error) {
     return undefined;
   }

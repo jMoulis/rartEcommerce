@@ -37,13 +37,13 @@ export const SocialNetworks = () => {
     {
       label: 'instagram',
       icon: faInstagram,
-      href: 'https://instagram.com/rart.creation',
+      href: 'https://instagram.com/rart.creation'
     },
     {
       label: 'facebook',
       icon: faFacebookF,
-      href: 'https://facebook.com/r.art.creation',
-    },
+      href: 'https://facebook.com/r.art.creation'
+    }
   ];
   return (
     <List>
@@ -56,7 +56,7 @@ export const SocialNetworks = () => {
       ))}
       <ListItem>
         <Link href={ENUM_ROUTES.CONTACT}>
-          <FontAwesomeIcon icon={faEnvelope} />
+          <FontAwesomeIcon icon={faEnvelope as any} />
         </Link>
       </ListItem>
     </List>

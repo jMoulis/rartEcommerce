@@ -30,7 +30,7 @@ interface Props {
 
 export const TemplateAvailable = ({
   category,
-  onSelectTemplateSections,
+  onSelectTemplateSections
 }: Props) => {
   const [templates, setTemplates] = useState<ITemplate[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<ITemplate | null>(
@@ -71,7 +71,7 @@ export const TemplateAvailable = ({
                 backgroundColor:
                   template._id !== selectedTemplate?._id
                     ? 'var(--disable-block-color)'
-                    : 'var(--purple-color)',
+                    : 'var(--purple-color)'
               }}
               onClick={() => setSelectedTemplate(template)}>
               {template.title}
@@ -84,12 +84,12 @@ export const TemplateAvailable = ({
           onSelectTemplateSections(selectedTemplate?.sections ?? [])
         }
         style={{
-          marginLeft: '15px',
+          marginLeft: '15px'
         }}>
         <FontAwesomeIcon
-          icon={faUpload}
+          icon={faUpload as any}
           style={{
-            marginRight: '10px',
+            marginRight: '10px'
           }}
         />
         {t('commons.select')}
