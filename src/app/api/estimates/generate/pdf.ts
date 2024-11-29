@@ -6,7 +6,7 @@ import { PassThrough } from 'stream';
 // btoa and fetch are needed
 global.btoa = (b) => Buffer.from(b).toString('base64');
 
-const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options: Record<string, any> }, estimate?: boolean) => new Promise<{ content: any, url: string, filename: string, contentType: string }>((resolve, reject) => {
+const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options: Record<string, any> }) => new Promise<{ content: any, url: string, filename: string, contentType: string }>((resolve, reject) => {
   try {
     if (!process.env.PDF_SHIFT_API_URL || !process.env.PDF_SHIFT_SK_API) {
       reject(new Error('Missing credentials'));
@@ -33,7 +33,7 @@ const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options
         return;
       }
       const filename = `${invoiceId}/${Date.now()}.pdf`;
-      const folderName = estimate ? `estimates/${filename}` : `invoices/${filename}`;
+      const folderName = `invoices/${filename}`;
       const file = bucket.file(folderName);
 
       const passThrough = new PassThrough();
@@ -68,8 +68,8 @@ const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options
     reject(error);
   }
 });
-export const generatePDFInvoice = async (invoice: IInvoice, estimate: boolean) => {
-  const html = pdfInvoiceTemplate(invoice, estimate);
+export const generatePDFInvoice = async (invoice: IInvoice) => {
+  const html = pdfInvoiceTemplate(invoice);
   const propsPDF = {
     format: 'A4',
     landscape: false,
@@ -123,7 +123,7 @@ export const generatePDFInvoice = async (invoice: IInvoice, estimate: boolean) =
     },
   };
   try {
-    const response = await fetchGeneratedPdf(invoice.invoiceId, { html, options: propsPDF }, estimate);
+    const response = await fetchGeneratedPdf(invoice.invoiceId, { html, options: propsPDF });
     return response;
   } catch (error: any) {
     throw new Error(error);
