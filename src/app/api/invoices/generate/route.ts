@@ -8,9 +8,10 @@ import { adminDB } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 
 export async function POST(request: NextRequest) {
   try {
-    const invoice = (await request.json()) as IInvoice;
-    const pdf = await generatePDFInvoice(invoice);
-    const invoiceRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(invoice._id);
+    const { invoice, estimate } = (await request.json()) as { invoice: IInvoice, estimate?: boolean };
+    const pdf = await generatePDFInvoice(invoice, estimate ?? false);
+    const collection = estimate ? ENUM_COLLECTIONS.ESTIMATES : ENUM_COLLECTIONS.INVOICES;
+    const invoiceRef = adminDB.collection(collection).doc(invoice._id);
     invoiceRef.set({
       invoiceUrl: pdf?.url ?? null
     }, { merge: true });
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
     // });
     return NextResponse.json<APIResponse<{ url?: string }>>({ error: null, success: true, data: { url: pdf.url } });
   } catch (error: any) {
-    return NextResponse.json<APIResponse<Date[]>>({ success: false, data: null, error }, {
+    return NextResponse.json<APIResponse<Date[]>>({ success: false, data: null, error: error.message }, {
       status: 400
     });
   }

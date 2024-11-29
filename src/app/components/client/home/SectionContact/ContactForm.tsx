@@ -300,7 +300,7 @@ export const ContactForm = (props: Props) => {
                       style={{
                         marginLeft: 0
                       }}>
-                      {renderText(coord)}
+                      {renderText(coord as any)}
                     </div>
                   </Flexbox>
                 </ListItem>

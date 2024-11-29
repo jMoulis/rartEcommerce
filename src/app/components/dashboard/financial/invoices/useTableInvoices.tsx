@@ -12,7 +12,7 @@ import { ButtonAnchorLink } from '../../../client/checkout/commons/ButtonLink';
 import { format } from 'date-fns';
 import { ENUM_ROUTES } from '../../../navbar/routes.enums';
 
-export const useTableInvoices = (withPdf: boolean) => {
+export const useTableInvoices = (withPdf: boolean, estimate?: boolean) => {
   const t = useTranslations();
   const [generatingId, setGeneratingId] = useState<string | null>(null);
 
@@ -21,9 +21,9 @@ export const useTableInvoices = (withPdf: boolean) => {
   const handleGenerate = async (invoice: IInvoiceInput) => {
     try {
       setGeneratingId(invoice?._id ?? null);
-      await fetch('/api/invoices/generate', {
+      await fetch(ENUM_ROUTES.INVOICE_PDF_GENERATE, {
         method: 'post',
-        body: JSON.stringify(invoice),
+        body: JSON.stringify({ invoice, estimate }),
         headers: {
           'Content-type': 'application/json'
         }
@@ -41,8 +41,11 @@ export const useTableInvoices = (withPdf: boolean) => {
       header: () => <span>Ref</span>,
       cell: (info: any) => {
         const id = info.row.original._id;
+        const url = estimate
+          ? ENUM_ROUTES.ESTIMATES
+          : ENUM_ROUTES.INVOICE_DETAIL;
         return (
-          <Link href={`${ENUM_ROUTES.INVOICE_DETAIL}/${id}`}>
+          <Link href={`${url}/${id}`}>
             <span
               style={{
                 textDecoration: 'underline'

@@ -33,7 +33,7 @@ export default function Home({ initialProducts, initWorkshops }: Props) {
   return (
     <Page
       style={{
-        paddingTop: 0,
+        paddingTop: 0
       }}>
       <SectionHeader
         backgroundImage='/images/home/background.jpeg'
@@ -46,7 +46,7 @@ export default function Home({ initialProducts, initWorkshops }: Props) {
             hoverBackgroundColor='var(--secondary-accent)'
             route={{
               label: t('Navbar.bookNow'),
-              href: ENUM_ROUTES.WORKSHOPS,
+              href: ENUM_ROUTES.WORKSHOPS
             }}
           />
 
@@ -56,7 +56,7 @@ export default function Home({ initialProducts, initWorkshops }: Props) {
             hoverBackgroundColor='var(--action-button-color)'
             route={{
               label: t('Navbar.buyNow'),
-              href: ENUM_ROUTES.PRODUCTS,
+              href: ENUM_ROUTES.PRODUCTS
             }}
           />
         </CallToActionWrapper>

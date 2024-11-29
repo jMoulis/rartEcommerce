@@ -76,9 +76,9 @@ export const CategoryTags = ({ categoriesIds, onDeleteCategory }: Props) => {
             onClick={() => onDeleteCategory?.(category._id!)}>
             <FontAwesomeIcon
               style={{
-                marginRight: '5px',
+                marginRight: '5px'
               }}
-              icon={faTag}
+              icon={faTag as any}
             />
             {category.name}
           </CategoryTag>

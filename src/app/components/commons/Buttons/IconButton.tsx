@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
 import { Button } from './Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { CSSProperties } from 'react';
 
 interface ButtonProps {
@@ -34,7 +33,7 @@ const Root = styled(Button)<ButtonProps>`
 `;
 
 interface Props {
-  icon: IconProp;
+  icon: any;
   className?: string;
   variant?: 'normal' | 'xs';
   backgroundColor?: string;
@@ -50,7 +49,7 @@ export const IconButton = ({
   backgroundColor,
   onClick,
   disabled,
-  style,
+  style
 }: Props) => {
   return (
     <Root
@@ -64,7 +63,7 @@ export const IconButton = ({
       <FontAwesomeIcon
         icon={icon}
         style={{
-          color: `${style?.color} !important`,
+          color: `${style?.color} !important`
         }}
       />
     </Root>

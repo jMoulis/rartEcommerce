@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChair,
   faClock,
-  faLocationDot,
+  faLocationDot
 } from '@fortawesome/pro-light-svg-icons';
 
 const Root = styled.li`
@@ -103,7 +103,7 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
       ...workshop,
       sessions: workshop.sessions.filter(
         (prevSession) => prevSession._id === session._id
-      ),
+      )
     };
   }, []);
 
@@ -125,7 +125,7 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
     if (!prevItem) return;
     const updatedItem = {
       ...prevItem,
-      sessions: prevItem.sessions?.filter((prev) => prev._id !== sessionId),
+      sessions: prevItem.sessions?.filter((prev) => prev._id !== sessionId)
     };
     onEditCart(updatedItem);
   };
@@ -144,7 +144,7 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
       month,
       day,
       endTime,
-      startTime,
+      startTime
     };
   }, [session.start]);
   return (
@@ -159,7 +159,7 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
                   fontWeight: 'bold',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  justifyContent: 'center'
                 }}>
                 {prepareCardDate?.dayNumber}
               </MetaValue>
@@ -167,13 +167,13 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
                 flexDirection='column'
                 justifyContent='center'
                 style={{
-                  marginLeft: '10px',
+                  marginLeft: '10px'
                 }}>
                 <MetaValue
                   style={{
                     fontSize: '20px',
                     fontWeight: 'bold',
-                    textTransform: 'capitalize',
+                    textTransform: 'capitalize'
                   }}>
                   {prepareCardDate?.month}
                 </MetaValue>
@@ -181,7 +181,7 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
                   style={{
                     color: 'rgba(0,0,0,0.5)',
                     textTransform: 'capitalize',
-                    fontSize: '20px',
+                    fontSize: '20px'
                   }}>
                   {prepareCardDate?.day}
                 </MetaValue>
@@ -191,16 +191,16 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
           <Flexbox flexDirection='column'>
             <MetaWrapper
               style={{
-                marginBottom: '5px',
+                marginBottom: '5px'
               }}>
               <MetaLabel
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '20px',
+                  width: '20px'
                 }}>
-                <FontAwesomeIcon icon={faClock} />
+                <FontAwesomeIcon icon={faClock as any} />
               </MetaLabel>
               <MetaLabel>{prepareCardDate?.startTime}</MetaLabel>
               <MetaLabel>-</MetaLabel>
@@ -208,16 +208,16 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
             </MetaWrapper>
             <MetaWrapper
               style={{
-                marginBottom: '5px',
+                marginBottom: '5px'
               }}>
               <MetaLabel
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '20px',
+                  width: '20px'
                 }}>
-                <FontAwesomeIcon icon={faLocationDot} />
+                <FontAwesomeIcon icon={faLocationDot as any} />
               </MetaLabel>
               <MetaValue>{location?.name}</MetaValue>
             </MetaWrapper>
@@ -227,14 +227,14 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '20px',
+                  width: '20px'
                 }}>
-                <FontAwesomeIcon icon={faChair} />
+                <FontAwesomeIcon icon={faChair as any} />
               </MetaLabel>
               <MetaLabel>{t('Session.places')}</MetaLabel>
               <MetaValue
                 style={{
-                  marginLeft: '5px',
+                  marginLeft: '5px'
                 }}>
                 {placeleft}
               </MetaValue>

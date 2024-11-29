@@ -25,10 +25,10 @@ export const SelectedLocation = ({ location, onOpen }: Props) => {
   return (
     <Root>
       <Flexbox alignItems='center'>
-        <FontAwesomeIcon icon={faLocationDot} />
+        <FontAwesomeIcon icon={faLocationDot as any} />
         <span
           style={{
-            marginLeft: '10px',
+            marginLeft: '10px'
           }}>
           {location?.name}
         </span>

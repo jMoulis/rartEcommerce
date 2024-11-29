@@ -7,7 +7,7 @@ import {
   faArrowAltDown,
   faArrowAltUp,
   faEllipsisV,
-  faTrash,
+  faTrash
 } from '@fortawesome/pro-light-svg-icons';
 import { Input } from '@/src/app/components/commons/form/Input';
 import { ISection } from '@/src/types/DBTypes';
@@ -70,7 +70,7 @@ export const SectionToolbar = ({
   onPublishSection,
   onToggle,
   openCollapse,
-  noPublished,
+  noPublished
 }: Props) => {
   const t = useTranslations();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -80,10 +80,10 @@ export const SectionToolbar = ({
       {
         label: t('commons.delete'),
         style: {
-          backgroundColor: 'var(--error-color)',
+          backgroundColor: 'var(--error-color)'
         },
-        callback: async () => onDeleteSection(section.id),
-      },
+        callback: async () => onDeleteSection(section.id)
+      }
     ],
     [section.id]
   );
@@ -146,7 +146,7 @@ export const SectionToolbar = ({
           className='button-icon'
           disabled={sectionArrayIndex === 0 || section.isArchived}
           onClick={() => onMoveSectionUp(section.id)}>
-          <FontAwesomeIcon icon={faArrowAltUp} />
+          <FontAwesomeIcon icon={faArrowAltUp as any} />
         </MoveButton>
         <MoveButton
           type='button'
@@ -155,7 +155,7 @@ export const SectionToolbar = ({
             sectionArrayIndex === sectionsLength - 1 || section.isArchived
           }
           onClick={() => onMoveSectionDown(section.id)}>
-          <FontAwesomeIcon icon={faArrowAltDown} />
+          <FontAwesomeIcon icon={faArrowAltDown as any} />
         </MoveButton>
 
         <IconButton
@@ -173,7 +173,7 @@ export const SectionToolbar = ({
             active={{
               status: section.isArchived,
               backgroundColor: 'var(--purple-color)',
-              color: '#fff',
+              color: '#fff'
             }}
           />
           <DeleteConfirmation
@@ -187,7 +187,7 @@ export const SectionToolbar = ({
             actions={actions}>
             <p>
               {t('ProductForm.deleteSectionMessage.title', {
-                section: section.title,
+                section: section.title
               })}
             </p>
             <p>{t('ProductForm.deleteSectionMessage.explanation')}</p>

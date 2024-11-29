@@ -34,7 +34,7 @@ interface Props {
 export const SessionForm = ({
   selectedSession,
   onDeleteSession,
-  onUpdateSession,
+  onUpdateSession
 }: // onDirectMutation,
 Props) => {
   const t = useTranslations();
@@ -42,7 +42,7 @@ Props) => {
   const handleSelectLocation = (locationId: string) => {
     const updatedSession = {
       ...selectedSession,
-      locationId,
+      locationId
     };
     onUpdateSession(updatedSession);
   };
@@ -50,7 +50,7 @@ Props) => {
   const handleRemoveLocation = () => {
     const updatedSession = {
       ...selectedSession,
-      locationId: null,
+      locationId: null
     };
     onUpdateSession(updatedSession);
   };
@@ -58,7 +58,7 @@ Props) => {
   const handleDeleteRepetition = () => {
     const updatedSession = {
       ...selectedSession,
-      repetition: null,
+      repetition: null
     };
     onUpdateSession(updatedSession);
   };
@@ -71,7 +71,7 @@ Props) => {
     const parsedValue = type === 'number' ? parseFloat(value) : value;
     const updatedSession = {
       ...selectedSession,
-      [name]: parsedValue,
+      [name]: parsedValue
     };
     onUpdateSession(updatedSession);
   };
@@ -81,7 +81,7 @@ Props) => {
     const { name, value } = event.currentTarget;
     const updatedSession = {
       ...selectedSession,
-      [name]: parseFloat(value),
+      [name]: parseFloat(value)
     };
     onUpdateSession(updatedSession);
   };
@@ -89,7 +89,7 @@ Props) => {
   const handleUpdateRepetition = (repetition: IRepetition) => {
     onUpdateSession({
       ...selectedSession,
-      repetition,
+      repetition
     });
   };
 
@@ -105,14 +105,14 @@ Props) => {
           padding: '10px',
           flex: '1',
           borderRadius: '8px',
-          flexDirection: 'column',
+          flexDirection: 'column'
         }}>
         <InputWrapper>
           <Flexbox alignItems='center'>
-            <FontAwesomeIcon icon={faCalendarClock} />
+            <FontAwesomeIcon icon={faCalendarClock as any} />
             <p
               style={{
-                marginLeft: '10px',
+                marginLeft: '10px'
               }}>
               {t('Session.start')}
             </p>
@@ -124,18 +124,18 @@ Props) => {
             value={selectedSession?.start ?? ''}
             styling={{
               root: {
-                marginBottom: '0',
-              },
+                marginBottom: '0'
+              }
             }}
             onInputChange={handleInputChange}
           />
         </InputWrapper>
         <InputWrapper>
           <Flexbox alignItems='center'>
-            <FontAwesomeIcon icon={faCalendarClock} />
+            <FontAwesomeIcon icon={faCalendarClock as any} />
             <p
               style={{
-                marginLeft: '10px',
+                marginLeft: '10px'
               }}>
               {t('Session.places')}
             </p>
@@ -148,18 +148,18 @@ Props) => {
             value={selectedSession?.maxParticipants ?? ''}
             styling={{
               root: {
-                marginBottom: '0',
-              },
+                marginBottom: '0'
+              }
             }}
           />
         </InputWrapper>
 
         <InputWrapper>
           <Flexbox alignItems='center'>
-            <FontAwesomeIcon icon={faClock} />
+            <FontAwesomeIcon icon={faClock as any} />
             <p
               style={{
-                marginLeft: '10px',
+                marginLeft: '10px'
               }}>
               {t('Session.duration')}
             </p>
@@ -169,8 +169,8 @@ Props) => {
             name='duration'
             styling={{
               root: {
-                margin: 0,
-              },
+                margin: 0
+              }
             }}
             value={`${selectedSession?.duration}` || ''}
             onChangeSelectbox={handleSelectDuration}

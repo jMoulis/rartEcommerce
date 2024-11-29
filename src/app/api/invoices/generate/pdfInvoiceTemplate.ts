@@ -2,7 +2,7 @@ import { IInvoiceInput } from '@/src/types/DBTypes';
 import { format } from 'date-fns';
 import { rartLogo } from './logos';
 
-export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
+export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) => {
   const {
     customerInformations,
     createdAt,
@@ -19,28 +19,30 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
   const table = invoice.lineItems.map((item) => {
     const tvaTaux = 0;
     const tauxTvaString = '0%';
-    const priceHt = item.quantity * item.unitPrice;
+    const priceHt = (item.quantity * item.unitPrice);
     const totalTva = Math.ceil(priceHt * tvaTaux);
-    const total = priceHt + totalTva;
+    const total = (priceHt + totalTva).toLocaleString();
+    const priceFormatted = new Intl.NumberFormat('fr-FR', { style: 'decimal' }).format(item.unitPrice);
+
     return `
     <tr>
       <td class="table-row">
-        <p class="table-cell">${item.description}</p>
+        <p class="table-cell align-left">${item.description}</p>
       </td>
       <td class="table-row">
         <p class="table-cell">${item.quantity}</p>
       </td>
       <td class="table-row">
-        <p class="table-cell">${item.unitPrice}</p>
+        <p class="table-cell align-right">${priceFormatted}</p>
       </td>
       <td class="table-row">
-        <p class="table-cell">${tauxTvaString}</p>
+        <p class="table-cell align-right">${tauxTvaString}</p>
       </td>
       <td class="table-row">
-        <p class="table-cell">${totalTva}</p>
+        <p class="table-cell align-right">${totalTva.toLocaleString()}</p>
       </td>
       <td class="table-row">
-        <p class="table-cell">${total}</p>
+        <p class="table-cell align-right">${total}</p>
       </td>
       </tr>
     `;
@@ -118,6 +120,7 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
       }
       .table-cell {
         padding: 5px 10px;
+        text-align: center;
       }
       .table-cell-header {
         display: flex;
@@ -127,6 +130,15 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
         padding: 5px 15px;
         white-space: nowrap;
         height: 40px;
+        justify-content: center;
+      }
+      .align-left {
+        text-align: left;
+        justify-content: flex-start;
+      }
+      .align-right {
+        text-align: right;
+        justify-content: flex-end;
       }
       .table-footer {
         padding: 10px;
@@ -147,10 +159,12 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
         justify-content: flex-end;
       }
       .customer-name {
+        text-align: left;
         font-weight: bold;
-        font-size: 20px;
+        font-size: 16px;
+        width: 250px;
       }
-       .company {
+      .company {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -160,10 +174,12 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
       .company-logo {
         height: 100px;
         width: 100px;
+        display: block;
         border-radius: 5px;
       }
       .company-name {
-        max-width: 100px;
+        margin: 0;
+        font-size: 16px;
         font-weight: bold;
       }
       .conditions {
@@ -191,11 +207,11 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
     <header class="header">
       <div class="company">
         <img src=${rartLogo} class="company-logo" />
-        <span class="company-name">Rart Création</span>
+        <p class="company-name">Rart Création</p>
       </div>
       <div class="customer">
         <div>
-          <span class="customer-name">${companyName || fullName}</span>
+          <p class="customer-name">${companyName || fullName}</p>
           <div>
             <p>${address?.address}</p>
             <p>${`${address?.postalCode ?? ''} ${address?.locality ?? ''}`}</p>
@@ -206,14 +222,14 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
     </header>
     <main class="main">
       <div>
-        <p style="font-size: 20px">Facture: ${invoiceId}</p>
+        <p style="font-size: 16px">${estimate ? 'Devis' : 'Facture'}: ${invoiceId}</p>
         <p>Date: ${date}</p>
       </div>
      <table class="table">
       <thead>
           <tr>
-            <th class="table-row">
-              <p class="table-cell-header">Description</p>
+            <th class="table-row align-left">
+              <p class="table-cell-header align-left">Description</p>
             </th>
             <th class="table-row">
               <p class="table-cell-header">Quantité</p>
@@ -240,20 +256,16 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
          <tr>
          <td class="table-footer" colspan="6">
           <div class="price-footer">
-            <p style="font-weight: bolder; white-space: nowrap">Total HT:</p>
-            <p>${invoice.ht}€</p>
+            <p style="font-weight: bolder; white-space: nowrap;">Total HT</p>
+            <p style="text-align:right">${invoice.ht.toLocaleString()}€</p>
           </div>
           <div class="price-footer">
-            <p style="font-weight: bolder; white-space: nowrap">Total taxes:</p>
-            <p>${invoice.taxes}€</p>
+            <p style="font-weight: bolder; white-space: nowrap;">Total taxes</p>
+            <p style="text-align:right">${invoice.taxes}€</p>
           </div>
           <div class="price-footer">
-            <p style="font-weight: bolder; white-space: nowrap">Total TTC:</p>
-            <p>${invoice.amount.toLocaleString()}€</p>
-          </div>
-          <div class="price-footer">
-            <p style="font-weight: bolder">Reste dû:</p>
-            <p>0,00€</p>
+            <p style="font-weight: bolder; white-space: nowrap;">Total TTC</p>
+            <p style="text-align:right">${invoice.amount.toLocaleString()}€</p>
           </div>
          </td>
         </tr>
@@ -261,14 +273,14 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput) => {
       </table>
       <div class="conditions">
         <div style="margin-bottom: 10px">
-        <p  class="x-small">Détails de la facture</p>
-        <p class="x-small">${comment ?? ''}</p>
+          <p class="x-small">Détail de la facture:</p>
+          <p class="x-small" style="white-space: break-spaces">${comment ?? ''}</p>
         </div>
         <p class="x-small">
           Paiement à réception de la facture par virement ou chèque
         </p>
         <p class="x-small">
-          IBAN : FR32 3000 2060 6500 0000 0512 M03 BIC: CRLYFRPP
+          IBAN: FR32 3000 2060 6500 0000 0512 M03 BIC: CRLYFRPP
         </p>
         <p class="x-small">
           En cas de retard de paiement, des frais forfaitaires de recouvrement

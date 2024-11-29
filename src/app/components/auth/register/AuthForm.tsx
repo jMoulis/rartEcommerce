@@ -140,7 +140,7 @@ export const AuthForm = ({
             style={{
               color: '#fff !important'
             }}
-            icon={faSpinner}
+            icon={faSpinner as any}
             className='fa-pulse'
           />
         ) : (

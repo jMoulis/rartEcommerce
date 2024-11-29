@@ -18,12 +18,12 @@ export default function Securised() {
   const t = useTranslations();
   return (
     <Root>
-      <FontAwesomeIcon icon={faLock} />
+      <FontAwesomeIcon icon={faLock as any} />
       <span>{t('Cart.payment')}</span>
       <span
         style={{
           color: securised ? 'var(--success-color)' : 'var(--error-color)',
-          textTransform: 'lowercase',
+          textTransform: 'lowercase'
         }}>
         {t('Cart.securised')}
       </span>

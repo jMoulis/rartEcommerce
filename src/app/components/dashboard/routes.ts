@@ -1,4 +1,4 @@
-import { faBoxesStacked, faCalendarWeek, faFileInvoice, faTableLayout, faTags, faUsers } from '@fortawesome/pro-light-svg-icons';
+import { faBoxesStacked, faCalendarWeek, faFileInvoice, faReceipt, faTableLayout, faTags, faUsers } from '@fortawesome/pro-light-svg-icons';
 import { INavigationRoute } from '../navbar/types';
 
 const ROOT = 'dashboard';
@@ -67,11 +67,11 @@ export const dashboardRoutes = (t: any): Array<{ label: string, menus: INavigati
       //   href: '/dashboard/financial/payments',
       //   icon: faSackDollar
       // },
-      // {
-      //   label: t('Dashboard.estimates'),
-      //   href: '/dashboard/financial/estimates',
-      //   icon: faReceipt
-      // },
+      {
+        label: t('Dashboard.estimates'),
+        href: '/dashboard/financial/estimates',
+        icon: faReceipt
+      },
       {
         label: t('Dashboard.invoices'),
         href: '/dashboard/financial/invoices',

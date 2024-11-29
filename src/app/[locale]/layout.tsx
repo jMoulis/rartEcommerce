@@ -19,37 +19,37 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params: { locale } }: Props) {
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Metadata' });
   return {
-    title: t('title'),
+    title: t('title')
   };
 }
 
 interface Props {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }
 
 export default async function RootLayout({ children, params }: Props) {
-  unstable_setRequestLocale(params.locale);
+  const { locale } = await params;
+  unstable_setRequestLocale(locale);
 
   let messages;
-
   try {
-    messages = (await import(`../../../messages/${params.locale}.json`))
-      .default;
+    messages = (await import(`../../../messages/${locale}.json`)).default;
   } catch (error) {
     notFound();
   }
   await getCurrentUser();
 
   return (
-    <html lang={params.locale} className={`${helveticaCondensed.className}`}>
+    <html lang={locale} className={`${helveticaCondensed.className}`}>
       <body>
         <AppRouterCacheProvider>
           <NextIntlProvider
-            locale={params.locale}
+            locale={locale}
             messages={messages}
             timeZone='Europe/Paris'
             now={new Date()}>

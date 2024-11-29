@@ -3,12 +3,18 @@ import React, { Suspense } from 'react';
 import Verify from '../../components/verify';
 
 interface Props {
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }
 
-export default async function VerifyPage({ params: { locale } }: Props) {
+export default async function VerifyPage(props: Props) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
   unstable_setRequestLocale(locale);
   return (
     <Suspense fallback={<span />}>

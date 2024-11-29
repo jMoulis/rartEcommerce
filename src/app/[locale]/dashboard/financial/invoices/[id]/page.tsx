@@ -3,7 +3,8 @@ import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { getDocument } from '@/src/lib/firebase/firestore/crud';
 import { notFound } from 'next/navigation';
 
-export default async function InvoiceDetailPage({ params }: any) {
+export default async function InvoiceDetailPage(props: any) {
+  const params = await props.params;
   const payload = await getDocument(params.id, ENUM_COLLECTIONS.INVOICES);
 
   if (payload.error) notFound();
