@@ -8,10 +8,9 @@ import { adminDB } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 
 export async function POST(request: NextRequest) {
   try {
-    const { invoice, estimate } = (await request.json()) as { invoice: IInvoice, estimate?: boolean };
-    const pdf = await generatePDFInvoice(invoice, estimate ?? false);
-    const collection = estimate ? ENUM_COLLECTIONS.ESTIMATES : ENUM_COLLECTIONS.INVOICES;
-    const invoiceRef = adminDB.collection(collection).doc(invoice._id);
+    const invoice = (await request.json()) as IInvoice;
+    const pdf = await generatePDFInvoice(invoice);
+    const invoiceRef = adminDB.collection(ENUM_COLLECTIONS.INVOICES).doc(invoice._id);
     invoiceRef.set({
       invoiceUrl: pdf?.url ?? null
     }, { merge: true });

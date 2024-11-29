@@ -21,4 +21,7 @@ export enum ENUM_ROUTES {
   CONTACT = '/contact',
   LEGALS = '/legals',
   GALLERY = '/gallery',
+  ESTIMATES = '/dashboard/financial/estimates',
+  CREATE_ESTIMATE = '/dashboard/financial/estimates/create',
+  INVOICE_PDF_GENERATE = '/api/invoices/generate'
 }

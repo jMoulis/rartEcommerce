@@ -1,8 +1,8 @@
-import { IInvoiceInput } from '@/src/types/DBTypes';
+import { IEstimateInput } from '@/src/types/DBTypes';
 import { format } from 'date-fns';
 import { rartLogo } from './logos';
 
-export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) => {
+export const pdfInvoiceTemplate = (invoice: IEstimateInput) => {
   const {
     customerInformations,
     createdAt,
@@ -222,7 +222,7 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
     </header>
     <main class="main">
       <div>
-        <p style="font-size: 16px">${estimate ? 'Devis' : 'Facture'}: ${invoiceId}</p>
+        <p style="font-size: 16px">Devis: ${invoiceId}</p>
         <p>Date: ${date}</p>
       </div>
      <table class="table">

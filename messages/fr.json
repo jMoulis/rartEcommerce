@@ -279,6 +279,11 @@
     "addManual": "Ajout manuel",
     "comment": "Commentaire"
   },
+  "Estimate": {
+    "estimates": "Devis",
+    "estimate": "Devis",
+    "createEstimate": "Créer un devis"
+  },
   "LocaleSwitcher": {
     "label": "Langue",
     "locale": "{locale, select, fr {Français} en {Anglais} other {Inconnu}}"

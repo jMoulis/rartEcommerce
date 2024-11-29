@@ -217,6 +217,32 @@ export interface IInvoiceInput {
   receiptUrl?: string | null;
   invoiceUrl?: string | null;
 }
+export interface IEstimateInput {
+  _id?: string;
+  invoiceId: string;
+  customerId?: string | null;
+  issueDate?: string;
+  dueDate?: string;
+  amount: number;
+  ht: number;
+  taxes: number;
+  status?: InvoiceStatusType;
+  lineItems: ILineItem[];
+  createdAt?: string;
+  updatedAt?: string;
+  orderId?: string;
+  isArchived?: boolean;
+  paymentId?: string;
+  customerInformations?: IContactInformations;
+  confirmMailSent?: {
+    status: boolean;
+    date?: string;
+    messageId?: string
+  };
+  comment?: string;
+  receiptUrl?: string | null;
+  invoiceUrl?: string | null;
+}
 export interface IInvoice extends IInvoiceInput {
   _id: string;
 }

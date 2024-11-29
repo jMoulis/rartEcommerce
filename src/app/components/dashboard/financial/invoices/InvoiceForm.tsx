@@ -56,8 +56,9 @@ const HeaderTitle = styled.span`
 `;
 interface Props {
   initialInvoice?: IInvoice;
+  estimate?: boolean;
 }
-export const InvoiceForm = ({ initialInvoice }: Props) => {
+export const InvoiceForm = ({ initialInvoice, estimate }: Props) => {
   const t = useTranslations();
 
   const { form, onInitForm, onInputChange, onDirectMutation } =
@@ -155,12 +156,13 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
   const handleSubmit = async () => {
     try {
       setSaving(true);
+
       fetch(ENUM_ROUTES.CREATE_INVOICE_API, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ invoice: form })
+        body: JSON.stringify({ invoice: form, estimate })
       })
         .then(async (response) => {
           if (response.ok) {
@@ -170,7 +172,16 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
         })
         .then(({ data }) => {
           setSaving(false);
-          router.replace(`${ENUM_ROUTES.INVOICE_DETAIL}/${data?._id}`);
+          const replaceUrl = estimate
+            ? ENUM_ROUTES.ESTIMATES
+            : ENUM_ROUTES.INVOICE_DETAIL;
+          router.replace(`${replaceUrl}/${data?._id}`);
+        })
+        .catch((error) => {
+          throw new Error(error);
+        })
+        .finally(() => {
+          setSaving(false);
         });
     } catch (error) {
       setSaving(false);
@@ -203,9 +214,13 @@ export const InvoiceForm = ({ initialInvoice }: Props) => {
   return (
     <Root>
       <CreateFormHeader
-        InputHeader={<HeaderTitle>Facture n° {form.invoiceId}</HeaderTitle>}
-        form={{ ...form, name: 'Facture' } as any}
-        headerTitle='Facture'
+        InputHeader={
+          <HeaderTitle>
+            {estimate ? 'Devis' : 'Facture'} n° {form.invoiceId}
+          </HeaderTitle>
+        }
+        form={{ ...form, name: estimate ? 'Devis' : 'Facture' } as any}
+        headerTitle={estimate ? 'Devis' : 'Facture'}
         onSubmit={handleSubmit}
         saving={saving}
       />
