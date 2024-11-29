@@ -63,7 +63,7 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
 
     const invoice = await onAdminCreateDocument(invoiceInput, ENUM_COLLECTIONS.INVOICES);
 
-    const pdf = await generatePDFInvoice({ ...invoiceInput, _id: invoice.data?._id });
+    const pdf = await generatePDFInvoice({ ...invoiceInput, _id: invoice.data?._id }, false);
 
     if (!invoice) {
       throw Error('Unable to create an invoice');
