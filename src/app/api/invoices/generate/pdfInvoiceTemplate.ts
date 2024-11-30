@@ -273,19 +273,33 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
       </table>
       <div class="conditions">
         <div style="margin-bottom: 10px">
-          <p class="x-small">Détail de la facture:</p>
+          <p class="x-small">Détail ${estimate ? 'du devis' : 'de la facture'}:</p>
           <p class="x-small" style="white-space: break-spaces">${comment ?? ''}</p>
         </div>
+        ${estimate ? '<p class="x-small">Ce devis est valable 30 jours à compter de sa date d\'émission.</p>' : ''}
         <p class="x-small">
-          Paiement à réception de la facture par virement ou chèque
+          ${estimate ? 'Acompte de 30% à la commande par virement ou par chèque.' : 'Paiement à réception de la facture par virement ou chèque.'}
         </p>
         <p class="x-small">
           IBAN: FR32 3000 2060 6500 0000 0512 M03 BIC: CRLYFRPP
         </p>
-        <p class="x-small">
+        ${estimate ? `
+          <div style="display: flex; justify-content: space-between; height: 100px; margin-top: 20px">
+            <div style="display: flex">
+              <p style="width: 150px;">A:</p>
+              <p style="width: 50px;">Le: </p>
+            </div>
+            <div>
+              <p>Signature client:</p>
+              <i class="x-small">Précédée de la mention "Bon pour accord"</i>
+            </div>
+          </div>
+        ` : ''}
+
+        ${!estimate ? `<p class="x-small">
           En cas de retard de paiement, des frais forfaitaires de recouvrement
           de 40€ seront appliqués.
-        </p>
+        </p>` : ''}
       </div>
     </main>
   </body>
