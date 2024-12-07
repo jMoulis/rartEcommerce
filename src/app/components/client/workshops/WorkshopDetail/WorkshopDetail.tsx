@@ -31,6 +31,7 @@ const ImageContent = styled.div`
 `;
 const Description = styled.p`
   text-align: justify;
+  white-space: pre-wrap;
 `;
 const Title = styled.h2`
   color: var(--secondary-color);
@@ -92,7 +93,7 @@ export default function WorkshopDetail({ initialWorkshop, preview }: Props) {
   return (
     <Page
       style={{
-        paddingTop: 0,
+        paddingTop: 0
       }}>
       <SectionHeader
         backgroundImage={defaultImage?.url ?? ''}
@@ -103,7 +104,7 @@ export default function WorkshopDetail({ initialWorkshop, preview }: Props) {
       <WrapperSection>
         <Section
           style={{
-            justifyContent: 'unset',
+            justifyContent: 'unset'
           }}>
           {selectedImage ? (
             <ImageContent>
@@ -111,7 +112,7 @@ export default function WorkshopDetail({ initialWorkshop, preview }: Props) {
                 fill
                 style={{
                   objectFit: 'cover',
-                  borderRadius: '10px',
+                  borderRadius: '10px'
                 }}
                 sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                 src={selectedImage.url}
@@ -125,7 +126,7 @@ export default function WorkshopDetail({ initialWorkshop, preview }: Props) {
             flexDirection='column'
             style={{
               margin: '0 10px',
-              flex: 1,
+              flex: 1
             }}>
             <Title>{workshop.name}</Title>
             <Description>{workshop.description}</Description>
