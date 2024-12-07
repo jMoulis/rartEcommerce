@@ -58,7 +58,7 @@ export const SessionListItem = ({
   onSelectSession,
   onDeleteSession,
   showParticipant,
-  showAvaialable,
+  showAvaialable
 }: Props) => {
   const [location, setLocation] = useState<IAddress | null>(null);
   const { open, onOpen, onClose } = useToggle();
@@ -94,9 +94,9 @@ export const SessionListItem = ({
             <Flexbox>
               <MetaValue
                 style={{
-                  marginRight: '5px',
+                  marginRight: '5px'
                 }}>
-                {format(session.start, 'dd/mm/yyyy', { locale: fr })}
+                {format(session.start, 'dd/MM/yyyy', { locale: fr })}
               </MetaValue>
               <MetaValue>{format(session.start, 'HH:mm')}</MetaValue>
             </Flexbox>
@@ -124,7 +124,7 @@ export const SessionListItem = ({
                 <MetaValue>{session?.participants?.length}</MetaValue>
                 <MetaValue
                   style={{
-                    textDecoration: 'underline',
+                    textDecoration: 'underline'
                   }}
                   onClick={(event) => {
                     event.stopPropagation();
@@ -143,7 +143,7 @@ export const SessionListItem = ({
               <MetaLabel>{t('Session.repetition.frequencyLabel')}</MetaLabel>
               <MetaValue>
                 {t('Session.repetition.frequency', {
-                  frequency: session.repetition?.frequency?.toLocaleLowerCase(),
+                  frequency: session.repetition?.frequency?.toLocaleLowerCase()
                 })}
               </MetaValue>
             </Flexbox>
@@ -153,7 +153,7 @@ export const SessionListItem = ({
                 {session.repetition?.days?.map((day, key) => (
                   <span key={key}>
                     {t('Session.repetition.day', {
-                      day,
+                      day
                     })}
                   </span>
                 ))}
@@ -173,10 +173,10 @@ export const SessionListItem = ({
       <FullDialog
         dialog={{
           fullWidth: true,
-          maxWidth: 'sm',
+          maxWidth: 'sm'
         }}
         header={{
-          title: t('Session.participants'),
+          title: t('Session.participants')
         }}
         open={open}
         onClose={onClose}>
