@@ -221,24 +221,26 @@ export const SessionListItem = ({ session, workshop, preview }: Props) => {
               </MetaLabel>
               <MetaValue>{location?.name}</MetaValue>
             </MetaWrapper>
-            <MetaWrapper>
-              <MetaLabel
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '20px'
-                }}>
-                <FontAwesomeIcon icon={faChair as any} />
-              </MetaLabel>
-              <MetaLabel>{t('Session.places')}</MetaLabel>
-              <MetaValue
-                style={{
-                  marginLeft: '5px'
-                }}>
-                {placeleft}
-              </MetaValue>
-            </MetaWrapper>
+            {placeleft > 0 ? (
+              <MetaWrapper>
+                <MetaLabel
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '20px'
+                  }}>
+                  <FontAwesomeIcon icon={faChair as any} />
+                </MetaLabel>
+                <MetaLabel>{t('Session.places')}</MetaLabel>
+                <MetaValue
+                  style={{
+                    marginLeft: '5px'
+                  }}>
+                  {placeleft}
+                </MetaValue>
+              </MetaWrapper>
+            ) : null}
           </Flexbox>
         </Flexbox>
         {selectedCartSessionIds.includes(session._id) ? (
