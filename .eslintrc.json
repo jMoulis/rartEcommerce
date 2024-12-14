@@ -16,6 +16,7 @@
   },
   "plugins": ["react"],
   "rules": {
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/consistent-type-imports": "off",
     "@typescript-eslint/semi": ["error", "always"],

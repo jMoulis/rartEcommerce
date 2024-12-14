@@ -1,12 +1,12 @@
 import { useLocale, useTranslations } from 'next-intl';
-import { locales } from '@/src/intl/config';
+
 import Image from 'next/image';
 import { Button } from '../commons/Buttons/Button';
 import { Menu } from '@mui/material';
 import { useMenu } from '../hooks/useMenu';
-import { useRouter, usePathname } from '@/src/navigation';
 import { useTransition } from 'react';
 import styled from '@emotion/styled';
+import { locales, usePathname, useRouter } from '@/src/i18n/routing';
 
 const Text = styled.span`
   color: var(--default-font-color);
@@ -31,7 +31,7 @@ export default function LocaleSwitcher() {
       <Button
         style={{
           backgroundColor: 'transparent',
-          padding: 0,
+          padding: 0
         }}
         disabled={isPending}
         onClick={onOpenModal}>
@@ -49,7 +49,7 @@ export default function LocaleSwitcher() {
               style={{
                 backgroundColor: 'transparent',
                 padding: 0,
-                marginBottom: '5px',
+                marginBottom: '5px'
               }}
               onClick={() => onSelectChange(cur)}>
               <Image
@@ -60,7 +60,7 @@ export default function LocaleSwitcher() {
               />
               <Text>
                 {t('locale', {
-                  locale: cur,
+                  locale: cur
                 })}
               </Text>
             </Button>

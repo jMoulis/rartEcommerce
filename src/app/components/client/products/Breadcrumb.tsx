@@ -1,10 +1,10 @@
-import { usePathname } from '@/src/navigation';
 import { faHome } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import React from 'react';
 import styled from '@emotion/styled';
 import { useTranslations } from 'next-intl';
+import { usePathname } from '@/src/i18n/routing';
 
 const Root = styled.nav`
   padding: 10px;
@@ -34,7 +34,7 @@ const Breadcrumb = ({
   text,
   customPaths
 }: Props) => {
-  const pathname = usePathname();
+  const pathname = usePathname() as string;
   const pathNames = customPaths ?? pathname.split('/').filter((path) => path);
   const t = useTranslations();
 
