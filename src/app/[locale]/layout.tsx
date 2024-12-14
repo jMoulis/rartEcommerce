@@ -1,8 +1,5 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
-import { locales } from '@/src/intl/config';
-import { notFound } from 'next/navigation';
-import NextIntlProvider from '../contexts/NextIntlProvider';
+import { getMessages, getTranslations } from 'next-intl/server';
 import { Navbar } from '../components/navbar/Navbar';
 import { AuthProvider } from '../contexts/auth/AuthContext';
 import { config } from '@fortawesome/fontawesome-svg-core';
@@ -12,12 +9,9 @@ import { CartProvider } from '../contexts/cart/CartContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import helveticaCondensed from '../style/fonts/helveticaCondensed';
+import { NextIntlClientProvider } from 'next-intl';
 
 config.autoAddCss = false;
-
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
@@ -33,23 +27,15 @@ interface Props {
 }
 
 export default async function RootLayout({ children, params }: Props) {
-  const { locale } = await params;
-  unstable_setRequestLocale(locale);
+  const messages = (await getMessages()) as any;
 
-  let messages;
-  try {
-    messages = (await import(`../../../messages/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
   await getCurrentUser();
 
   return (
-    <html lang={locale} className={`${helveticaCondensed.className}`}>
+    <html lang='fr' className={`${helveticaCondensed.className}`}>
       <body>
         <AppRouterCacheProvider>
-          <NextIntlProvider
-            locale={locale}
+          <NextIntlClientProvider
             messages={messages}
             timeZone='Europe/Paris'
             now={new Date()}>
@@ -60,7 +46,7 @@ export default async function RootLayout({ children, params }: Props) {
                 {children}
               </CartProvider>
             </AuthProvider>
-          </NextIntlProvider>
+          </NextIntlClientProvider>
         </AppRouterCacheProvider>
       </body>
     </html>

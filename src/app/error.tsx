@@ -1,6 +1,6 @@
 'use client';
 
-import { defaultLocale } from '../intl/config';
+import { defaultLocale } from '../i18n/routing';
 
 export default function FiveHundred() {
   return (

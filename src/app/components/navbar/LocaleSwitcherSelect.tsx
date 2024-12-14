@@ -1,7 +1,7 @@
 'use client';
 
+import { useRouter, usePathname } from '@/src/i18n/routing';
 import { ChangeEvent, ReactNode, useTransition } from 'react';
-import { useRouter, usePathname } from '@/src/navigation';
 
 interface Props {
   children: ReactNode;
@@ -10,7 +10,7 @@ interface Props {
 
 export default function LocaleSwitcherSelect({
   children,
-  defaultValue,
+  defaultValue
 }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
