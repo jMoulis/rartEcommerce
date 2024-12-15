@@ -46,6 +46,7 @@ const Price = styled(ProductName)`
 const Description = styled.p`
   margin-bottom: 10px;
   text-align: justify;
+  white-space: pre-wrap;
 `;
 const ContentWrapper = styled(Flexbox)`
   margin: 0 10px;
@@ -75,9 +76,10 @@ const PriceGrid = styled.div`
 interface Props {
   product: IProductService;
   preview?: boolean;
+  onSelectOption?: (product: IProductService) => void;
 }
 
-export const ProductOptions = ({ product, preview }: Props) => {
+export const ProductOptions = ({ product, preview, onSelectOption }: Props) => {
   const t = useTranslations();
   const { cart, onDeleteItemFromCart } = useCart();
   const [selectedProduct, setSelectedProduct] =
@@ -108,6 +110,7 @@ export const ProductOptions = ({ product, preview }: Props) => {
   const handleSelectProduct = (product: IProductService) => {
     setSelectedProductOptions(new Map());
     setSelectedProduct(product);
+    onSelectOption?.(product);
   };
 
   const handleSelectOption = (product: IProductService, propertyId: string) => {
@@ -171,19 +174,21 @@ export const ProductOptions = ({ product, preview }: Props) => {
           {selectedProductOptions.size ? (
             <>
               {Array.from(selectedProductOptions.entries()).map(
-                ([propertyId, product], index) => (
-                  <Fragment key={index}>
-                    <ProductName>{product.name}</ProductName>
-                    <Price>{displayPrice(product.price)}</Price>
-                    <Flexbox alignItems='center'>
-                      <IconButton
-                        variant='xs'
-                        icon={faTrash}
-                        onClick={() => handleRemoveItem(propertyId)}
-                      />
-                    </Flexbox>
-                  </Fragment>
-                )
+                ([propertyId, product], index) => {
+                  return (
+                    <Fragment key={index}>
+                      <ProductName>{product.name}</ProductName>
+                      <Price>{displayPrice(product.price)}</Price>
+                      <Flexbox alignItems='center'>
+                        <IconButton
+                          variant='xs'
+                          icon={faTrash}
+                          onClick={() => handleRemoveItem(propertyId)}
+                        />
+                      </Flexbox>
+                    </Fragment>
+                  );
+                }
               )}
             </>
           ) : null}

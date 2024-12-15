@@ -16,12 +16,13 @@ interface Props {
 }
 
 const OptionList = ({ products, onSelectProduct, selectedProduct }: Props) => {
-  const filteredProducts = products.filter(
-    (section) => section.options?.published
-  );
+  // const filteredProducts = products.filter(
+  //   (section) => section.options?.published
+  // );
+
   return (
     <List>
-      {filteredProducts.map((product) => (
+      {products.map((product) => (
         <OptionListItem
           key={product._id}
           product={product}

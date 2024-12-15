@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import { useTranslations } from 'next-intl';
 import { Gallery } from './Gallery';
 import { IImageType } from './types';
-import { Button } from '@/src/app/components/commons/Buttons/Button';
 import { CloseModalButton } from '@/src/app/components/commons/Buttons/CloseModalButton';
 
 const Content = styled.div`
@@ -30,10 +29,9 @@ export const GalleryDialog = ({
   open,
   onClose,
   onSubmit,
-  prevImages,
+  prevImages
 }: Props) => {
   const tCommons = useTranslations('commons');
-  const tProduct = useTranslations('ProductForm');
   const [selectedImages, setSelectedImages] = useState<IImageType[]>([]);
 
   const handleSelectImage = (image: IImageType) => {
@@ -56,12 +54,6 @@ export const GalleryDialog = ({
     <Dialog open={open} onClose={onClose} fullWidth maxWidth='lg'>
       <Header>
         <h2>{tCommons('selectImages')}</h2>
-        <Button
-          type='button'
-          onClick={handleSubmit}
-          disabled={!selectedImages.length}>
-          {tProduct('addToProduct' as any)}
-        </Button>
         <CloseModalButton onClose={onClose} />
       </Header>
       <Content>
@@ -69,6 +61,8 @@ export const GalleryDialog = ({
           onSelectImage={handleSelectImage}
           selectedImages={selectedImages}
           entitySelectedImages={prevImages}
+          onSubmit={handleSubmit}
+          onClear={() => setSelectedImages([])}
         />
       </Content>
     </Dialog>

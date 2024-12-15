@@ -7,11 +7,10 @@ import { FullDialog } from '../../../commons/dialog/FullDialog';
 import { useTranslations } from 'next-intl';
 import { DialogContent } from '../../../commons/dialog/DialogContent';
 import {
-  RowData,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
-  useReactTable,
+  useReactTable
 } from '@tanstack/react-table';
 import { SwitchGroup } from '../../../commons/form/SwitchGroup';
 import { v4 } from 'uuid';
@@ -19,12 +18,6 @@ import { Button } from '../../../commons/Buttons/Button';
 import { uploadFile } from '@/src/lib/firebase/firestorage';
 import { toast } from 'react-toastify';
 
-declare module '@tanstack/react-table' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface TableMeta<TData extends RowData> {
-    updateData: (rowIndex: number, columnId: string, value: unknown) => void;
-  }
-}
 interface Props {
   occurrences: IOccurence[];
   sessionId: string;
@@ -37,27 +30,27 @@ const columns = [
   columnHelper.accessor((row) => row.dayString, {
     id: 'dayString',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>Jour</span>,
+    header: () => <span>Jour</span>
   }),
   columnHelper.accessor((row) => row.dayNumber, {
     id: 'dayNumber',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>Numéro</span>,
+    header: () => <span>Numéro</span>
   }),
   columnHelper.accessor((row) => row.monthString, {
     id: 'monthString',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>Mois</span>,
+    header: () => <span>Mois</span>
   }),
   columnHelper.accessor((row) => row.yearString, {
     id: 'yearString',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>Année</span>,
+    header: () => <span>Année</span>
   }),
   columnHelper.accessor((row) => row.time24, {
     id: 'time24',
     cell: (info) => <span>{info.getValue()}</span>,
-    header: () => <span>Heure</span>,
+    header: () => <span>Heure</span>
   }),
   columnHelper.accessor((row, index) => row.available, {
     id: 'available',
@@ -71,7 +64,11 @@ const columns = [
 
       const handleSwitch = (event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.currentTarget.checked);
-        table.options.meta?.updateData(index, id, event.currentTarget.checked);
+        table.options.meta?.updateData?.(
+          index,
+          id,
+          event.currentTarget.checked
+        );
       };
       return (
         <SwitchGroup
@@ -82,14 +79,14 @@ const columns = [
         />
       );
     },
-    header: () => <span></span>,
-  }),
+    header: () => <span></span>
+  })
 ];
 
 export const Occurrences = ({
   occurrences,
   sessionId,
-  onSaveOccurrences,
+  onSaveOccurrences
 }: Props) => {
   const [editableOccurrences, setEditableOccurrences] = useState<IOccurence[]>(
     []
@@ -113,14 +110,14 @@ export const Occurrences = ({
             if (index === rowIndex) {
               return {
                 ...old[rowIndex]!,
-                [columnId]: value,
+                [columnId]: value
               };
             }
             return row;
           });
         });
-      },
-    },
+      }
+    }
   });
 
   const handleSubmitUpdatedOccurrences = async () => {
@@ -145,8 +142,8 @@ export const Occurrences = ({
         open={open}
         header={{
           title: t('Session.generatedDates', {
-            count: occurrences.length,
-          }),
+            count: occurrences.length
+          })
         }}>
         <DialogContent>
           <div className='p-2'>
