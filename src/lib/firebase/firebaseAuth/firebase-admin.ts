@@ -13,7 +13,7 @@ import { getStorage } from 'firebase-admin/storage';
 
 const serviceAccount: ServiceAccount = {
   projectId: process.env.NEXT_GOOGLE_PROJECT_ID,
-  privateKey: process.env.NEXT_GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+  privateKey: process.env.NEXT_GOOGLE_PRIVATE_KEY,
   clientEmail: process.env.NEXT_GOOGLE_CLIENT_EMAIL,
 };
 
