@@ -63,11 +63,11 @@ const Text = styled.p`
   font-size: var(--default-font-size);
   margin-bottom: 10px;
 `;
-const Description = styled(Text)`
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
+// const Description = styled(Text)`
+//   @media (max-width: 768px) {
+//     display: none;
+//   }
+// `;
 // const PriceLabel = styled(Text)`
 //   font-weight: 400;
 //   margin-bottom: 0;
@@ -130,7 +130,7 @@ export const Card = ({
   id,
   hrefRoot,
   children,
-  boxShadow,
+  boxShadow
 }: Props) => {
   return (
     <Root boxShadow={boxShadow}>
@@ -142,7 +142,7 @@ export const Card = ({
             style={{
               objectFit: 'cover',
               objectPosition: 'center',
-              borderRadius: '5px 5px 0 0',
+              borderRadius: '5px 5px 0 0'
             }}
             alt={title}
             src={src ?? ''}
@@ -153,16 +153,16 @@ export const Card = ({
             style={{
               color: textColor,
               marginBottom: '10px',
-              marginTop: '0',
+              marginTop: '0'
             }}>
             {title}
           </Title>
-          <Description
+          {/* <Description
             style={{
               flex: 1,
             }}>
             {description}
-          </Description>
+          </Description> */}
         </TextWrapper>
       </CustomLink>
       <Footer>

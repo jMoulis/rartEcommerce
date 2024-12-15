@@ -18,6 +18,7 @@ export const OptionsCard = ({ form, onUpdateSection }: Props) => {
   const { open, onClose, onOpen } = useToggle();
 
   const t = useTranslations();
+
   const handlePublishSection = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.currentTarget;
     onUpdateSection((prev) => {

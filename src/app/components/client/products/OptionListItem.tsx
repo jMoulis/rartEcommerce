@@ -86,11 +86,13 @@ const OptionListItem = ({
       </PropertyWrapper>
     );
   }, []);
+
   return (
     <Root
       selected={selectedProduct?._id === product._id}
       onClick={() => onSelectProduct(product)}>
       <Header selected={selectedProduct?._id === product._id}>
+        {product.name}
         {product.sections
           .filter((section) => section.published)
           .map((section) => {

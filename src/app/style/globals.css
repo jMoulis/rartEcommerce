@@ -9,6 +9,7 @@
   /* --primary-color: rgb(56, 153, 236); */
   --success-color: rgba(11, 175, 11, 0.7);
   --error-color: rgba(255, 0, 0, 0.5);
+  --error-color-hover: rgba(255, 0, 0, 0.7);
   --purple-color: rgb(75, 57, 237);
   --green-blue-color: rgb(57, 237, 205);
   --action-button-color: rgb(3, 170, 251);
@@ -20,9 +21,9 @@
   --primary-accent: rgb(3, 170, 251);
   --secondary-color: rgb(106, 8, 120);
   --secondary-accent: rgb(246, 136, 246);
-  --tertiary-color: #FDF5F8;
-  --tertiary-accent-1: #845B6A;
-  --tertiary-accent-2: #82240E;
+  --tertiary-color: #fdf5f8;
+  --tertiary-accent-1: #845b6a;
+  --tertiary-accent-2: #82240e;
   --white: #fff;
   --default-font-color: #000;
   --font-weight-body: 400;
@@ -155,7 +156,6 @@ span {
   -webkit-font-smoothing: antialiased;
 }
 
-
 mapbox-search-listbox div[aria-busy] {
   z-index: 2000 !important;
 }
@@ -240,7 +240,6 @@ input:hover,
 textarea:hover,
 select:hover {
   background-color: var(--input-background-color-hover);
-
 }
 
 .input-label {

@@ -23,28 +23,28 @@ const Root = styled.form`
 const components = [
   {
     label: 'Selectionner',
-    value: '',
+    value: ''
   },
   {
     label: 'Champs texte',
-    value: ENUM_PROPERTY_COMPONENT.INPUT,
+    value: ENUM_PROPERTY_COMPONENT.INPUT
   },
   {
     label: 'Champs numérique',
-    value: ENUM_PROPERTY_COMPONENT.NUMERIC,
+    value: ENUM_PROPERTY_COMPONENT.NUMERIC
   },
   {
     label: 'Long texte',
-    value: ENUM_PROPERTY_COMPONENT.TEXTAREA,
+    value: ENUM_PROPERTY_COMPONENT.TEXTAREA
   },
   {
     label: 'Liste déroulante',
-    value: ENUM_PROPERTY_COMPONENT.SELECTBOX,
+    value: ENUM_PROPERTY_COMPONENT.SELECTBOX
   },
   {
     label: 'Liste miniature',
-    value: ENUM_PROPERTY_COMPONENT.THUMBNAIL,
-  },
+    value: ENUM_PROPERTY_COMPONENT.THUMBNAIL
+  }
 ];
 interface Props {
   element: IElement;
@@ -59,7 +59,7 @@ export const ElementForm = ({
   element,
   onBlur,
   onInputChange,
-  onAddOption,
+  onAddOption
 }: Props) => {
   const tCommons = useTranslations('commons');
   const tProperty = useTranslations('PropertyForm');
@@ -91,6 +91,9 @@ export const ElementForm = ({
         onChangeSelectbox={onInputChange}
         value={element.component}
       />
+      {element.refIds?.map((refId, key) => {
+        return <span key={key}>{refId}</span>;
+      })}
       <Button type='button' onClick={onOpen}>
         {t('ProductForm.addOption')}
       </Button>
@@ -102,16 +105,16 @@ export const ElementForm = ({
         onClose={onClose}
         dialog={{
           fullWidth: true,
-          maxWidth: 'lg',
+          maxWidth: 'lg'
         }}
         styling={{
           content: {
             height: '20vh',
-            minHeight: '20vh',
-          },
+            minHeight: '20vh'
+          }
         }}
         header={{
-          title: t('ProductForm.addOption'),
+          title: t('ProductForm.addOption')
         }}>
         {open ? <OptionCardForm onAddOption={onAddOption} /> : null}
       </FullDialog>
