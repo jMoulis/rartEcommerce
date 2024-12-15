@@ -1,4 +1,5 @@
 import { storage } from '@/src/lib/firebase/firebase';
+import { deleteFile } from '@/src/lib/firebase/firestorage';
 import { getDownloadURL, listAll, ref, uploadBytesResumable } from 'firebase/storage';
 import { useState } from 'react';
 
@@ -42,10 +43,22 @@ export const useFirebaseStorage = () => {
       return [];
     }
   };
+  const onDeleteFiles = async (files: string[]) => {
+    const promises = files.map(async (file) => {
+      try {
+        await deleteFile(file);
+        return file;
+      } catch (error) {
+        return error;
+      }
+    });
+    return Promise.all(promises);
+  };
   return {
     onAddFile,
     progress,
     errors,
-    listFilesInFolder
+    listFilesInFolder,
+    onDeleteFiles
   };
 };

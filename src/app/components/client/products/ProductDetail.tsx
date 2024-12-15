@@ -65,6 +65,13 @@ export default function ProductDetail({ initialProduct, preview }: Props) {
     }
   }, [selectedImage, defaultImage]);
 
+  const handleSelectOption = (product: IProductService) => {
+    const images = product.images;
+    const defaultImage: IProductImage | undefined = images.find(
+      (image) => image.default
+    );
+    setSelectedImage(defaultImage ?? images[0]);
+  };
   if (!product) return null;
 
   return (
@@ -98,7 +105,11 @@ export default function ProductDetail({ initialProduct, preview }: Props) {
             selectedImage={selectedImage}
           />
           <MainImage image={selectedImage} />
-          <ProductOptions product={product} preview={preview} />
+          <ProductOptions
+            product={product}
+            preview={preview}
+            onSelectOption={handleSelectOption}
+          />
         </Section>
       </WrapperSection>
     </Page>

@@ -53,7 +53,7 @@ export const GalleryListItem = ({
   image,
   onSelectImage,
   selected,
-  previouslySelected,
+  previouslySelected
 }: Props) => {
   const t = useTranslations();
 
@@ -62,7 +62,7 @@ export const GalleryListItem = ({
       <ImageWrapper
         style={{
           marginBottom: '10px',
-          border: `2px solid ${selected ? ' #3899ec' : 'transparent'}`,
+          border: `2px solid ${selected ? ' #3899ec' : 'transparent'}`
         }}>
         <Image
           alt='image'
@@ -72,7 +72,7 @@ export const GalleryListItem = ({
           quality={50}
           style={{
             objectFit: 'contain',
-            borderRadius: '5px',
+            borderRadius: '5px'
           }}
         />
         {previouslySelected ? <SelectedIndicator /> : null}
@@ -81,14 +81,14 @@ export const GalleryListItem = ({
       <Flexbox
         justifyContent='center'
         style={{
-          marginTop: '10px',
+          marginTop: '10px'
         }}>
         <Button
           onClick={() => onSelectImage(image)}
           className='button'
           style={{
             backgroundColor: selected ? 'rgba(0,0,0,0.1)' : undefined,
-            color: selected ? 'var(--default-font-color)' : undefined,
+            color: selected ? 'var(--default-font-color)' : undefined
           }}>
           {selected ? t('commons.remove') : t('commons.select')}
         </Button>

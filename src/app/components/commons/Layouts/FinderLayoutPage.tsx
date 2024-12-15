@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
-  ColumnDef,
+  ColumnDef
 } from '@tanstack/react-table';
 import Link from 'next/link';
 import { SectionTitle } from '../../commons/Layouts/SectionTitle';
@@ -58,17 +58,17 @@ export const FinderLayoutPage = ({
   columns,
   sectionTitle,
   createLink,
-  headerChildren,
+  headerChildren
 }: Props) => {
   const table = useReactTable({
     columns,
     data,
     state: {
       columnVisibility: {
-        id: false,
-      },
+        id: false
+      }
     },
-    getCoreRowModel: getCoreRowModel(),
+    getCoreRowModel: getCoreRowModel()
   });
 
   return (

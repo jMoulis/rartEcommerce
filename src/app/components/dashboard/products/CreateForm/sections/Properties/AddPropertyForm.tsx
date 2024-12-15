@@ -131,32 +131,34 @@ export const AddPropertyForm = ({
     }));
   };
   const handleAddOption = (option: IProductService) => {
-    setProperty((prev) => ({
-      ...prev,
-      elements: prev.elements.map((element) => {
-        if (element.refIds) {
-          if (element.refIds.includes(option._id!)) {
-            // Remove refId if it already exists
-            return {
-              ...element,
-              refIds: element.refIds.filter((id) => id !== option._id!)
-            };
+    setProperty((prev) => {
+      return {
+        ...prev,
+        elements: prev.elements.map((element) => {
+          if (element.refIds) {
+            if (element.refIds.includes(option._id!)) {
+              // Remove refId if it already exists
+              return {
+                ...element,
+                refIds: element.refIds.filter((id) => id !== option._id!)
+              };
+            } else {
+              // Add refId if it doesn't exist
+              return {
+                ...element,
+                refIds: [...element.refIds, option._id!]
+              };
+            }
           } else {
-            // Add refId if it doesn't exist
+            // Create and add refId if it doesn't exist
             return {
               ...element,
-              refIds: [...element.refIds, option._id!]
+              refIds: [option._id!]
             };
           }
-        } else {
-          // Create and add refId if it doesn't exist
-          return {
-            ...element,
-            refIds: [option._id!]
-          };
-        }
-      })
-    }));
+        })
+      };
+    });
   };
 
   return (

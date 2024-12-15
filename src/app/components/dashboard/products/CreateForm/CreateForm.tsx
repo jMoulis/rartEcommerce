@@ -329,7 +329,6 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
   const handlePreview = () => {
     setPreview(true);
   };
-
   return (
     <div
       style={{
