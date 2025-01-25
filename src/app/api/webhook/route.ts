@@ -60,7 +60,7 @@ export async function POST(req: Request) {
           const orderData = (await getAdminDocument(orderId, ENUM_COLLECTIONS.ORDERS)).data as IOrder;
           console.log('✅ Get order done');
           console.log('Start create invoice');
-          const payload = await createInvoice(orderData, data.id, data.receipt_url);
+          const payload = await createInvoice(orderData, data.id, data.receipt_url, true);
           console.log(payload);
           console.log('✅ end create invoice');
           const orderRef = adminDB.collection(ENUM_COLLECTIONS.ORDERS).doc(orderId);
