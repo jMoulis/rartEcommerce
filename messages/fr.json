@@ -179,6 +179,7 @@
     "deleteFromCart": "Supprimer du panier",
     "seeCart": "Voir le panier",
     "taxes": "TVA",
+    "noTaxes": "TVA non applicable",
     "sameAsBilling": "Même que l'adresse de facturation",
     "pay": "Payer",
     "cardholderName": "Nom du titulaire",

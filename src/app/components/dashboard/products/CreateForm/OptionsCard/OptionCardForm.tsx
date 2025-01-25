@@ -1,19 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import {
-  findAllOnce,
   onCreateDocument,
-  onFetchDocsByIdsArray,
   onUpdateDocument
 } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
-import {
-  IProductService,
-  IProductServiceWithCategories,
-  IWorkshop
-} from '@/src/types/DBTypes';
+import { IProductService, IWorkshop } from '@/src/types/DBTypes';
 import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/src/app/components/commons/Buttons/Button';
 import { FullDialog } from '@/src/app/components/commons/dialog/FullDialog';
 import { useToggle } from '@/src/app/components/hooks/useToggle';
@@ -61,7 +54,6 @@ export const OptionCardForm = ({ onAddOption, form }: Props) => {
   };
 
   const handleSelectProduct = (product: IProductService) => {
-    console.log(product);
     onAddOption(product);
   };
 
@@ -77,15 +69,6 @@ export const OptionCardForm = ({ onAddOption, form }: Props) => {
           </Button>
         </Flexbox>
         <OptionsTable onSelect={handleSelectProduct} />
-        {/* <DataEditor
-          customRenderers={[ButtonTest]}
-          getCellContent={getData}
-          columns={columns}
-          rows={products.length}
-          // theme={{
-          //   roundingRadius: 300,
-          // }}
-        /> */}
       </Root>
       <FullDialog
         open={open}

@@ -235,15 +235,6 @@ export const pdfInvoiceTemplate = (invoice: IEstimateInput) => {
               <p class="table-cell-header">Quantité</p>
             </th>
             <th class="table-row">
-              <p class="table-cell-header">Prix HT (€)</p>
-            </th>
-            <th class="table-row">
-              <p class="table-cell-header">Taux TVA</p>
-            </th>
-            <th class="table-row">
-              <p class="table-cell-header">TVA (€)</p>
-            </th>
-            <th class="table-row">
               <p class="table-cell-header">Prix TTC (€)</p>
             </th>
           </tr>
@@ -255,14 +246,6 @@ export const pdfInvoiceTemplate = (invoice: IEstimateInput) => {
       <tfoot>
          <tr>
          <td class="table-footer" colspan="6">
-          <div class="price-footer">
-            <p style="font-weight: bolder; white-space: nowrap;">Total HT</p>
-            <p style="text-align:right">${invoice.ht.toLocaleString()}€</p>
-          </div>
-          <div class="price-footer">
-            <p style="font-weight: bolder; white-space: nowrap;">Total taxes</p>
-            <p style="text-align:right">${invoice.taxes}€</p>
-          </div>
           <div class="price-footer">
             <p style="font-weight: bolder; white-space: nowrap;">Total TTC</p>
             <p style="text-align:right">${invoice.amount.toLocaleString()}€</p>

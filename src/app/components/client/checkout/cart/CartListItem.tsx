@@ -53,6 +53,7 @@ const Description = styled.p`
   font-size: 14px;
   max-width: 80%;
   margin-bottom: 10px;
+  white-space: break-spaces;
   @media (max-width: 768px) {
     display: none;
   }
@@ -72,7 +73,7 @@ export default function CartListItem({ item, editable }: Props) {
     const { value } = event.currentTarget;
     const updatedItem: ICartItem = {
       ...item,
-      quantity: parseFloat(value),
+      quantity: parseFloat(value)
     };
     onEditCart(updatedItem);
   };
@@ -83,7 +84,7 @@ export default function CartListItem({ item, editable }: Props) {
   const handleDeleteSession = (sessionId: string) => {
     const updateItem: ICartItem = {
       ...item,
-      sessions: item.sessions?.filter((prev) => prev._id !== sessionId),
+      sessions: item.sessions?.filter((prev) => prev._id !== sessionId)
     };
     if (updateItem.sessions?.length === 0) {
       onDeleteItemFromCart(updateItem.id);
@@ -108,7 +109,7 @@ export default function CartListItem({ item, editable }: Props) {
           fill
           sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
           style={{
-            objectFit: 'cover',
+            objectFit: 'cover'
           }}
         />
       </ImageWrapper>
@@ -137,12 +138,12 @@ export default function CartListItem({ item, editable }: Props) {
             <Selectbox
               styling={{
                 root: {
-                  marginBottom: 0,
+                  marginBottom: 0
                 },
                 select: {
                   fontSize: '14px',
-                  padding: '5px',
-                },
+                  padding: '5px'
+                }
               }}
               label=''
               id={`${item.id}-quantity`}
@@ -155,7 +156,7 @@ export default function CartListItem({ item, editable }: Props) {
           {showDeleteButton ? (
             <IconButton
               style={{
-                backgroundColor: 'var(--cancel-color)',
+                backgroundColor: 'var(--cancel-color)'
               }}
               icon={faTrash}
               onClick={handleDeleteItem}
