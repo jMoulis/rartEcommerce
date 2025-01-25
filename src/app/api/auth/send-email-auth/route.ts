@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   };
   const token = generateToken();
 
-  const domain = process.env.NEXT_DOMAIN;
+  const domain = process.env.NEXT_PUBLIC_DOMAIN;
 
   try {
     await onAdminUpdateDocument({ token, verified: false }, ENUM_COLLECTIONS.PROFILES, userId);
