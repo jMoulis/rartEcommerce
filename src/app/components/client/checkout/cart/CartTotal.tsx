@@ -61,7 +61,7 @@ export default function CartTotal({ cart, Action, deliveryFees }: Props) {
   const t = useTranslations();
 
   const calculateTax = (price: number): number => {
-    const taxRate = 0.2; // 20% tax rate
+    const taxRate = 0; // 20% tax rate
     const taxAmount = price * taxRate;
     return taxAmount;
   };
@@ -84,7 +84,7 @@ export default function CartTotal({ cart, Action, deliveryFees }: Props) {
 
       <FeesWrapper flexDirection='column'>
         <Flexbox justifyContent='space-between'>
-          <span>{t('Cart.taxes')}</span>
+          <span>{`${t('Cart.noTaxes')}}`}</span>
           <Flexbox>
             <span>{calculateTax(cart.totalPrice)}</span>
             <Currency>{cart.currency?.symbol}</Currency>

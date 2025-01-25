@@ -284,14 +284,6 @@ export const InvoiceForm = ({ initialInvoice, estimate }: Props) => {
                 />
               </Flexbox>
               <Flexbox>
-                <Label>{t('Invoice.amount')} HT:</Label>
-                <span>{form?.ht}</span>
-              </Flexbox>
-              <Flexbox>
-                <Label>{t('Invoice.amount')} TVA:</Label>
-                <span>{form?.taxes}</span>
-              </Flexbox>
-              <Flexbox>
                 <Label>{t('Invoice.amount')} TTC:</Label>
                 <span>{form?.amount}</span>
               </Flexbox>

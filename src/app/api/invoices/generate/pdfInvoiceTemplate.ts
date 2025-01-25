@@ -18,11 +18,9 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
   const address = customerInformations?.address ?? null;
   const table = invoice.lineItems.map((item) => {
     const tvaTaux = 0;
-    const tauxTvaString = '0%';
     const priceHt = (item.quantity * item.unitPrice);
     const totalTva = Math.ceil(priceHt * tvaTaux);
     const total = (priceHt + totalTva).toLocaleString();
-    const priceFormatted = new Intl.NumberFormat('fr-FR', { style: 'decimal' }).format(item.unitPrice);
 
     return `
     <tr>
@@ -31,15 +29,6 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
       </td>
       <td class="table-row">
         <p class="table-cell">${item.quantity}</p>
-      </td>
-      <td class="table-row">
-        <p class="table-cell align-right">${priceFormatted}</p>
-      </td>
-      <td class="table-row">
-        <p class="table-cell align-right">${tauxTvaString}</p>
-      </td>
-      <td class="table-row">
-        <p class="table-cell align-right">${totalTva.toLocaleString()}</p>
       </td>
       <td class="table-row">
         <p class="table-cell align-right">${total}</p>
@@ -235,15 +224,6 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
               <p class="table-cell-header">Quantité</p>
             </th>
             <th class="table-row">
-              <p class="table-cell-header">Prix HT (€)</p>
-            </th>
-            <th class="table-row">
-              <p class="table-cell-header">Taux TVA</p>
-            </th>
-            <th class="table-row">
-              <p class="table-cell-header">TVA (€)</p>
-            </th>
-            <th class="table-row">
               <p class="table-cell-header">Prix TTC (€)</p>
             </th>
           </tr>
@@ -255,14 +235,6 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
       <tfoot>
          <tr>
          <td class="table-footer" colspan="6">
-          <div class="price-footer">
-            <p style="font-weight: bolder; white-space: nowrap;">Total HT</p>
-            <p style="text-align:right">${invoice.ht.toLocaleString()}€</p>
-          </div>
-          <div class="price-footer">
-            <p style="font-weight: bolder; white-space: nowrap;">Total taxes</p>
-            <p style="text-align:right">${invoice.taxes}€</p>
-          </div>
           <div class="price-footer">
             <p style="font-weight: bolder; white-space: nowrap;">Total TTC</p>
             <p style="text-align:right">${invoice.amount.toLocaleString()}€</p>
@@ -300,6 +272,9 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
           En cas de retard de paiement, des frais forfaitaires de recouvrement
           de 40€ seront appliqués.
         </p>` : ''}
+          <p class="x-small">
+            TVA non applicable Art. 293B CGI.
+          </p>
       </div>
     </main>
   </body>

@@ -59,7 +59,7 @@ export const AuthPage = ({
         />
       ) : (
         <FormsWrapper>
-          <SignIn onSuccess={handleOnSuccess} />\
+          <SignIn onSuccess={handleOnSuccess} />
           <OrSignWith />
           {variant === ENUM_AUTH_FORM_VARIANT.SIGNIN ? (
             <>

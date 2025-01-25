@@ -8,15 +8,21 @@ import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { adminDB } from '@/src/lib/firebase/firebaseAuth/firebase-admin';
 import { MailService } from '@/src/lib/mailService/MailService';
 import { IOrder } from '@/src/types/DBTypes';
+import { headers } from 'next/headers';
 
 export async function POST(req: Request) {
-  const host = req.headers.get('host');
-  let event: Stripe.Event;
+  const host = (await headers()).get('host');
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
   const payload = await req.text();
-  const signature = req.headers.get('stripe-signature');
+  const signature = (await headers()).get('stripe-signature');
+
+  let event: Stripe.Event;
+
   try {
-    event = stripe.webhooks.constructEvent(payload, signature!, endpointSecret);
+    if (!signature || !endpointSecret) {
+      throw new Error('Missing stripe-signature or endpointSecret');
+    }
+    event = stripe.webhooks.constructEvent(payload, signature, endpointSecret);
   } catch (err) {
     const errorMessage = err instanceof Error ? err.message : 'Unknown error';
     // On error, log and return the error message.

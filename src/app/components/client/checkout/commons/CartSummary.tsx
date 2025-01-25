@@ -22,7 +22,7 @@ interface Props {
   flexDirection?: 'row' | 'column';
 }
 
-const CartSummary = ({ editable, Action, flexDirection }: Props) => {
+const CartSummary = ({ Action }: Props) => {
   const { cart } = useCart();
   if (!cart) return null;
 
