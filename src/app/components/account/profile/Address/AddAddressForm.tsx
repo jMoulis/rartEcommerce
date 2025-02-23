@@ -174,7 +174,7 @@ export const AddAddressForm = ({
     if (!place) return;
     if (!place.geometry?.location) return;
 
-    const address = getAddressObject(place.address_components || []);
+    const address = getAddressObject(place.address_components ?? []);
     setForm((prev) => ({
       ...prev,
       ...address,
