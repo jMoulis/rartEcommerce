@@ -26,25 +26,13 @@ const Autocomplete = ({
   name,
   label,
   labelTip,
-  placeholder,
+  placeholder
 }: Props) => {
   const tokenRef = useRef<string>(`${process.env.NEXT_PUBLIC_MAPBOX}`);
 
   useEffect(() => {
     config.accessToken = tokenRef.current;
   }, []);
-
-  // const { formRef, showConfirm } = useConfirmAddress({
-  //   minimap: true,
-  //   options: {
-  //     language: locale,
-  //   },
-  //   skipConfirmModal: (feature) => {
-  //     return ['exact', 'high'].includes(
-  //       feature.properties.match_code.confidence
-  //     );
-  //   },
-  // });
 
   return (
     <AddressAutofillUntyped
@@ -59,7 +47,7 @@ const Autocomplete = ({
         autoComplete='address-line1'
         value={value}
         required={required}
-        onInputChange={onChange}
+        onChange={onChange}
         labelTip={labelTip}
       />
     </AddressAutofillUntyped>

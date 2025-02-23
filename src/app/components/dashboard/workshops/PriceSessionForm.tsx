@@ -24,7 +24,7 @@ export const PriceSessionForm = ({ form, onInputChange }: Props) => {
         type='number'
         name='price'
         label={t('commons.price')}
-        onInputChange={onInputChange}
+        onChange={onInputChange}
         value={form.price || ''}
       />
       <Selectbox
@@ -36,22 +36,22 @@ export const PriceSessionForm = ({ form, onInputChange }: Props) => {
         options={[
           {
             label: t('commons.select', {
-              type: 'select',
+              type: 'select'
             }),
-            value: '',
+            value: ''
           },
           {
             label: t('Booking.paymentPreferenceSelect', {
-              type: 'online',
+              type: 'online'
             }),
-            value: 'online',
+            value: 'online'
           },
           {
             label: t('Booking.paymentPreferenceSelect', {
-              type: 'person',
+              type: 'person'
             }),
-            value: 'person',
-          },
+            value: 'person'
+          }
         ]}
       />
     </Root>

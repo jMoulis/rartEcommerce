@@ -2,7 +2,7 @@ import { onErrorMessage, onSuccessMessage } from '@/src/app/contexts/shared/resp
 import { ENUM_COLLECTIONS } from '../enums';
 import { db } from '../firebase';
 import { adminDB, auth } from '../firebaseAuth/firebase-admin';
-import { doc, setDoc, collection as firestoreCollection, getDoc, getDocs, deleteDoc, QueryConstraint, where, query } from 'firebase/firestore';
+import { doc, setDoc, collection as firestoreCollection, getDoc, getDocs, deleteDoc, QueryConstraint, where, query, orderBy } from 'firebase/firestore';
 import { WhereFilterOp } from 'firebase-admin/firestore';
 import { IContactInformations, UserProfile } from '@/src/types/DBTypes';
 import { ENUM_ROLES } from '@/src/app/contexts/auth/enums';
@@ -84,10 +84,17 @@ export const onDeleteDocument = async (
     return onErrorMessage(error);
   }
 };
-export const findAll = async (collection: ENUM_COLLECTIONS) => {
+export const findAll = async (collection: ENUM_COLLECTIONS, ordered?: string[]) => {
   try {
     const productsRef = firestoreCollection(db, collection);
-    const querySnapshot = await getDocs(productsRef);
+    const queryConstraints: QueryConstraint[] = [];
+
+    if (ordered) {
+      queryConstraints.push(orderBy(ordered[0], ordered[1] as any));
+    }
+    const q = query(productsRef, ...queryConstraints);
+
+    const querySnapshot = await getDocs(q);
     const products = querySnapshot.docs.map(doc => ({
       ...doc.data(),
       _id: doc.id,

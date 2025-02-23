@@ -65,12 +65,12 @@ const InformationIndex = () => {
 
     onDirectMutation((prev) => ({
       ...prev,
-      address: useAddress,
+      address: useAddress
     }));
     addContactInformations({
       ...(form as any),
       address: useAddress,
-      shippingAddress: useAddress,
+      shippingAddress: useAddress
     });
 
     if (cart?.items.some((item) => item.type === 'product')) {
@@ -91,12 +91,12 @@ const InformationIndex = () => {
         : authProfile?.lastname ?? '',
       email: cart?.contactInformations.email
         ? cart?.contactInformations.email
-        : authProfile?.email ?? '',
+        : authProfile?.email ?? ''
     };
 
     onDirectMutation((prev) => ({
       ...prev,
-      ...getContactInformation,
+      ...getContactInformation
     }));
   }, [authProfile, cart?.contactInformations]);
 
@@ -112,12 +112,12 @@ const InformationIndex = () => {
             selectedAddress={form.address ?? null}
             onUpsertAddress={handleUpsertAddress}
             submitButton={{
-              title: t('Cart.confirm'),
+              title: t('Cart.confirm')
             }}>
             <Flexbox
               style={{
                 margin: '10px',
-                marginLeft: '0',
+                marginLeft: '0'
               }}
               alignItems='baseline'
               justifyContent='space-between'>
@@ -130,7 +130,7 @@ const InformationIndex = () => {
               name='email'
               type='email'
               value={form.email ?? ''}
-              onInputChange={onInputChange}
+              onChange={onInputChange}
               required
             />
             <Flexbox flexWrap='wrap'>
@@ -139,7 +139,7 @@ const InformationIndex = () => {
                 id='firstname'
                 name='firstname'
                 value={form.firstname ?? ''}
-                onInputChange={onInputChange}
+                onChange={onInputChange}
                 required
               />
               <InputGroup
@@ -147,7 +147,7 @@ const InformationIndex = () => {
                 id='lastname'
                 name='lastname'
                 value={form.lastname ?? ''}
-                onInputChange={onInputChange}
+                onChange={onInputChange}
                 required
               />
             </Flexbox>

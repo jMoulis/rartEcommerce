@@ -243,7 +243,7 @@ export const RepetitionForm = ({
                     height: '38px'
                   }
                 }}
-                onInputChange={handleInputChange}
+                onChange={handleInputChange}
               />
             </Flexbox>
             <Flexbox

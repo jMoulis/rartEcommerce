@@ -161,7 +161,7 @@ export const Section = ({
                     options: [],
                     editable: true,
                     refIds: element.refIds ?? [],
-                    onInputChange: (event: CustomChangeEvent) =>
+                    onChange: (event: CustomChangeEvent) =>
                       handlePropertyChange(event, property.id),
                     value: element.value ?? ''
                   })}

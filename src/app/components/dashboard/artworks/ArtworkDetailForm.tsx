@@ -23,15 +23,15 @@ export const ArtworkDetailForm = ({ form, onInputChange }: Props) => {
       styling={{
         root: {
           flex: '1',
-          marginRight: '10px',
-        },
+          marginRight: '10px'
+        }
       }}>
       <Flexbox flexDirection='column' flex='1'>
         <InputGroup
           name='name'
           id='name'
           value={form.name}
-          onInputChange={onInputChange}
+          onChange={onInputChange}
           label={t('Artwork.name')}
         />
         <TextareaGroup

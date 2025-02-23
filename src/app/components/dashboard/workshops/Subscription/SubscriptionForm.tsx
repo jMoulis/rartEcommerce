@@ -10,7 +10,7 @@ import { Selectbox } from '../../../commons/form/Selectbox';
 import { SubmitButton } from '../../products/CreateForm/SubmitButton';
 import {
   onCreateDocument,
-  onUpdateDocument,
+  onUpdateDocument
 } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { ImageLoader } from '../../products/CreateForm/ImageLoader/ImageLoader';
@@ -33,17 +33,17 @@ const createPrice = async ({
   price,
   interval,
   metadata,
-  productData,
+  productData
 }: PriceProps): Promise<string | null> => {
   try {
     const payload = await stripe.prices.create({
       currency: DEFAULT_CURRENCY.code,
       unit_amount: price,
       recurring: {
-        interval,
+        interval
       },
       metadata,
-      product_data: productData,
+      product_data: productData
     });
     return payload.id;
   } catch (error) {
@@ -64,7 +64,7 @@ export const SubscriptionForm = ({
   open,
   onClose,
   editedSubscription,
-  workshop,
+  workshop
 }: Props) => {
   const { onInputChange, form, onClearForm, onDirectMutation, onInitForm } =
     useForm<ISubscription>();
@@ -84,7 +84,7 @@ export const SubscriptionForm = ({
     > = {
       monthly: 'month',
       weekly: 'week',
-      annualy: 'year',
+      annualy: 'year'
     };
     const priceId = await createPrice({
       currency: DEFAULT_CURRENCY.code,
@@ -93,12 +93,12 @@ export const SubscriptionForm = ({
       interval: intervalMap[form.paymentPeriod],
 
       metadata: {
-        description: workshop.description ?? '',
+        description: workshop.description ?? ''
       },
       productData: {
         id: workshop._id,
-        name: workshop.name,
-      },
+        name: workshop.name
+      }
     });
     form.priceId = priceId;
     if (editedSubscription?._id) {
@@ -124,7 +124,7 @@ export const SubscriptionForm = ({
     const lastImage = images[images.length - 1];
     onDirectMutation((prev) => ({
       ...prev,
-      image: lastImage,
+      image: lastImage
     }));
   }, []);
 
@@ -136,12 +136,12 @@ export const SubscriptionForm = ({
         dialog={{
           fullWidth: true,
           maxWidth: 'md',
-          keepMounted: false,
+          keepMounted: false
         }}
         header={{
           title: editedSubscription
             ? t('Subscription.newSubscription')
-            : t('Subscription.editSubscription'),
+            : t('Subscription.editSubscription')
         }}>
         <Article headerTitle={t('Subscription.subscriptionDetail')}>
           <Flexbox>
@@ -149,20 +149,20 @@ export const SubscriptionForm = ({
               flexDirection='column'
               flex='1'
               style={{
-                marginRight: '10px',
+                marginRight: '10px'
               }}>
               <InputGroup
                 label={t('commons.name')}
                 id='name'
                 name='name'
-                onInputChange={onInputChange}
+                onChange={onInputChange}
                 value={form.name || ''}
               />
               <InputGroup
                 label={t('commons.description')}
                 id='description'
                 name='description'
-                onInputChange={onInputChange}
+                onChange={onInputChange}
                 value={form.description || ''}
               />
             </Flexbox>
@@ -179,7 +179,7 @@ export const SubscriptionForm = ({
             label={t('commons.price')}
             id='price'
             name='price'
-            onInputChange={onInputChange}
+            onChange={onInputChange}
             value={form.price || ''}
           />
           <Selectbox
@@ -191,26 +191,26 @@ export const SubscriptionForm = ({
             options={[
               {
                 label: t('commons.select'),
-                value: '',
+                value: ''
               },
               {
                 label: t('Subscription.paymentPeriod', {
-                  paymentPeriod: 'weekly',
+                  paymentPeriod: 'weekly'
                 }),
-                value: 'weekly',
+                value: 'weekly'
               },
               {
                 label: t('Subscription.paymentPeriod', {
-                  paymentPeriod: 'monthly',
+                  paymentPeriod: 'monthly'
                 }),
-                value: 'monthly',
+                value: 'monthly'
               },
               {
                 label: t('Subscription.paymentPeriod', {
-                  paymentPeriod: 'annualy',
+                  paymentPeriod: 'annualy'
                 }),
-                value: 'annualy',
-              },
+                value: 'annualy'
+              }
             ]}
           />
         </Article>

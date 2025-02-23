@@ -15,4 +15,5 @@ export enum ENUM_COLLECTIONS {
   TESTIMONIALS = 'testimonials',
   ARTWORKS = 'artworks',
   ESTIMATES = 'estimates',
+  VENDORS = 'vendors',
 }

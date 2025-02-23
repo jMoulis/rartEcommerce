@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 'use client';
 
 import { IAddress } from '@/src/types/DBTypes';
@@ -6,7 +7,7 @@ import React, {
   FormEvent,
   useEffect,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { InputGroup } from '../../../commons/form/InputGroup';
 import { v4 } from 'uuid';
@@ -18,7 +19,53 @@ import { Button } from '../../../commons/Buttons/Button';
 import { Flexbox } from '../../../commons/Flexbox';
 import { CancelButton } from '../../../commons/Buttons/CancelButton';
 import { useTranslations } from 'next-intl';
-import dynamic from 'next/dynamic';
+import { APIProvider } from '@vis.gl/react-google-maps';
+import PlaceAutocomplete from './Autocomplete copy';
+
+function getAddressObject(
+  address_components: google.maps.GeocoderAddressComponent[]
+) {
+  const ShouldBeComponent = {
+    address: ['street_address', 'route'],
+    streetNumber: ['street_number'],
+    route: ['route'],
+    locality: [
+      'locality',
+      'sublocality',
+      'sublocality_level_1',
+      'sublocality_level_2',
+      'sublocality_level_3',
+      'sublocality_level_4'
+    ],
+    country: ['country'],
+    postalCode: ['postal_code'],
+    countryCode: ['country']
+  } as any;
+
+  const address: IAddress = {
+    name: '',
+    type: 'shipping',
+    address: '',
+    streetNumber: '',
+    route: '',
+    locality: '',
+    country: '',
+    countryCode: '',
+    postalCode: ''
+  };
+  address_components.forEach((component) => {
+    for (const shouldBe in ShouldBeComponent) {
+      if (ShouldBeComponent[shouldBe].indexOf(component.types[0]) !== -1) {
+        if (shouldBe === 'countryCode') {
+          (address as any)[shouldBe] = component.short_name;
+        } else {
+          (address as any)[shouldBe] = component.long_name;
+        }
+      }
+    }
+  });
+  return address;
+}
 
 const Form = styled.form`
   background-color: #fff;
@@ -37,12 +84,12 @@ const defaultAddress = {
   country: '',
   postalCode: '',
   default: false,
-  type: 'shipping' as any,
+  type: 'shipping' as any
 };
 
-const Autocomplete = dynamic(async () => import('./Autocomplete'), {
-  ssr: false,
-});
+// const Autocomplete = dynamic(async () => import('./Autocomplete'), {
+//   ssr: false
+// });
 
 interface Props {
   onUpsertAddress: (address: IAddress, edit?: boolean) => void;
@@ -74,7 +121,7 @@ export const AddAddressForm = ({
   cancelButton,
   submitButton,
   deleteButton,
-  children,
+  children
 }: Props) => {
   const t = useTranslations();
   const actions = useRef([
@@ -83,8 +130,8 @@ export const AddAddressForm = ({
       callback: async () => {
         if (!selectedAddress?._id) return;
         onDeleteAddress?.(selectedAddress._id);
-      },
-    },
+      }
+    }
   ]);
   const [form, setForm] = useState<IAddress>(defaultAddress);
 
@@ -100,14 +147,14 @@ export const AddAddressForm = ({
     const { name, value } = event.currentTarget;
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
   const handleCheckDefault = (event: ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.currentTarget;
     setForm((prev) => ({
       ...prev,
-      default: checked,
+      default: checked
     }));
   };
 
@@ -121,17 +168,34 @@ export const AddAddressForm = ({
     }
   };
 
-  const handleSelectAddress = (res: any) => {
-    const feature = res.features[0];
+  const handleSelectAddress = (
+    place: google.maps.places.PlaceResult | null
+  ) => {
+    if (!place) return;
+    if (!place.geometry?.location) return;
+
+    const address = getAddressObject(place.address_components || []);
     setForm((prev) => ({
       ...prev,
-      route: feature.properties.street,
-      locality: feature.properties.address_level2,
-      country: feature.properties.country,
-      countryCode: feature.properties.country_code,
-      postalCode: feature.properties.postcode,
-      streetNumber: feature.properties.address_number,
+      ...address,
+      lat: place.geometry?.location?.lat(),
+      lng: place.geometry?.location?.lng()
     }));
+    // setSelectedPlace({
+    //   lat: place.geometry.location.lat(),
+    //   lng: place.geometry.location.lng()
+    // });
+
+    // setAddress({
+    //   uid: v4(),
+    //   ...address,
+    //   lat: place.geometry?.location?.lat(),
+    //   lng: place.geometry?.location?.lng(),
+    //   street: `${number?.long_name} ${street?.long_name}`,
+    //   city: city?.long_name,
+    //   zipCode: zipCode?.long_name,
+    //   country: country?.long_name
+    // });
   };
 
   return (
@@ -153,7 +217,7 @@ export const AddAddressForm = ({
           id='name'
           name='name'
           value={form.name || ''}
-          onInputChange={handleInputChange}
+          onChange={handleInputChange}
         />
       )}
       {noType ? null : (
@@ -166,32 +230,42 @@ export const AddAddressForm = ({
           options={[
             {
               label: t('AddressForm.type', { type: 'shipping' }),
-              value: 'shipping',
+              value: 'shipping'
             },
             {
               label: t('AddressForm.type', { type: 'billing' }),
-              value: 'billing',
-            },
+              value: 'billing'
+            }
           ]}
         />
       )}
-      <Autocomplete
-        placeholder={`${t('AddressForm.autofillAddress')}`}
+      <APIProvider apiKey='AIzaSyA2RjeKneC6aHDkx2t3Rf_16rEbzyb2LVw'>
+        <PlaceAutocomplete
+          // placeholder={`${t('AddressForm.autofillAddress')}`}
+          // value={form.address ?? ''}
+          // onChange={handleInputChange}
+          onPlaceSelect={handleSelectAddress}
+          // required
+          // name='address'
+          // id='address'
+          // labelTip={`(${t('AddressForm.streetNumberStreet')})`}
+          // label={t('AddressForm.address')}
+        />
+      </APIProvider>
+      <InputGroup
+        label={t('AddressForm.address')}
+        id='address'
+        name='address'
         value={form.address ?? ''}
         onChange={handleInputChange}
-        onSelectAddress={handleSelectAddress}
-        required
-        name='address'
-        id='address'
-        labelTip={`(${t('AddressForm.streetNumberStreet')})`}
-        label={t('AddressForm.address')}
+        placeholder={t('AddressForm.streetNumberStreet')}
       />
       <InputGroup
         label={t('AddressForm.additional')}
         id='additional'
         name='additional'
         value={form.additional ?? ''}
-        onInputChange={handleInputChange}
+        onChange={handleInputChange}
         placeholder={t('AddressForm.additionalPlaceholder')}
       />
       <InputGroup
@@ -199,15 +273,15 @@ export const AddAddressForm = ({
           root: {
             visibility: 'hidden',
             margin: 0,
-            height: 0,
-          },
+            height: 0
+          }
         }}
         type='hidden'
         label={t('AddressForm.streetNumber')}
         id='streetNumber'
         name='streetNumber'
         value={form.streetNumber || ''}
-        onInputChange={handleInputChange}
+        onChange={handleInputChange}
         autoComplete='address-number'
         required
       />
@@ -216,7 +290,7 @@ export const AddAddressForm = ({
         id='postalCode'
         name='postalCode'
         value={form.postalCode || ''}
-        onInputChange={handleInputChange}
+        onChange={handleInputChange}
         autoComplete='postal-code'
         required
       />
@@ -225,7 +299,7 @@ export const AddAddressForm = ({
         id='locality'
         name='locality'
         value={form.locality || ''}
-        onInputChange={handleInputChange}
+        onChange={handleInputChange}
         autoComplete='address-level2'
         required
       />
@@ -234,7 +308,7 @@ export const AddAddressForm = ({
         id='country'
         name='country'
         value={form.country || ''}
-        onInputChange={handleInputChange}
+        onChange={handleInputChange}
         autoComplete='country-name'
         required
       />

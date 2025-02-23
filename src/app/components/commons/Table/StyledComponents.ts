@@ -7,7 +7,7 @@ export const TableContainer = styled.div`
   margin: 10px;
   overflow: auto;
   background-color: #fff;
-  max-height: 70vh;
+  max-height: 50vh;
   flex: 1;
 `;
 

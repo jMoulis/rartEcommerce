@@ -244,7 +244,7 @@ export const InvoiceForm = ({ initialInvoice, estimate }: Props) => {
                 id='createdAt'
                 name='createdAt'
                 label={t('commons.createdAt')}
-                onInputChange={onInputChange}
+                onChange={onInputChange}
                 value={
                   form.createdAt
                     ? format(new Date(form.createdAt), 'yyyy-MM-dd')
@@ -256,7 +256,7 @@ export const InvoiceForm = ({ initialInvoice, estimate }: Props) => {
                 id='issueDate'
                 name='issueDate'
                 label={t('Invoice.issueDate')}
-                onInputChange={onInputChange}
+                onChange={onInputChange}
                 value={
                   form.issueDate
                     ? format(new Date(form.issueDate), 'yyyy-MM-dd')

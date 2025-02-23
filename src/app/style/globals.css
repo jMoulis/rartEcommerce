@@ -149,8 +149,7 @@ h4,
 h5,
 h6,
 p,
-textarea,
-span {
+textarea {
   display: block;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
@@ -249,4 +248,8 @@ select:hover {
 
 .page-title {
   font-size: 40px;
+}
+
+.pac-container {
+  z-index: calc(infinity);
 }
