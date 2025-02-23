@@ -14,7 +14,7 @@ interface Props {
 export const PriceCard = ({
   form,
   onInputChange,
-  onStockStatusChange,
+  onStockStatusChange
 }: Props) => {
   const t = useTranslations();
   return (
@@ -23,23 +23,23 @@ export const PriceCard = ({
       styling={{
         root: {
           marginRight: '10px',
-          height: 'auto',
+          height: 'auto'
         },
         body: {
-          flexWrap: 'wrap',
-        },
+          flexWrap: 'wrap'
+        }
       }}>
       <InputGroup
         label={t('ProductForm.price')}
         type='number'
         id='price'
         name='price'
-        onInputChange={onInputChange}
+        onChange={onInputChange}
         value={form.price}
         styling={{
           root: {
-            marginRight: '10px',
-          },
+            marginRight: '10px'
+          }
         }}
       />
       {form.withStock ? (
@@ -48,7 +48,7 @@ export const PriceCard = ({
           type='number'
           id='stockQuantity'
           name='stockQuantity'
-          onInputChange={onInputChange}
+          onChange={onInputChange}
           value={form.stockQuantity}
         />
       ) : null}

@@ -182,7 +182,7 @@ function CheckoutForm(): JSX.Element | null {
             id='cardholderName'
             name='cardholderName'
             label={t('Cart.cardholderName')}
-            onInputChange={handleInputChange}
+            onChange={handleInputChange}
             value={input}
             required
           />

@@ -9,7 +9,7 @@ import { onSigninAction } from '../actions';
 import { useAuthSelector } from './useAuthSelector';
 import { useFirestoreProfile } from './useFirestoreProfile';
 
-export const useUserSession: any = () => {
+export const useUserSession: () => { user: User | null, profile: UserProfile | null } = () => {
   const [user, setUser] = useState<User | null>(null);
   const authDispatch = useAuthDispatch();
   const profile: UserProfile = useAuthSelector((state) => state.profile);
@@ -17,32 +17,38 @@ export const useUserSession: any = () => {
 
   const { onAuthStateChanged } = useAuth();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged((authUser: User | null) => {
-      setUser(authUser);
-    });
-    return () => { unsubscribe(); };
-  }, []);
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged((authUser: User | null) => {
+  //     setUser(authUser);
+  //   });
+  //   return () => { unsubscribe(); };
+  // }, []);
+
+  // useEffect(() => {
+  //   let unsubscribe: Unsubscribe;
+  //   if (user) {
+  //     getAuthProfile(user.uid, (p) => authDispatch(onSigninAction(p))).then((unsub) => {
+  //       unsubscribe = unsub;
+  //     });
+  //   }
+  //   return () => {
+  //     if (unsubscribe) {
+  //       unsubscribe();
+  //     }
+  //   };
+  // }, [user]);
 
   useEffect(() => {
     let unsubscribe: Unsubscribe;
-    if (user) {
-      getAuthProfile(user.uid, (p) => authDispatch(onSigninAction(p))).then((unsub) => {
-        unsubscribe = unsub;
-      });
-    }
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-    };
-  }, [user]);
-  useEffect(() => {
     onAuthStateChanged((authUser: User | null) => {
       if (authUser) {
-        getAuthProfile(authUser.uid, (p) => authDispatch(onSigninAction(p)));
+        setUser(authUser);
+        getAuthProfile(authUser.uid, (p) => authDispatch(onSigninAction(p))).then((unsub) => {
+          unsubscribe = unsub;
+        });
       }
       if (user === undefined) {
+        setUser(null);
         authDispatch(onSigninAction(null));
         return;
       }
@@ -50,6 +56,11 @@ export const useUserSession: any = () => {
         authDispatch(onSigninAction(null));
       }
     });
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [user]);
 
   return { user, profile };

@@ -136,6 +136,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         price: incomingItem.price,
         quantity: 1,
         imageUrl,
+        delivery: incomingItem.delivery,
         currency: incomingItem.currency || DEFAULT_CURRENCY,
         description: incomingItem.description,
         type: item.type,
@@ -180,7 +181,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       prev
         ? {
             ...prev,
-            deliveryCost: cost
+            deliveryCost: cost,
+            totalPrice: prev.totalPrice
           }
         : null
     );

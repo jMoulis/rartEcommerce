@@ -28,7 +28,7 @@ export const ProductSection = ({
   preview,
   onSelectOption,
   selectedProductOptions,
-  titleColor = 'var(--primary-color)',
+  titleColor = 'var(--primary-color)'
 }: Props) => {
   const handlePropertyChange = useCallback(
     (event: CustomChangeEvent, propertyId: string) => {},
@@ -64,9 +64,9 @@ export const ProductSection = ({
                   onChangeSelectbox: (event: CustomChangeEvent) =>
                     !preview ? handlePropertyChange(event, property.id) : {},
                   options: [],
-                  onInputChange: (event: CustomChangeEvent) =>
+                  onChange: (event: CustomChangeEvent) =>
                     !preview ? handlePropertyChange(event, property.id) : {},
-                  value: element.value ?? '',
+                  value: element.value ?? ''
                 })}
               </Fragment>
             );

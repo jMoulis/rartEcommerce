@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useCart } from '@/src/app/contexts/cart/CartContext';
 import { ENUM_ROUTES } from '../../../navbar/routes.enums';
@@ -13,35 +13,50 @@ import { Flexbox } from '../../../commons/Flexbox';
 import { IAddress } from '@/src/types/DBTypes';
 import { ShippingInformation } from '../commons/ShippingInformation';
 import { CheckoutHeader } from '../CheckoutHeader';
+import DeliverySelector from './DeliverySelector';
 
 export const Delivery = () => {
   const { cart, addContactInformations } = useCart();
   const [isSame, setIsIsSame] = React.useState(true);
+  const [hiddenAddressForm, setHiddenAddressForm] = React.useState(false);
 
   const handleUpsertAddress = async (address: IAddress) => {
     if (!cart?.contactInformations.address) return;
     addContactInformations({
       ...(cart.contactInformations as any),
-      shippingAddress: address,
+      shippingAddress: address
     });
+    setHiddenAddressForm(true);
   };
 
   const handleSelectSame = (event: ChangeEvent<HTMLInputElement>) => {
     setIsIsSame(event?.currentTarget.checked);
+    if (!event?.currentTarget.checked) {
+      setHiddenAddressForm(false);
+    }
     if (cart) {
       if (event?.currentTarget.checked) {
         addContactInformations({
           ...(cart.contactInformations as any),
-          shippingAddress: cart.contactInformations.address,
+          shippingAddress: cart.contactInformations.address
         });
       } else {
-        addContactInformations({
-          ...(cart.contactInformations as any),
-          shippingAddress: null,
-        });
+        // addContactInformations({
+        //   ...(cart.contactInformations as any),
+        //   shippingAddress: null
+        // });
       }
     }
   };
+  useEffect(() => {
+    if (isSame && cart?.contactInformations.address) {
+      addContactInformations({
+        ...(cart.contactInformations as any),
+        shippingAddress: cart.contactInformations.address
+      });
+    }
+  }, [cart?.contactInformations?.address, isSame]);
+
   const t = useTranslations();
 
   if (!cart) return null;
@@ -58,19 +73,23 @@ export const Delivery = () => {
             value={isSame}
             label={t('Cart.sameAsBilling')}
           />
-          <ShippingInformation />
-          {!isSame ? (
+          <ShippingInformation
+            onEditAddress={() => setHiddenAddressForm(false)}
+          />
+          {!isSame && !hiddenAddressForm ? (
             <AddAddressForm
               noDefault
               noLabel
               noType
-              selectedAddress={null}
+              selectedAddress={cart.contactInformations.shippingAddress ?? null}
               onUpsertAddress={handleUpsertAddress}
               submitButton={{
-                title: t('Cart.confirm'),
+                title: t('Cart.confirm')
               }}
+              onCancel={() => setHiddenAddressForm(true)}
             />
           ) : null}
+          <DeliverySelector />
         </Flexbox>
         <CartSummary
           editable={false}
@@ -80,7 +99,7 @@ export const Delivery = () => {
                 padding: '10px 20px',
                 margin: 0,
                 flex: 1,
-                justifyContent: 'center',
+                justifyContent: 'center'
               }}
               active={false}
               color='#fff'
@@ -88,7 +107,7 @@ export const Delivery = () => {
               hoverBackgroundColor='var(--primary-accent)'
               route={{
                 label: t('Cart.validateShipping'),
-                href: ENUM_ROUTES.CHECKOUT_PAYMENT,
+                href: ENUM_ROUTES.CHECKOUT_PAYMENT
               }}
             />
           }

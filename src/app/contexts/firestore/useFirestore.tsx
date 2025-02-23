@@ -12,7 +12,8 @@ import {
   getDoc,
   QueryConstraint,
   where,
-  FirestoreError
+  FirestoreError,
+  orderBy
 } from 'firebase/firestore';
 import { ENUM_COLLECTIONS } from '../../../lib/firebase/enums';
 import { onErrorMessage, onSuccessMessage } from '../shared/response';
@@ -21,7 +22,8 @@ export const onFindAllRealtime = (
   collectionName: ENUM_COLLECTIONS,
   onResult: (data: any[]) => void,
   onError: (error: Error) => void,
-  queryObject = {}
+  queryObject = {},
+  orderByField: string[] = []
 ) => {
   const productsRef = firestoreCollection(db, collectionName);
   const queryConstraints: QueryConstraint[] = [];
@@ -32,6 +34,9 @@ export const onFindAllRealtime = (
     }
   }
 
+  if (orderByField.length) {
+    queryConstraints.push(orderBy(orderByField[0], orderByField[1] as any));
+  }
   return onSnapshot(
     query(productsRef, ...queryConstraints),
     (querySnapshot) => {

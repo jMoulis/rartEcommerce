@@ -3,12 +3,11 @@
 import { Page } from '@/src/app/components/client/commons/layout/Page';
 import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
-import { ICategory, IWorkshop } from '@/src/types/DBTypes';
+import { IWorkshop } from '@/src/types/DBTypes';
 import { useEffect } from 'react';
 import { Flexbox } from '../../commons/Flexbox';
 import { Card } from '../home/Card';
 import { Section } from '../commons/layout/Section';
-
 import { toast } from 'react-toastify';
 import { useTranslations } from 'next-intl';
 import { ButtonLink } from '../checkout/commons/ButtonLink';
@@ -16,23 +15,18 @@ import { ENUM_ROUTES } from '../../navbar/routes.enums';
 import { Grid } from '../home/Grid';
 import SectionHeader from '../home/SectionHeader';
 import WrapperSection from '../commons/layout/WrapperSection';
-import Categories from '../commons/Categories/Categories';
 import { useCategories } from '../commons/Categories/useCategories';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-light-svg-icons';
 
 interface Props {
   initialWorkshops: IWorkshop[];
-  initialCategories: ICategory[];
 }
 
-export default function Workshops({
-  initialWorkshops,
-  initialCategories
-}: Props) {
-  const { onSelectCategory, onUpdateData, filteredData, selectedCategories } =
-    useCategories(initialWorkshops);
+export default function Workshops({ initialWorkshops }: Props) {
+  const { onUpdateData, filteredData } = useCategories(initialWorkshops);
   const t = useTranslations();
+
   useEffect(() => {
     const unsubscribe = onFindAllRealtime(
       ENUM_COLLECTIONS.WORKSHOPS,
@@ -62,18 +56,7 @@ export default function Workshops({
         description="Découvrez l’univers merveilleux de l'artisanat créatif avec RartCreation!"
       />
       <WrapperSection>
-        <Section
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-          <Categories
-            categories={initialCategories}
-            onSelectCategory={onSelectCategory}
-            selectedCategories={selectedCategories}
-          />
-        </Section>
-        <Section>
+        <Section style={{ paddingTop: '50px' }}>
           <Grid>
             {filteredData.map((workshop, imageIndex) => (
               <Card

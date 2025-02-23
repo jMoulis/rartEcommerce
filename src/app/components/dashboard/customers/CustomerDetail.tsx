@@ -54,8 +54,12 @@ interface Props {
 }
 
 const CustomerDetail = ({ initialCustomer }: Props) => {
-  const { form, onInitForm, onInputChange, onDirectMutation } =
-    useForm<ICustomer>(initialCustomer ?? ({} as any));
+  const {
+    form,
+    onInitForm,
+    onInputChange: onChange,
+    onDirectMutation
+  } = useForm<ICustomer>(initialCustomer ?? ({} as any));
   const t = useTranslations();
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -264,7 +268,7 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
         form={form}
         saving={saving}
         onDelete={handleDelete}
-        onNameChange={onInputChange}
+        onNameChange={onChange}
         onAddSection={handleAddSection}
         headerTitle='Title'
         InputHeader={
@@ -283,35 +287,35 @@ const CustomerDetail = ({ initialCustomer }: Props) => {
           }}>
           <Article headerTitle={t('Customer.identity')}>
             <InputGroup
-              onInputChange={onInputChange}
+              onChange={onChange}
               label={t('commons.companyName')}
               name='companyName'
               id='companyName'
               value={form.companyName ?? ''}
             />
             <InputGroup
-              onInputChange={onInputChange}
+              onChange={onChange}
               label={t('commons.firstname')}
               name='firstname'
               id='firstname'
               value={form.firstname ?? ''}
             />
             <InputGroup
-              onInputChange={onInputChange}
+              onChange={onChange}
               label={t('commons.name')}
               name='lastname'
               id='lastname'
               value={form.lastname ?? ''}
             />
             <InputGroup
-              onInputChange={onInputChange}
+              onChange={onChange}
               label={t('commons.email')}
               name='email'
               id='email'
               value={form.email ?? ''}
             />
             <InputGroup
-              onInputChange={onInputChange}
+              onChange={onChange}
               label={t('commons.mobile')}
               name='mobile'
               id='mobile'

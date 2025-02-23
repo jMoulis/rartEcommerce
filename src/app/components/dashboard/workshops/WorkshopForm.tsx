@@ -15,7 +15,7 @@ import { Subscriptions } from './Subscription/Subscriptions';
 import {
   onUpdateDocument,
   onCreateDocument,
-  onDeleteDocument,
+  onDeleteDocument
 } from '@/src/app/contexts/firestore/useFirestore';
 import { useRouter } from 'next/navigation';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
@@ -27,7 +27,7 @@ import { IImageType } from '../products/CreateForm/ImageLoader/types';
 import { Session } from './Session/Session';
 import {
   defaultSection,
-  generateDefaultBooking,
+  generateDefaultBooking
 } from '../products/CreateForm/defaultData';
 import { ENUM_DASHBOARD_MENU_ROUTES } from '../routes';
 import { toast } from 'react-toastify';
@@ -50,22 +50,22 @@ interface Props {
 const paymentTypeChoices = (t: any) => [
   {
     label: t('commons.select', {
-      type: 'select',
+      type: 'select'
     }),
-    value: '',
+    value: ''
   },
   {
     label: t('Booking.paymentType', {
-      type: 'session',
+      type: 'session'
     }),
-    value: 'session',
+    value: 'session'
   },
   {
     label: t('Booking.paymentType', {
-      type: 'subscription',
+      type: 'subscription'
     }),
-    value: 'subscription',
-  },
+    value: 'subscription'
+  }
 ];
 export const WorkshopForm = ({ prevWorkshop }: Props) => {
   const { form, onInitForm, onInputChange, onDirectMutation } =
@@ -118,7 +118,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
   const handleSubscription = (subscriptionId: string) => {
     onDirectMutation((prev) => ({
       ...prev,
-      subscriptionId,
+      subscriptionId
     }));
   };
   const handleDelete = async (bookingId?: string) => {
@@ -133,20 +133,20 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
   const handleSelectCategory = (categoryId: string) => {
     onDirectMutation((prev) => ({
       ...prev,
-      categories: [categoryId],
+      categories: [categoryId]
     }));
   };
   const handleDeleteCategory = useCallback(() => {
     onDirectMutation((prev) => ({
       ...prev,
-      categories: [],
+      categories: []
     }));
   }, []);
   const handleSelectImage = useCallback((images: IImageType[]) => {
     const lastImage = images[images.length - 1];
     onDirectMutation((prev) => ({
       ...prev,
-      image: lastImage,
+      image: lastImage
     }));
   }, []);
   const handleUpsertSession = useCallback(
@@ -158,14 +158,14 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
         if (!previous) {
           return {
             ...prev,
-            sessions: [...prev.sessions, session],
+            sessions: [...prev.sessions, session]
           };
         }
         return {
           ...prev,
           sessions: prev.sessions.map((prevSession) =>
             prevSession._id === session._id ? session : prevSession
-          ),
+          )
         };
       });
     },
@@ -179,7 +179,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       );
       return {
         ...prev,
-        sessions: updatedSessions,
+        sessions: updatedSessions
       };
     });
   }, []);
@@ -191,7 +191,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
 
       onDirectMutation((prev) => ({
         ...prev,
-        published: checked,
+        published: checked
       }));
     },
     [form]
@@ -218,7 +218,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       ) as ISection[];
       return {
         ...prev,
-        sections: updatedSections,
+        sections: updatedSections
       };
     });
   };
@@ -230,12 +230,12 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       if (index > 0) {
         [updatedSections[index], updatedSections[index - 1]] = [
           updatedSections[index - 1],
-          updatedSections[index],
+          updatedSections[index]
         ];
       }
       onDirectMutation((prev) => ({
         ...prev,
-        sections: updatedSections,
+        sections: updatedSections
       }));
     },
     [form.sections]
@@ -247,12 +247,12 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       if (index < updatedSections.length - 1) {
         [updatedSections[index], updatedSections[index + 1]] = [
           updatedSections[index + 1],
-          updatedSections[index],
+          updatedSections[index]
         ];
       }
       onDirectMutation((prev) => ({
         ...prev,
-        sections: updatedSections,
+        sections: updatedSections
       }));
     },
     [form.sections]
@@ -262,7 +262,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       onDirectMutation((prevForm) => {
         const sectionsClone = prevForm.sections.map((section) => ({
           ...section,
-          properties: [...section.properties], // Deep clone properties
+          properties: [...section.properties] // Deep clone properties
         }));
 
         const currentSection = sectionsClone.find(
@@ -278,10 +278,10 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
         // Swap elements
         [
           currentSection.properties[propertyIndex],
-          currentSection.properties[propertyIndex - 1],
+          currentSection.properties[propertyIndex - 1]
         ] = [
           currentSection.properties[propertyIndex - 1],
-          currentSection.properties[propertyIndex],
+          currentSection.properties[propertyIndex]
         ];
 
         return { ...prevForm, sections: sectionsClone };
@@ -296,7 +296,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
       sections: sortArrayByKey(
         [...(prev.sections ?? []), newSection],
         'archived'
-      ) as ISection[],
+      ) as ISection[]
     }));
   };
   const handleMovePropertyDown = useCallback(
@@ -305,7 +305,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
         // Deep cloning the sections array and the properties within each section
         const sectionsClone = prevForm.sections.map((section) => ({
           ...section,
-          properties: [...section.properties],
+          properties: [...section.properties]
         }));
 
         // Finding the section that contains the property to be moved
@@ -330,10 +330,10 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
         // Swapping the property with the one below it
         [
           currentSection.properties[propertyIndex],
-          currentSection.properties[propertyIndex + 1],
+          currentSection.properties[propertyIndex + 1]
         ] = [
           currentSection.properties[propertyIndex + 1],
-          currentSection.properties[propertyIndex],
+          currentSection.properties[propertyIndex]
         ];
 
         // Returning the new state with the updated sections
@@ -363,7 +363,7 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
           flexDirection='column'
           flex='1'
           style={{
-            marginRight: '10px',
+            marginRight: '10px'
           }}>
           <ImageLoader
             onSubmitImages={handleSelectImage}
@@ -373,14 +373,14 @@ export const WorkshopForm = ({ prevWorkshop }: Props) => {
           <Article headerTitle={t('Booking.serviceDetailTitle')}>
             <ContentDetailLayout>
               <InputGroup
-                onInputChange={onInputChange}
+                onChange={onInputChange}
                 label={t('commons.name')}
                 name='name'
                 id='name'
                 value={form.name || ''}
               />
               <InputGroup
-                onInputChange={onInputChange}
+                onChange={onInputChange}
                 label={t('Booking.excerpt')}
                 name='excerpt'
                 id='excerpt'

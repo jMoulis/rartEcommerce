@@ -79,7 +79,7 @@ export const ElementForm = ({
         id={`label-${element.id}`}
         name='label'
         label={tCommons('label')}
-        onInputChange={onInputChange}
+        onChange={onInputChange}
         value={element.label}
         onBlur={onBlur}
       />

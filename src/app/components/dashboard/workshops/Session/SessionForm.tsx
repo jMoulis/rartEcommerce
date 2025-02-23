@@ -127,7 +127,7 @@ Props) => {
                 marginBottom: '0'
               }
             }}
-            onInputChange={handleInputChange}
+            onChange={handleInputChange}
           />
         </InputWrapper>
         <InputWrapper>
@@ -141,7 +141,7 @@ Props) => {
             </p>
           </Flexbox>
           <InputGroup
-            onInputChange={handleInputChange}
+            onChange={handleInputChange}
             type='number'
             name='maxParticipants'
             id='maxParticipants'

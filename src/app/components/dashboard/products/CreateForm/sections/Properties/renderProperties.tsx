@@ -18,9 +18,9 @@ export interface RenderPropertiesProps {
   onSelectOption: (product: IProductService) => void;
   onChangeSelectbox: (event: CustomChangeEvent) => void;
   options: Array<{ label: string; value: string }>;
-  onInputChange: (event: CustomChangeEvent) => void;
+  onChange: (event: CustomChangeEvent) => void;
   selectedProductOptions?: Map<string, IProductService>;
-  value?: string | number | boolean;
+  value?: any;
   refIds: string[];
 }
 
@@ -54,5 +54,5 @@ export const renderProperties: Record<
     ),
   [ENUM_PROPERTY_COMPONENT.THUMBNAIL]: (props) => (
     <ThumbnailElement {...props} />
-  ),
+  )
 };

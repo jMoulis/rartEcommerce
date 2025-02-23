@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     const collection = estimate ? ENUM_COLLECTIONS.ESTIMATES : ENUM_COLLECTIONS.INVOICES;
     const newInvoice = await onAdminCreateDocument(completeInvoice, collection, invoice?._id);
 
-    generatePDFInvoice({ ...completeInvoice, _id: newInvoice.data?._id }, estimate ?? false).then((pdf) => {
+    generatePDFInvoice({ ...completeInvoice, _id: newInvoice.data?._id }, estimate ?? false, false).then((pdf) => {
       const invoiceRef = adminDB.collection(collection).doc(newInvoice.data?._id);
       invoiceRef.update({ invoiceUrl: pdf.url });
     });

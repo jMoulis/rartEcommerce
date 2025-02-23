@@ -124,6 +124,11 @@ export const defaultProduct = (): IProductService => ({
   categories: [],
   currency: DEFAULT_CURRENCY,
   type: 'product',
+  delivery: {
+    width: '0',
+    height: '0',
+    weight: '0'
+  },
   options: {
     refIds: [],
     published: false

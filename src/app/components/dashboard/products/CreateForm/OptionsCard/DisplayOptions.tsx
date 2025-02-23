@@ -1,6 +1,6 @@
 import {
   onFetchDocsByIdsArrayWithSnapshot,
-  onUpdateDocument,
+  onUpdateDocument
 } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
 import { IProductService } from '@/src/types/DBTypes';
@@ -13,6 +13,7 @@ import { faEye, faUnlink } from '@fortawesome/pro-light-svg-icons';
 import { useToggle } from '@/src/app/components/hooks/useToggle';
 import { FullDialog } from '@/src/app/components/commons/dialog/FullDialog';
 import { CreateForm } from '../CreateForm';
+import { toast } from 'react-toastify';
 
 const Root = styled.ul`
   margin-top: 10px;
@@ -35,14 +36,9 @@ export const DisplayOptions = ({ refIds, onDelete }: Props) => {
   const { open, onOpen, onClose } = useToggle();
   const [selectedProduct, setSelectedProduct] =
     useState<IProductService | null>(null);
-  const [loading, setLoading] = useState(true);
-
   const [products, setProducts] = useState<IProductService[]>([]);
 
   useEffect(() => {
-    if (refIds.length === 0) {
-      setLoading(false);
-    }
     const unsubscribe = onFetchDocsByIdsArrayWithSnapshot(
       refIds,
       ENUM_COLLECTIONS.PRODUCTS,
@@ -50,10 +46,9 @@ export const DisplayOptions = ({ refIds, onDelete }: Props) => {
         if (Array.isArray(data)) {
           setProducts(data);
         }
-        setLoading(false);
       },
       (_error) => {
-        setLoading(false);
+        toast.error('Error fetching products');
       }
     );
 
@@ -74,7 +69,6 @@ export const DisplayOptions = ({ refIds, onDelete }: Props) => {
   return (
     <>
       <Root>
-        {loading && <span>Loading...</span>}
         {products
           .filter((product) => refIds.includes(product._id!))
           .map((product, key) => {
@@ -92,7 +86,7 @@ export const DisplayOptions = ({ refIds, onDelete }: Props) => {
                     height={30}
                     style={{
                       objectFit: 'cover',
-                      borderRadius: '4px',
+                      borderRadius: '4px'
                     }}
                   />
                 ) : (
@@ -103,7 +97,7 @@ export const DisplayOptions = ({ refIds, onDelete }: Props) => {
                     height={30}
                     style={{
                       objectFit: 'cover',
-                      borderRadius: '4px',
+                      borderRadius: '4px'
                     }}
                   />
                 )}
@@ -111,7 +105,7 @@ export const DisplayOptions = ({ refIds, onDelete }: Props) => {
                   <span>{product.name}</span>
                   <span
                     style={{
-                      fontSize: '13px',
+                      fontSize: '13px'
                     }}>{`${product.price} euros`}</span>
                 </Flexbox>
                 <Flexbox justifyContent='flex-end'>
@@ -136,17 +130,17 @@ export const DisplayOptions = ({ refIds, onDelete }: Props) => {
         onClose={onClose}
         dialog={{
           fullWidth: true,
-          maxWidth: 'lg',
+          maxWidth: 'lg'
         }}
         styling={{
           content: {
             height: '20vh',
             minHeight: '20vh',
-            backgroundColor: 'var(--background-section-color',
-          },
+            backgroundColor: 'var(--background-section-color'
+          }
         }}
         header={{
-          title: '',
+          title: ''
         }}>
         {open ? (
           <CreateForm

@@ -7,3 +7,14 @@ export const sortArrayByKey = (sections: Array<Record<string, any>>, comparaison
   }
   return 0;
 });
+
+export const listCountriesCodes = [
+  'FR',
+  'BE',
+  'CH',
+  'DE',
+  'LU',
+  'ES',
+  'US',
+  'UK'
+];

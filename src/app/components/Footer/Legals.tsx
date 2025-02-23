@@ -31,15 +31,13 @@ const CopyRight = styled.span`
   }
 `;
 
-interface Props {}
-
-export const Legals = (props: Props) => {
+export const Legals = () => {
   const t = useTranslations();
-
+  const year = new Date().getFullYear();
   return (
     <Root>
       <CustomLink href={ENUM_ROUTES.LEGALS}>{t('commons.legals')}</CustomLink>
-      <CopyRight>- © RartCreation copyright 2024</CopyRight>
+      <CopyRight>{`- © RartCreation copyright ${year}`}</CopyRight>
     </Root>
   );
 };
