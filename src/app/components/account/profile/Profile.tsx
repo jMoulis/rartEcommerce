@@ -48,7 +48,7 @@ export const Profile = () => {
     firstname: '',
     lastname: '',
     roles: [ENUM_ROLES.VISITOR],
-    verified: false,
+    verified: false
   });
   const profile = useAuthSelector((state) => state.profile);
   const { onUpdateAddress } = useFirestoreProfile();
@@ -71,7 +71,7 @@ export const Profile = () => {
     const { value, name } = event.currentTarget;
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
@@ -96,7 +96,7 @@ export const Profile = () => {
   const handleChangeEmailValue = (value: string) => {
     setForm((prev) => ({
       ...prev,
-      email: value,
+      email: value
     }));
   };
 
@@ -129,14 +129,14 @@ export const Profile = () => {
               id='firstname'
               name='firstname'
               label={tProfileForm('firstname')}
-              onInputChange={handleInputChange}
+              onChange={handleInputChange}
               value={form.firstname}
             />
             <InputGroup
               id='lastname'
               name='lastname'
               label={tProfileForm('lastname')}
-              onInputChange={handleInputChange}
+              onChange={handleInputChange}
               value={form.lastname}
             />
             <Button type='submit'>{tCommons('edit')}</Button>

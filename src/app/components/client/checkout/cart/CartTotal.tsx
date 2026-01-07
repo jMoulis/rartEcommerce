@@ -55,15 +55,12 @@ const ListItem = styled.li`
 interface Props {
   cart: ICart;
   Action?: React.ReactNode;
-  deliveryFees?: number;
 }
-export default function CartTotal({ cart, Action, deliveryFees }: Props) {
+export default function CartTotal({ cart, Action }: Props) {
   const t = useTranslations();
 
-  const calculateTax = (price: number): number => {
-    const taxRate = 0; // 20% tax rate
-    const taxAmount = price * taxRate;
-    return taxAmount;
+  const calculateTotal = (): number => {
+    return cart.totalPrice + cart.deliveryCost;
   };
   return (
     <Root>
@@ -84,9 +81,9 @@ export default function CartTotal({ cart, Action, deliveryFees }: Props) {
 
       <FeesWrapper flexDirection='column'>
         <Flexbox justifyContent='space-between'>
-          <span>{`${t('Cart.noTaxes')}}`}</span>
+          <span>{`${t('Cart.noTaxes')}`}</span>
           <Flexbox>
-            <span>{calculateTax(cart.totalPrice)}</span>
+            <span>{cart.totalPrice}</span>
             <Currency>{cart.currency?.symbol}</Currency>
           </Flexbox>
         </Flexbox>
@@ -104,7 +101,7 @@ export default function CartTotal({ cart, Action, deliveryFees }: Props) {
           <Currency>TTC</Currency>
         </Flexbox>
         <Flexbox>
-          <Price>{cart.totalPrice}</Price>
+          <Price>{calculateTotal()}</Price>
           <Currency>{cart.currency?.symbol}</Currency>
         </Flexbox>
       </Flexbox>

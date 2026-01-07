@@ -3,28 +3,22 @@
 import { Page } from '@/src/app/components/client/commons/layout/Page';
 import { onFindAllRealtime } from '@/src/app/contexts/firestore/useFirestore';
 import { ENUM_COLLECTIONS } from '@/src/lib/firebase/enums';
-import { ICategory, IProductService } from '@/src/types/DBTypes';
+import { IProductService } from '@/src/types/DBTypes';
 import { useEffect } from 'react';
 import { Section } from '../commons/layout/Section';
 import { toast } from 'react-toastify';
 import { ProductListItem } from './ProductListItem';
 import { Grid } from '../home/Grid';
 import SectionHeader from '../home/SectionHeader';
-import Categories from '../commons/Categories/Categories';
 import WrapperSection from '../commons/layout/WrapperSection';
 import { useCategories } from '../commons/Categories/useCategories';
 
 interface Props {
   initialProducts: IProductService[];
-  initialCategories: ICategory[];
 }
 
-export default function Products({
-  initialProducts,
-  initialCategories,
-}: Props) {
-  const { onSelectCategory, onUpdateData, filteredData, selectedCategories } =
-    useCategories(initialProducts);
+export default function Products({ initialProducts }: Props) {
+  const { onUpdateData, filteredData } = useCategories(initialProducts);
 
   useEffect(() => {
     onUpdateData(initialProducts);
@@ -40,7 +34,7 @@ export default function Products({
         toast.error(error.message);
       },
       {
-        published: true,
+        published: true
       }
     );
 
@@ -61,18 +55,7 @@ export default function Products({
       <WrapperSection>
         <Section
           style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Categories
-            categories={initialCategories}
-            onSelectCategory={onSelectCategory}
-            selectedCategories={selectedCategories}
-          />
-        </Section>
-        <Section
-          style={{
-            paddingTop: '0px',
+            paddingTop: '50px'
           }}>
           <Grid>
             {filteredData.map((product, key) => (

@@ -15,7 +15,7 @@ const Root = styled.div`
 `;
 
 const ItemAddConfirmation = ({
-  items,
+  items
 }: {
   items: IProductService[] | IWorkshop[];
 }) => {
@@ -46,7 +46,7 @@ export const AddToCart = ({ items, label, withPreviewCart }: Props) => {
       draggable: true,
       progress: undefined,
       theme: 'dark',
-      transition: Bounce,
+      transition: Bounce
     });
   };
 

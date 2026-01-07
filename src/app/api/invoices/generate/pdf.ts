@@ -6,7 +6,7 @@ import { PassThrough } from 'stream';
 // btoa and fetch are needed
 global.btoa = (b) => Buffer.from(b).toString('base64');
 
-const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options: Record<string, any> }, estimate?: boolean) => new Promise<{ content: any, url: string, filename: string, contentType: string }>((resolve, reject) => {
+const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options: Record<string, any> }, estimate: boolean) => new Promise<{ content: any, url: string, filename: string, contentType: string }>((resolve, reject) => {
   try {
     if (!process.env.PDF_SHIFT_API_URL || !process.env.PDF_SHIFT_SK_API) {
       reject(new Error('Missing credentials'));
@@ -68,8 +68,8 @@ const fetchGeneratedPdf = async (invoiceId: string, pdf: { html: string, options
     reject(error);
   }
 });
-export const generatePDFInvoice = async (invoice: IInvoice, estimate: boolean) => {
-  const html = pdfInvoiceTemplate(invoice, estimate);
+export const generatePDFInvoice = async (invoice: IInvoice, estimate: boolean, webhook: boolean) => {
+  const html = pdfInvoiceTemplate(invoice, estimate, webhook);
   const propsPDF = {
     format: 'A4',
     landscape: false,

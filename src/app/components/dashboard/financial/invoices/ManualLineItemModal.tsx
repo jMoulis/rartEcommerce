@@ -57,14 +57,14 @@ const ManualLineItemModal = ({ onAddManualLineItem }: Props) => {
         open={open}
         onClose={onClose}>
         <InputGroup
-          onInputChange={handleChange}
+          onChange={handleChange}
           id='description'
           label='Description'
           name='description'
           value={form.description}
         />
         <InputGroup
-          onInputChange={handleChange}
+          onChange={handleChange}
           id='quantity'
           label={t('commons.quantity')}
           name='quantity'
@@ -73,7 +73,7 @@ const ManualLineItemModal = ({ onAddManualLineItem }: Props) => {
         />
         <InputGroup
           type='number'
-          onInputChange={handleChange}
+          onChange={handleChange}
           id='unitPrice'
           label={t('commons.unitPrice')}
           name='unitPrice'

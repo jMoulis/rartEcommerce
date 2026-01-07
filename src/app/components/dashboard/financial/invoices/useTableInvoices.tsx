@@ -34,7 +34,6 @@ export const useTableInvoices = (withPdf: boolean, estimate?: boolean) => {
       setGeneratingId(null);
     }
   };
-
   const columns = [
     columnHelper.accessor((row: any) => row._id, {
       id: '_id',

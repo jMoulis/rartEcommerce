@@ -37,7 +37,7 @@ export const ChangeEmailForm = ({ email, onChangeEmailValue }: Props) => {
     if (email && password) {
       await onPromptForCredentials({
         email,
-        password,
+        password
       });
       onClose();
       if (email) {
@@ -57,9 +57,7 @@ export const ChangeEmailForm = ({ email, onChangeEmailValue }: Props) => {
           id='email'
           name='email'
           value={email || ''}
-          onInputChange={(event) =>
-            onChangeEmailValue(event.currentTarget.value)
-          }
+          onChange={(event) => onChangeEmailValue(event.currentTarget.value)}
           label={t('ProfileForm.email')}
         />
         <Button onClick={onOpen}>{t('ProfileForm.editEmail')}</Button>

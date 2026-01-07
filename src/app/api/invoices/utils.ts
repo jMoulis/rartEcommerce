@@ -8,7 +8,7 @@ import { v4 } from 'uuid';
 import { generatePDFInvoice } from './generate/pdf';
 // import { generatePDFInvoice } from './generate/pdf';
 
-export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl: string | null): Promise<{ invoice: ApiPayload, pdf: { content: Buffer, filename: string; contentType: string, url: string } | null } | null> => {
+export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl: string | null, webhook: boolean = false): Promise<{ invoice: ApiPayload, pdf: { content: Buffer, filename: string; contentType: string, url: string } | null } | null> => {
   try {
     const invoiceCounterRef = adminDB.collection(ENUM_COLLECTIONS.INVOICESIDS).doc('invoiceCounter');
     await invoiceCounterRef.update({
@@ -63,7 +63,7 @@ export const createInvoice = async (order: IOrder, paymentId: string, receiptUrl
 
     const invoice = await onAdminCreateDocument(invoiceInput, ENUM_COLLECTIONS.INVOICES);
 
-    const pdf = await generatePDFInvoice({ ...invoiceInput, _id: invoice.data?._id }, false);
+    const pdf = await generatePDFInvoice({ ...invoiceInput, _id: invoice.data?._id }, false, webhook);
 
     if (!invoice) {
       throw Error('Unable to create an invoice');

@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import {
   onCreateDocument,
   onUpdateDocument,
-  onDeleteDocument,
+  onDeleteDocument
 } from '@/src/app/contexts/firestore/useFirestore';
 import { DeleteConfirmation } from '@/src/app/components/commons/confirmation/DeleteConfirmation';
 import { IAction } from '@/src/app/components/commons/confirmation/types';
@@ -55,9 +55,9 @@ export const CategoryForm = ({ editedCategory, onClose }: Props) => {
       label: t('commons.delete'),
       callback: async () => handleDelete(),
       style: {
-        backgroundColor: 'var(--error-color)',
-      },
-    },
+        backgroundColor: 'var(--error-color)'
+      }
+    }
   ];
 
   return (
@@ -67,21 +67,21 @@ export const CategoryForm = ({ editedCategory, onClose }: Props) => {
         name='name'
         label={t('ProductForm.name')}
         value={form.name ?? ''}
-        onInputChange={onInputChange}
+        onChange={onInputChange}
       />
       <InputGroup
         type='color'
         id='color'
         name='color'
         value={form.color ?? ''}
-        onInputChange={onInputChange}
+        onChange={onInputChange}
         styling={{
           root: {
-            width: '50px',
+            width: '50px'
           },
           input: {
-            padding: 0,
-          },
+            padding: 0
+          }
         }}
         label={t('commons.color')}
       />

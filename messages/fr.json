@@ -271,6 +271,7 @@
     "createInvoice": "Créer une facture",
     "status": "Statut",
     "generateInvoice": "Générer",
+    "sendInvoice": "Envoyer",
     "informations": "Informations",
     "details": "Détails",
     "documents": "Documents",
@@ -344,6 +345,19 @@
     "unPublished": "Dépublié",
     "withStock": "Stock",
     "categories": "Catégories",
+    "delivery": "Livraison",
+    "height": "Hauteur",
+    "weight": "Poids",
+    "width": "Largeur",
+    "length": "Longueur",
+
+    "sizeUnit": "cm",
+    "shipping": {
+      "title": "Livraison",
+      "shippingCost": "Frais de livraison",
+      "calculate": "Calculer"
+    },
+    "weightUnit": "grammes",
     "deleteSectionMessage": {
       "title": "Voulez-vous supprimer {section} ?",
       "explanation": "En supprimant la rubrique vous perdrez accès à la donnée"

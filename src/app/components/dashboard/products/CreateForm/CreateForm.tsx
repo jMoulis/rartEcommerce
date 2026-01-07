@@ -26,6 +26,7 @@ import {
 } from '@/src/app/contexts/firestore/useFirestore';
 import Preview from './Preview';
 import ProductDetail from '../../../client/products/ProductDetail';
+import DeleveryCard from './DeliveryCard';
 
 const LoadingBackdrop = styled.div`
   position: absolute;
@@ -329,6 +330,16 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
   const handlePreview = () => {
     setPreview(true);
   };
+  const handleDeliveryChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.currentTarget;
+    setForm((prev) => ({
+      ...prev,
+      delivery: {
+        ...prev.delivery,
+        [name]: value
+      }
+    }));
+  };
   return (
     <div
       style={{
@@ -391,6 +402,7 @@ export const CreateForm = ({ prevProduct, onSubmit }: Props) => {
           ))}
         </Content>
         <AsideWrapper flexDirection='column'>
+          <DeleveryCard form={form} onChange={handleDeliveryChange} />
           <Menu
             onSelectCategory={handleSelectCategory}
             onSelectSections={handleSelectSections}

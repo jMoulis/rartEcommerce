@@ -71,6 +71,12 @@ export interface IProductService {
   images: IProductImage[];
   sections: ISection[];
   price: number;
+  delivery: {
+    width?: string;
+    height?: string;
+    weight?: string;
+    length?: string;
+  }
   currency: ICurrency;
   stockQuantity: number;
   withStock: boolean;
@@ -306,6 +312,8 @@ export interface IAddress {
   countryCode?: string;
   postalCode: string;
   default?: boolean;
+  lat?: number;
+  lng?: number;
 }
 
 export interface UserProfile {
@@ -323,6 +331,7 @@ export interface UserProfile {
   verificationDate?: Timestamp;
   mobile?: string;
   isArchived?: boolean;
+  vendorId?: string;
 }
 export interface ICustomer extends UserProfile {
   profileId?: string;
@@ -409,6 +418,12 @@ export interface ICartItem {
   stock: number | null;
   type: 'workshop' | 'product';
   sessions?: ISession[],
+  delivery?: {
+    width?: string;
+    height?: string;
+    weight?: string;
+    length?: string;
+  }
 }
 
 export interface IContactInformations {
@@ -441,4 +456,24 @@ export interface IShippingContract {
   is_active: boolean;
   country: string;
   is_default: boolean;
+}
+
+export interface IVendor {
+  _id: string;
+  shippingAddress: IAddress;
+  storeName: string;
+}
+
+export interface IShippingRequest {
+  from_country: string;
+  to_country: string;
+  from_postal_code: string;
+  weight: string;
+  weight_unit: string;
+  height: string;
+  height_unit: string;
+  length: string;
+  length_unit: string;
+  width: string;
+  width_unit: string;
 }

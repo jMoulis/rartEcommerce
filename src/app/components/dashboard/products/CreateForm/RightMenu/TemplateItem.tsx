@@ -15,7 +15,7 @@ export const TemplateItem = ({ template }: Props) => {
         <Flexbox
           key={propertyIndex}
           style={{
-            position: 'relative',
+            position: 'relative'
           }}
           flexDirection={property.align ?? 'column'}
           flex='1'>
@@ -26,7 +26,7 @@ export const TemplateItem = ({ template }: Props) => {
               left: 0,
               right: 0,
               bottom: 0,
-              zIndex: 10,
+              zIndex: 10
             }}
           />
           {property.elements.map((element, key) => {
@@ -42,9 +42,9 @@ export const TemplateItem = ({ template }: Props) => {
                   disabled: true,
                   options: [],
                   onSelectOption: () => {},
-                  onInputChange: () => {},
+                  onChange: () => {},
                   onChangeSelectbox: () => {},
-                  refIds: element.refIds ?? [],
+                  refIds: element.refIds ?? []
                 })}
               </Fragment>
             );
@@ -59,7 +59,7 @@ export const TemplateItem = ({ template }: Props) => {
       flexDirection='column'
       style={{
         position: 'relative',
-        overflow: 'auto',
+        overflow: 'auto'
       }}>
       {template.sections?.map((section, key) => (
         <Article key={key} headerTitle={section.title}>

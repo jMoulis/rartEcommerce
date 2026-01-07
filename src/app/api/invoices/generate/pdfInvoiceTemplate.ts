@@ -2,7 +2,7 @@ import { IInvoiceInput } from '@/src/types/DBTypes';
 import { format } from 'date-fns';
 import { rartLogo } from './logos';
 
-export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) => {
+export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean, webhook: boolean) => {
   const {
     customerInformations,
     createdAt,
@@ -250,7 +250,7 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
         </div>
         ${estimate ? '<p class="x-small">Ce devis est valable 30 jours à compter de sa date d\'émission.</p>' : ''}
         <p class="x-small">
-          ${estimate ? 'Acompte de 30% à la commande par virement ou par chèque.' : 'Paiement à réception de la facture par virement ou chèque.'}
+          ${estimate ? 'Acompte de 30% à la commande par virement ou par chèque.' : webhook ? 'Facture acquittée. Merci pour votre paiement.' : 'Paiement à réception de la facture par virement ou chèque.'}
         </p>
         <p class="x-small">
           IBAN: FR32 3000 2060 6500 0000 0512 M03 BIC: CRLYFRPP
@@ -268,7 +268,7 @@ export const pdfInvoiceTemplate = (invoice: IInvoiceInput, estimate: boolean) =>
           </div>
         ` : ''}
 
-        ${!estimate ? `<p class="x-small">
+        ${!estimate && !webhook ? `<p class="x-small">
           En cas de retard de paiement, des frais forfaitaires de recouvrement
           de 40€ seront appliqués.
         </p>` : ''}

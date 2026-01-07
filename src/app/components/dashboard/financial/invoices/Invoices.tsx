@@ -29,7 +29,9 @@ export const Invoices = ({ initialInvoices, shouldSubscribe }: Props) => {
       },
       (error) => {
         toast.error(error.message);
-      }
+      },
+      {},
+      ['createdAt', 'desc']
     );
     return () => {
       if (typeof unsubscribe === 'function') {

@@ -10,6 +10,7 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
+    "@easypost/api": "^7.5.4",
     "@emotion/cache": "^11.13.5",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.13.5",
@@ -37,6 +38,7 @@
     "@types/react-google-recaptcha": "^2.1.9",
     "@types/react-lottie": "^1.2.10",
     "@types/uuid": "^9.0.7",
+    "@vis.gl/react-google-maps": "^1.5.0",
     "cleave-zen": "^0.0.17",
     "crypto": "^1.0.1",
     "date-fns": "^3.3.1",
@@ -47,7 +49,7 @@
     "lodash": "^4.17.21",
     "marked": "^11.1.1",
     "negotiator": "^0.6.3",
-    "next": "^15.1.0",
+    "next": "15.1.11",
     "next-firebase-auth-edge": "^1.8.2",
     "next-intl": "^3.26.1",
     "node-fetch": "^3.3.2",
